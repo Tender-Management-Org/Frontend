@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { cn } from "@/lib/utils";
 import { CalendarDays, IndianRupee, MapPin, Building2 } from "lucide-react";
+import Link from "next/link";
 
 export interface TenderItem {
-  id: number;
+  id: string;
   title: string;
   organization: string;
   location: string;
@@ -45,7 +46,14 @@ export function TenderCard({ tender }: TenderCardProps) {
       <p className="text-sm text-slate-600">{tender.description}</p>
 
       <div className="flex justify-end">
-        <Button size="sm">View Details</Button>
+        <Link
+          href={`/tenders/${encodeURIComponent(tender.id)}`}
+          className={cn(
+            "inline-flex h-8 items-center justify-center rounded-lg bg-slate-900 px-3 text-sm font-medium text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500"
+          )}
+        >
+          View Details
+        </Link>
       </div>
     </Card>
   );

@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
+  Building2,
   ChevronLeft,
   ChevronRight,
   FileText,
-  Home,
+  Files,
   LayoutDashboard,
   Menu,
   Sparkles,
@@ -17,9 +18,9 @@ import { cn } from "@/lib/utils";
 
 const menuItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Onboarding", href: "/onboarding", icon: Home },
+  { name: "Firm", href: "/firm", icon: Building2 },
   { name: "Tenders", href: "/tenders", icon: FileText },
-  { name: "Documents", href: "/documents", icon: FileText },
+  { name: "Documents", href: "/documents", icon: Files },
   { name: "Recommendations", href: "/recommendations", icon: Sparkles }
 ];
 

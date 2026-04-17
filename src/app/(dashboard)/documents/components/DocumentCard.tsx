@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/utils";
+import { DocumentActionsMenu } from "./DocumentActionsMenu";
 
 export type DocumentStatus = "Verified" | "Pending" | "Expired";
 
@@ -25,13 +26,20 @@ export function DocumentCard({ document }: DocumentCardProps) {
   return (
     <Card className="space-y-3">
       <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0 flex-1">
           <p className="font-semibold text-slate-900">{document.name}</p>
           <p className="text-sm text-slate-500">{document.type}</p>
         </div>
-        <span className={cn("rounded-full px-2 py-1 text-xs font-medium", statusStyles[document.status])}>
-          {document.status}
-        </span>
+        <div className="flex shrink-0 items-start gap-2">
+          <span className={cn("rounded-full px-2 py-1 text-xs font-medium", statusStyles[document.status])}>
+            {document.status}
+          </span>
+          <DocumentActionsMenu
+            documentId={document.id}
+            documentName={document.name}
+            align="end"
+          />
+        </div>
       </div>
 
       <p className="text-sm text-slate-600">Expiry: {document.expiry}</p>

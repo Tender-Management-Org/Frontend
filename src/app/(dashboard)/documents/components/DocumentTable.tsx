@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { DocumentActionsMenu } from "./DocumentActionsMenu";
 import type { DocumentItem, DocumentStatus } from "./DocumentCard";
 
 interface DocumentTableProps {
@@ -23,7 +23,7 @@ export function DocumentTable({ documents }: DocumentTableProps) {
               <th className="px-4 py-3 font-medium">Type</th>
               <th className="px-4 py-3 font-medium">Expiry Date</th>
               <th className="px-4 py-3 font-medium">Status</th>
-              <th className="px-4 py-3 font-medium">Actions</th>
+              <th className="w-px whitespace-nowrap px-4 py-3 text-right font-medium">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -37,17 +37,13 @@ export function DocumentTable({ documents }: DocumentTableProps) {
                     {document.status}
                   </span>
                 </td>
-                <td className="px-4 py-3">
-                  <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="secondary">
-                      View
-                    </Button>
-                    <Button size="sm" variant="ghost" className="border border-border">
-                      Download
-                    </Button>
-                    <Button size="sm" variant="ghost" className="border border-border text-rose-600 hover:bg-rose-50">
-                      Delete
-                    </Button>
+                <td className="px-4 py-3 text-right">
+                  <div className="flex justify-end">
+                    <DocumentActionsMenu
+                      documentId={document.id}
+                      documentName={document.name}
+                      align="end"
+                    />
                   </div>
                 </td>
               </tr>
