@@ -1,20 +1,31 @@
 import { Button } from "@/components/ui/Button";
-import { getTenderDetail } from "@/lib/tenders";
+import { mapTenderDetailToLegacyShape } from "@/lib/api/tenderAdapters";
+import { ApiError } from "@/lib/api/client";
+import { getTenderDetail } from "@/lib/api/tenders";
+import type { TenderDetail } from "@/types/tenderDetail";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ActionBar } from "./components/ActionBar";
 import { TenderDetailView } from "./components/TenderDetailView";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = {
   params: { id: string };
 };
 
-export default function TenderDetailPage({ params }: PageProps) {
+export default async function TenderDetailPage({ params }: PageProps) {
   const id = decodeURIComponent(params.id);
-  const tender = getTenderDetail(id);
-  if (!tender) {
-    notFound();
+  let tender: TenderDetail;
+  try {
+    const detail = await getTenderDetail(id);
+    tender = mapTenderDetailToLegacyShape(detail);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) {
+      notFound();
+    }
+    throw error;
   }
 
   const title = tender.work_items.title;

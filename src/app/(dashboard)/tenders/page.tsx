@@ -1,10 +1,21 @@
-import { TENDER_LIST } from "@/lib/tenders";
+import { getTenders } from "@/lib/api/tenders";
+import { mapTenderListItemToUi } from "@/lib/api/tenderAdapters";
 import { TenderFilters } from "./components/TenderFilters";
+import type { TenderItem } from "./components/TenderCard";
 import { TenderList } from "./components/TenderList";
 import { TenderSearch } from "./components/TenderSearch";
 
-export default function TendersPage() {
-  const tenders = TENDER_LIST;
+export const dynamic = "force-dynamic";
+
+export default async function TendersPage() {
+  let tenders: TenderItem[] = [];
+
+  try {
+    const response = await getTenders({ is_active: true });
+    tenders = response.results.map(mapTenderListItemToUi);
+  } catch (error) {
+    console.error("Failed to load tenders", error);
+  }
 
   return (
     <section className="space-y-6">
