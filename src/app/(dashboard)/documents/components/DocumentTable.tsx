@@ -21,7 +21,7 @@ export function DocumentTable({ documents }: DocumentTableProps) {
             <tr>
               <th className="px-4 py-3 font-medium">Document Name</th>
               <th className="px-4 py-3 font-medium">Type</th>
-              <th className="px-4 py-3 font-medium">Expiry Date</th>
+              <th className="px-4 py-3 font-medium">Uploaded</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="w-px whitespace-nowrap px-4 py-3 text-right font-medium">Actions</th>
             </tr>
@@ -31,7 +31,7 @@ export function DocumentTable({ documents }: DocumentTableProps) {
               <tr key={document.id} className="border-t border-slate-100 transition-colors hover:bg-slate-50">
                 <td className="px-4 py-3 text-slate-900">{document.name}</td>
                 <td className="px-4 py-3 text-slate-600">{document.type}</td>
-                <td className="px-4 py-3 text-slate-600">{document.expiry}</td>
+                <td className="px-4 py-3 text-slate-600">{document.uploadedAt}</td>
                 <td className="px-4 py-3">
                   <span className={cn("rounded-full px-2 py-1 text-xs font-medium", statusStyles[document.status])}>
                     {document.status}

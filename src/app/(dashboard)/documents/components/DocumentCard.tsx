@@ -5,11 +5,12 @@ import { DocumentActionsMenu } from "./DocumentActionsMenu";
 export type DocumentStatus = "Verified" | "Pending" | "Expired";
 
 export interface DocumentItem {
-  id: number;
+  id: string;
   name: string;
-  type: "GST_Cert" | "PAN_Card" | "Balance_Sheet" | "Work_Order";
-  expiry: string;
+  type: string;
+  uploadedAt: string;
   status: DocumentStatus;
+  fileUrl?: string;
 }
 
 interface DocumentCardProps {
@@ -42,7 +43,7 @@ export function DocumentCard({ document }: DocumentCardProps) {
         </div>
       </div>
 
-      <p className="text-sm text-slate-600">Expiry: {document.expiry}</p>
+      <p className="text-sm text-slate-600">Uploaded: {document.uploadedAt}</p>
     </Card>
   );
 }
