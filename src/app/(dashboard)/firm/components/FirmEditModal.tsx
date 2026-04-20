@@ -228,7 +228,7 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
               } else if (section === "financials") {
                 const payload = {
                   financial_year: String(formData.get("financial_year") ?? "").trim(),
-                  turnover_amount: asOptionalNumber(formData.get("turnover_amount")),
+                  turnover_amount: asOptionalNumber(formData.get("turnover_amount")) ?? undefined,
                   net_worth: asOptionalNumber(formData.get("net_worth")),
                   profit_after_tax: asOptionalNumber(formData.get("profit_after_tax")),
                   is_audited: asBool(formData.get("is_audited")),
@@ -241,9 +241,9 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
               } else if (section === "banking") {
                 const payload = {
                   bank_name: String(formData.get("bank_name") ?? "").trim(),
-                  solvency_amount: asOptionalNumber(formData.get("solvency_amount")),
-                  issue_date: asOptionalString(formData.get("issue_date")),
-                  expiry_date: asOptionalString(formData.get("expiry_date")),
+                  solvency_amount: asOptionalNumber(formData.get("solvency_amount")) ?? undefined,
+                  issue_date: asOptionalString(formData.get("issue_date")) ?? undefined,
+                  expiry_date: asOptionalString(formData.get("expiry_date")) ?? undefined,
                 };
                 const saved = data.banking
                   ? await updateFirmSolvencyCertificate(firmId, data.banking.id, payload)
@@ -254,7 +254,7 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
                   project_name: String(formData.get("project_name") ?? "").trim(),
                   project_description: String(formData.get("project_description") ?? "").trim(),
                   client_name: String(formData.get("client_name") ?? "").trim(),
-                  work_order_value: asOptionalNumber(formData.get("work_order_value")),
+                  work_order_value: asOptionalNumber(formData.get("work_order_value")) ?? undefined,
                   start_date: asOptionalString(formData.get("start_date")),
                   completion_date: asOptionalString(formData.get("completion_date")),
                   category_tags: parseListInput(formData.get("category_tags")),
