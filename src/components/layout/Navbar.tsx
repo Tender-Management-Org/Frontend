@@ -4,6 +4,7 @@ import { Bell, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { clearAuthTokens } from "@/lib/api/client";
 
 const titleMap: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -63,9 +64,10 @@ export function Navbar() {
   }, [profileOpen, notificationsOpen]);
 
   function handleLogout() {
+    clearAuthTokens();
     setProfileOpen(false);
     setNotificationsOpen(false);
-    router.push("/");
+    router.push("/login");
   }
 
   return (
