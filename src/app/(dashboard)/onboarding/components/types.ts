@@ -3,6 +3,7 @@ export interface FirmProfileFormData {
   business_name: string;
   constitution: string;
   industry_type: string;
+  scope_of_work: string;
   incorporation_date: string;
   pan_number: string;
   gstin: string;
@@ -13,9 +14,6 @@ export interface FirmProfileFormData {
   city: string;
   state: string;
   pincode: string;
-  turnover: string;
-  net_worth: string;
-  profit_after_tax: string;
 }
 
 export type FormErrors = Partial<Record<keyof FirmProfileFormData, string>>;

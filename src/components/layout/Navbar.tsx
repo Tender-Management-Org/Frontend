@@ -29,11 +29,11 @@ export function Navbar() {
   const section =
     pathname.startsWith("/tenders/") && pathname !== "/tenders"
       ? "Tender dashboard"
-      : (sectionMap[pathname] ?? "Tender Platform");
+      : (sectionMap[pathname] ?? "TenderPilot");
   const title =
     pathname.startsWith("/tenders/") && pathname !== "/tenders"
       ? "Tender detail"
-      : (titleMap[pathname] ?? "Tender Platform");
+      : (titleMap[pathname] ?? "TenderPilot");
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);

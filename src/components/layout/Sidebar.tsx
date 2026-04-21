@@ -58,7 +58,7 @@ export function Sidebar() {
         <div className="mb-8 flex items-center justify-between gap-2">
           {!isCollapsed && (
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Tender Platform</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">TenderPilot</p>
               <p className="text-sm font-semibold text-slate-900">Workspace</p>
             </div>
           )}

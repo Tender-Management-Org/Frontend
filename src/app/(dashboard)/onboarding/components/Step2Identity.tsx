@@ -11,31 +11,34 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">PAN Number</label>
+        <label className="text-sm font-medium text-slate-700">PAN Number *</label>
         <Input
           value={formData.pan_number}
           onChange={(event) => onChange("pan_number", event.target.value.toUpperCase())}
           placeholder="ABCDE1234F"
+          maxLength={10}
         />
         {errors.pan_number && <p className="text-xs text-red-600">{errors.pan_number}</p>}
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">GSTIN</label>
+        <label className="text-sm font-medium text-slate-700">GSTIN *</label>
         <Input
           value={formData.gstin}
           onChange={(event) => onChange("gstin", event.target.value)}
           placeholder="Enter GSTIN"
+          maxLength={15}
         />
         {errors.gstin && <p className="text-xs text-red-600">{errors.gstin}</p>}
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">CIN</label>
+        <label className="text-sm font-medium text-slate-700">CIN *</label>
         <Input
           value={formData.cin}
           onChange={(event) => onChange("cin", event.target.value)}
           placeholder="Enter CIN"
+          maxLength={21}
         />
         {errors.cin && <p className="text-xs text-red-600">{errors.cin}</p>}
       </div>
@@ -45,7 +48,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
         <Input
           value={formData.udyam_number}
           onChange={(event) => onChange("udyam_number", event.target.value)}
-          placeholder="Enter Udyam number"
+          placeholder="Optional"
         />
       </div>
 

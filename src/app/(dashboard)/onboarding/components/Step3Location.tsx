@@ -11,7 +11,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">Address Line</label>
+        <label className="text-sm font-medium text-slate-700">Address Line *</label>
         <textarea
           value={formData.address_line}
           onChange={(event) => onChange("address_line", event.target.value)}
@@ -24,7 +24,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">City</label>
+          <label className="text-sm font-medium text-slate-700">City *</label>
           <Input
             value={formData.city}
             onChange={(event) => onChange("city", event.target.value)}
@@ -34,7 +34,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">State</label>
+          <label className="text-sm font-medium text-slate-700">State *</label>
           <Input
             value={formData.state}
             onChange={(event) => onChange("state", event.target.value)}
@@ -44,11 +44,12 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">Pincode</label>
+          <label className="text-sm font-medium text-slate-700">Pincode *</label>
           <Input
             value={formData.pincode}
-            onChange={(event) => onChange("pincode", event.target.value)}
-            placeholder="Pincode"
+            onChange={(event) => onChange("pincode", event.target.value.replace(/\D/g, ""))}
+            placeholder="6-digit pincode"
+            maxLength={6}
           />
           {errors.pincode && <p className="text-xs text-red-600">{errors.pincode}</p>}
         </div>

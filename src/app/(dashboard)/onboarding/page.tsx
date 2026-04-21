@@ -1,22 +1,33 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { ApiError } from "@/lib/api/client";
+import {
+  createFirmLocation,
+  getFirms,
+  getFirmLocations,
+  updateFirm,
+  updateFirmLocation,
+  upsertFirmIdentity,
+} from "@/lib/api/firms";
 import { Stepper } from "./components/Stepper";
 import { Step1BasicInfo } from "./components/Step1BasicInfo";
 import { Step2Identity } from "./components/Step2Identity";
 import { Step3Location } from "./components/Step3Location";
-import { Step4Financial } from "./components/Step4Financial";
 import type { FirmProfileFormData, FormErrors } from "./components/types";
 
-const stepTitles = ["Basic Info", "Identity", "Location", "Financial"];
+const stepTitles = ["Basic Info", "Identity", "Location"];
+const ONBOARDING_DRAFT_KEY = "firm-onboarding-draft-v1";
 
 const initialState: FirmProfileFormData = {
   legal_name: "",
   business_name: "",
   constitution: "",
   industry_type: "",
+  scope_of_work: "",
   incorporation_date: "",
   pan_number: "",
   gstin: "",
@@ -27,9 +38,6 @@ const initialState: FirmProfileFormData = {
   city: "",
   state: "",
   pincode: "",
-  turnover: "",
-  net_worth: "",
-  profit_after_tax: ""
 };
 
 export default function OnboardingPage() {
@@ -37,19 +45,23 @@ export default function OnboardingPage() {
   const [formData, setFormData] = useState<FirmProfileFormData>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [draftStatus, setDraftStatus] = useState<string>("Autosave enabled.");
+  const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
 
   const stepDescription = useMemo(() => {
     return [
       "Start with your firm's basic registration details.",
       "Add identity and compliance identifiers.",
       "Provide your registered office location details.",
-      "Share high-level financial information."
     ][currentStep];
   }, [currentStep]);
 
   const onFieldChange = (field: keyof FirmProfileFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     setErrors((prev) => ({ ...prev, [field]: undefined }));
+    setSubmitError(null);
   };
 
   const validateStep = (step: number): boolean => {
@@ -62,6 +74,7 @@ export default function OnboardingPage() {
       if (!formData.constitution) nextErrors.constitution = "Constitution is required.";
       if (!formData.industry_type.trim()) nextErrors.industry_type = "Industry type is required.";
       if (!formData.incorporation_date) nextErrors.incorporation_date = "Incorporation date is required.";
+      if (!formData.scope_of_work.trim()) nextErrors.scope_of_work = "Scope of work is required.";
     }
 
     if (step === 1) {
@@ -79,12 +92,9 @@ export default function OnboardingPage() {
       if (!formData.city.trim()) nextErrors.city = "City is required.";
       if (!formData.state.trim()) nextErrors.state = "State is required.";
       if (!formData.pincode.trim()) nextErrors.pincode = "Pincode is required.";
-    }
-
-    if (step === 3) {
-      if (!formData.turnover.trim()) nextErrors.turnover = "Turnover is required.";
-      if (!formData.net_worth.trim()) nextErrors.net_worth = "Net worth is required.";
-      if (!formData.profit_after_tax.trim()) nextErrors.profit_after_tax = "PAT is required.";
+      if (formData.pincode.trim() && !/^\d{6}$/.test(formData.pincode.trim())) {
+        nextErrors.pincode = "Pincode must be exactly 6 digits.";
+      }
     }
 
     setErrors(nextErrors);
@@ -103,9 +113,114 @@ export default function OnboardingPage() {
     setCurrentStep((prev) => Math.max(prev - 1, 0));
   };
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    try {
+      const rawDraft = window.localStorage.getItem(ONBOARDING_DRAFT_KEY);
+      if (!rawDraft) {
+        setHasLoadedDraft(true);
+        return;
+      }
+      const parsed = JSON.parse(rawDraft) as {
+        formData?: Partial<FirmProfileFormData>;
+        currentStep?: number;
+        savedAt?: string;
+      };
+      if (parsed.formData) {
+        setFormData((prev) => ({ ...prev, ...parsed.formData }));
+      }
+      if (typeof parsed.currentStep === "number" && parsed.currentStep >= 0 && parsed.currentStep < stepTitles.length) {
+        setCurrentStep(parsed.currentStep);
+      }
+      setDraftStatus(parsed.savedAt ? `Draft restored from ${new Date(parsed.savedAt).toLocaleString()}.` : "Draft restored.");
+    } catch {
+      setDraftStatus("Autosave enabled.");
+    } finally {
+      setHasLoadedDraft(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedDraft || isSubmitted) return;
+    const savedAt = new Date().toISOString();
+    window.localStorage.setItem(
+      ONBOARDING_DRAFT_KEY,
+      JSON.stringify({
+        formData,
+        currentStep,
+        savedAt,
+      })
+    );
+    setDraftStatus(`Draft saved at ${new Date(savedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}.`);
+  }, [currentStep, formData, hasLoadedDraft, isSubmitted]);
+
+  const handleSubmit = async () => {
     if (!validateStep(currentStep)) return;
-    setIsSubmitted(true);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const firmsResponse = await getFirms(1);
+      const primaryFirm = firmsResponse.results[0];
+
+      if (!primaryFirm) {
+        setSubmitError("No firm found for this account. Please create a firm record first.");
+        return;
+      }
+
+      const firm = await updateFirm(primaryFirm.id, {
+        legal_name: formData.legal_name.trim(),
+        business_name: formData.business_name.trim(),
+        constitution: formData.constitution,
+        incorporation_date: formData.incorporation_date || null,
+        industry_type: formData.industry_type.trim(),
+        scope_of_work: formData.scope_of_work.trim(),
+      });
+
+      await upsertFirmIdentity(firm.id, {
+        pan_number: formData.pan_number.trim().toUpperCase(),
+        gstin: formData.gstin.trim(),
+        cin: formData.cin.trim(),
+        udyam_number: formData.udyam_number.trim(),
+        dsc_expiry_date: formData.dsc_expiry_date || null,
+      });
+
+      const locations = await getFirmLocations(firm.id, 1);
+      const locationPayload = {
+        address_line: formData.address_line.trim(),
+        city: formData.city.trim(),
+        state: formData.state.trim(),
+        pincode: formData.pincode.trim(),
+        is_primary: true,
+      };
+
+      if (locations.results[0]) {
+        await updateFirmLocation(firm.id, locations.results[0].id, locationPayload);
+      } else {
+        await createFirmLocation(firm.id, locationPayload);
+      }
+
+      window.localStorage.removeItem(ONBOARDING_DRAFT_KEY);
+      setDraftStatus("Draft cleared after successful submission.");
+      setIsSubmitted(true);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setSubmitError(`Failed to submit onboarding (${error.status}). Please verify details and try again.`);
+      } else {
+        setSubmitError("Failed to submit onboarding. Please try again.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleClearDraft = () => {
+    window.localStorage.removeItem(ONBOARDING_DRAFT_KEY);
+    setFormData(initialState);
+    setErrors({});
+    setSubmitError(null);
+    setCurrentStep(0);
+    setDraftStatus("Draft cleared.");
   };
 
   return (
@@ -113,40 +228,89 @@ export default function OnboardingPage() {
       <div>
         <h2 className="text-2xl font-semibold text-slate-900">Firm Profile Onboarding</h2>
         <p className="text-sm text-slate-500">{stepDescription}</p>
+        {!isSubmitted && (
+          <div className="mt-2 flex flex-wrap items-center gap-3 text-xs font-medium text-slate-500">
+            <p>
+              Step {currentStep + 1} of {stepTitles.length} - Fields marked with * are required.
+            </p>
+            <p className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-slate-600">{draftStatus}</p>
+            <button
+              type="button"
+              onClick={handleClearDraft}
+              className="text-slate-600 underline-offset-2 hover:text-slate-900 hover:underline"
+            >
+              Reset form
+            </button>
+          </div>
+        )}
       </div>
 
-      <Stepper steps={stepTitles} currentStep={currentStep} />
+      <Stepper
+        steps={stepTitles}
+        currentStep={currentStep}
+        onStepClick={(step) => {
+          if (isSubmitting || step > currentStep) return;
+          setErrors({});
+          setCurrentStep(step);
+        }}
+      />
 
       <Card className="space-y-4">
         {isSubmitted ? (
           <div className="space-y-2 text-center">
-            <h3 className="text-xl font-semibold text-slate-900">Profile Ready for Submission</h3>
+            <h3 className="text-xl font-semibold text-slate-900">Onboarding Complete</h3>
             <p className="text-sm text-slate-500">
-              Your onboarding data is captured locally. Backend integration can be added next.
+              Your onboarding details were saved to the backend successfully.
             </p>
+            <div className="pt-2">
+              <Link
+                href="/firm"
+                className="inline-flex h-10 items-center justify-center rounded-lg bg-slate-900 px-4 text-sm font-medium text-white transition-colors hover:bg-slate-800"
+              >
+                Go to Firm Workspace
+              </Link>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setIsSubmitted(false);
+                setCurrentStep(0);
+                setErrors({});
+                setSubmitError(null);
+                setFormData(initialState);
+                setDraftStatus("Autosave enabled.");
+              }}
+              className="mx-auto block text-sm text-slate-600 underline-offset-2 hover:text-slate-900 hover:underline"
+            >
+              Start over
+            </button>
           </div>
         ) : (
           <>
             {currentStep === 0 && <Step1BasicInfo formData={formData} errors={errors} onChange={onFieldChange} />}
             {currentStep === 1 && <Step2Identity formData={formData} errors={errors} onChange={onFieldChange} />}
             {currentStep === 2 && <Step3Location formData={formData} errors={errors} onChange={onFieldChange} />}
-            {currentStep === 3 && <Step4Financial formData={formData} errors={errors} onChange={onFieldChange} />}
           </>
         )}
 
         {!isSubmitted && (
           <div className="flex items-center justify-between border-t border-slate-100 pt-4">
-            <Button variant="secondary" onClick={handleBack} disabled={currentStep === 0}>
+            <Button variant="secondary" onClick={handleBack} disabled={currentStep === 0 || isSubmitting}>
               Back
             </Button>
 
             {currentStep < stepTitles.length - 1 ? (
-              <Button onClick={handleNext}>Next</Button>
+              <Button onClick={handleNext} disabled={isSubmitting}>
+                Next
+              </Button>
             ) : (
-              <Button onClick={handleSubmit}>Submit</Button>
+              <Button onClick={handleSubmit} disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </Button>
             )}
           </div>
         )}
+        {submitError && <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{submitError}</p>}
       </Card>
     </section>
   );
