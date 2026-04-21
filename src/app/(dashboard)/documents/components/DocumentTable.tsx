@@ -4,6 +4,8 @@ import type { DocumentItem, DocumentStatus } from "./DocumentCard";
 
 interface DocumentTableProps {
   documents: DocumentItem[];
+  onViewDocument?: (fileUrl?: string) => void;
+  onDownloadDocument?: (fileUrl?: string, documentName?: string) => void;
 }
 
 const statusStyles: Record<DocumentStatus, string> = {
@@ -12,7 +14,7 @@ const statusStyles: Record<DocumentStatus, string> = {
   Expired: "bg-rose-100 text-rose-700"
 };
 
-export function DocumentTable({ documents }: DocumentTableProps) {
+export function DocumentTable({ documents, onViewDocument, onDownloadDocument }: DocumentTableProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-white shadow-sm">
       <div className="overflow-x-auto">
@@ -29,7 +31,9 @@ export function DocumentTable({ documents }: DocumentTableProps) {
           <tbody>
             {documents.map((document) => (
               <tr key={document.id} className="border-t border-slate-100 transition-colors hover:bg-slate-50">
-                <td className="px-4 py-3 text-slate-900">{document.name}</td>
+                <td className="px-4 py-3 text-slate-900">
+                  <p className="max-w-[26rem] truncate font-medium">{document.name}</p>
+                </td>
                 <td className="px-4 py-3 text-slate-600">{document.type}</td>
                 <td className="px-4 py-3 text-slate-600">{document.uploadedAt}</td>
                 <td className="px-4 py-3">
@@ -43,6 +47,8 @@ export function DocumentTable({ documents }: DocumentTableProps) {
                       documentId={document.id}
                       documentName={document.name}
                       align="end"
+                      onView={() => onViewDocument?.(document.fileUrl)}
+                      onDownload={() => onDownloadDocument?.(document.fileUrl, document.name)}
                     />
                   </div>
                 </td>

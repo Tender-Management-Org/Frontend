@@ -15,6 +15,8 @@ export interface DocumentItem {
 
 interface DocumentCardProps {
   document: DocumentItem;
+  onViewDocument?: (fileUrl?: string) => void;
+  onDownloadDocument?: (fileUrl?: string, documentName?: string) => void;
 }
 
 const statusStyles: Record<DocumentStatus, string> = {
@@ -23,7 +25,7 @@ const statusStyles: Record<DocumentStatus, string> = {
   Expired: "bg-rose-100 text-rose-700"
 };
 
-export function DocumentCard({ document }: DocumentCardProps) {
+export function DocumentCard({ document, onViewDocument, onDownloadDocument }: DocumentCardProps) {
   return (
     <Card className="space-y-3">
       <div className="flex items-start justify-between gap-3">
@@ -39,6 +41,8 @@ export function DocumentCard({ document }: DocumentCardProps) {
             documentId={document.id}
             documentName={document.name}
             align="end"
+            onView={() => onViewDocument?.(document.fileUrl)}
+            onDownload={() => onDownloadDocument?.(document.fileUrl, document.name)}
           />
         </div>
       </div>

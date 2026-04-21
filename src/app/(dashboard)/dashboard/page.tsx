@@ -1,4 +1,5 @@
-import { AlertTriangle, BriefcaseBusiness, Clock3, Send } from "lucide-react";
+import Link from "next/link";
+import { AlertTriangle, ArrowRight, BriefcaseBusiness, Clock3, Send } from "lucide-react";
 import { ActionRequired } from "./components/ActionRequired";
 import { DashboardQuickLinks } from "./components/DashboardQuickLinks";
 import { DashboardWelcome } from "./components/DashboardWelcome";
@@ -74,6 +75,21 @@ export default function DashboardPage() {
             }}
           />
           <DashboardQuickLinks />
+        </div>
+        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-slate-200/80 pt-4">
+          <Link
+            href="/tenders"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+          >
+            Review matches
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+          <Link
+            href="/dashboard#attention"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+          >
+            Resolve attention items
+          </Link>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import type { PaginatedResponse } from "./types";
 export interface FirmApi {
   id: string;
   owner: number;
+  owner_username?: string;
   legal_name: string;
   business_name: string;
   constitution: string;

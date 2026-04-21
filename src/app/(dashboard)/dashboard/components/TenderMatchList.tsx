@@ -36,6 +36,12 @@ const filters: { id: FilterId; label: string }[] = [
   { id: "pipeline", label: "Active (hide lost)" }
 ];
 
+function scoreBand(score: number) {
+  if (score >= 80) return "High fit";
+  if (score >= 60) return "Medium fit";
+  return "Low fit";
+}
+
 function fitScoreColor(score: number) {
   if (score >= 80) return "bg-emerald-500";
   if (score >= 60) return "bg-amber-500";
@@ -106,11 +112,15 @@ export function TenderMatchList({ matches }: TenderMatchListProps) {
         <ul className="space-y-2">
           {filtered.map((match) => {
             const href = match.tenderId ? `/tenders/${match.tenderId}` : "/tenders";
+            const isUrgent = match.status === "Matched" && match.fit_score >= 80;
             return (
               <li key={match.title}>
                 <Link
                   href={href}
-                  className="group block rounded-xl border border-slate-200 bg-white p-3.5 transition-all hover:border-slate-300 hover:bg-slate-50/90 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+                  className={cn(
+                    "group block rounded-xl border border-slate-200 bg-white p-3.5 transition-all hover:border-slate-300 hover:bg-slate-50/90 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2",
+                    isUrgent && "border-indigo-200/80 bg-indigo-50/30"
+                  )}
                 >
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <p className="min-w-0 flex-1 font-medium leading-snug text-slate-900 group-hover:text-slate-950">
@@ -135,10 +145,18 @@ export function TenderMatchList({ matches }: TenderMatchListProps) {
                       <span className={cn("text-sm font-semibold tabular-nums", fitLabelColor(match.fit_score))}>
                         Fit {match.fit_score}
                       </span>
+                      <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+                        {scoreBand(match.fit_score)}
+                      </span>
                     </div>
                     <span className={cn("rounded-full px-2 py-0.5 text-xs font-medium", statusStyles[match.status])}>
                       {match.status}
                     </span>
+                    {isUrgent && (
+                      <span className="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700">
+                        Priority review
+                      </span>
+                    )}
                   </div>
                   <p className="mt-2 border-t border-slate-100 pt-2 text-sm leading-relaxed text-slate-600">
                     {match.reason}

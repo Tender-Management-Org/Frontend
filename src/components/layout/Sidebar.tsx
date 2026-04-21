@@ -34,7 +34,7 @@ export function Sidebar() {
       <button
         type="button"
         onClick={() => setIsMobileOpen(true)}
-        className="fixed left-4 top-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white text-slate-700 shadow-sm md:hidden"
+        className="fixed left-4 top-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white/95 text-slate-700 shadow-sm backdrop-blur md:hidden"
       >
         <Menu className="h-5 w-5" />
       </button>
@@ -50,39 +50,37 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col border-r border-border bg-white p-4 transition-all duration-300 md:static md:z-auto",
+          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col border-r border-slate-200 bg-white/90 p-4 shadow-xl shadow-slate-900/10 backdrop-blur transition-all duration-300 md:static md:z-auto md:shadow-none",
           isCollapsed ? "w-[84px]" : "w-64",
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
         <div className="mb-8 flex items-center justify-between gap-2">
-          <p
-            className={cn(
-              "text-xs font-semibold uppercase tracking-wide text-slate-500",
-              isCollapsed && "hidden md:block md:text-[0px]"
-            )}
-          >
-            Tender Platform
-          </p>
+          {!isCollapsed && (
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Tender Platform</p>
+              <p className="text-sm font-semibold text-slate-900">Workspace</p>
+            </div>
+          )}
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setIsCollapsed((prev) => !prev)}
-              className="hidden h-8 w-8 items-center justify-center rounded-lg border border-border text-slate-600 hover:bg-slate-100 md:inline-flex"
+              className="hidden h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 md:inline-flex"
             >
               {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
             </button>
             <button
               type="button"
               onClick={() => setIsMobileOpen(false)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border text-slate-600 hover:bg-slate-100 md:hidden"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 md:hidden"
             >
               <X className="h-4 w-4" />
             </button>
           </div>
         </div>
 
-        <nav className="space-y-1">
+        <nav className="space-y-1.5">
           {menuItems.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -95,9 +93,11 @@ export function Sidebar() {
                 href={item.href}
                 onClick={() => setIsMobileOpen(false)}
                 className={cn(
-                  "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                  "flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                   isCollapsed ? "justify-center" : "gap-3",
-                  isActive ? "bg-slate-900 text-white" : "text-slate-700 hover:bg-slate-100"
+                  isActive
+                    ? "bg-slate-900 text-white shadow-sm shadow-slate-900/20"
+                    : "text-slate-700 hover:bg-slate-100/90 hover:text-slate-900"
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" />

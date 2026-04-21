@@ -1,6 +1,6 @@
 "use client";
 
-import { Pencil } from "lucide-react";
+import { Building2, Landmark, MapPin, Pencil, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { ApiError } from "@/lib/api/client";
@@ -86,7 +86,7 @@ function FieldGrid({ rows }: { rows: { label: string; value?: string }[] }) {
 
 function EmptyTableHint({ entity }: { entity: string }) {
   return (
-    <p className="text-sm text-slate-500">
+    <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-sm text-slate-500">
       No {entity} records yet. Data will appear here once connected to your account.
     </p>
   );
@@ -94,16 +94,28 @@ function EmptyTableHint({ entity }: { entity: string }) {
 
 function SectionHeader({ title, onEdit }: { title: string; onEdit: () => void }) {
   return (
-    <div className="mb-4 flex items-center justify-between gap-3">
+    <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
       <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
       <button
         type="button"
         onClick={onEdit}
         aria-label={`Edit ${title}`}
-        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-border text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
       >
         <Pencil className="h-4 w-4" aria-hidden />
       </button>
+    </div>
+  );
+}
+
+function SummaryCard({ title, value, icon: Icon }: { title: string; value: string; icon: typeof Building2 }) {
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-900/5">
+      <div className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+        <Icon className="h-4 w-4" aria-hidden />
+      </div>
+      <p className="text-xs uppercase tracking-wide text-slate-500">{title}</p>
+      <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
     </div>
   );
 }
@@ -201,20 +213,40 @@ export function FirmWorkspace() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-semibold text-slate-900">Firm</h2>
-        <p className="text-sm text-slate-500">
+    <div className="mx-auto max-w-7xl space-y-6">
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Profile workspace</p>
+        <h2 className="mt-2 text-2xl font-semibold text-slate-900">Firm</h2>
+        <p className="mt-2 text-sm text-slate-500">
           Legal profile, compliance identifiers, locations, financials, and bidding preferences.
         </p>
       </div>
 
       {error && <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">{error}</div>}
 
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <SummaryCard title="Business name" value={data.firm?.business_name || "Not set"} icon={Building2} />
+        <SummaryCard
+          title="Firm status"
+          value={data.firm ? (data.firm.is_active ? "Active" : "Inactive") : "Unknown"}
+          icon={MapPin}
+        />
+        <SummaryCard
+          title="Financial records"
+          value={data.financials.length > 0 ? `${data.financials.length} entries` : "No entries"}
+          icon={Landmark}
+        />
+        <SummaryCard
+          title="Certifications"
+          value={data.certifications.length > 0 ? `${data.certifications.length} certificates` : "No certificates"}
+          icon={ShieldCheck}
+        />
+      </div>
+
+      <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
         <nav
           aria-label="Firm sections"
-          className="flex shrink-0 gap-1 overflow-x-auto rounded-lg border border-border bg-slate-50/80 p-1 lg:w-52 lg:flex-col lg:overflow-visible"
+          className="flex shrink-0 gap-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-sm shadow-slate-900/5 xl:sticky xl:top-24 xl:w-60 xl:flex-col xl:overflow-visible"
         >
           {tabs.map((tab) => (
             <button
@@ -222,10 +254,10 @@ export function FirmWorkspace() {
               type="button"
               onClick={() => setActive(tab.id)}
               className={cn(
-                "whitespace-nowrap rounded-md px-3 py-2 text-left text-sm font-medium transition-colors",
+                "whitespace-nowrap rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors",
                 active === tab.id
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "text-slate-600 hover:bg-white/60 hover:text-slate-900"
+                  ? "bg-slate-900 text-white shadow-sm"
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               )}
             >
               {tab.label}
@@ -282,7 +314,10 @@ export function FirmWorkspace() {
               <FieldGrid
                 rows={[
                   { label: "ID", value: data.firm?.id },
-                  { label: "Owner", value: data.firm?.owner ? String(data.firm.owner) : undefined },
+                  {
+                    label: "Owner",
+                    value: data.firm?.owner_username ?? (data.firm?.owner ? String(data.firm.owner) : undefined),
+                  },
                   { label: "Legal name", value: data.firm?.legal_name },
                   { label: "Business name", value: data.firm?.business_name },
                   { label: "Constitution", value: data.firm?.constitution },
@@ -350,7 +385,7 @@ export function FirmWorkspace() {
               {data.financials.length > 0 ? (
                 <div className="space-y-4">
                   {data.financials.map((financial) => (
-                    <div key={financial.id} className="rounded-lg border border-border p-4">
+                    <div key={financial.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
                       <div className="mb-3 flex items-start justify-between gap-3">
                         <div>
                           <h4 className="text-sm font-semibold text-slate-900">{financial.financial_year || "Financial year"}</h4>
@@ -363,7 +398,7 @@ export function FirmWorkspace() {
                             setEditSection("financials");
                           }}
                           aria-label={`Edit financial ${financial.financial_year || financial.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
                         >
                           <Pencil className="h-4 w-4" aria-hidden />
                         </button>
@@ -402,7 +437,7 @@ export function FirmWorkspace() {
               {data.bankings.length > 0 ? (
                 <div className="space-y-4">
                   {data.bankings.map((banking) => (
-                    <div key={banking.id} className="rounded-lg border border-border p-4">
+                    <div key={banking.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
                       <div className="mb-3 flex items-start justify-between gap-3">
                         <div>
                           <h4 className="text-sm font-semibold text-slate-900">{banking.bank_name || "Bank record"}</h4>
@@ -415,7 +450,7 @@ export function FirmWorkspace() {
                             setEditSection("banking");
                           }}
                           aria-label={`Edit banking ${banking.bank_name || banking.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
                         >
                           <Pencil className="h-4 w-4" aria-hidden />
                         </button>
@@ -449,7 +484,7 @@ export function FirmWorkspace() {
               {data.experiences.length > 0 ? (
                 <div className="space-y-4">
                   {data.experiences.map((experience) => (
-                    <div key={experience.id} className="rounded-lg border border-border p-4">
+                    <div key={experience.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
                       <div className="mb-3 flex items-start justify-between gap-3">
                         <div>
                           <h4 className="text-sm font-semibold text-slate-900">{experience.project_name || "Untitled project"}</h4>
@@ -462,7 +497,7 @@ export function FirmWorkspace() {
                             setEditSection("experience");
                           }}
                           aria-label={`Edit experience ${experience.project_name || experience.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
                         >
                           <Pencil className="h-4 w-4" aria-hidden />
                         </button>
@@ -501,7 +536,7 @@ export function FirmWorkspace() {
               {data.certifications.length > 0 ? (
                 <div className="space-y-4">
                   {data.certifications.map((certification) => (
-                    <div key={certification.id} className="rounded-lg border border-border p-4">
+                    <div key={certification.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
                       <div className="mb-3 flex items-start justify-between gap-3">
                         <div>
                           <h4 className="text-sm font-semibold text-slate-900">{certification.cert_type}</h4>
@@ -514,7 +549,7 @@ export function FirmWorkspace() {
                             setEditSection("certifications");
                           }}
                           aria-label={`Edit certification ${certification.cert_number || certification.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
                         >
                           <Pencil className="h-4 w-4" aria-hidden />
                         </button>
@@ -583,7 +618,11 @@ export function FirmWorkspace() {
           )}
         </div>
       </div>
-      {isLoading && <p className="text-sm text-slate-500">Loading firm workspace...</p>}
+      {isLoading && (
+        <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-500">
+          Loading firm workspace...
+        </div>
+      )}
     </div>
   );
 }

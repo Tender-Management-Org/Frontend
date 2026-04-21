@@ -14,9 +14,22 @@ const titleMap: Record<string, string> = {
   "/recommendations": "Recommendations"
 };
 
+const sectionMap: Record<string, string> = {
+  "/dashboard": "Main dashboard",
+  "/firm": "Firm dashboard",
+  "/onboarding": "Onboarding dashboard",
+  "/tenders": "Tender dashboard",
+  "/documents": "Document dashboard",
+  "/recommendations": "Recommendation dashboard"
+};
+
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
+  const section =
+    pathname.startsWith("/tenders/") && pathname !== "/tenders"
+      ? "Tender dashboard"
+      : (sectionMap[pathname] ?? "Tender Platform");
   const title =
     pathname.startsWith("/tenders/") && pathname !== "/tenders"
       ? "Tender detail"
@@ -56,13 +69,16 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border bg-white px-6">
-      <h1 className="text-lg font-semibold text-slate-900">{title}</h1>
+    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-6 backdrop-blur">
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{section}</p>
+        <h1 className="text-lg font-semibold text-slate-900">{title}</h1>
+      </div>
 
       <div className="flex items-center gap-3">
         <Link
           href="/onboarding"
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-lg border border-border bg-white px-4 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
         >
           Onboarding
         </Link>
@@ -72,7 +88,7 @@ export function Navbar() {
           <input
             type="text"
             placeholder="Search..."
-            className="h-10 w-64 rounded-lg border border-border bg-white pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-slate-300"
+            className="h-10 w-64 rounded-xl border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-slate-300"
           />
         </div>
 
@@ -86,7 +102,7 @@ export function Navbar() {
               setNotificationsOpen((o) => !o);
               setProfileOpen(false);
             }}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border text-slate-600 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
           >
             <Bell className="h-4 w-4" />
           </button>
@@ -95,9 +111,9 @@ export function Navbar() {
             <div
               role="menu"
               aria-label="Notification list"
-              className="absolute right-0 top-full mt-2 w-[min(100vw-2rem,20rem)] rounded-lg border border-border bg-white py-2 shadow-lg"
+              className="absolute right-0 top-full mt-2 w-[min(100vw-2rem,20rem)] rounded-xl border border-slate-200 bg-white py-2 shadow-lg shadow-slate-900/10"
             >
-              <p className="border-b border-border px-4 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+              <p className="border-b border-slate-200 px-4 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Notifications
               </p>
               <div className="max-h-72 overflow-y-auto px-2 pt-2">
@@ -127,7 +143,7 @@ export function Navbar() {
           {profileOpen && (
             <div
               role="menu"
-              className="absolute right-0 top-full mt-2 min-w-[10rem] rounded-lg border border-border bg-white py-1 shadow-lg"
+              className="absolute right-0 top-full mt-2 min-w-[10rem] rounded-xl border border-slate-200 bg-white py-1 shadow-lg shadow-slate-900/10"
             >
               <Link
                 href="/login"

@@ -1,15 +1,25 @@
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { SlidersHorizontal } from "lucide-react";
 
 export function TenderFilters() {
   return (
-    <Card className="space-y-5">
+    <Card className="space-y-5 lg:sticky lg:top-20">
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-slate-900">Filters</h3>
+        <h3 className="inline-flex items-center gap-2 text-base font-semibold text-slate-900">
+          <SlidersHorizontal className="h-4 w-4 text-slate-500" aria-hidden />
+          Filters
+        </h3>
         <Button variant="ghost" size="sm">
           Reset
         </Button>
+      </div>
+
+      <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+        <p className="text-xs text-slate-600">
+          Narrow the list to focus on tenders your team can act on quickly.
+        </p>
       </div>
 
       <div className="space-y-2">

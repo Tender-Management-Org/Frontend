@@ -44,6 +44,12 @@ function daysLeftLabel(daysLeft: number | null, past: boolean) {
 }
 
 export function ActionRequired({ items }: ActionRequiredProps) {
+  const sortedItems = [...items].sort((a, b) => {
+    const aDays = deadlineMeta(a.deadline).daysLeft ?? Number.POSITIVE_INFINITY;
+    const bDays = deadlineMeta(b.deadline).daysLeft ?? Number.POSITIVE_INFINITY;
+    return aDays - bDays;
+  });
+
   return (
     <Card id="attention" className="scroll-mt-24 space-y-4">
       <div className="flex items-start justify-between gap-3">
@@ -67,7 +73,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
         </div>
       ) : (
         <ul className="space-y-3">
-          {items.map((item) => {
+          {sortedItems.map((item) => {
             const { formatted, daysLeft, urgent, past } = deadlineMeta(item.deadline);
             const hint = daysLeftLabel(daysLeft, past);
             const href = item.href ?? "/tenders";
@@ -85,12 +91,12 @@ export function ActionRequired({ items }: ActionRequiredProps) {
                   <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-slate-600">
                     <span className="inline-flex items-center gap-1">
                       <CalendarDays className="h-3.5 w-3.5 text-slate-400" aria-hidden />
-                      <span>{formatted}</span>
+                      <span>Due {formatted}</span>
                     </span>
                     {hint && (
                       <span
                         className={cn(
-                          "text-xs font-medium",
+                          "rounded-full px-2 py-0.5 text-xs font-medium",
                           past || urgent ? "text-rose-700" : "text-slate-500"
                         )}
                       >

@@ -85,6 +85,7 @@ export interface NitDocumentRow {
   document_name: string;
   description: string;
   document_size_kb: number;
+  file_url?: string;
 }
 
 export interface WorkItemDocumentRow {
@@ -93,6 +94,7 @@ export interface WorkItemDocumentRow {
   document_name: string;
   description: string;
   document_size_kb: number;
+  file_url?: string;
 }
 
 export interface TenderDocumentsBlock {

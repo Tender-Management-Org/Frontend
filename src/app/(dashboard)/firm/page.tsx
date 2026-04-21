@@ -2,7 +2,7 @@ import { FirmWorkspace } from "./components/FirmWorkspace";
 
 export default function FirmPage() {
   return (
-    <section>
+    <section className="pb-8">
       <FirmWorkspace />
     </section>
   );

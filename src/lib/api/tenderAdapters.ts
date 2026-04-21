@@ -2,6 +2,15 @@ import type { TenderDetail } from "@/types/tenderDetail";
 import { SAMPLE_TENDER_DETAIL } from "@/lib/tenders/sampleTenderDetail";
 import type { TenderDetailApi, TenderListItemApi } from "./tenders";
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "http://127.0.0.1:8000/api";
+const backendOrigin = apiBaseUrl.replace(/\/api\/?$/, "").replace(/\/+$/, "");
+
+function resolveDocumentUrl(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${backendOrigin}${url.startsWith("/") ? url : `/${url}`}`;
+}
+
 function toNumber(value: number | string | null | undefined, fallback = 0): number {
   if (typeof value === "number" && Number.isFinite(value)) return value;
   if (typeof value === "string") {
@@ -104,6 +113,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
         document_name: doc.document_name || doc.document?.title || "Untitled document",
         description: doc.description || "—",
         document_size_kb: doc.document_size_kb ?? 0,
+        file_url: resolveDocumentUrl(doc.document?.file),
       })),
       work_item_documents: api.documents.map((doc, index) => ({
         s_no: index + 1,
@@ -111,6 +121,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
         document_name: doc.document_name || doc.document?.title || "Untitled document",
         description: doc.description || "—",
         document_size_kb: doc.document_size_kb ?? 0,
+        file_url: resolveDocumentUrl(doc.document?.file),
       })),
     },
     latest_corrigendum_list: api.corrigenda.map((item, index) => ({

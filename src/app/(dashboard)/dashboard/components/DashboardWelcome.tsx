@@ -82,18 +82,18 @@ export function DashboardWelcome({ summary }: DashboardWelcomeProps) {
 
       {summary && (
         <ul
-          className="mt-4 flex flex-wrap gap-2"
+          className="mt-4 flex flex-wrap gap-2.5"
           aria-label="Key counts"
         >
-          <li className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
+          <li className="rounded-full border border-rose-200/70 bg-rose-50/70 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
             <span className="tabular-nums font-semibold text-rose-600">{summary.needsDecision}</span>
             <span className="text-slate-500"> need a decision</span>
           </li>
-          <li className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
+          <li className="rounded-full border border-amber-200/80 bg-amber-50/70 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
             <span className="tabular-nums font-semibold text-amber-600">{summary.expiringSoon}</span>
             <span className="text-slate-500"> expiring soon</span>
           </li>
-          <li className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
+          <li className="rounded-full border border-emerald-200/80 bg-emerald-50/70 px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
             <span className="tabular-nums font-semibold text-emerald-600">{summary.applied}</span>
             <span className="text-slate-500"> applied</span>
           </li>
