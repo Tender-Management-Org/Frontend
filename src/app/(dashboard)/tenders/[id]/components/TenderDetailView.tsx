@@ -293,26 +293,28 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
           {data.tender_documents.nit_documents.length === 0 ? (
             <p className="text-sm text-slate-500">No NIT documents listed.</p>
           ) : (
-            data.tender_documents.nit_documents.map((doc) => (
-              <div
-                key={doc.s_no}
-                className="flex flex-col gap-3 rounded-lg border border-slate-200 p-3 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div>
-                  <p className="flex items-center gap-2 font-medium text-slate-900">
-                    <FileText className="h-4 w-4 text-slate-500" />
-                    {formatValue(doc.document_name)}
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    {formatValue(doc.description)} • {formatSize(doc.document_size_kb)}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  {doc.file_url ? (
+            data.tender_documents.nit_documents.map((doc) => {
+              const fileUrl = doc.file_url;
+              return (
+                <div
+                  key={doc.s_no}
+                  className="flex flex-col gap-3 rounded-lg border border-slate-200 p-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="flex items-center gap-2 font-medium text-slate-900">
+                      <FileText className="h-4 w-4 text-slate-500" />
+                      {formatValue(doc.document_name)}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      {formatValue(doc.description)} • {formatSize(doc.document_size_kb)}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    {fileUrl ? (
                     <>
                       <button
                         type="button"
-                        onClick={() => handleViewDocument(doc.file_url)}
+                        onClick={() => handleViewDocument(fileUrl)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Eye className="h-4 w-4" />
@@ -320,14 +322,14 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
                       </button>
                       <button
                         type="button"
-                        onClick={() => void handleDownloadDocument(doc.file_url)}
+                        onClick={() => void handleDownloadDocument(fileUrl)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Download className="h-4 w-4" />
                         Download
                       </button>
                     </>
-                  ) : (
+                    ) : (
                     <>
                       <Button variant="secondary" size="sm" type="button" className="gap-2" disabled>
                         <Eye className="h-4 w-4" />
@@ -338,10 +340,11 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
                         Download
                       </Button>
                     </>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </Card>
@@ -352,26 +355,28 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
           {data.tender_documents.work_item_documents.length === 0 ? (
             <p className="text-sm text-slate-500">No work item documents listed.</p>
           ) : (
-            data.tender_documents.work_item_documents.map((doc) => (
-              <div
-                key={doc.s_no}
-                className="flex flex-col gap-3 rounded-lg border border-slate-200 p-3 sm:flex-row sm:items-center sm:justify-between"
-              >
-                <div>
-                  <p className="flex items-center gap-2 font-medium text-slate-900">
-                    <FileText className="h-4 w-4 text-slate-500" />
-                    {formatValue(doc.document_name)}
-                  </p>
-                  <p className="text-sm text-slate-500">
-                    {formatValue(doc.document_type)} • {formatValue(doc.description)} • {formatSize(doc.document_size_kb)}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  {doc.file_url ? (
+            data.tender_documents.work_item_documents.map((doc) => {
+              const fileUrl = doc.file_url;
+              return (
+                <div
+                  key={doc.s_no}
+                  className="flex flex-col gap-3 rounded-lg border border-slate-200 p-3 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <p className="flex items-center gap-2 font-medium text-slate-900">
+                      <FileText className="h-4 w-4 text-slate-500" />
+                      {formatValue(doc.document_name)}
+                    </p>
+                    <p className="text-sm text-slate-500">
+                      {formatValue(doc.document_type)} • {formatValue(doc.description)} • {formatSize(doc.document_size_kb)}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    {fileUrl ? (
                     <>
                       <button
                         type="button"
-                        onClick={() => handleViewDocument(doc.file_url)}
+                        onClick={() => handleViewDocument(fileUrl)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Eye className="h-4 w-4" />
@@ -379,14 +384,14 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
                       </button>
                       <button
                         type="button"
-                        onClick={() => void handleDownloadDocument(doc.file_url)}
+                        onClick={() => void handleDownloadDocument(fileUrl)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Download className="h-4 w-4" />
                         Download
                       </button>
                     </>
-                  ) : (
+                    ) : (
                     <>
                       <Button variant="secondary" size="sm" type="button" className="gap-2" disabled>
                         <Eye className="h-4 w-4" />
@@ -397,10 +402,11 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
                         Download
                       </Button>
                     </>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </Card>
