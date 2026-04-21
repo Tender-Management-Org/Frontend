@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Building2,
   ChevronLeft,
@@ -10,6 +10,7 @@ import {
   FileText,
   Files,
   LayoutDashboard,
+  Lock,
   Menu,
   Sparkles,
   X
@@ -28,6 +29,16 @@ export function Sidebar() {
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isOnboardingComplete, setIsOnboardingComplete] = useState(true);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((entry) => entry.startsWith("tp_onboarding_complete="))
+      ?.split("=")[1];
+    setIsOnboardingComplete(cookieValue === "true");
+  }, [pathname]);
 
   return (
     <>
@@ -102,6 +113,12 @@ export function Sidebar() {
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 {!isCollapsed && <span>{item.name}</span>}
+                {!isOnboardingComplete && (
+                  <Lock
+                    className={cn("h-3.5 w-3.5 shrink-0", isCollapsed ? "absolute right-2 top-2" : "ml-auto")}
+                    aria-label={`${item.name} locked until onboarding is complete`}
+                  />
+                )}
               </Link>
             );
           })}

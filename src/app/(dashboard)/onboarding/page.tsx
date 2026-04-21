@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { ApiError } from "@/lib/api/client";
+import { ApiError, setOnboardingComplete } from "@/lib/api/client";
+import { emitToast } from "@/lib/toast";
 import {
   createFirmLocation,
   getFirms,
@@ -50,7 +51,6 @@ export default function OnboardingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [draftStatus, setDraftStatus] = useState<string>("Autosave enabled.");
   const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
 
   const stepDescription = useMemo(() => {
@@ -134,9 +134,8 @@ export default function OnboardingPage() {
       if (typeof parsed.currentStep === "number" && parsed.currentStep >= 0 && parsed.currentStep < stepTitles.length) {
         setCurrentStep(parsed.currentStep);
       }
-      setDraftStatus(parsed.savedAt ? `Draft restored from ${new Date(parsed.savedAt).toLocaleString()}.` : "Draft restored.");
     } catch {
-      setDraftStatus("Autosave enabled.");
+      // Ignore malformed local draft payloads and proceed with default state.
     } finally {
       setHasLoadedDraft(true);
     }
@@ -153,7 +152,6 @@ export default function OnboardingPage() {
         savedAt,
       })
     );
-    setDraftStatus(`Draft saved at ${new Date(savedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}.`);
   }, [currentStep, formData, hasLoadedDraft, isSubmitted]);
 
   const handleSubmit = async () => {
@@ -204,8 +202,9 @@ export default function OnboardingPage() {
       }
 
       window.localStorage.removeItem(ONBOARDING_DRAFT_KEY);
-      setDraftStatus("Draft cleared after successful submission.");
+      setOnboardingComplete(true);
       setIsSubmitted(true);
+      emitToast({ type: "success", title: "Onboarding completed.", description: "Dashboard is now unlocked." });
     } catch (error) {
       if (error instanceof ApiError) {
         setSubmitError(`Failed to submit onboarding (${error.status}). Please verify details and try again.`);
@@ -215,15 +214,6 @@ export default function OnboardingPage() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleClearDraft = () => {
-    window.localStorage.removeItem(ONBOARDING_DRAFT_KEY);
-    setFormData(initialState);
-    setErrors({});
-    setSubmitError(null);
-    setCurrentStep(0);
-    setDraftStatus("Draft cleared.");
   };
 
   return (
@@ -236,14 +226,6 @@ export default function OnboardingPage() {
             <p>
               Step {currentStep + 1} of {stepTitles.length} - Fields marked with * are required.
             </p>
-            <p className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-slate-600">{draftStatus}</p>
-            <button
-              type="button"
-              onClick={handleClearDraft}
-              className="text-slate-600 underline-offset-2 hover:text-slate-900 hover:underline"
-            >
-              Reset form
-            </button>
           </div>
         )}
       </div>
@@ -281,7 +263,6 @@ export default function OnboardingPage() {
                 setErrors({});
                 setSubmitError(null);
                 setFormData(initialState);
-                setDraftStatus("Autosave enabled.");
               }}
               className="mx-auto block text-sm text-slate-600 underline-offset-2 hover:text-slate-900 hover:underline"
             >

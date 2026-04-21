@@ -8,6 +8,7 @@ const ACCESS_TOKEN_KEY = "tp_access_token";
 const REFRESH_TOKEN_KEY = "tp_refresh_token";
 const ACCESS_COOKIE = "tp_access_token";
 const REFRESH_COOKIE = "tp_refresh_token";
+const ONBOARDING_COOKIE = "tp_onboarding_complete";
 
 export class ApiError extends Error {
   status: number;
@@ -72,6 +73,17 @@ export function clearAuthTokens() {
   }
   clearClientCookie(ACCESS_COOKIE);
   clearClientCookie(REFRESH_COOKIE);
+  clearClientCookie(ONBOARDING_COOKIE);
+}
+
+export function hasAuthSession() {
+  if (typeof window === "undefined") return false;
+  return Boolean(window.localStorage.getItem(REFRESH_TOKEN_KEY));
+}
+
+export function setOnboardingComplete(completed: boolean) {
+  if (typeof window === "undefined") return;
+  setClientCookie(ONBOARDING_COOKIE, completed ? "true" : "false", 60 * 60 * 24 * 7);
 }
 
 async function refreshAccessToken(): Promise<string | null> {
@@ -161,4 +173,33 @@ export async function loginWithPassword(username: string, password: string) {
     throw new ApiError(data.detail ?? "Invalid credentials.", response.status, data);
   }
   setAuthTokens({ access: data.access, refresh: data.refresh });
+}
+
+export async function getOnboardingStatus() {
+  return apiRequest<{ onboarding_complete: boolean }>("/auth/onboarding-status/");
+}
+
+export async function registerWithPassword(username: string, email: string, password: string) {
+  const response = await fetch(`${API_BASE_URL}/auth/register/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, email, password }),
+    cache: "no-store",
+  });
+  const data = (await response.json()) as {
+    access?: string;
+    refresh?: string;
+    onboarding_complete?: boolean;
+    detail?: string;
+    [key: string]: unknown;
+  };
+  if (!response.ok || !data.access || !data.refresh) {
+    throw new ApiError(
+      typeof data.detail === "string" ? data.detail : "Unable to register account.",
+      response.status,
+      data
+    );
+  }
+  setAuthTokens({ access: data.access, refresh: data.refresh });
+  setOnboardingComplete(Boolean(data.onboarding_complete));
 }

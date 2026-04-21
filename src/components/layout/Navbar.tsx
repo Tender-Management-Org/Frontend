@@ -1,10 +1,11 @@
 "use client";
 
-import { Bell, Search } from "lucide-react";
+import { Bell } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { clearAuthTokens } from "@/lib/api/client";
+import { clearAuthTokens, hasAuthSession } from "@/lib/api/client";
+import { emitToast } from "@/lib/toast";
 
 const titleMap: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -37,8 +38,13 @@ export function Navbar() {
       : (titleMap[pathname] ?? "TenderPilot");
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const notificationsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIsAuthenticated(hasAuthSession());
+  }, [pathname]);
 
   useEffect(() => {
     if (!profileOpen && !notificationsOpen) return;
@@ -65,9 +71,12 @@ export function Navbar() {
 
   function handleLogout() {
     clearAuthTokens();
+    setIsAuthenticated(false);
     setProfileOpen(false);
     setNotificationsOpen(false);
-    router.push("/login");
+    emitToast({ type: "success", title: "Logged out successfully." });
+    router.replace("/login");
+    router.refresh();
   }
 
   return (
@@ -78,22 +87,6 @@ export function Navbar() {
       </div>
 
       <div className="flex items-center gap-3">
-        <Link
-          href="/onboarding"
-          className="inline-flex h-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
-        >
-          Onboarding
-        </Link>
-
-        <div className="relative hidden sm:block">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="h-10 w-64 rounded-xl border border-slate-200 bg-white pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-slate-300"
-          />
-        </div>
-
         <div className="relative z-30" ref={notificationsRef}>
           <button
             type="button"
@@ -147,30 +140,35 @@ export function Navbar() {
               role="menu"
               className="absolute right-0 top-full mt-2 min-w-[10rem] rounded-xl border border-slate-200 bg-white py-1 shadow-lg shadow-slate-900/10"
             >
-              <Link
-                href="/login"
-                role="menuitem"
-                className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
-                onClick={() => setProfileOpen(false)}
-              >
-                Login
-              </Link>
-              <Link
-                href="/register"
-                role="menuitem"
-                className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
-                onClick={() => setProfileOpen(false)}
-              >
-                Register
-              </Link>
-              <button
-                type="button"
-                role="menuitem"
-                className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
+              {!isAuthenticated ? (
+                <>
+                  <Link
+                    href="/login"
+                    role="menuitem"
+                    className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                    onClick={() => setProfileOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    role="menuitem"
+                    className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                    onClick={() => setProfileOpen(false)}
+                  >
+                    Register
+                  </Link>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              )}
             </div>
           )}
         </div>
