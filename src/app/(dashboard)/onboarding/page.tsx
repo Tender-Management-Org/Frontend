@@ -38,6 +38,9 @@ const initialState: FirmProfileFormData = {
   city: "",
   state: "",
   pincode: "",
+  turnover: "",
+  net_worth: "",
+  profit_after_tax: "",
 };
 
 export default function OnboardingPage() {

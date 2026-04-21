@@ -14,6 +14,9 @@ export interface FirmProfileFormData {
   city: string;
   state: string;
   pincode: string;
+  turnover: string;
+  net_worth: string;
+  profit_after_tax: string;
 }
 
 export type FormErrors = Partial<Record<keyof FirmProfileFormData, string>>;
