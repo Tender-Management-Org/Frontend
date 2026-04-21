@@ -280,16 +280,18 @@ export default function DocumentsPage() {
           <div className="hidden md:block">
             <DocumentTable
               documents={filteredDocuments}
+              serialStart={rangeStart}
               onViewDocument={handleViewDocument}
               onDownloadDocument={handleDownloadDocument}
             />
           </div>
 
           <div className="space-y-4 md:hidden">
-            {filteredDocuments.map((document) => (
+            {filteredDocuments.map((document, index) => (
               <DocumentCard
                 key={document.id}
                 document={document}
+                serialNumber={rangeStart + index}
                 onViewDocument={handleViewDocument}
                 onDownloadDocument={handleDownloadDocument}
               />

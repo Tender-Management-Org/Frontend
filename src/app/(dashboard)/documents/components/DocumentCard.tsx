@@ -15,6 +15,7 @@ export interface DocumentItem {
 
 interface DocumentCardProps {
   document: DocumentItem;
+  serialNumber?: number;
   onViewDocument?: (fileUrl?: string) => void;
   onDownloadDocument?: (fileUrl?: string, documentName?: string) => void;
 }
@@ -25,11 +26,12 @@ const statusStyles: Record<DocumentStatus, string> = {
   Expired: "bg-rose-100 text-rose-700"
 };
 
-export function DocumentCard({ document, onViewDocument, onDownloadDocument }: DocumentCardProps) {
+export function DocumentCard({ document, serialNumber, onViewDocument, onDownloadDocument }: DocumentCardProps) {
   return (
     <Card className="space-y-3">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
+          {serialNumber ? <p className="text-xs font-medium uppercase tracking-wide text-slate-500">S.No. {serialNumber}</p> : null}
           <p className="font-semibold text-slate-900">{document.name}</p>
           <p className="text-sm text-slate-500">{document.type}</p>
         </div>

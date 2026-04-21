@@ -4,6 +4,7 @@ import type { DocumentItem, DocumentStatus } from "./DocumentCard";
 
 interface DocumentTableProps {
   documents: DocumentItem[];
+  serialStart?: number;
   onViewDocument?: (fileUrl?: string) => void;
   onDownloadDocument?: (fileUrl?: string, documentName?: string) => void;
 }
@@ -14,13 +15,14 @@ const statusStyles: Record<DocumentStatus, string> = {
   Expired: "bg-rose-100 text-rose-700"
 };
 
-export function DocumentTable({ documents, onViewDocument, onDownloadDocument }: DocumentTableProps) {
+export function DocumentTable({ documents, serialStart = 1, onViewDocument, onDownloadDocument }: DocumentTableProps) {
   return (
     <div className="overflow-hidden rounded-xl border border-border bg-white shadow-sm">
       <div className="overflow-x-auto">
         <table className="min-w-full text-left text-sm">
           <thead className="bg-slate-50 text-slate-600">
             <tr>
+              <th className="w-px whitespace-nowrap px-4 py-3 font-medium">S.No.</th>
               <th className="px-4 py-3 font-medium">Document Name</th>
               <th className="px-4 py-3 font-medium">Type</th>
               <th className="px-4 py-3 font-medium">Uploaded</th>
@@ -29,8 +31,9 @@ export function DocumentTable({ documents, onViewDocument, onDownloadDocument }:
             </tr>
           </thead>
           <tbody>
-            {documents.map((document) => (
+            {documents.map((document, index) => (
               <tr key={document.id} className="border-t border-slate-100 transition-colors hover:bg-slate-50">
+                <td className="px-4 py-3 font-medium text-slate-600">{serialStart + index}</td>
                 <td className="px-4 py-3 text-slate-900">
                   <p className="max-w-[26rem] truncate font-medium">{document.name}</p>
                 </td>

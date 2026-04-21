@@ -10,7 +10,7 @@ import { TenderList } from "./TenderList";
 import { TenderSearch } from "./TenderSearch";
 
 const PAGE_SIZE_KEY = "tender_dashboard_page_size";
-const PAGE_SIZE_OPTIONS = [10, 20, 50];
+const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
 
 export function TenderDashboardExplorer() {
   const [items, setItems] = useState<TenderItem[]>([]);
@@ -19,6 +19,7 @@ export function TenderDashboardExplorer() {
   const [mode, setMode] = useState<"default" | "semantic">("default");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const [hasLoadedPageSizePreference, setHasLoadedPageSizePreference] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,11 +28,13 @@ export function TenderDashboardExplorer() {
     if (PAGE_SIZE_OPTIONS.includes(saved)) {
       setPageSize(saved);
     }
+    setHasLoadedPageSizePreference(true);
   }, []);
 
   useEffect(() => {
+    if (!hasLoadedPageSizePreference) return;
     window.localStorage.setItem(PAGE_SIZE_KEY, String(pageSize));
-  }, [pageSize]);
+  }, [pageSize, hasLoadedPageSizePreference]);
 
   useEffect(() => {
     if (mode !== "default") return;
@@ -165,9 +168,10 @@ export function TenderDashboardExplorer() {
         <div className="col-span-12 space-y-4 lg:col-span-9">
           <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
             <p className="text-sm text-slate-600">
-              Showing page <span className="font-semibold tabular-nums text-slate-900">{page}</span> of{" "}
-              <span className="font-semibold tabular-nums text-slate-900">{totalPages}</span> ·{" "}
-              <span className="font-semibold tabular-nums text-slate-900">{totalCount}</span> records
+              <span className="font-semibold tabular-nums text-slate-900">{totalCount}</span>{" "}
+              {totalCount === 1 ? "record" : "records"} · Page{" "}
+              <span className="font-semibold tabular-nums text-slate-900">{page}</span> /{" "}
+              <span className="font-semibold tabular-nums text-slate-900">{totalPages}</span>
             </p>
             <label className="inline-flex items-center gap-2 text-sm text-slate-600">
               Per page

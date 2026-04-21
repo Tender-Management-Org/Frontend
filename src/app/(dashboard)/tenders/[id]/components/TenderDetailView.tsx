@@ -35,6 +35,34 @@ function formatValue(value: string | number | null | undefined): string | number
   return value;
 }
 
+function extractFileName(fileUrl: string): string {
+  try {
+    const parsed = new URL(fileUrl, window.location.origin);
+    const pathname = parsed.pathname;
+    const candidate = pathname.split("/").filter(Boolean).pop();
+    return candidate || "document";
+  } catch {
+    return "document";
+  }
+}
+
+async function downloadFromUrl(fileUrl: string): Promise<void> {
+  const response = await fetch(fileUrl);
+  if (!response.ok) {
+    throw new Error(`Failed to download document: ${response.status}`);
+  }
+
+  const blob = await response.blob();
+  const objectUrl = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = objectUrl;
+  link.download = extractFileName(fileUrl);
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(objectUrl);
+}
+
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid gap-1 py-2.5 sm:grid-cols-[minmax(0,220px)_1fr] sm:gap-4">
@@ -74,6 +102,17 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
   const auth = data.tender_inviting_authority;
   const actionLinkClassName =
     "inline-flex h-8 items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500";
+  const handleViewDocument = (fileUrl: string): void => {
+    window.open(fileUrl, "_blank", "noopener,noreferrer");
+  };
+  const handleDownloadDocument = async (fileUrl: string): Promise<void> => {
+    try {
+      await downloadFromUrl(fileUrl);
+    } catch {
+      // Fallback to direct URL if fetch download is blocked by storage/browser constraints.
+      window.open(fileUrl, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -271,23 +310,22 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
                 <div className="flex gap-2">
                   {doc.file_url ? (
                     <>
-                      <a
-                        href={doc.file_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => handleViewDocument(doc.file_url)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Eye className="h-4 w-4" />
                         View
-                      </a>
-                      <a
-                        href={doc.file_url}
-                        download
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void handleDownloadDocument(doc.file_url)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Download className="h-4 w-4" />
                         Download
-                      </a>
+                      </button>
                     </>
                   ) : (
                     <>
@@ -331,23 +369,22 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
                 <div className="flex gap-2">
                   {doc.file_url ? (
                     <>
-                      <a
-                        href={doc.file_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        type="button"
+                        onClick={() => handleViewDocument(doc.file_url)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Eye className="h-4 w-4" />
                         View
-                      </a>
-                      <a
-                        href={doc.file_url}
-                        download
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void handleDownloadDocument(doc.file_url)}
                         className={cn(actionLinkClassName, "bg-slate-100 text-slate-900 hover:bg-slate-200")}
                       >
                         <Download className="h-4 w-4" />
                         Download
-                      </a>
+                      </button>
                     </>
                   ) : (
                     <>
