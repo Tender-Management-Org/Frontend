@@ -17,7 +17,7 @@ export function TenderList({ tenders }: TenderListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm">
         <p className="text-sm text-slate-600">
           Showing <span className="font-semibold tabular-nums text-slate-900">{tenders.length}</span> active tenders

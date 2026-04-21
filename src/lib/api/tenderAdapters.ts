@@ -1,6 +1,6 @@
 import type { TenderDetail } from "@/types/tenderDetail";
 import { SAMPLE_TENDER_DETAIL } from "@/lib/tenders/sampleTenderDetail";
-import type { TenderDetailApi, TenderListItemApi } from "./tenders";
+import type { TenderDetailApi, TenderListItemApi, TenderSemanticSearchResultApi } from "./tenders";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "http://127.0.0.1:8000/api";
 const backendOrigin = apiBaseUrl.replace(/\/api\/?$/, "").replace(/\/+$/, "");
@@ -43,6 +43,7 @@ export interface TenderListUiItem {
   value: string;
   deadline: string;
   description: string;
+  similarityScore?: number;
 }
 
 export function mapTenderListItemToUi(item: TenderListItemApi): TenderListUiItem {
@@ -54,6 +55,19 @@ export function mapTenderListItemToUi(item: TenderListItemApi): TenderListUiItem
     value: formatInrFromNumber(toNumber(item.tender_value)),
     deadline: formatDateForList(item.bid_submission_end_date ?? null),
     description: item.title,
+  };
+}
+
+export function mapTenderSemanticResultToUi(item: TenderSemanticSearchResultApi): TenderListUiItem {
+  return {
+    id: item.tender_id,
+    title: item.title,
+    organization: item.organisation_chain,
+    location: item.location || "—",
+    value: "—",
+    deadline: formatDateForList(item.bid_submission_end_date),
+    description: item.work_description || item.title,
+    similarityScore: Number(item.similarity_score)
   };
 }
 

@@ -2,15 +2,36 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Search, Sparkles } from "lucide-react";
 
-export function TenderSearch() {
+interface TenderSearchProps {
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+  onReset: () => void;
+  isLoading?: boolean;
+}
+
+export function TenderSearch({ value, onChange, onSubmit, onReset, isLoading = false }: TenderSearchProps) {
   return (
     <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-          <Input placeholder="Search by title, department, city, or keyword" className="pl-9" />
+          <Input
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") onSubmit();
+            }}
+            placeholder="Semantic search: describe what opportunity you want"
+            className="pl-9"
+          />
         </div>
-        <Button className="sm:w-auto">Search</Button>
+        <Button className="sm:w-auto" onClick={onSubmit} disabled={isLoading}>
+          {isLoading ? "Searching..." : "Semantic Search"}
+        </Button>
+        <Button variant="ghost" className="sm:w-auto" onClick={onReset} disabled={isLoading}>
+          Clear
+        </Button>
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
         <span className="text-slate-500">Quick picks:</span>

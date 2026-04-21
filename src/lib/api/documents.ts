@@ -12,8 +12,10 @@ export interface DocumentApi {
   updated_at: string;
 }
 
-export async function getFirmDocuments(firmId: string, page = 1) {
-  return apiRequest<PaginatedResponse<DocumentApi>>(`/firms/${firmId}/documents/?page=${page}`);
+export async function getFirmDocuments(firmId: string, page = 1, pageSize?: number) {
+  const params = new URLSearchParams({ page: String(page) });
+  if (pageSize) params.set("page_size", String(pageSize));
+  return apiRequest<PaginatedResponse<DocumentApi>>(`/firms/${firmId}/documents/?${params.toString()}`);
 }
 
 export async function uploadDocument(payload: {

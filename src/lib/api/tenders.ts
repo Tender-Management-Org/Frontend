@@ -91,6 +91,7 @@ export interface TenderDetailApi {
 
 export type TendersQuery = {
   page?: number;
+  page_size?: number;
   search?: string;
   location?: string;
   min_value?: number;
@@ -99,10 +100,33 @@ export type TendersQuery = {
   is_active?: boolean;
 };
 
+export interface TenderSemanticSearchRequest {
+  query: string;
+  top_k?: number;
+  is_active?: boolean;
+  location?: string;
+  product_category?: string;
+}
+
+export interface TenderSemanticSearchResultApi {
+  tender_id: string;
+  title: string;
+  work_description: string;
+  product_category: string;
+  sub_category: string | null;
+  organisation_chain: string;
+  location: string;
+  publish_date: string | null;
+  bid_submission_end_date: string | null;
+  is_active: boolean;
+  similarity_score: number;
+}
+
 export async function getTenders(params: TendersQuery = {}) {
   const query = new URLSearchParams();
 
   if (params.page) query.set("page", String(params.page));
+  if (params.page_size) query.set("page_size", String(params.page_size));
   if (params.search) query.set("search", params.search);
   if (params.location) query.set("location", params.location);
   if (params.min_value !== undefined) query.set("min_value", String(params.min_value));
@@ -112,6 +136,13 @@ export async function getTenders(params: TendersQuery = {}) {
 
   const suffix = query.toString() ? `?${query.toString()}` : "";
   return apiRequest<PaginatedResponse<TenderListItemApi>>(`/tenders/${suffix}`);
+}
+
+export async function semanticSearchTenders(payload: TenderSemanticSearchRequest) {
+  return apiRequest<TenderSemanticSearchResultApi[]>("/tenders/semantic-search/", {
+    method: "POST",
+    body: payload
+  });
 }
 
 export async function getTenderDetail(tenderId: string) {
