@@ -47,11 +47,28 @@ interface FirmWorkspaceData {
   identity: FirmIdentityApi | null;
   location: FirmLocationApi | null;
   financial: FirmFinancialApi | null;
+  financials: FirmFinancialApi[];
   banking: FirmBankingSolvencyApi | null;
+  bankings: FirmBankingSolvencyApi[];
   experience: FirmExperienceApi | null;
+  experiences: FirmExperienceApi[];
   certification: FirmCertificationApi | null;
+  certifications: FirmCertificationApi[];
   exemptions: FirmExemptionsApi | null;
   preferences: FirmPreferencesApi | null;
+}
+
+function formatDateTime(value?: string | null) {
+  if (!value) return undefined;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return new Intl.DateTimeFormat("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
 }
 
 function FieldGrid({ rows }: { rows: { label: string; value?: string }[] }) {
@@ -102,9 +119,13 @@ export function FirmWorkspace() {
     identity: null,
     location: null,
     financial: null,
+    financials: [],
     banking: null,
+    bankings: [],
     experience: null,
+    experiences: [],
     certification: null,
+    certifications: [],
     exemptions: null,
     preferences: null,
   });
@@ -154,10 +175,14 @@ export function FirmWorkspace() {
           identity: identityResult.status === "fulfilled" ? identityResult.value : null,
           location: locationsResult.status === "fulfilled" ? (locationsResult.value.results[0] ?? null) : null,
           financial: financialsResult.status === "fulfilled" ? (financialsResult.value.results[0] ?? null) : null,
+          financials: financialsResult.status === "fulfilled" ? financialsResult.value.results : [],
           banking: solvencyResult.status === "fulfilled" ? (solvencyResult.value.results[0] ?? null) : null,
+          bankings: solvencyResult.status === "fulfilled" ? solvencyResult.value.results : [],
           experience: experiencesResult.status === "fulfilled" ? (experiencesResult.value.results[0] ?? null) : null,
+          experiences: experiencesResult.status === "fulfilled" ? experiencesResult.value.results : [],
           certification:
             certificationsResult.status === "fulfilled" ? (certificationsResult.value.results[0] ?? null) : null,
+          certifications: certificationsResult.status === "fulfilled" ? certificationsResult.value.results : [],
           exemptions: exemptionsResult.status === "fulfilled" ? exemptionsResult.value : null,
           preferences: preferencesResult.status === "fulfilled" ? preferencesResult.value : null,
         });
@@ -215,7 +240,39 @@ export function FirmWorkspace() {
             firmId={firmId}
             data={data}
             onSaved={(nextData) => {
-              setData((prev) => ({ ...prev, ...nextData }));
+              setData((prev) => {
+                if (nextData.experience) {
+                  const exists = prev.experiences.some((item) => item.id === nextData.experience?.id);
+                  const experiences = exists
+                    ? prev.experiences.map((item) => (item.id === nextData.experience?.id ? nextData.experience! : item))
+                    : [nextData.experience, ...prev.experiences];
+                  return { ...prev, ...nextData, experiences };
+                }
+                if (nextData.financial) {
+                  const exists = prev.financials.some((item) => item.id === nextData.financial?.id);
+                  const financials = exists
+                    ? prev.financials.map((item) => (item.id === nextData.financial?.id ? nextData.financial! : item))
+                    : [nextData.financial, ...prev.financials];
+                  return { ...prev, ...nextData, financials };
+                }
+                if (nextData.banking) {
+                  const exists = prev.bankings.some((item) => item.id === nextData.banking?.id);
+                  const bankings = exists
+                    ? prev.bankings.map((item) => (item.id === nextData.banking?.id ? nextData.banking! : item))
+                    : [nextData.banking, ...prev.bankings];
+                  return { ...prev, ...nextData, bankings };
+                }
+                if (nextData.certification) {
+                  const exists = prev.certifications.some((item) => item.id === nextData.certification?.id);
+                  const certifications = exists
+                    ? prev.certifications.map((item) =>
+                        item.id === nextData.certification?.id ? nextData.certification! : item
+                      )
+                    : [nextData.certification, ...prev.certifications];
+                  return { ...prev, ...nextData, certifications };
+                }
+                return { ...prev, ...nextData };
+              });
             }}
           />
 
@@ -233,8 +290,8 @@ export function FirmWorkspace() {
                   { label: "Industry type", value: data.firm?.industry_type },
                   { label: "Scope of work", value: data.firm?.scope_of_work },
                   { label: "Active", value: data.firm ? (data.firm.is_active ? "Yes" : "No") : undefined },
-                  { label: "Created at", value: data.firm?.created_at },
-                  { label: "Updated at", value: data.firm?.updated_at },
+                  { label: "Created at", value: formatDateTime(data.firm?.created_at) },
+                  { label: "Updated at", value: formatDateTime(data.firm?.updated_at) },
                 ]}
               />
             </Card>
@@ -245,14 +302,13 @@ export function FirmWorkspace() {
               <SectionHeader title="Firm identity" onEdit={() => setEditSection("identity")} />
               <FieldGrid
                 rows={[
-                  { label: "Firm", value: data.identity?.firm },
                   { label: "PAN number", value: data.identity?.pan_number },
                   { label: "GSTIN", value: data.identity?.gstin },
                   { label: "CIN", value: data.identity?.cin },
                   { label: "Udyam number", value: data.identity?.udyam_number },
                   { label: "DSC expiry date", value: data.identity?.dsc_expiry_date ?? undefined },
-                  { label: "Created at", value: data.identity?.created_at },
-                  { label: "Updated at", value: data.identity?.updated_at },
+                  { label: "Created at", value: formatDateTime(data.identity?.created_at) },
+                  { label: "Updated at", value: formatDateTime(data.identity?.updated_at) },
                 ]}
               />
             </Card>
@@ -260,7 +316,7 @@ export function FirmWorkspace() {
 
           {active === "locations" && (
             <Card>
-              <SectionHeader title="Firm locations" onEdit={() => setEditSection("locations")} />
+              <SectionHeader title="Firm location" onEdit={() => setEditSection("locations")} />
               {data.location ? (
                 <FieldGrid
                   rows={[
@@ -269,8 +325,8 @@ export function FirmWorkspace() {
                     { label: "State", value: data.location.state },
                     { label: "Pincode", value: data.location.pincode },
                     { label: "Primary", value: data.location.is_primary ? "Yes" : "No" },
-                    { label: "Created at", value: data.location.created_at },
-                    { label: "Updated at", value: data.location.updated_at },
+                    { label: "Created at", value: formatDateTime(data.location.created_at) },
+                    { label: "Updated at", value: formatDateTime(data.location.updated_at) },
                   ]}
                 />
               ) : (
@@ -281,26 +337,53 @@ export function FirmWorkspace() {
 
           {active === "financials" && (
             <Card>
-              <SectionHeader title="Firm financials" onEdit={() => setEditSection("financials")} />
+              <SectionHeader
+                title="Firm financials"
+                onEdit={() => {
+                  setData((prev) => ({ ...prev, financial: null }));
+                  setEditSection("financials");
+                }}
+              />
               <p className="mb-4 text-sm text-slate-600">
                 Per financial year: turnover, net worth, profit after tax, audit status, and linked audit document.
               </p>
-              {data.financial ? (
-                <FieldGrid
-                  rows={[
-                    { label: "Financial year", value: data.financial.financial_year },
-                    { label: "Turnover amount", value: String(data.financial.turnover_amount) },
-                    { label: "Net worth", value: data.financial.net_worth != null ? String(data.financial.net_worth) : undefined },
-                    {
-                      label: "Profit after tax",
-                      value: data.financial.profit_after_tax != null ? String(data.financial.profit_after_tax) : undefined,
-                    },
-                    { label: "Audited", value: data.financial.is_audited ? "Yes" : "No" },
-                    { label: "Audit document", value: data.financial.audit_document ?? undefined },
-                    { label: "Created at", value: data.financial.created_at },
-                    { label: "Updated at", value: data.financial.updated_at },
-                  ]}
-                />
+              {data.financials.length > 0 ? (
+                <div className="space-y-4">
+                  {data.financials.map((financial) => (
+                    <div key={financial.id} className="rounded-lg border border-border p-4">
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-900">{financial.financial_year || "Financial year"}</h4>
+                          <p className="text-xs text-slate-500">Turnover: {String(financial.turnover_amount)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData((prev) => ({ ...prev, financial }));
+                            setEditSection("financials");
+                          }}
+                          aria-label={`Edit financial ${financial.financial_year || financial.id}`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                        >
+                          <Pencil className="h-4 w-4" aria-hidden />
+                        </button>
+                      </div>
+                      <FieldGrid
+                        rows={[
+                          { label: "Net worth", value: financial.net_worth != null ? String(financial.net_worth) : undefined },
+                          {
+                            label: "Profit after tax",
+                            value: financial.profit_after_tax != null ? String(financial.profit_after_tax) : undefined,
+                          },
+                          { label: "Audited", value: financial.is_audited ? "Yes" : "No" },
+                          { label: "Audit document", value: financial.audit_document ?? undefined },
+                          { label: "Created at", value: formatDateTime(financial.created_at) },
+                          { label: "Updated at", value: formatDateTime(financial.updated_at) },
+                        ]}
+                      />
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <EmptyTableHint entity="financial" />
               )}
@@ -309,18 +392,45 @@ export function FirmWorkspace() {
 
           {active === "banking" && (
             <Card>
-              <SectionHeader title="Banking & solvency" onEdit={() => setEditSection("banking")} />
-              {data.banking ? (
-                <FieldGrid
-                  rows={[
-                    { label: "Bank name", value: data.banking.bank_name },
-                    { label: "Solvency amount", value: String(data.banking.solvency_amount) },
-                    { label: "Issue date", value: data.banking.issue_date },
-                    { label: "Expiry date", value: data.banking.expiry_date },
-                    { label: "Created at", value: data.banking.created_at },
-                    { label: "Updated at", value: data.banking.updated_at },
-                  ]}
-                />
+              <SectionHeader
+                title="Banking & solvency"
+                onEdit={() => {
+                  setData((prev) => ({ ...prev, banking: null }));
+                  setEditSection("banking");
+                }}
+              />
+              {data.bankings.length > 0 ? (
+                <div className="space-y-4">
+                  {data.bankings.map((banking) => (
+                    <div key={banking.id} className="rounded-lg border border-border p-4">
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-900">{banking.bank_name || "Bank record"}</h4>
+                          <p className="text-xs text-slate-500">Solvency: {String(banking.solvency_amount)}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData((prev) => ({ ...prev, banking }));
+                            setEditSection("banking");
+                          }}
+                          aria-label={`Edit banking ${banking.bank_name || banking.id}`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                        >
+                          <Pencil className="h-4 w-4" aria-hidden />
+                        </button>
+                      </div>
+                      <FieldGrid
+                        rows={[
+                          { label: "Issue date", value: banking.issue_date },
+                          { label: "Expiry date", value: banking.expiry_date },
+                          { label: "Created at", value: formatDateTime(banking.created_at) },
+                          { label: "Updated at", value: formatDateTime(banking.updated_at) },
+                        ]}
+                      />
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <EmptyTableHint entity="banking / solvency" />
               )}
@@ -329,20 +439,47 @@ export function FirmWorkspace() {
 
           {active === "experience" && (
             <Card>
-              <SectionHeader title="Firm experience" onEdit={() => setEditSection("experience")} />
-              {data.experience ? (
-                <FieldGrid
-                  rows={[
-                    { label: "Project name", value: data.experience.project_name },
-                    { label: "Client name", value: data.experience.client_name },
-                    { label: "Work order value", value: String(data.experience.work_order_value) },
-                    { label: "Start date", value: data.experience.start_date ?? undefined },
-                    { label: "Completion date", value: data.experience.completion_date ?? undefined },
-                    { label: "Tags", value: data.experience.category_tags.join(", ") },
-                    { label: "Created at", value: data.experience.created_at },
-                    { label: "Updated at", value: data.experience.updated_at },
-                  ]}
-                />
+              <SectionHeader
+                title="Firm experience"
+                onEdit={() => {
+                  setData((prev) => ({ ...prev, experience: null }));
+                  setEditSection("experience");
+                }}
+              />
+              {data.experiences.length > 0 ? (
+                <div className="space-y-4">
+                  {data.experiences.map((experience) => (
+                    <div key={experience.id} className="rounded-lg border border-border p-4">
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-900">{experience.project_name || "Untitled project"}</h4>
+                          <p className="text-xs text-slate-500">Client: {experience.client_name || "—"}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData((prev) => ({ ...prev, experience }));
+                            setEditSection("experience");
+                          }}
+                          aria-label={`Edit experience ${experience.project_name || experience.id}`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                        >
+                          <Pencil className="h-4 w-4" aria-hidden />
+                        </button>
+                      </div>
+                      <FieldGrid
+                        rows={[
+                          { label: "Work order value", value: String(experience.work_order_value) },
+                          { label: "Start date", value: experience.start_date ?? undefined },
+                          { label: "Completion date", value: experience.completion_date ?? undefined },
+                          { label: "Tags", value: experience.category_tags.join(", ") || undefined },
+                          { label: "Created at", value: formatDateTime(experience.created_at) },
+                          { label: "Updated at", value: formatDateTime(experience.updated_at) },
+                        ]}
+                      />
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <EmptyTableHint entity="experience" />
               )}
@@ -351,25 +488,52 @@ export function FirmWorkspace() {
 
           {active === "certifications" && (
             <Card>
-              <SectionHeader title="Firm certifications" onEdit={() => setEditSection("certifications")} />
+              <SectionHeader
+                title="Firm certifications"
+                onEdit={() => {
+                  setData((prev) => ({ ...prev, certification: null }));
+                  setEditSection("certifications");
+                }}
+              />
               <p className="mb-4 text-sm text-slate-600">
                 May link to an experience record for past-work certificates.
               </p>
-              {data.certification ? (
-                <FieldGrid
-                  rows={[
-                    { label: "Certificate type", value: data.certification.cert_type },
-                    { label: "Other type", value: data.certification.other_cert_type },
-                    { label: "Certificate number", value: data.certification.cert_number },
-                    { label: "Rating", value: data.certification.rating_level },
-                    { label: "Issue date", value: data.certification.issue_date ?? undefined },
-                    { label: "Expiry date", value: data.certification.expiry_date ?? undefined },
-                    { label: "Linked experience", value: data.certification.experience ?? undefined },
-                    { label: "Document", value: data.certification.document ?? undefined },
-                    { label: "Created at", value: data.certification.created_at },
-                    { label: "Updated at", value: data.certification.updated_at },
-                  ]}
-                />
+              {data.certifications.length > 0 ? (
+                <div className="space-y-4">
+                  {data.certifications.map((certification) => (
+                    <div key={certification.id} className="rounded-lg border border-border p-4">
+                      <div className="mb-3 flex items-start justify-between gap-3">
+                        <div>
+                          <h4 className="text-sm font-semibold text-slate-900">{certification.cert_type}</h4>
+                          <p className="text-xs text-slate-500">Certificate no: {certification.cert_number || "—"}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setData((prev) => ({ ...prev, certification }));
+                            setEditSection("certifications");
+                          }}
+                          aria-label={`Edit certification ${certification.cert_number || certification.id}`}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-slate-600 transition-colors hover:bg-slate-100"
+                        >
+                          <Pencil className="h-4 w-4" aria-hidden />
+                        </button>
+                      </div>
+                      <FieldGrid
+                        rows={[
+                          { label: "Other type", value: certification.other_cert_type || undefined },
+                          { label: "Rating", value: certification.rating_level || undefined },
+                          { label: "Issue date", value: certification.issue_date ?? undefined },
+                          { label: "Expiry date", value: certification.expiry_date ?? undefined },
+                          { label: "Linked experience", value: certification.experience ?? undefined },
+                          { label: "Document", value: certification.document ?? undefined },
+                          { label: "Created at", value: formatDateTime(certification.created_at) },
+                          { label: "Updated at", value: formatDateTime(certification.updated_at) },
+                        ]}
+                      />
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <EmptyTableHint entity="certification" />
               )}
@@ -381,7 +545,6 @@ export function FirmWorkspace() {
               <SectionHeader title="Firm exemptions log" onEdit={() => setEditSection("exemptions")} />
               <FieldGrid
                 rows={[
-                  { label: "Firm", value: data.exemptions?.firm },
                   {
                     label: "Eligible for EMD waiver",
                     value: data.exemptions ? (data.exemptions.eligible_for_emd_waiver ? "Yes" : "No") : undefined,
@@ -391,7 +554,7 @@ export function FirmWorkspace() {
                     value: data.exemptions ? (data.exemptions.eligible_for_exp_waiver ? "Yes" : "No") : undefined,
                   },
                   { label: "Local preference state", value: data.exemptions?.local_preference_state },
-                  { label: "Updated at", value: data.exemptions?.updated_at },
+                  { label: "Updated at", value: formatDateTime(data.exemptions?.updated_at) },
                 ]}
               />
             </Card>
@@ -402,7 +565,6 @@ export function FirmWorkspace() {
               <SectionHeader title="Firm preferences" onEdit={() => setEditSection("preferences")} />
               <FieldGrid
                 rows={[
-                  { label: "Firm", value: data.preferences?.firm },
                   { label: "Preferred regions", value: data.preferences?.preferred_regions?.join(", ") },
                   { label: "Target sectors", value: data.preferences?.target_sectors?.join(", ") },
                   { label: "Excluded departments", value: data.preferences?.excluded_depts?.join(", ") },
@@ -414,7 +576,7 @@ export function FirmWorkspace() {
                     label: "Max tender value",
                     value: data.preferences?.max_tender_value != null ? String(data.preferences.max_tender_value) : undefined,
                   },
-                  { label: "Updated at", value: data.preferences?.updated_at },
+                  { label: "Updated at", value: formatDateTime(data.preferences?.updated_at) },
                 ]}
               />
             </Card>

@@ -70,6 +70,7 @@ interface FirmEditModalProps {
     financial: FirmFinancialApi | null;
     banking: FirmBankingSolvencyApi | null;
     experience: FirmExperienceApi | null;
+    experiences: FirmExperienceApi[];
     certification: FirmCertificationApi | null;
     exemptions: FirmExemptionsApi | null;
     preferences: FirmPreferencesApi | null;
@@ -314,7 +315,10 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
           {section === "banking" && <BankingFormFields banking={data.banking} />}
           {section === "experience" && <ExperienceFormFields experience={data.experience} />}
           {section === "certifications" && (
-            <CertificationFormFields certification={data.certification} />
+            <CertificationFormFields
+              certification={data.certification}
+              experiences={data.experiences}
+            />
           )}
           {section === "exemptions" && <ExemptionsFormFields exemptions={data.exemptions} />}
           {section === "preferences" && <PreferencesFormFields preferences={data.preferences} />}
@@ -385,14 +389,6 @@ function FirmFormFields({ firm }: { firm: FirmApi | null }) {
           defaultValue={firm?.scope_of_work ?? ""}
         />
       </Field>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Created at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={firm?.created_at ?? "—"} />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={firm?.updated_at ?? "—"} />
-        </Field>
-      </div>
     </>
   );
 }
@@ -400,9 +396,6 @@ function FirmFormFields({ firm }: { firm: FirmApi | null }) {
 function IdentityFormFields({ identity }: { identity: FirmIdentityApi | null }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      <Field label="Firm (read-only)">
-        <Input readOnly className="bg-slate-50 text-slate-600" value={identity?.firm ?? "—"} />
-      </Field>
       <Field label="PAN number">
         <Input name="pan_number" placeholder="10-character PAN" maxLength={10} defaultValue={identity?.pan_number ?? ""} />
       </Field>
@@ -418,12 +411,6 @@ function IdentityFormFields({ identity }: { identity: FirmIdentityApi | null }) 
       <Field label="DSC expiry date">
         <Input name="dsc_expiry_date" type="date" defaultValue={identity?.dsc_expiry_date ?? ""} />
       </Field>
-      <Field label="Created at (read-only)">
-        <Input readOnly className="bg-slate-50 text-slate-600" value={identity?.created_at ?? "—"} />
-      </Field>
-      <Field label="Updated at (read-only)">
-        <Input readOnly className="bg-slate-50 text-slate-600" value={identity?.updated_at ?? "—"} />
-      </Field>
     </div>
   );
 }
@@ -431,11 +418,6 @@ function IdentityFormFields({ identity }: { identity: FirmIdentityApi | null }) 
 function LocationFormFields({ location }: { location: FirmLocationApi | null }) {
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Firm (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={location?.firm ?? "—"} />
-        </Field>
-      </div>
       <Field label="Address line">
         <textarea
           name="address_line"
@@ -461,14 +443,6 @@ function LocationFormFields({ location }: { location: FirmLocationApi | null }) 
           </select>
         </Field>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Created at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={location?.created_at ?? "—"} />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={location?.updated_at ?? "—"} />
-        </Field>
-      </div>
     </>
   );
 }
@@ -477,9 +451,6 @@ function FinancialsFormFields({ financial }: { financial: FirmFinancialApi | nul
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Firm (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={financial?.firm ?? "—"} />
-        </Field>
         <Field label="Financial year">
           <Input name="financial_year" placeholder='e.g. 2023-24' defaultValue={financial?.financial_year ?? ""} />
         </Field>
@@ -522,14 +493,6 @@ function FinancialsFormFields({ financial }: { financial: FirmFinancialApi | nul
           <Input name="audit_document" placeholder="Document ID or pick from vault" defaultValue={financial?.audit_document ?? ""} />
         </Field>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Created at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={financial?.created_at ?? "—"} />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={financial?.updated_at ?? "—"} />
-        </Field>
-      </div>
     </>
   );
 }
@@ -538,9 +501,6 @@ function BankingFormFields({ banking }: { banking: FirmBankingSolvencyApi | null
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Firm (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={banking?.firm ?? "—"} />
-        </Field>
         <Field label="Bank name">
           <Input name="bank_name" placeholder="Issuing bank" defaultValue={banking?.bank_name ?? ""} />
         </Field>
@@ -561,14 +521,6 @@ function BankingFormFields({ banking }: { banking: FirmBankingSolvencyApi | null
           <Input name="expiry_date" type="date" defaultValue={banking?.expiry_date ?? ""} />
         </Field>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Created at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={banking?.created_at ?? "—"} />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={banking?.updated_at ?? "—"} />
-        </Field>
-      </div>
     </>
   );
 }
@@ -577,9 +529,6 @@ function ExperienceFormFields({ experience }: { experience: FirmExperienceApi | 
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Firm (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={experience?.firm ?? "—"} />
-        </Field>
         <Field label="Project name">
           <Input name="project_name" placeholder="Project title" defaultValue={experience?.project_name ?? ""} />
         </Field>
@@ -618,30 +567,45 @@ function ExperienceFormFields({ experience }: { experience: FirmExperienceApi | 
           defaultValue={experience?.category_tags?.join(", ") ?? ""}
         />
       </Field>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Created at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={experience?.created_at ?? "—"} />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={experience?.updated_at ?? "—"} />
-        </Field>
-      </div>
     </>
   );
 }
 
-function CertificationFormFields({ certification }: { certification: FirmCertificationApi | null }) {
+function CertificationFormFields({
+  certification,
+  experiences,
+}: {
+  certification: FirmCertificationApi | null;
+  experiences: FirmExperienceApi[];
+}) {
+  const [certType, setCertType] = useState<string>(certification?.cert_type ?? "msme");
+
+  useEffect(() => {
+    setCertType(certification?.cert_type ?? "msme");
+  }, [certification]);
+
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Firm (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={certification?.firm ?? "—"} />
-        </Field>
         <Field label="Linked experience (optional)">
-          <Input name="experience" placeholder="Experience record ID" defaultValue={certification?.experience ?? ""} />
+          <select name="experience" className={selectClass} defaultValue={certification?.experience ?? ""}>
+            <option value="">Select experience</option>
+            {experiences.map((experience) => (
+              <option
+                key={experience.id}
+                value={experience.id}>
+                {experience.project_name || "Untitled project"} ({experience.client_name || "No client"})
+              </option>
+            ))}
+          </select>
         </Field>
         <Field label="Certificate type">
-          <select name="cert_type" className={selectClass} defaultValue={certification?.cert_type ?? "msme"}>
+          <select
+            name="cert_type"
+            className={selectClass}
+            value={certType}
+            onChange={(event) => setCertType(event.target.value)}
+          >
             <option value="msme">MSME (Udyam)</option>
             <option value="nsic">NSIC</option>
             <option value="startup_india">Startup India (DPIIT)</option>
@@ -652,9 +616,15 @@ function CertificationFormFields({ certification }: { certification: FirmCertifi
             <option value="other">Other</option>
           </select>
         </Field>
-        <Field label="Other certificate type">
-          <Input name="other_cert_type" placeholder="If type is Other" defaultValue={certification?.other_cert_type ?? ""} />
-        </Field>
+        {certType === "other" && (
+          <Field label="Other certificate type">
+            <Input
+              name="other_cert_type"
+              placeholder="If type is Other"
+              defaultValue={certification?.other_cert_type ?? ""}
+            />
+          </Field>
+        )}
         <Field label="Certificate number">
           <Input name="cert_number" placeholder="Registration / cert no." defaultValue={certification?.cert_number ?? ""} />
         </Field>
@@ -671,14 +641,6 @@ function CertificationFormFields({ certification }: { certification: FirmCertifi
           <Input name="document" placeholder="Document ID from vault" defaultValue={certification?.document ?? ""} />
         </Field>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Created at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={certification?.created_at ?? "—"} />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={certification?.updated_at ?? "—"} />
-        </Field>
-      </div>
     </>
   );
 }
@@ -686,9 +648,6 @@ function CertificationFormFields({ certification }: { certification: FirmCertifi
 function ExemptionsFormFields({ exemptions }: { exemptions: FirmExemptionsApi | null }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2">
-      <Field label="Firm (read-only)">
-        <Input readOnly className="bg-slate-50 text-slate-600" value={exemptions?.firm ?? "—"} />
-      </Field>
       <Field label="Eligible for EMD waiver">
         <select
           name="eligible_for_emd_waiver"
@@ -718,9 +677,6 @@ function ExemptionsFormFields({ exemptions }: { exemptions: FirmExemptionsApi | 
           />
         </Field>
       </div>
-      <Field label="Updated at (read-only)">
-        <Input readOnly className="bg-slate-50 text-slate-600" value={exemptions?.updated_at ?? "—"} />
-      </Field>
     </div>
   );
 }
@@ -728,11 +684,6 @@ function ExemptionsFormFields({ exemptions }: { exemptions: FirmExemptionsApi | 
 function PreferencesFormFields({ preferences }: { preferences: FirmPreferencesApi | null }) {
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Firm (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={preferences?.firm ?? "—"} />
-        </Field>
-      </div>
       <Field label="Preferred regions (JSON array or comma-separated)">
         <textarea
           name="preferred_regions"
@@ -777,9 +728,6 @@ function PreferencesFormFields({ preferences }: { preferences: FirmPreferencesAp
             placeholder="0.00"
             defaultValue={preferences?.max_tender_value != null ? String(preferences.max_tender_value) : ""}
           />
-        </Field>
-        <Field label="Updated at (read-only)">
-          <Input readOnly className="bg-slate-50 text-slate-600" value={preferences?.updated_at ?? "—"} />
         </Field>
       </div>
     </>
