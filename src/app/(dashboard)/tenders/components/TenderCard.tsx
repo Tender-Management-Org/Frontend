@@ -12,6 +12,7 @@ export interface TenderItem {
   deadline: string;
   description: string;
   similarityScore?: number;
+  isInterested?: boolean;
 }
 
 interface TenderCardProps {
@@ -58,6 +59,11 @@ export function TenderCard({ tender }: TenderCardProps) {
             {typeof tender.similarityScore === "number" && (
               <span className="inline-flex items-center rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700">
                 Semantic match {Math.round(tender.similarityScore * 100)}%
+              </span>
+            )}
+            {tender.isInterested && (
+              <span className="inline-flex items-center rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700">
+                Interested
               </span>
             )}
             <span

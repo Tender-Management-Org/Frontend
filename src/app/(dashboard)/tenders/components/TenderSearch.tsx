@@ -27,7 +27,14 @@ export function TenderSearch({ value, onChange, onSubmit, onReset, isLoading = f
           />
         </div>
         <Button className="sm:w-auto" onClick={onSubmit} disabled={isLoading}>
-          {isLoading ? "Searching..." : "Semantic Search"}
+          {isLoading ? (
+            "Searching..."
+          ) : (
+            <span className="inline-flex items-center gap-2">
+              <Search className="h-4 w-4" aria-hidden />
+              Search
+            </span>
+          )}
         </Button>
         <Button variant="ghost" className="sm:w-auto" onClick={onReset} disabled={isLoading}>
           Clear

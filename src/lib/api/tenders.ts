@@ -122,6 +122,33 @@ export interface TenderSemanticSearchResultApi {
   similarity_score: number;
 }
 
+export type TenderMatchStatus = "interested" | "ignored" | "applied";
+
+export interface TenderMatchApi {
+  match_id: string;
+  firm_id: string;
+  tender_id: string;
+  fit_score: number;
+  status: TenderMatchStatus;
+  match_reason: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface InterestedTenderApi {
+  match_id: string;
+  tender_id: string;
+  title: string;
+  organisation_chain: string;
+  location: string;
+  tender_value: string;
+  bid_submission_end_date: string;
+  fit_score: number;
+  status: "interested";
+  match_reason: string;
+  updated_at: string;
+}
+
 export async function getTenders(params: TendersQuery = {}) {
   const query = new URLSearchParams();
 
@@ -147,4 +174,15 @@ export async function semanticSearchTenders(payload: TenderSemanticSearchRequest
 
 export async function getTenderDetail(tenderId: string) {
   return apiRequest<TenderDetailApi>(`/tenders/${encodeURIComponent(tenderId)}/`);
+}
+
+export async function markTender(tenderId: string, status: TenderMatchStatus) {
+  return apiRequest<TenderMatchApi>(`/tenders/${encodeURIComponent(tenderId)}/match/`, {
+    method: "POST",
+    body: { status }
+  });
+}
+
+export async function getInterestedTenders() {
+  return apiRequest<InterestedTenderApi[]>("/tenders/interested/");
 }

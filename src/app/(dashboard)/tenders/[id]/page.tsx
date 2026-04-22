@@ -1,11 +1,10 @@
-import { Button } from "@/components/ui/Button";
 import { mapTenderDetailToLegacyShape } from "@/lib/api/tenderAdapters";
 import { ApiError } from "@/lib/api/client";
 import { getTenderDetail } from "@/lib/api/tenders";
 import type { TenderDetail } from "@/types/tenderDetail";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ActionBar } from "./components/ActionBar";
 import { TenderDetailView } from "./components/TenderDetailView";
 
@@ -24,6 +23,9 @@ export default async function TenderDetailPage({ params }: PageProps) {
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) {
       notFound();
+    }
+    if (error instanceof ApiError && error.status === 401) {
+      redirect(`/login?next=${encodeURIComponent(`/tenders/${id}`)}`);
     }
     throw error;
   }
@@ -58,13 +60,6 @@ export default async function TenderDetailPage({ params }: PageProps) {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2 md:justify-end">
-              <Button variant="secondary">Interested</Button>
-              <Button variant="ghost" className="border border-border">
-                Ignore
-              </Button>
-              <Button>Apply Now</Button>
-            </div>
           </div>
 
           <div className="relative mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -99,7 +94,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
 
         <div className="col-span-12 lg:col-span-4">
           <div className="space-y-6 lg:sticky lg:top-24">
-            <ActionBar />
+            <ActionBar tenderId={id} />
           </div>
         </div>
       </div>

@@ -150,7 +150,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
   try {
     return await rawApiRequest<T>(path, options, access);
   } catch (error) {
-    if (!(error instanceof ApiError) || error.status !== 401 || typeof window === "undefined") {
+    if (!(error instanceof ApiError) || error.status !== 401) {
       throw error;
     }
     const refreshed = await refreshAccessToken();

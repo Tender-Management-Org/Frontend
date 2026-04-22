@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CalendarDays, Flame } from "lucide-react";
-import { getTenders, semanticSearchTenders } from "@/lib/api/tenders";
+import { getInterestedTenders, getTenders, semanticSearchTenders } from "@/lib/api/tenders";
 import { mapTenderListItemToUi, mapTenderSemanticResultToUi } from "@/lib/api/tenderAdapters";
 import type { TenderItem } from "./TenderCard";
 import { TenderFilters } from "./TenderFilters";
@@ -22,6 +22,7 @@ export function TenderDashboardExplorer() {
   const [hasLoadedPageSizePreference, setHasLoadedPageSizePreference] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [interestedIds, setInterestedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const saved = Number(window.localStorage.getItem(PAGE_SIZE_KEY));
@@ -35,6 +36,22 @@ export function TenderDashboardExplorer() {
     if (!hasLoadedPageSizePreference) return;
     window.localStorage.setItem(PAGE_SIZE_KEY, String(pageSize));
   }, [pageSize, hasLoadedPageSizePreference]);
+
+  useEffect(() => {
+    let isCancelled = false;
+    getInterestedTenders()
+      .then((rows) => {
+        if (isCancelled) return;
+        setInterestedIds(new Set(rows.map((row) => row.tender_id)));
+      })
+      .catch(() => {
+        if (isCancelled) return;
+        setInterestedIds(new Set());
+      });
+    return () => {
+      isCancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (mode !== "default") return;
@@ -65,8 +82,17 @@ export function TenderDashboardExplorer() {
     return semanticResults.slice(start, start + pageSize);
   }, [mode, semanticResults, page, pageSize]);
 
+  const decoratedItems = useMemo(
+    () => items.map((item) => ({ ...item, isInterested: interestedIds.has(item.id) })),
+    [items, interestedIds]
+  );
+  const decoratedSemanticItems = useMemo(
+    () => semanticPageItems.map((item) => ({ ...item, isInterested: interestedIds.has(item.id) })),
+    [semanticPageItems, interestedIds]
+  );
+
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
-  const currentItems = mode === "semantic" ? semanticPageItems : items;
+  const currentItems = mode === "semantic" ? decoratedSemanticItems : decoratedItems;
 
   const closingSoonCount = useMemo(() => {
     const today = new Date();
