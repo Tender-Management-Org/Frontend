@@ -121,6 +121,10 @@ export async function getFirm(firmId: string) {
   return apiRequest<FirmApi>(`/firms/${firmId}/`);
 }
 
+export async function createFirm(payload: Omit<Partial<FirmApi>, "id" | "owner" | "created_at" | "updated_at">) {
+  return apiRequest<FirmApi>("/firms/", { method: "POST", body: payload });
+}
+
 export async function updateFirm(firmId: string, payload: Partial<FirmApi>) {
   return apiRequest<FirmApi>(`/firms/${firmId}/`, { method: "PATCH", body: payload });
 }

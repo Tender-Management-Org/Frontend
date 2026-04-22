@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/Card";
 import { ApiError, setOnboardingComplete } from "@/lib/api/client";
 import { emitToast } from "@/lib/toast";
 import {
+  createFirm,
   createFirmLocation,
   getFirms,
   getFirmLocations,
@@ -163,20 +164,17 @@ export default function OnboardingPage() {
     try {
       const firmsResponse = await getFirms(1);
       const primaryFirm = firmsResponse.results[0];
-
-      if (!primaryFirm) {
-        setSubmitError("No firm found for this account. Please create a firm record first.");
-        return;
-      }
-
-      const firm = await updateFirm(primaryFirm.id, {
+      const firmPayload = {
         legal_name: formData.legal_name.trim(),
         business_name: formData.business_name.trim(),
         constitution: formData.constitution,
         incorporation_date: formData.incorporation_date || null,
         industry_type: formData.industry_type.trim(),
         scope_of_work: formData.scope_of_work.trim(),
-      });
+      };
+      const firm = primaryFirm
+        ? await updateFirm(primaryFirm.id, firmPayload)
+        : await createFirm(firmPayload);
 
       await upsertFirmIdentity(firm.id, {
         pan_number: formData.pan_number.trim().toUpperCase(),
