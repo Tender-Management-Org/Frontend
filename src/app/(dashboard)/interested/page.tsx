@@ -168,10 +168,10 @@ export default async function InterestedPage() {
                   Fit score: <span className="font-semibold text-slate-700">{item.fit_score}</span>
                 </p>
                 <Link
-                  href={`/tenders/${encodeURIComponent(item.tender_id)}`}
+                  href={`/interested/${encodeURIComponent(item.tender_id)}/workspace`}
                   className="inline-flex h-9 items-center gap-1 rounded-lg bg-slate-900 px-3.5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
                 >
-                  View details
+                  Open Filing Workspace
                   <ArrowRight className="h-3.5 w-3.5" aria-hidden />
                 </Link>
               </div>
