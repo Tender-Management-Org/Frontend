@@ -29,6 +29,7 @@ import {
   type FirmLocationApi,
   type FirmPreferencesApi,
 } from "@/lib/api/firms";
+import { uploadDocument, type DocumentApi } from "@/lib/api/documents";
 
 const selectClass =
   "h-10 w-full rounded-lg border border-border bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-slate-300";
@@ -74,6 +75,7 @@ interface FirmEditModalProps {
     certification: FirmCertificationApi | null;
     exemptions: FirmExemptionsApi | null;
     preferences: FirmPreferencesApi | null;
+    documents: DocumentApi[];
   };
   onSaved: (data: {
     firm?: FirmApi;
@@ -121,6 +123,20 @@ function parseListInput(value: FormDataEntryValue | null) {
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
+}
+
+function getFinancialYearOptions() {
+  const now = new Date();
+  const month = now.getMonth();
+  const currentStartYear = month >= 3 ? now.getFullYear() : now.getFullYear() - 1;
+  const options: string[] = [];
+
+  for (let startYear = currentStartYear + 1; startYear >= currentStartYear - 10; startYear -= 1) {
+    const endYear = String((startYear + 1) % 100).padStart(2, "0");
+    options.push(`${startYear}-${endYear}`);
+  }
+
+  return options;
 }
 
 export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmEditModalProps) {
@@ -227,13 +243,24 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
                   : await createFirmLocation(firmId, payload);
                 onSaved({ location: saved });
               } else if (section === "financials") {
+                const auditDocumentFile = formData.get("audit_document_file");
+                let auditDocumentId: string | null | undefined = data.financial?.audit_document;
+                if (auditDocumentFile instanceof File && auditDocumentFile.size > 0) {
+                  const uploaded = await uploadDocument({
+                    firm: firmId,
+                    file: auditDocumentFile,
+                    title: `${String(formData.get("financial_year") ?? "").trim() || "Financial"} audit document`,
+                    doc_type: "financial",
+                  });
+                  auditDocumentId = uploaded.id;
+                }
                 const payload = {
                   financial_year: String(formData.get("financial_year") ?? "").trim(),
                   turnover_amount: asOptionalNumber(formData.get("turnover_amount")) ?? undefined,
                   net_worth: asOptionalNumber(formData.get("net_worth")),
                   profit_after_tax: asOptionalNumber(formData.get("profit_after_tax")),
                   is_audited: asBool(formData.get("is_audited")),
-                  audit_document: asOptionalString(formData.get("audit_document")),
+                  audit_document: auditDocumentId ?? null,
                 };
                 const saved = data.financial
                   ? await updateFirmFinancial(firmId, data.financial.id, payload)
@@ -265,6 +292,19 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
                   : await createFirmExperience(firmId, payload);
                 onSaved({ experience: saved });
               } else if (section === "certifications") {
+                const certificateFile = formData.get("document_file");
+                let documentId: string | null | undefined = data.certification?.document;
+                if (certificateFile instanceof File && certificateFile.size > 0) {
+                  const uploaded = await uploadDocument({
+                    firm: firmId,
+                    file: certificateFile,
+                    title:
+                      String(formData.get("cert_number") ?? "").trim() ||
+                      `${String(formData.get("cert_type") ?? "certificate").trim()} certificate`,
+                    doc_type: "certificate",
+                  });
+                  documentId = uploaded.id;
+                }
                 const payload = {
                   experience: asOptionalString(formData.get("experience")),
                   cert_type: String(formData.get("cert_type") ?? "msme").trim(),
@@ -273,7 +313,7 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
                   rating_level: String(formData.get("rating_level") ?? "").trim(),
                   issue_date: asOptionalString(formData.get("issue_date")),
                   expiry_date: asOptionalString(formData.get("expiry_date")),
-                  document: asOptionalString(formData.get("document")),
+                  document: documentId ?? null,
                 };
                 const saved = data.certification
                   ? await updateFirmCertification(firmId, data.certification.id, payload)
@@ -448,11 +488,21 @@ function LocationFormFields({ location }: { location: FirmLocationApi | null }) 
 }
 
 function FinancialsFormFields({ financial }: { financial: FirmFinancialApi | null }) {
+  const financialYearOptions = getFinancialYearOptions();
+  const hasCustomFinancialYear = !!financial?.financial_year && !financialYearOptions.includes(financial.financial_year);
   return (
     <>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Financial year">
-          <Input name="financial_year" placeholder='e.g. 2023-24' defaultValue={financial?.financial_year ?? ""} />
+          <select name="financial_year" className={selectClass} defaultValue={financial?.financial_year ?? ""}>
+            <option value="">Select financial year</option>
+            {hasCustomFinancialYear ? <option value={financial?.financial_year}>{financial?.financial_year}</option> : null}
+            {financialYearOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </Field>
         <Field label="Turnover amount">
           <Input
@@ -490,7 +540,12 @@ function FinancialsFormFields({ financial }: { financial: FirmFinancialApi | nul
           </select>
         </Field>
         <Field label="Audit document">
-          <Input name="audit_document" placeholder="Document ID or pick from vault" defaultValue={financial?.audit_document ?? ""} />
+          <Input name="audit_document_file" type="file" />
+          {financial?.audit_document ? (
+            <p className="text-xs text-slate-500">
+              Existing audit document is linked. Upload a new file only if you want to replace it.
+            </p>
+          ) : null}
         </Field>
       </div>
     </>
@@ -638,7 +693,12 @@ function CertificationFormFields({
           <Input name="expiry_date" type="date" defaultValue={certification?.expiry_date ?? ""} />
         </Field>
         <Field label="Document">
-          <Input name="document" placeholder="Document ID from vault" defaultValue={certification?.document ?? ""} />
+          <Input name="document_file" type="file" />
+          {certification?.document ? (
+            <p className="text-xs text-slate-500">
+              Existing certificate document is linked. Upload a new file only if you want to replace it.
+            </p>
+          ) : null}
         </Field>
       </div>
     </>

@@ -25,10 +25,13 @@ import {
   type FirmLocationApi,
   type FirmPreferencesApi,
 } from "@/lib/api/firms";
+import { getFirmDocuments, type DocumentApi } from "@/lib/api/documents";
 import { cn } from "@/lib/utils";
 import { FirmEditModal, type FirmModalSection } from "./FirmEditModal";
 
-const tabs: { id: FirmModalSection; label: string }[] = [
+type TabId = FirmModalSection | "documents";
+
+const tabs: { id: TabId; label: string }[] = [
   { id: "firm", label: "Firm" },
   { id: "identity", label: "Identity" },
   { id: "locations", label: "Locations" },
@@ -37,10 +40,9 @@ const tabs: { id: FirmModalSection; label: string }[] = [
   { id: "experience", label: "Experience" },
   { id: "certifications", label: "Certifications" },
   { id: "exemptions", label: "Exemptions" },
-  { id: "preferences", label: "Preferences" }
+  { id: "preferences", label: "Preferences" },
+  { id: "documents", label: "Documents" }
 ];
-
-type TabId = FirmModalSection;
 
 interface FirmWorkspaceData {
   firm: FirmApi | null;
@@ -56,6 +58,7 @@ interface FirmWorkspaceData {
   certifications: FirmCertificationApi[];
   exemptions: FirmExemptionsApi | null;
   preferences: FirmPreferencesApi | null;
+  documents: DocumentApi[];
 }
 
 function formatDateTime(value?: string | null) {
@@ -140,7 +143,20 @@ export function FirmWorkspace() {
     certifications: [],
     exemptions: null,
     preferences: null,
+    documents: [],
   });
+
+  const resolveDocumentLabel = (documentId?: string | null) => {
+    if (!documentId) return undefined;
+    const match = data.documents.find((document) => document.id === documentId);
+    if (!match) return documentId;
+    return match.title || match.file.split("/").pop() || match.id;
+  };
+
+  const resolveDocumentTypeLabel = (document: DocumentApi) => {
+    if (document.doc_type !== "other") return document.doc_type;
+    return document.other_doc_type || "other";
+  };
 
   useEffect(() => {
     setEditSection(null);
@@ -170,6 +186,7 @@ export function FirmWorkspace() {
           certificationsResult,
           exemptionsResult,
           preferencesResult,
+          documentsResult,
         ] = await Promise.allSettled([
           getFirm(primaryFirm.id),
           getFirmIdentity(primaryFirm.id),
@@ -180,6 +197,7 @@ export function FirmWorkspace() {
           getFirmCertifications(primaryFirm.id, 1),
           getFirmExemptions(primaryFirm.id),
           getFirmPreferences(primaryFirm.id),
+          getFirmDocuments(primaryFirm.id, 1, 100),
         ]);
 
         setData({
@@ -197,6 +215,7 @@ export function FirmWorkspace() {
           certifications: certificationsResult.status === "fulfilled" ? certificationsResult.value.results : [],
           exemptions: exemptionsResult.status === "fulfilled" ? exemptionsResult.value : null,
           preferences: preferencesResult.status === "fulfilled" ? preferencesResult.value : null,
+          documents: documentsResult.status === "fulfilled" ? documentsResult.value.results : [],
         });
       } catch (e) {
         if (e instanceof ApiError && e.status === 401) {
@@ -411,7 +430,7 @@ export function FirmWorkspace() {
                             value: financial.profit_after_tax != null ? String(financial.profit_after_tax) : undefined,
                           },
                           { label: "Audited", value: financial.is_audited ? "Yes" : "No" },
-                          { label: "Audit document", value: financial.audit_document ?? undefined },
+                          { label: "Audit document", value: resolveDocumentLabel(financial.audit_document) },
                           { label: "Created at", value: formatDateTime(financial.created_at) },
                           { label: "Updated at", value: formatDateTime(financial.updated_at) },
                         ]}
@@ -561,7 +580,7 @@ export function FirmWorkspace() {
                           { label: "Issue date", value: certification.issue_date ?? undefined },
                           { label: "Expiry date", value: certification.expiry_date ?? undefined },
                           { label: "Linked experience", value: certification.experience ?? undefined },
-                          { label: "Document", value: certification.document ?? undefined },
+                          { label: "Document", value: resolveDocumentLabel(certification.document) },
                           { label: "Created at", value: formatDateTime(certification.created_at) },
                           { label: "Updated at", value: formatDateTime(certification.updated_at) },
                         ]}
@@ -614,6 +633,59 @@ export function FirmWorkspace() {
                   { label: "Updated at", value: formatDateTime(data.preferences?.updated_at) },
                 ]}
               />
+            </Card>
+          )}
+
+          {active === "documents" && (
+            <Card>
+              <div className="mb-5 border-b border-slate-200 pb-4">
+                <h3 className="text-lg font-semibold text-slate-900">Firm documents</h3>
+                <p className="mt-1 text-sm text-slate-600">
+                  All uploaded files available in your firm document vault.
+                </p>
+              </div>
+              {data.documents.length > 0 ? (
+                <div className="space-y-3">
+                  {data.documents.map((document) => {
+                    const fileName = document.file.split("/").pop() || document.id;
+                    return (
+                      <div
+                        key={document.id}
+                        className="rounded-xl border border-slate-200 bg-slate-50/40 p-4"
+                      >
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                          <div className="min-w-0 space-y-1">
+                            <h4 className="truncate text-sm font-semibold text-slate-900">
+                              {document.title || fileName}
+                            </h4>
+                            <p className="text-xs text-slate-500">Type: {resolveDocumentTypeLabel(document)}</p>
+                            <p className="truncate text-xs text-slate-500">File: {fileName}</p>
+                          </div>
+                          <a
+                            href={document.file}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex w-fit items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100"
+                          >
+                            Open file
+                          </a>
+                        </div>
+                        <div className="mt-3 border-t border-slate-200 pt-3">
+                          <FieldGrid
+                            rows={[
+                              { label: "Document ID", value: document.id },
+                              { label: "Created at", value: formatDateTime(document.created_at) },
+                              { label: "Updated at", value: formatDateTime(document.updated_at) },
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <EmptyTableHint entity="document" />
+              )}
             </Card>
           )}
         </div>

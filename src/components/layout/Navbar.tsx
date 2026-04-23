@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell } from "lucide-react";
+import { Bell, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -12,7 +12,6 @@ const titleMap: Record<string, string> = {
   "/firm": "Firm",
   "/onboarding": "Firm Onboarding",
   "/tenders": "Tenders",
-  "/documents": "Document Vault",
   "/recommendations": "Recommendations"
 };
 
@@ -21,7 +20,6 @@ const sectionMap: Record<string, string> = {
   "/firm": "Firm dashboard",
   "/onboarding": "Onboarding dashboard",
   "/tenders": "Tender dashboard",
-  "/documents": "Document dashboard",
   "/recommendations": "Recommendation dashboard"
 };
 
@@ -132,7 +130,7 @@ export function Navbar() {
             }}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
           >
-            VA
+            <User className="h-4 w-4" />
           </button>
 
           {profileOpen && (

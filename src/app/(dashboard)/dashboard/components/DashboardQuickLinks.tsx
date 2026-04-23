@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Building2, ChevronRight, FileText, Search, Sparkles } from "lucide-react";
+import { Building2, ChevronRight, Search, Sparkles } from "lucide-react";
 
 const links = [
   {
@@ -13,12 +13,6 @@ const links = [
     label: "Firm profile",
     description: "Identity, financials, preferences",
     icon: Building2
-  },
-  {
-    href: "/documents",
-    label: "Document vault",
-    description: "Compliance files & uploads",
-    icon: FileText
   },
   {
     href: "/recommendations",

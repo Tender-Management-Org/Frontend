@@ -73,6 +73,8 @@ export function mapTenderSemanticResultToUi(item: TenderSemanticSearchResultApi)
 
 export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail {
   const base = SAMPLE_TENDER_DETAIL;
+  const getDocumentFileUrl = (doc: TenderDetailApi["documents"][number]): string | undefined =>
+    resolveDocumentUrl(doc.file ?? doc.document?.file);
 
   return {
     ...base,
@@ -127,7 +129,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
         document_name: doc.document_name || doc.document?.title || "Untitled document",
         description: doc.description || "—",
         document_size_kb: doc.document_size_kb ?? 0,
-        file_url: resolveDocumentUrl(doc.document?.file),
+        file_url: getDocumentFileUrl(doc),
       })),
       work_item_documents: api.documents.map((doc, index) => ({
         s_no: index + 1,
@@ -135,7 +137,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
         document_name: doc.document_name || doc.document?.title || "Untitled document",
         description: doc.description || "—",
         document_size_kb: doc.document_size_kb ?? 0,
-        file_url: resolveDocumentUrl(doc.document?.file),
+        file_url: getDocumentFileUrl(doc),
       })),
     },
     latest_corrigendum_list: api.corrigenda.map((item, index) => ({

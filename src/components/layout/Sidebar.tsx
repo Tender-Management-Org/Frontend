@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
-  Files,
   LayoutDashboard,
   Lock,
   Menu,
@@ -23,7 +22,6 @@ const menuItems = [
   { name: "Firm", href: "/firm", icon: Building2 },
   { name: "Tenders", href: "/tenders", icon: FileText },
   { name: "Interested", href: "/interested", icon: Bookmark },
-  { name: "Documents", href: "/documents", icon: Files },
   { name: "Recommendations", href: "/recommendations", icon: Sparkles }
 ];
 

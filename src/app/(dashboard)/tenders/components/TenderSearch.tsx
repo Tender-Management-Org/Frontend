@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Search, Sparkles } from "lucide-react";
+import { Search } from "lucide-react";
 
 interface TenderSearchProps {
   value: string;
@@ -67,25 +67,6 @@ export function TenderSearch({
             {mode.slice(1)}
           </button>
         ))}
-      </div>
-      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-        <span className="text-slate-500">Quick picks:</span>
-        <button
-          type="button"
-          className="rounded-full border border-slate-200 bg-white px-2.5 py-1 font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50"
-        >
-          Construction
-        </button>
-        <button
-          type="button"
-          className="rounded-full border border-slate-200 bg-white px-2.5 py-1 font-medium text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50"
-        >
-          IT Services
-        </button>
-        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-1 font-medium text-indigo-700">
-          <Sparkles className="h-3 w-3" aria-hidden />
-          High fit first
-        </span>
       </div>
     </div>
   );

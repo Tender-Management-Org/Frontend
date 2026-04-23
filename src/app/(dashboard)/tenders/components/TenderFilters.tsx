@@ -3,7 +3,20 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { SlidersHorizontal } from "lucide-react";
 
-export function TenderFilters() {
+export type TenderFilterValues = {
+  location: string;
+  minValue: string;
+  maxValue: string;
+  deadlineTo: string;
+};
+
+type TenderFiltersProps = {
+  values: TenderFilterValues;
+  onChange: (next: TenderFilterValues) => void;
+  onReset: () => void;
+};
+
+export function TenderFilters({ values, onChange, onReset }: TenderFiltersProps) {
   return (
     <Card className="space-y-5 lg:sticky lg:top-20">
       <div className="flex items-center justify-between">
@@ -11,7 +24,7 @@ export function TenderFilters() {
           <SlidersHorizontal className="h-4 w-4 text-slate-500" aria-hidden />
           Filters
         </h3>
-        <Button variant="ghost" size="sm">
+        <Button type="button" variant="ghost" size="sm" onClick={onReset}>
           Reset
         </Button>
       </div>
@@ -24,31 +37,48 @@ export function TenderFilters() {
 
       <div className="space-y-2">
         <p className="text-sm font-medium text-slate-700">Location</p>
-        <Input placeholder="Enter city or state" />
+        <Input
+          placeholder="Enter city or state"
+          value={values.location}
+          onChange={(event) => onChange({ ...values, location: event.target.value })}
+        />
       </div>
 
       <div className="space-y-2">
         <p className="text-sm font-medium text-slate-700">Tender Value</p>
         <div className="grid grid-cols-2 gap-2">
-          <Input placeholder="Min" />
-          <Input placeholder="Max" />
+          <Input
+            type="number"
+            placeholder="Min"
+            value={values.minValue}
+            onChange={(event) => onChange({ ...values, minValue: event.target.value })}
+          />
+          <Input
+            type="number"
+            placeholder="Max"
+            value={values.maxValue}
+            onChange={(event) => onChange({ ...values, maxValue: event.target.value })}
+          />
         </div>
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm font-medium text-slate-700">Category</p>
-        <select className="h-10 w-full rounded-lg border border-border bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-slate-300">
-          <option>All Categories</option>
-          <option>Construction</option>
-          <option>IT Services</option>
-          <option>Equipment Supply</option>
-          <option>Consulting</option>
-        </select>
-      </div>
-
-      <div className="space-y-2">
-        <p className="text-sm font-medium text-slate-700">Deadline</p>
-        <Input type="date" />
+        <p className="inline-flex items-center gap-1 text-sm font-medium text-slate-700">
+          Deadline
+          <button
+            type="button"
+            aria-label="Deadline means bid submission end date"
+            title="Deadline means Bid Submission End Date. Tenders closing on or before the selected date are shown."
+            className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-slate-300 text-[10px] font-semibold text-slate-500"
+          >
+            i
+          </button>
+        </p>
+        <Input
+          type="date"
+          value={values.deadlineTo}
+          onChange={(event) => onChange({ ...values, deadlineTo: event.target.value })}
+        />
       </div>
     </Card>
   );

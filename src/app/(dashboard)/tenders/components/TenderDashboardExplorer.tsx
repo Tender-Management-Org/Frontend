@@ -5,12 +5,21 @@ import { CalendarDays, Flame } from "lucide-react";
 import { getInterestedTenders, getTenders, semanticSearchTenders } from "@/lib/api/tenders";
 import { mapTenderListItemToUi, mapTenderSemanticResultToUi } from "@/lib/api/tenderAdapters";
 import type { TenderItem } from "./TenderCard";
-import { TenderFilters } from "./TenderFilters";
+import { TenderFilters, type TenderFilterValues } from "./TenderFilters";
 import { TenderList } from "./TenderList";
 import { TenderSearch } from "./TenderSearch";
 
 const PAGE_SIZE_KEY = "tender_dashboard_page_size";
+const SEARCH_MODE_KEY = "tender_dashboard_search_mode";
+const FILTERS_KEY = "tender_dashboard_filters";
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
+const SEARCH_MODE_OPTIONS = ["semantic", "keyword", "hybrid"] as const;
+const DEFAULT_FILTER_VALUES: TenderFilterValues = {
+  location: "",
+  minValue: "",
+  maxValue: "",
+  deadlineTo: ""
+};
 
 export function TenderDashboardExplorer() {
   const [items, setItems] = useState<TenderItem[]>([]);
@@ -21,6 +30,8 @@ export function TenderDashboardExplorer() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [hasLoadedPageSizePreference, setHasLoadedPageSizePreference] = useState(false);
+  const [hasLoadedSearchModePreference, setHasLoadedSearchModePreference] = useState(false);
+  const [hasLoadedFiltersPreference, setHasLoadedFiltersPreference] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -28,6 +39,7 @@ export function TenderDashboardExplorer() {
   const [activeSemanticQuery, setActiveSemanticQuery] = useState("");
   const [activeSemanticMode, setActiveSemanticMode] = useState<"semantic" | "keyword" | "hybrid">("hybrid");
   const [interestedIds, setInterestedIds] = useState<Set<string>>(new Set());
+  const [filters, setFilters] = useState<TenderFilterValues>(DEFAULT_FILTER_VALUES);
 
   useEffect(() => {
     const saved = Number(window.localStorage.getItem(PAGE_SIZE_KEY));
@@ -38,9 +50,51 @@ export function TenderDashboardExplorer() {
   }, []);
 
   useEffect(() => {
+    const saved = window.localStorage.getItem(SEARCH_MODE_KEY);
+    if (saved && SEARCH_MODE_OPTIONS.includes(saved as (typeof SEARCH_MODE_OPTIONS)[number])) {
+      setSearchMode(saved as "semantic" | "keyword" | "hybrid");
+    }
+    setHasLoadedSearchModePreference(true);
+  }, []);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(FILTERS_KEY);
+    if (!saved) {
+      setHasLoadedFiltersPreference(true);
+      return;
+    }
+    try {
+      const parsed = JSON.parse(saved);
+      if (
+        parsed &&
+        typeof parsed.location === "string" &&
+        typeof parsed.minValue === "string" &&
+        typeof parsed.maxValue === "string" &&
+        typeof parsed.deadlineTo === "string"
+      ) {
+        setFilters(parsed);
+      }
+    } catch {
+      // Ignore malformed stored values and use defaults.
+    } finally {
+      setHasLoadedFiltersPreference(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!hasLoadedPageSizePreference) return;
     window.localStorage.setItem(PAGE_SIZE_KEY, String(pageSize));
   }, [pageSize, hasLoadedPageSizePreference]);
+
+  useEffect(() => {
+    if (!hasLoadedSearchModePreference) return;
+    window.localStorage.setItem(SEARCH_MODE_KEY, searchMode);
+  }, [searchMode, hasLoadedSearchModePreference]);
+
+  useEffect(() => {
+    if (!hasLoadedFiltersPreference) return;
+    window.localStorage.setItem(FILTERS_KEY, JSON.stringify(filters));
+  }, [filters, hasLoadedFiltersPreference]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -60,9 +114,20 @@ export function TenderDashboardExplorer() {
 
   useEffect(() => {
     if (mode !== "default") return;
+    if (!hasLoadedFiltersPreference) return;
     let isCancelled = false;
     setIsLoading(true);
-    getTenders({ is_active: true, page, page_size: pageSize })
+    const minValue = filters.minValue.trim() ? Number(filters.minValue) : undefined;
+    const maxValue = filters.maxValue.trim() ? Number(filters.maxValue) : undefined;
+    getTenders({
+      is_active: true,
+      page,
+      page_size: pageSize,
+      location: filters.location.trim() || undefined,
+      min_value: Number.isFinite(minValue) ? minValue : undefined,
+      max_value: Number.isFinite(maxValue) ? maxValue : undefined,
+      bid_submission_end_date_to: filters.deadlineTo || undefined
+    })
       .then((response) => {
         if (isCancelled) return;
         setItems(response.results.map(mapTenderListItemToUi));
@@ -79,7 +144,7 @@ export function TenderDashboardExplorer() {
     return () => {
       isCancelled = true;
     };
-  }, [mode, page, pageSize]);
+  }, [mode, page, pageSize, filters]);
 
   const semanticPageItems = useMemo(() => {
     if (mode !== "semantic") return [];
@@ -111,6 +176,14 @@ export function TenderDashboardExplorer() {
       return days >= 0 && days <= 7;
     }).length;
   }, [currentItems]);
+
+  const interestedOnPageCount = useMemo(
+    () => currentItems.filter((tender) => tender.isInterested).length,
+    [currentItems]
+  );
+  const interestedOnPageRate = currentItems.length
+    ? Math.round((interestedOnPageCount / currentItems.length) * 100)
+    : 0;
 
   async function fetchSemanticResults(
     nextOffset: number,
@@ -179,6 +252,18 @@ export function TenderDashboardExplorer() {
     setPage(1);
   }
 
+  function handleFilterChange(next: TenderFilterValues) {
+    setFilters(next);
+    setMode("default");
+    setPage(1);
+  }
+
+  function handleFilterReset() {
+    setFilters(DEFAULT_FILTER_VALUES);
+    setMode("default");
+    setPage(1);
+  }
+
   return (
     <section className="space-y-4">
       <div className="rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-white to-slate-50 p-4 shadow-sm">
@@ -206,10 +291,11 @@ export function TenderDashboardExplorer() {
           <div className="rounded-xl border border-indigo-200 bg-indigo-50/60 px-3 py-2.5">
             <p className="inline-flex items-center gap-1 text-[11px] font-medium uppercase tracking-wide text-indigo-800">
               <Flame className="h-3.5 w-3.5" aria-hidden />
-              Search mode
+              Interested (current page)
             </p>
-            <p className="mt-1 text-sm font-medium text-indigo-700">
-              {mode === "semantic" ? `${searchMode} mode` : "Standard listing"}
+            <p className="mt-1 text-xl font-semibold tabular-nums text-indigo-700">{interestedOnPageCount}</p>
+            <p className="text-xs text-indigo-700/80">
+              {interestedOnPageRate}% of visible tenders marked interested
             </p>
           </div>
         </div>
@@ -227,7 +313,7 @@ export function TenderDashboardExplorer() {
 
       <div className="grid grid-cols-12 gap-4 lg:gap-6">
         <div className="col-span-12 lg:col-span-3">
-          <TenderFilters />
+          <TenderFilters values={filters} onChange={handleFilterChange} onReset={handleFilterReset} />
         </div>
 
         <div className="col-span-12 space-y-4 lg:col-span-9">
