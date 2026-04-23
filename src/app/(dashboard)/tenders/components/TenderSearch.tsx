@@ -7,10 +7,20 @@ interface TenderSearchProps {
   onChange: (value: string) => void;
   onSubmit: () => void;
   onReset: () => void;
+  searchMode: "semantic" | "keyword" | "hybrid";
+  onSearchModeChange: (mode: "semantic" | "keyword" | "hybrid") => void;
   isLoading?: boolean;
 }
 
-export function TenderSearch({ value, onChange, onSubmit, onReset, isLoading = false }: TenderSearchProps) {
+export function TenderSearch({
+  value,
+  onChange,
+  onSubmit,
+  onReset,
+  searchMode,
+  onSearchModeChange,
+  isLoading = false
+}: TenderSearchProps) {
   return (
     <div className="rounded-2xl border border-border bg-white p-4 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -39,6 +49,24 @@ export function TenderSearch({ value, onChange, onSubmit, onReset, isLoading = f
         <Button variant="ghost" className="sm:w-auto" onClick={onReset} disabled={isLoading}>
           Clear
         </Button>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+        <span className="text-slate-500">Mode:</span>
+        {(["hybrid", "semantic", "keyword"] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            onClick={() => onSearchModeChange(mode)}
+            className={`rounded-full border px-2.5 py-1 font-medium transition-colors ${
+              searchMode === mode
+                ? "border-indigo-300 bg-indigo-50 text-indigo-700"
+                : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+            }`}
+          >
+            {mode[0].toUpperCase()}
+            {mode.slice(1)}
+          </button>
+        ))}
       </div>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
         <span className="text-slate-500">Quick picks:</span>

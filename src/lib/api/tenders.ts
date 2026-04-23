@@ -103,6 +103,8 @@ export type TendersQuery = {
 export interface TenderSemanticSearchRequest {
   query: string;
   top_k?: number;
+  offset?: number;
+  search_mode?: "semantic" | "keyword" | "hybrid";
   is_active?: boolean;
   location?: string;
   product_category?: string;

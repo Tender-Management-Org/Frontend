@@ -17,11 +17,16 @@ export function TenderDashboardExplorer() {
   const [semanticResults, setSemanticResults] = useState<TenderItem[]>([]);
   const [query, setQuery] = useState("");
   const [mode, setMode] = useState<"default" | "semantic">("default");
+  const [searchMode, setSearchMode] = useState<"semantic" | "keyword" | "hybrid">("hybrid");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [hasLoadedPageSizePreference, setHasLoadedPageSizePreference] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [hasMoreSemanticResults, setHasMoreSemanticResults] = useState(false);
+  const [activeSemanticQuery, setActiveSemanticQuery] = useState("");
+  const [activeSemanticMode, setActiveSemanticMode] = useState<"semantic" | "keyword" | "hybrid">("hybrid");
   const [interestedIds, setInterestedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -93,6 +98,7 @@ export function TenderDashboardExplorer() {
 
   const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
   const currentItems = mode === "semantic" ? decoratedSemanticItems : decoratedItems;
+  const semanticTopK = Math.min(pageSize * 3, 200);
 
   const closingSoonCount = useMemo(() => {
     const today = new Date();
@@ -106,28 +112,47 @@ export function TenderDashboardExplorer() {
     }).length;
   }, [currentItems]);
 
+  async function fetchSemanticResults(
+    nextOffset: number,
+    shouldAppend: boolean,
+    queryText: string,
+    modeValue: "semantic" | "keyword" | "hybrid"
+  ) {
+    const trimmed = queryText.trim();
+    if (!trimmed) return;
+
+    const results = await semanticSearchTenders({
+      query: trimmed,
+      top_k: semanticTopK,
+      offset: nextOffset,
+      search_mode: modeValue,
+      is_active: true
+    });
+    const mapped = results.map(mapTenderSemanticResultToUi);
+    setSemanticResults((prev) => (shouldAppend ? [...prev, ...mapped] : mapped));
+    setHasMoreSemanticResults(mapped.length === semanticTopK);
+    setTotalCount((prev) => (shouldAppend ? prev + mapped.length : mapped.length));
+  }
+
   async function handleSemanticSearch() {
     const trimmed = query.trim();
     if (!trimmed) {
       setMode("default");
       setPage(1);
+      setHasMoreSemanticResults(false);
       return;
     }
     setIsLoading(true);
     try {
-      const results = await semanticSearchTenders({
-        query: trimmed,
-        top_k: 200,
-        is_active: true
-      });
-      const mapped = results.map(mapTenderSemanticResultToUi);
-      setSemanticResults(mapped);
-      setTotalCount(mapped.length);
+      await fetchSemanticResults(0, false, trimmed, searchMode);
+      setActiveSemanticQuery(trimmed);
+      setActiveSemanticMode(searchMode);
       setMode("semantic");
       setPage(1);
     } catch {
       setSemanticResults([]);
       setTotalCount(0);
+      setHasMoreSemanticResults(false);
       setMode("semantic");
       setPage(1);
     } finally {
@@ -135,9 +160,21 @@ export function TenderDashboardExplorer() {
     }
   }
 
+  async function handleLoadMoreSemanticResults() {
+    if (isLoadingMore || !hasMoreSemanticResults || mode !== "semantic") return;
+    setIsLoadingMore(true);
+    try {
+      await fetchSemanticResults(semanticResults.length, true, activeSemanticQuery, activeSemanticMode);
+    } finally {
+      setIsLoadingMore(false);
+    }
+  }
+
   function handleResetSearch() {
     setQuery("");
     setSemanticResults([]);
+    setHasMoreSemanticResults(false);
+    setActiveSemanticQuery("");
     setMode("default");
     setPage(1);
   }
@@ -172,7 +209,7 @@ export function TenderDashboardExplorer() {
               Search mode
             </p>
             <p className="mt-1 text-sm font-medium text-indigo-700">
-              {mode === "semantic" ? "Semantic ranking enabled" : "Standard listing"}
+              {mode === "semantic" ? `${searchMode} mode` : "Standard listing"}
             </p>
           </div>
         </div>
@@ -183,6 +220,8 @@ export function TenderDashboardExplorer() {
         onChange={setQuery}
         onSubmit={handleSemanticSearch}
         onReset={handleResetSearch}
+        searchMode={searchMode}
+        onSearchModeChange={setSearchMode}
         isLoading={isLoading}
       />
 
@@ -221,7 +260,22 @@ export function TenderDashboardExplorer() {
 
           <TenderList tenders={currentItems} />
 
-          <div className="flex items-center justify-end gap-2">
+          <div className="flex items-center justify-between gap-2">
+            <button
+              type="button"
+              onClick={handleLoadMoreSemanticResults}
+              disabled={
+                mode !== "semantic" ||
+                !hasMoreSemanticResults ||
+                isLoading ||
+                isLoadingMore ||
+                query.trim() !== activeSemanticQuery ||
+                searchMode !== activeSemanticMode
+              }
+              className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isLoadingMore ? "Loading..." : "Load more results"}
+            </button>
             <button
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
