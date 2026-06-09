@@ -4,11 +4,11 @@ import type { ReactNode } from "react";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="flex h-screen overflow-hidden bg-ink-50">
       <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col md:pl-0">
+      <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Navbar />
-        <main className="flex-1 scroll-smooth overflow-y-auto p-4 sm:p-6 lg:p-8">{children}</main>
+        <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>
     </div>
   );

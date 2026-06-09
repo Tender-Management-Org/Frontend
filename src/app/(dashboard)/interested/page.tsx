@@ -1,23 +1,20 @@
 import Link from "next/link";
-import { Card } from "@/components/ui/Card";
 import { ApiError } from "@/lib/api/client";
 import { getInterestedTenders, type InterestedTenderApi } from "@/lib/api/tenders";
 import { redirect } from "next/navigation";
-import { ArrowRight, Building2, CalendarDays, Clock3, Files, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, Bookmark, Building2, CalendarDays, FolderOpen, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function formatInr(value: string) {
   const num = Number(value);
   if (!Number.isFinite(num)) return value;
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0
-  }).format(num);
+  if (num >= 10_000_000) return `₹${(num / 10_000_000).toFixed(2)} Cr`;
+  if (num >= 100_000) return `₹${(num / 100_000).toFixed(2)} L`;
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(num);
 }
 
 function formatDateTime(value: string | null) {
-  if (!value) return "Not available";
+  if (!value) return "—";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
   return date.toLocaleString("en-IN", {
@@ -25,34 +22,29 @@ function formatDateTime(value: string | null) {
     month: "short",
     year: "numeric",
     hour: "2-digit",
-    minute: "2-digit"
+    minute: "2-digit",
+    timeZone: "Asia/Kolkata",
   });
 }
 
 function deadlineMeta(value: string | null) {
-  if (!value) {
-    return { label: "No deadline provided", tone: "neutral" as const };
-  }
+  if (!value) return { label: "No deadline", tone: "neutral" as const };
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return { label: "Date unavailable", tone: "neutral" as const };
-  }
+  if (Number.isNaN(date.getTime())) return { label: "Date unavailable", tone: "neutral" as const };
   const now = new Date();
-  const diffMs = date.getTime() - now.getTime();
-  const daysLeft = Math.ceil(diffMs / 86400000);
-  if (daysLeft < 0) {
-    return { label: "Closed", tone: "danger" as const };
-  }
-  if (daysLeft === 0) {
-    return { label: "Due today", tone: "danger" as const };
-  }
-  if (daysLeft <= 3) {
-    return { label: `${daysLeft} day${daysLeft > 1 ? "s" : ""} left`, tone: "danger" as const };
-  }
-  if (daysLeft <= 7) {
-    return { label: `${daysLeft} day${daysLeft > 1 ? "s" : ""} left`, tone: "warning" as const };
-  }
-  return { label: `${daysLeft} day${daysLeft > 1 ? "s" : ""} left`, tone: "neutral" as const };
+  const daysLeft = Math.ceil((date.getTime() - now.getTime()) / 86400000);
+  if (daysLeft < 0) return { label: "Closed", tone: "danger" as const };
+  if (daysLeft === 0) return { label: "Due today", tone: "danger" as const };
+  if (daysLeft <= 3) return { label: `${daysLeft}d left`, tone: "danger" as const };
+  if (daysLeft <= 7) return { label: `${daysLeft}d left`, tone: "warning" as const };
+  return { label: `${daysLeft}d left`, tone: "neutral" as const };
+}
+
+function fitBand(score: number | null | undefined): { label: string; color: string; bar: string } {
+  if (score == null) return { label: "—", color: "text-ink-400", bar: "bg-ink-200" };
+  if (score >= 80) return { label: `${score} · High`, color: "text-success-700", bar: "bg-success-500" };
+  if (score >= 60) return { label: `${score} · Medium`, color: "text-warning-700", bar: "bg-warning-500" };
+  return { label: `${score} · Low`, color: "text-danger-600", bar: "bg-danger-500" };
 }
 
 export default async function InterestedPage() {
@@ -67,115 +59,131 @@ export default async function InterestedPage() {
   }
 
   return (
-    <section className="space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-gradient-to-r from-violet-50 via-white to-indigo-50 p-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-semibold text-slate-900">Interested dashboard</h2>
-            <p className="text-sm text-slate-600">
-              Track shortlisted tenders and move quickly on high-fit opportunities.
+    <section className="mx-auto w-full max-w-7xl space-y-5">
+      {/* Header */}
+      <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2">
+              <Bookmark className="h-5 w-5 text-violet-600" aria-hidden />
+              <h1 className="text-xl font-bold text-ink-900">Interested tenders</h1>
+              <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-violet-600 px-1.5 text-xs font-bold text-white">
+                {items.length}
+              </span>
+            </div>
+            <p className="mt-1 text-sm text-ink-500">
+              Your shortlisted pipeline — take action before deadlines close.
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/tenders"
-              className="inline-flex h-9 items-center gap-1 rounded-lg border border-slate-300 bg-white px-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-            >
-              Explore tenders
-            </Link>
-            <span className="inline-flex h-9 items-center rounded-lg bg-slate-900 px-3 text-sm font-medium text-white">
-              {items.length} shortlisted
-            </span>
-          </div>
+          <Link
+            href="/tenders"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-ink-200 bg-white px-4 py-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+          >
+            Explore more tenders
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
         </div>
       </div>
 
+      {/* Empty state */}
       {items.length === 0 ? (
-        <Card>
-          <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-10 text-center">
-            <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100">
-              <Sparkles className="h-5 w-5 text-slate-500" aria-hidden />
-            </div>
-            <p className="text-sm font-medium text-slate-700">No interested tenders yet.</p>
-            <p className="mt-1 text-sm text-slate-500">Shortlist tenders from the explorer to build your pipeline.</p>
-            <Link
-              href="/tenders"
-              className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-slate-700 underline-offset-4 hover:underline"
-            >
-              Browse tenders
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-            </Link>
+        <div className="flex flex-col items-center rounded-2xl border border-dashed border-ink-200 bg-white py-20 text-center shadow-card">
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50">
+            <Bookmark className="h-8 w-8 text-violet-400" />
           </div>
-        </Card>
+          <h3 className="text-base font-semibold text-ink-800">No shortlisted tenders yet</h3>
+          <p className="mt-1 max-w-xs text-sm text-ink-400">
+            Browse the tender explorer and mark relevant tenders as &ldquo;Interested&rdquo; to build your pipeline.
+          </p>
+          <Link
+            href="/tenders"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+          >
+            Browse tenders
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </div>
       ) : (
         <div className="space-y-3">
           {items.map((item) => {
-            const deadline = deadlineMeta(item.bid_submission_end_date);
+            const dl = deadlineMeta(item.bid_submission_end_date);
+            const fit = fitBand(item.fit_score);
             return (
-              <Card
+              <article
                 key={item.match_id}
-                className="space-y-4 border-slate-200 p-5 transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+                className="group rounded-2xl border border-ink-200 bg-white p-5 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5"
               >
-                <div className="flex flex-wrap items-start justify-between gap-2">
-                <div className="space-y-1">
-                  <h3 className="text-lg font-semibold leading-snug text-slate-900">{item.title}</h3>
-                  <p className="text-xs text-slate-400">Tender ID: {item.tender_id}</p>
-                  <p className="flex items-center gap-1.5 text-sm text-slate-600">
-                    <Building2 className="h-4 w-4 text-slate-400" aria-hidden />
-                    {item.organisation_chain}
-                  </p>
+                {/* Top row */}
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0 flex-1 space-y-1">
+                    <h3 className="text-base font-semibold leading-snug text-ink-900">{item.title}</h3>
+                    <p className="text-xs font-mono text-ink-400">#{item.tender_id}</p>
+                    <p className="flex items-center gap-1.5 text-sm text-ink-500">
+                      <Building2 className="h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
+                      <span className="truncate">{item.organisation_chain}</span>
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-col items-end gap-1.5">
+                    <span className="rounded-full border border-violet-200 bg-violet-50 px-2.5 py-0.5 text-xs font-semibold text-violet-700">
+                      Interested
+                    </span>
+                    <span
+                      className={cn(
+                        "rounded-full px-2.5 py-0.5 text-xs font-semibold",
+                        dl.tone === "danger" && "bg-danger-50 text-danger-700 border border-danger-200",
+                        dl.tone === "warning" && "bg-warning-50 text-warning-700 border border-warning-200",
+                        dl.tone === "neutral" && "bg-ink-100 text-ink-600"
+                      )}
+                    >
+                      {dl.label}
+                    </span>
+                  </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-medium text-violet-700">Interested</span>
-                  <span
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium",
-                      deadline.tone === "danger" && "bg-rose-100 text-rose-700",
-                      deadline.tone === "warning" && "bg-amber-100 text-amber-700",
-                      deadline.tone === "neutral" && "bg-slate-100 text-slate-600"
-                    )}
+
+                {/* Meta row */}
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <div className="rounded-lg bg-ink-50 px-2.5 py-2">
+                    <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Location</p>
+                    <p className="flex items-center gap-1 text-xs font-medium text-ink-700">
+                      <MapPin className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+                      <span className="truncate">{item.location || "—"}</span>
+                    </p>
+                  </div>
+                  <div className="rounded-lg bg-ink-50 px-2.5 py-2">
+                    <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Value</p>
+                    <p className="text-xs font-semibold text-ink-800 truncate">{formatInr(item.tender_value)}</p>
+                  </div>
+                  <div className="rounded-lg bg-ink-50 px-2.5 py-2">
+                    <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Deadline</p>
+                    <p className="flex items-center gap-1 text-xs font-medium text-ink-700">
+                      <CalendarDays className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+                      <span className="truncate">{formatDateTime(item.bid_submission_end_date)}</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Fit score */}
+                <div className="mt-3 flex items-center gap-2">
+                  <div className="h-1.5 w-20 overflow-hidden rounded-full bg-ink-100" aria-hidden>
+                    <div
+                      className={cn("h-full rounded-full", fit.bar)}
+                      style={{ width: `${item.fit_score ?? 0}%` }}
+                    />
+                  </div>
+                  <span className={cn("text-xs font-semibold", fit.color)}>Fit: {fit.label}</span>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-4 flex items-center justify-end border-t border-ink-100 pt-3">
+                  <Link
+                    href={`/interested/${encodeURIComponent(item.tender_id)}/workspace`}
+                    className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                   >
-                    <Clock3 className="h-3 w-3" aria-hidden />
-                    {deadline.label}
-                  </span>
+                    <FolderOpen className="h-4 w-4" aria-hidden />
+                    Open Filing Workspace
+                  </Link>
                 </div>
-              </div>
-
-              <div className="grid gap-2.5 sm:grid-cols-3">
-                <div className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-600">
-                  <p className="mb-1 text-[11px] uppercase tracking-wide text-slate-500">Location</p>
-                  <p className="flex items-center gap-1.5 font-medium text-slate-700">
-                    <MapPin className="h-4 w-4 text-slate-400" aria-hidden />
-                    {item.location || "Not specified"}
-                  </p>
-                </div>
-                <div className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-600">
-                  <p className="mb-1 text-[11px] uppercase tracking-wide text-slate-500">Tender value</p>
-                  <p className="font-semibold text-slate-800">{formatInr(item.tender_value)}</p>
-                </div>
-                <div className="rounded-lg border border-slate-200 bg-slate-50/70 px-3 py-2 text-sm text-slate-600">
-                  <p className="mb-1 text-[11px] uppercase tracking-wide text-slate-500">Submission deadline</p>
-                  <p className="flex items-center gap-1.5 font-medium text-slate-700">
-                    <CalendarDays className="h-4 w-4 text-slate-400" aria-hidden />
-                    {formatDateTime(item.bid_submission_end_date)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
-                <p className="inline-flex items-center gap-1.5 text-xs text-slate-500">
-                  <Files className="h-3.5 w-3.5" aria-hidden />
-                  Fit score: <span className="font-semibold text-slate-700">{item.fit_score}</span>
-                </p>
-                <Link
-                  href={`/interested/${encodeURIComponent(item.tender_id)}/workspace`}
-                  className="inline-flex h-9 items-center gap-1 rounded-lg bg-slate-900 px-3.5 text-sm font-medium text-white transition-colors hover:bg-slate-800"
-                >
-                  Open Filing Workspace
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden />
-                </Link>
-              </div>
-            </Card>
+              </article>
             );
           })}
         </div>

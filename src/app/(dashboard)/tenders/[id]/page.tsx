@@ -2,17 +2,36 @@ import { mapTenderDetailToLegacyShape } from "@/lib/api/tenderAdapters";
 import { ApiError } from "@/lib/api/client";
 import { getTenderDetail } from "@/lib/api/tenders";
 import type { TenderDetail } from "@/types/tenderDetail";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CalendarClock, Clock4, IndianRupee, Tag } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ActionBar } from "./components/ActionBar";
 import { TenderDetailView } from "./components/TenderDetailView";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
 type PageProps = {
   params: { id: string };
 };
+
+function formatInr(n: number): string {
+  if (!Number.isFinite(n)) return "—";
+  if (n >= 10_000_000) return `₹${(n / 10_000_000).toFixed(2)} Cr`;
+  if (n >= 100_000) return `₹${(n / 100_000).toFixed(2)} L`;
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
+}
+
+function deadlineUrgency(isoDate: string | null | undefined): "danger" | "warning" | "neutral" {
+  if (!isoDate) return "neutral";
+  const d = new Date(isoDate);
+  if (Number.isNaN(d.getTime())) return "neutral";
+  const now = new Date();
+  const days = Math.round((d.getTime() - now.getTime()) / 86400000);
+  if (days <= 3) return "danger";
+  if (days <= 7) return "warning";
+  return "neutral";
+}
 
 export default async function TenderDetailPage({ params }: PageProps) {
   const id = decodeURIComponent(params.id);
@@ -21,79 +40,127 @@ export default async function TenderDetailPage({ params }: PageProps) {
     const detail = await getTenderDetail(id);
     tender = mapTenderDetailToLegacyShape(detail);
   } catch (error) {
-    if (error instanceof ApiError && error.status === 404) {
-      notFound();
-    }
-    if (error instanceof ApiError && error.status === 401) {
+    if (error instanceof ApiError && error.status === 404) notFound();
+    if (error instanceof ApiError && error.status === 401)
       redirect(`/login?next=${encodeURIComponent(`/tenders/${id}`)}`);
-    }
     throw error;
   }
 
   const title = tender.work_items.title;
   const subtitle = tender.basic_details.organisation_chain;
   const bidSubmissionEnd = tender.critical_dates.bid_submission_end_date;
+  const urgency = deadlineUrgency(bidSubmissionEnd);
+
+  const formattedDeadline = bidSubmissionEnd
+    ? new Intl.DateTimeFormat("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Kolkata",
+      }).format(new Date(bidSubmissionEnd))
+    : "Not specified";
 
   return (
-    <section className="space-y-6">
-      <div className="flex flex-col gap-4">
-        <Link
-          href="/tenders"
-          className="inline-flex w-fit items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to tenders
-        </Link>
+    <section className="mx-auto w-full max-w-7xl space-y-5">
+      {/* Back nav */}
+      <Link
+        href="/tenders"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition-colors hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 rounded-md"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to tenders
+      </Link>
 
-        <div className="relative overflow-hidden rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-slate-50 to-transparent" />
+      {/* Hero */}
+      <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-ink-200 bg-ink-50 px-2.5 py-1 text-xs font-semibold text-ink-600">
+            {tender.basic_details.tender_category || "Works"}
+          </span>
+          <span className="text-xs font-mono text-ink-400">#{tender.basic_details.tender_id}</span>
+        </div>
 
-          <div className="relative flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
-            <div className="space-y-3">
-              <span className="inline-flex w-fit items-center rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700">
-                {tender.basic_details.tender_category}
-              </span>
-              <div>
-                <h1 className="text-2xl font-semibold tracking-tight text-slate-900">{title}</h1>
-                <p className="mt-1 text-sm text-slate-600">{subtitle}</p>
-                <p className="mt-2 text-xs text-slate-500">Tender ID: {tender.basic_details.tender_id}</p>
-              </div>
+        <h1 className="mt-3 text-xl font-bold leading-snug text-ink-900 sm:text-2xl">{title}</h1>
+        <p className="mt-1.5 flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs text-ink-500">
+          {subtitle
+            ? subtitle.split("||").map((part, i, arr) => (
+                <span key={i} className="flex items-center gap-1">
+                  {i > 0 && <span className="text-ink-300 select-none">›</span>}
+                  <span className={i === arr.length - 1 ? "font-semibold text-ink-700" : ""}>{part.trim()}</span>
+                </span>
+              ))
+            : null}
+        </p>
+
+        {/* Quick stat pills */}
+        <div className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="flex items-center gap-2.5 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
+            <IndianRupee className="h-4 w-4 shrink-0 text-ink-400" aria-hidden />
+            <div>
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Tender value</p>
+              <p className="text-sm font-bold text-ink-900">{formatInr(tender.work_items.tender_value)}</p>
             </div>
-
           </div>
-
-          <div className="relative mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Tender value</p>
-              <p className="mt-1 text-sm font-semibold text-slate-900">
-                INR {Math.round(tender.work_items.tender_value).toLocaleString("en-IN")}
+          <div className="flex items-center gap-2.5 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
+            <Clock4 className="h-4 w-4 shrink-0 text-ink-400" aria-hidden />
+            <div>
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Bid validity</p>
+              <p className="text-sm font-bold text-ink-900">{tender.work_items.bid_validity_days} days</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
+            <Tag className="h-4 w-4 shrink-0 text-ink-400" aria-hidden />
+            <div>
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Contract type</p>
+              <p className="text-sm font-bold text-ink-900">{tender.work_items.contract_type || "—"}</p>
+            </div>
+          </div>
+          <div
+            className={cn(
+              "flex items-center gap-2.5 rounded-xl border px-4 py-3",
+              urgency === "danger" ? "border-danger-200 bg-danger-50" :
+              urgency === "warning" ? "border-warning-200 bg-warning-50" :
+              "border-ink-200 bg-ink-50"
+            )}
+          >
+            <CalendarClock
+              className={cn(
+                "h-4 w-4 shrink-0",
+                urgency === "danger" ? "text-danger-600" :
+                urgency === "warning" ? "text-warning-600" : "text-ink-400"
+              )}
+              aria-hidden
+            />
+            <div>
+              <p className={cn(
+                "text-2xs font-semibold uppercase tracking-wide",
+                urgency === "danger" ? "text-danger-600" :
+                urgency === "warning" ? "text-warning-600" : "text-ink-400"
+              )}>
+                Submission closes
               </p>
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Bid validity</p>
-              <p className="mt-1 text-sm font-semibold text-slate-900">{tender.work_items.bid_validity_days} days</p>
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Contract type</p>
-              <p className="mt-1 text-sm font-semibold text-slate-900">{tender.work_items.contract_type}</p>
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-3">
-              <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Submission closes</p>
-              <p className="mt-1 text-sm font-semibold text-slate-900">
-                {bidSubmissionEnd ? new Date(bidSubmissionEnd).toLocaleString() : "Not specified"}
+              <p className={cn(
+                "text-sm font-bold",
+                urgency === "danger" ? "text-danger-700" :
+                urgency === "warning" ? "text-warning-700" : "text-ink-900"
+              )}>
+                {formattedDeadline}
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-12 space-y-6 lg:col-span-8">
+      {/* Content + Action sidebar */}
+      <div className="grid grid-cols-12 gap-5">
+        <div className="col-span-12 lg:col-span-8">
           <TenderDetailView data={tender} />
         </div>
-
         <div className="col-span-12 lg:col-span-4">
-          <div className="space-y-6 lg:sticky lg:top-24">
+          <div className="space-y-5 lg:sticky lg:top-6">
             <ActionBar tenderId={id} />
           </div>
         </div>

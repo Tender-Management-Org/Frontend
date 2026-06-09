@@ -8,21 +8,46 @@ import {
   Building2,
   ChevronLeft,
   ChevronRight,
-  FileText,
+  FileSearch,
   LayoutDashboard,
   Lock,
   Menu,
   Sparkles,
-  X
+  X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const menuItems = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Firm", href: "/firm", icon: Building2 },
-  { name: "Tenders", href: "/tenders", icon: FileText },
-  { name: "Interested", href: "/interested", icon: Bookmark },
-  { name: "Recommendations", href: "/recommendations", icon: Sparkles }
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+    description: "Pipeline overview",
+  },
+  {
+    name: "Firm",
+    href: "/firm",
+    icon: Building2,
+    description: "Company profile",
+  },
+  {
+    name: "Tenders",
+    href: "/tenders",
+    icon: FileSearch,
+    description: "Browse & search",
+  },
+  {
+    name: "Interested",
+    href: "/interested",
+    icon: Bookmark,
+    description: "Your shortlist",
+  },
+  {
+    name: "Recommendations",
+    href: "/recommendations",
+    icon: Sparkles,
+    description: "AI suggestions",
+  },
 ];
 
 export function Sidebar() {
@@ -42,87 +67,127 @@ export function Sidebar() {
 
   return (
     <>
+      {/* Mobile hamburger */}
       <button
         type="button"
         onClick={() => setIsMobileOpen(true)}
-        className="fixed left-4 top-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white/95 text-slate-700 shadow-sm backdrop-blur md:hidden"
+        aria-label="Open navigation"
+        className="fixed left-4 top-4 z-40 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-700 shadow-sm md:hidden"
       >
-        <Menu className="h-5 w-5" />
+        <Menu className="h-4 w-4" />
       </button>
 
+      {/* Mobile backdrop */}
       {isMobileOpen && (
         <button
           type="button"
-          aria-label="Close mobile menu overlay"
+          aria-label="Close navigation"
           onClick={() => setIsMobileOpen(false)}
-          className="fixed inset-0 z-40 bg-slate-900/40 md:hidden"
+          className="fixed inset-0 z-40 bg-ink-900/50 backdrop-blur-sm md:hidden"
         />
       )}
 
+      {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col border-r border-slate-200 bg-white/90 p-4 shadow-xl shadow-slate-900/10 backdrop-blur transition-all duration-300 md:static md:z-auto md:shadow-none",
-          isCollapsed ? "w-[84px]" : "w-64",
+          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col bg-white shadow-sidebar transition-all duration-300 md:static md:z-auto",
+          isCollapsed ? "w-[68px]" : "w-60",
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
-        <div className="mb-8 flex items-center justify-between gap-2">
+        {/* Brand */}
+        <div
+          className={cn(
+            "flex h-16 shrink-0 items-center border-b border-ink-100",
+            isCollapsed ? "justify-center px-0" : "justify-between px-4"
+          )}
+        >
           {!isCollapsed && (
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">TenderPilot</p>
-              <p className="text-sm font-semibold text-slate-900">Workspace</p>
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-widest text-navy-600">TenderPilot</p>
+              <p className="truncate text-sm font-semibold text-ink-800">Workspace</p>
             </div>
           )}
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1">
             <button
               type="button"
               onClick={() => setIsCollapsed((prev) => !prev)}
-              className="hidden h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 md:inline-flex"
+              aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              className="hidden h-7 w-7 items-center justify-center rounded-md text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 md:inline-flex"
             >
-              {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+              {isCollapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronLeft className="h-3.5 w-3.5" />}
             </button>
             <button
               type="button"
               onClick={() => setIsMobileOpen(false)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 md:hidden"
+              aria-label="Close navigation"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 md:hidden"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5" />
             </button>
           </div>
         </div>
 
-        <nav className="space-y-1.5">
-          {menuItems.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              (pathname.startsWith(item.href) && item.href !== "/dashboard" && item.href.length > 1);
-            const Icon = item.icon;
+        {/* Nav */}
+        <nav aria-label="Main navigation" className="flex-1 overflow-y-auto px-2 py-4">
+          <ul className="space-y-0.5">
+            {menuItems.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== "/dashboard" && pathname.startsWith(item.href));
+              const Icon = item.icon;
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setIsMobileOpen(false)}
-                className={cn(
-                  "flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
-                  isCollapsed ? "justify-center" : "gap-3",
-                  isActive
-                    ? "bg-slate-900 text-white shadow-sm shadow-slate-900/20"
-                    : "text-slate-700 hover:bg-slate-100/90 hover:text-slate-900"
-                )}
-              >
-                <Icon className="h-4 w-4 shrink-0" />
-                {!isCollapsed && <span>{item.name}</span>}
-                {!isOnboardingComplete && (
-                  <Lock
-                    className={cn("h-3.5 w-3.5 shrink-0", isCollapsed ? "absolute right-2 top-2" : "ml-auto")}
-                    aria-label={`${item.name} locked until onboarding is complete`}
-                  />
-                )}
-              </Link>
-            );
-          })}
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    className={cn(
+                      "group relative flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
+                      isCollapsed ? "justify-center" : "gap-3",
+                      isActive
+                        ? "bg-navy-600 text-white shadow-sm"
+                        : "text-ink-600 hover:bg-ink-100 hover:text-ink-900"
+                    )}
+                    title={isCollapsed ? item.name : undefined}
+                  >
+                    <Icon
+                      className={cn(
+                        "h-4 w-4 shrink-0",
+                        isActive ? "text-white" : "text-ink-400 group-hover:text-ink-700"
+                      )}
+                      aria-hidden
+                    />
+                    {!isCollapsed && (
+                      <>
+                        <span className="flex-1 truncate">{item.name}</span>
+                        {!isOnboardingComplete && item.href !== "/dashboard" && (
+                          <Lock
+                            className="h-3 w-3 shrink-0 text-ink-300"
+                            aria-label={`${item.name} locked until onboarding is complete`}
+                          />
+                        )}
+                      </>
+                    )}
+                    {isCollapsed && !isOnboardingComplete && item.href !== "/dashboard" && (
+                      <Lock
+                        className="absolute right-1 top-1 h-2.5 w-2.5 text-ink-300"
+                        aria-label={`${item.name} locked`}
+                      />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </nav>
+
+        {/* Footer */}
+        {!isCollapsed && (
+          <div className="shrink-0 border-t border-ink-100 px-4 py-3">
+            <p className="text-xs text-ink-400">TenderPilot &copy; 2026</p>
+          </div>
+        )}
       </aside>
     </>
   );

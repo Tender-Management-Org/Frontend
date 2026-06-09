@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 interface StepperProps {
   steps: string[];
@@ -7,49 +8,62 @@ interface StepperProps {
 }
 
 export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
-  const progress = ((currentStep + 1) / steps.length) * 100;
-
   return (
-    <div className="space-y-4">
-      <div className="h-2 w-full rounded-full bg-slate-100">
-        <div className="h-2 rounded-full bg-slate-900 transition-all" style={{ width: `${progress}%` }} />
-      </div>
+    <ol className="flex items-center gap-0" role="list" aria-label="Onboarding steps">
+      {steps.map((step, index) => {
+        const isComplete = index < currentStep;
+        const isActive = index === currentStep;
+        const isClickable = !!onStepClick && (isComplete || isActive);
 
-      <ol
-        className="grid grid-cols-2 gap-3"
-        style={{ gridTemplateColumns: `repeat(${Math.min(steps.length, 3)}, minmax(0, 1fr))` }}
-      >
-        {steps.map((step, index) => {
-          const isActive = index === currentStep;
-          const isComplete = index < currentStep;
-          const isClickable = !!onStepClick && (isComplete || isActive);
-
-          return (
-            <li
-              key={step}
-              className="list-none"
+        return (
+          <li key={step} className="flex flex-1 items-center">
+            <button
+              type="button"
+              onClick={() => isClickable && onStepClick?.(index)}
+              disabled={!isClickable}
+              aria-current={isActive ? "step" : undefined}
+              className={cn(
+                "flex w-full flex-col items-center gap-2 py-2 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2",
+                isClickable ? "cursor-pointer" : "cursor-default"
+              )}
             >
-              <button
-                type="button"
-                onClick={() => onStepClick?.(index)}
-                disabled={!isClickable}
+              {/* Circle */}
+              <span
                 className={cn(
-                  "w-full rounded-lg border px-3 py-2 text-left text-sm font-medium",
-                  isActive && "border-slate-900 bg-slate-900 text-white",
-                  isComplete && "border-slate-300 bg-slate-100 text-slate-700",
-                  !isActive && !isComplete && "border-border bg-white text-slate-400",
-                  isClickable && "transition-colors hover:border-slate-400",
-                  !isClickable && "cursor-not-allowed opacity-70"
+                  "flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-bold transition-all",
+                  isComplete && "border-navy-600 bg-navy-600 text-white",
+                  isActive && "border-navy-600 bg-white text-navy-700 shadow-sm",
+                  !isComplete && !isActive && "border-ink-200 bg-white text-ink-400"
                 )}
-                aria-current={isActive ? "step" : undefined}
               >
-                <p className="text-xs uppercase tracking-wide">Step {index + 1}</p>
-                <p className="mt-1">{step}</p>
-              </button>
-            </li>
-          );
-        })}
-      </ol>
-    </div>
+                {isComplete ? <Check className="h-4 w-4" /> : index + 1}
+              </span>
+              {/* Label */}
+              <span
+                className={cn(
+                  "hidden text-xs font-medium sm:block",
+                  isActive && "text-navy-700",
+                  isComplete && "text-ink-600",
+                  !isComplete && !isActive && "text-ink-400"
+                )}
+              >
+                {step}
+              </span>
+            </button>
+
+            {/* Connector line */}
+            {index < steps.length - 1 && (
+              <div
+                className={cn(
+                  "h-0.5 flex-1 transition-colors",
+                  index < currentStep ? "bg-navy-600" : "bg-ink-200"
+                )}
+                aria-hidden
+              />
+            )}
+          </li>
+        );
+      })}
+    </ol>
   );
 }

@@ -1,39 +1,48 @@
 "use client";
 
-import { Bell, User } from "lucide-react";
+import { Bell, ChevronDown, LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { clearAuthTokens, hasAuthSession } from "@/lib/api/client";
 import { emitToast } from "@/lib/toast";
+import { cn } from "@/lib/utils";
 
 const titleMap: Record<string, string> = {
   "/dashboard": "Dashboard",
-  "/firm": "Firm",
-  "/onboarding": "Firm Onboarding",
-  "/tenders": "Tenders",
-  "/recommendations": "Recommendations"
+  "/firm": "Firm workspace",
+  "/onboarding": "Firm onboarding",
+  "/tenders": "Tender explorer",
+  "/interested": "Interested tenders",
+  "/recommendations": "Recommendations",
 };
 
 const sectionMap: Record<string, string> = {
-  "/dashboard": "Main dashboard",
-  "/firm": "Firm dashboard",
-  "/onboarding": "Onboarding dashboard",
-  "/tenders": "Tender dashboard",
-  "/recommendations": "Recommendation dashboard"
+  "/dashboard": "Main",
+  "/firm": "Firm",
+  "/onboarding": "Setup",
+  "/tenders": "Tenders",
+  "/interested": "Pipeline",
+  "/recommendations": "Insights",
 };
+
+function getRouteContext(pathname: string) {
+  if (pathname.startsWith("/tenders/") && pathname !== "/tenders") {
+    return { section: "Tenders", title: "Tender detail" };
+  }
+  if (pathname.startsWith("/interested/") && pathname.includes("/workspace")) {
+    return { section: "Pipeline", title: "Filing workspace" };
+  }
+  return {
+    section: sectionMap[pathname] ?? "TenderPilot",
+    title: titleMap[pathname] ?? "TenderPilot",
+  };
+}
 
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const section =
-    pathname.startsWith("/tenders/") && pathname !== "/tenders"
-      ? "Tender dashboard"
-      : (sectionMap[pathname] ?? "TenderPilot");
-  const title =
-    pathname.startsWith("/tenders/") && pathname !== "/tenders"
-      ? "Tender detail"
-      : (titleMap[pathname] ?? "TenderPilot");
+  const { section, title } = getRouteContext(pathname);
   const [profileOpen, setProfileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -78,14 +87,18 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-6 backdrop-blur">
-      <div>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{section}</p>
-        <h1 className="text-lg font-semibold text-slate-900">{title}</h1>
+    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 bg-white px-4 sm:px-6">
+      {/* Left: breadcrumb */}
+      <div className="flex min-w-0 items-center gap-2">
+        <span className="hidden text-xs font-medium text-ink-400 sm:inline">{section}</span>
+        <span className="hidden text-ink-200 sm:inline">/</span>
+        <h1 className="truncate text-sm font-semibold text-ink-900">{title}</h1>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="relative z-30" ref={notificationsRef}>
+      {/* Right: actions */}
+      <div className="flex shrink-0 items-center gap-2">
+        {/* Notifications */}
+        <div className="relative" ref={notificationsRef}>
           <button
             type="button"
             aria-expanded={notificationsOpen}
@@ -95,7 +108,7 @@ export function Navbar() {
               setNotificationsOpen((o) => !o);
               setProfileOpen(false);
             }}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-700"
           >
             <Bell className="h-4 w-4" />
           </button>
@@ -103,22 +116,27 @@ export function Navbar() {
           {notificationsOpen && (
             <div
               role="menu"
-              aria-label="Notification list"
-              className="absolute right-0 top-full mt-2 w-[min(100vw-2rem,20rem)] rounded-xl border border-slate-200 bg-white py-2 shadow-lg shadow-slate-900/10"
+              aria-label="Notifications"
+              className="absolute right-0 top-full z-50 mt-2 w-80 animate-fade-in rounded-2xl border border-ink-200 bg-white shadow-dropdown"
             >
-              <p className="border-b border-slate-200 px-4 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Notifications
-              </p>
-              <div className="max-h-72 overflow-y-auto px-2 pt-2">
-                <p className="px-2 py-6 text-center text-sm text-slate-500">
-                  No new notifications
-                </p>
+              <div className="border-b border-ink-100 px-4 py-3">
+                <p className="text-sm font-semibold text-ink-900">Notifications</p>
+              </div>
+              <div className="max-h-72 overflow-y-auto">
+                <div className="flex flex-col items-center justify-center px-4 py-10 text-center">
+                  <Bell className="mb-2 h-8 w-8 text-ink-200" />
+                  <p className="text-sm font-medium text-ink-500">No new notifications</p>
+                  <p className="mt-1 text-xs text-ink-400">
+                    Deadline alerts and match updates will appear here.
+                  </p>
+                </div>
               </div>
             </div>
           )}
         </div>
 
-        <div className="relative z-30" ref={profileRef}>
+        {/* Profile */}
+        <div className="relative" ref={profileRef}>
           <button
             type="button"
             aria-expanded={profileOpen}
@@ -128,22 +146,27 @@ export function Navbar() {
               setProfileOpen((o) => !o);
               setNotificationsOpen(false);
             }}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-900 text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+            className={cn(
+              "flex h-9 items-center gap-1.5 rounded-lg border border-ink-200 px-2.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50",
+            )}
           >
-            <User className="h-4 w-4" />
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-navy-600 text-white">
+              <User className="h-3.5 w-3.5" />
+            </div>
+            <ChevronDown className="h-3.5 w-3.5 text-ink-400" />
           </button>
 
           {profileOpen && (
             <div
               role="menu"
-              className="absolute right-0 top-full mt-2 min-w-[10rem] rounded-xl border border-slate-200 bg-white py-1 shadow-lg shadow-slate-900/10"
+              className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] animate-fade-in rounded-2xl border border-ink-200 bg-white py-1 shadow-dropdown"
             >
               {!isAuthenticated ? (
                 <>
                   <Link
                     href="/login"
                     role="menuitem"
-                    className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 transition-colors hover:bg-ink-50"
                     onClick={() => setProfileOpen(false)}
                   >
                     Login
@@ -151,7 +174,7 @@ export function Navbar() {
                   <Link
                     href="/register"
                     role="menuitem"
-                    className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 transition-colors hover:bg-ink-50"
                     onClick={() => setProfileOpen(false)}
                   >
                     Register
@@ -161,10 +184,11 @@ export function Navbar() {
                 <button
                   type="button"
                   role="menuitem"
-                  className="w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-danger-600 transition-colors hover:bg-danger-50"
                   onClick={handleLogout}
                 >
-                  Logout
+                  <LogOut className="h-4 w-4" />
+                  Sign out
                 </button>
               )}
             </div>

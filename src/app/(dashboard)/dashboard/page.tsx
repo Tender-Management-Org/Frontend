@@ -12,7 +12,7 @@ export default function DashboardPage() {
     matched: 24,
     expiring: 5,
     action_required: 8,
-    applied: 10
+    applied: 10,
   };
 
   const matches = [
@@ -21,78 +21,76 @@ export default function DashboardPage() {
       tenderId: "2026_CEPWD_550252_1",
       fit_score: 85,
       status: "Matched" as const,
-      reason: "Matches your turnover and category"
+      reason: "Matches your turnover, category, and location preferences",
     },
     {
       title: "Smart Classroom Infra Setup",
       tenderId: "demo-smart-classroom-001",
       fit_score: 74,
       status: "Interested" as const,
-      reason: "Strong technical capability match"
+      reason: "Strong technical capability match in civil works",
     },
     {
       title: "Drainage Rehabilitation Phase II",
       tenderId: "demo-water-pipeline-003",
       fit_score: 91,
       status: "Applied" as const,
-      reason: "High historical success rate in similar tenders"
+      reason: "High historical success rate in similar tenders",
     },
     {
       title: "Rural Solar Lighting Deployment",
       tenderId: "demo-solar-005",
       fit_score: 58,
       status: "Lost" as const,
-      reason: "Partial qualification match due to domain mismatch"
-    }
+      reason: "Partial qualification match due to domain mismatch",
+    },
   ];
 
   const actionItems = [
     { title: "Road Construction - Ahmedabad", deadline: "2026-05-01", href: "/tenders/2026_CEPWD_550252_1" },
     { title: "Smart Classroom Infra Setup", deadline: "2026-05-03", href: "/tenders/demo-smart-classroom-001" },
-    { title: "Water Pipeline Expansion Project", deadline: "2026-05-05", href: "/tenders/demo-water-pipeline-003" }
+    { title: "Water Pipeline Expansion Project", deadline: "2026-05-05", href: "/tenders/demo-water-pipeline-003" },
   ];
 
   const funnelData = [
     { stage: "Matched", count: 24 },
     { stage: "Interested", count: 16 },
     { stage: "Applied", count: 10 },
-    { stage: "Won", count: 3 }
+    { stage: "Won", count: 3 },
   ];
 
   return (
-    <section className="mx-auto w-full max-w-7xl space-y-8">
-      <div className="relative rounded-2xl border border-slate-200/80 bg-gradient-to-br from-white via-white to-slate-50/90 p-6 shadow-sm sm:p-8">
-        <div
-          className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent sm:inset-x-8"
-          aria-hidden
-        />
+    <section className="mx-auto w-full max-w-7xl space-y-6">
+      {/* Welcome hero */}
+      <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card sm:p-8">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <DashboardWelcome
             summary={{
               needsDecision: stats.action_required,
               expiringSoon: stats.expiring,
-              applied: stats.applied
+              applied: stats.applied,
             }}
           />
           <DashboardQuickLinks />
         </div>
-        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-slate-200/80 pt-4">
+        <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-ink-100 pt-5">
           <Link
             href="/tenders"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-lg bg-navy-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
           >
             Review matches
             <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
           <Link
             href="/dashboard#attention"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-lg border border-ink-200 bg-white px-4 py-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
           >
-            Resolve attention items
+            Resolve {stats.action_required} attention items
           </Link>
         </div>
       </div>
 
+      {/* KPI row */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatsCard
           title="Matched tenders"
@@ -127,13 +125,14 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid grid-cols-12 gap-6 lg:gap-8">
+      {/* Main content + sidebar */}
+      <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 space-y-6 lg:col-span-8">
           <TenderMatchList matches={matches} />
           <FunnelChart data={funnelData} />
         </div>
         <div className="col-span-12 lg:col-span-4">
-          <div className="lg:sticky lg:top-20 lg:space-y-6">
+          <div className="lg:sticky lg:top-6">
             <ActionRequired items={actionItems} />
           </div>
         </div>

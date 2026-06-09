@@ -1,8 +1,7 @@
 "use client";
 
-import { Building2, Landmark, MapPin, Pencil, ShieldCheck } from "lucide-react";
+import { Building2, CheckSquare, Landmark, Pencil, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Card } from "@/components/ui/Card";
 import { ApiError } from "@/lib/api/client";
 import {
   getFirm,
@@ -41,7 +40,7 @@ const tabs: { id: TabId; label: string }[] = [
   { id: "certifications", label: "Certifications" },
   { id: "exemptions", label: "Exemptions" },
   { id: "preferences", label: "Preferences" },
-  { id: "documents", label: "Documents" }
+  { id: "documents", label: "Documents" },
 ];
 
 interface FirmWorkspaceData {
@@ -65,47 +64,42 @@ function formatDateTime(value?: string | null) {
   if (!value) return undefined;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return value;
-  return new Intl.DateTimeFormat("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
+  return new Intl.DateTimeFormat("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(date);
 }
 
 function FieldGrid({ rows }: { rows: { label: string; value?: string }[] }) {
   return (
-    <dl className="grid gap-4 sm:grid-cols-2">
+    <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
       {rows.map((row) => (
         <div key={row.label} className="space-y-1">
-          <dt className="text-xs font-medium uppercase tracking-wide text-slate-500">{row.label}</dt>
-          <dd className="text-sm text-slate-900">{row.value ?? "—"}</dd>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-ink-400">{row.label}</dt>
+          <dd className="text-sm text-ink-800">{row.value ?? "—"}</dd>
         </div>
       ))}
     </dl>
   );
 }
 
-function EmptyTableHint({ entity }: { entity: string }) {
+function EmptyState({ entity }: { entity: string }) {
   return (
-    <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 px-4 py-6 text-center text-sm text-slate-500">
-      No {entity} records yet. Data will appear here once connected to your account.
-    </p>
+    <div className="flex flex-col items-center rounded-xl border border-dashed border-ink-200 bg-ink-50 px-4 py-10 text-center">
+      <p className="text-sm font-medium text-ink-500">No {entity} records yet</p>
+      <p className="mt-0.5 text-xs text-ink-400">Data will appear here once added to your profile.</p>
+    </div>
   );
 }
 
 function SectionHeader({ title, onEdit }: { title: string; onEdit: () => void }) {
   return (
-    <div className="mb-5 flex items-center justify-between gap-3 border-b border-slate-200 pb-4">
-      <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+    <div className="mb-5 flex items-center justify-between gap-3 border-b border-ink-100 pb-4">
+      <h3 className="text-base font-semibold text-ink-900">{title}</h3>
       <button
         type="button"
         onClick={onEdit}
         aria-label={`Edit ${title}`}
-        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-ink-200 text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
       >
-        <Pencil className="h-4 w-4" aria-hidden />
+        <Pencil className="h-3.5 w-3.5" aria-hidden />
       </button>
     </div>
   );
@@ -113,12 +107,44 @@ function SectionHeader({ title, onEdit }: { title: string; onEdit: () => void })
 
 function SummaryCard({ title, value, icon: Icon }: { title: string; value: string; icon: typeof Building2 }) {
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm shadow-slate-900/5">
-      <div className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
-        <Icon className="h-4 w-4" aria-hidden />
+    <div className="rounded-xl border border-ink-200 bg-white p-4 shadow-card">
+      <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-ink-100">
+        <Icon className="h-4 w-4 text-ink-600" aria-hidden />
       </div>
-      <p className="text-xs uppercase tracking-wide text-slate-500">{title}</p>
-      <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">{title}</p>
+      <p className="mt-1 text-sm font-semibold text-ink-900">{value}</p>
+    </div>
+  );
+}
+
+function RecordCard({
+  title,
+  subtitle,
+  onEdit,
+  children,
+}: {
+  title: string;
+  subtitle?: string;
+  onEdit: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-xl border border-ink-200 bg-ink-50/50 p-4">
+      <div className="mb-4 flex items-start justify-between gap-3">
+        <div>
+          <p className="text-sm font-semibold text-ink-900">{title}</p>
+          {subtitle && <p className="text-xs text-ink-400">{subtitle}</p>}
+        </div>
+        <button
+          type="button"
+          onClick={onEdit}
+          aria-label={`Edit ${title}`}
+          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-500 transition-colors hover:bg-ink-100"
+        >
+          <Pencil className="h-3.5 w-3.5" aria-hidden />
+        </button>
+      </div>
+      {children}
     </div>
   );
 }
@@ -148,7 +174,7 @@ export function FirmWorkspace() {
 
   const resolveDocumentLabel = (documentId?: string | null) => {
     if (!documentId) return undefined;
-    const match = data.documents.find((document) => document.id === documentId);
+    const match = data.documents.find((d) => d.id === documentId);
     if (!match) return documentId;
     return match.title || match.file.split("/").pop() || match.id;
   };
@@ -158,9 +184,7 @@ export function FirmWorkspace() {
     return document.other_doc_type || "other";
   };
 
-  useEffect(() => {
-    setEditSection(null);
-  }, [active]);
+  useEffect(() => { setEditSection(null); }, [active]);
 
   useEffect(() => {
     async function loadWorkspace() {
@@ -175,31 +199,19 @@ export function FirmWorkspace() {
           return;
         }
         setFirmId(primaryFirm.id);
-
-        const [
-          firm,
-          identityResult,
-          locationsResult,
-          financialsResult,
-          solvencyResult,
-          experiencesResult,
-          certificationsResult,
-          exemptionsResult,
-          preferencesResult,
-          documentsResult,
-        ] = await Promise.allSettled([
-          getFirm(primaryFirm.id),
-          getFirmIdentity(primaryFirm.id),
-          getFirmLocations(primaryFirm.id, 1),
-          getFirmFinancials(primaryFirm.id, 1),
-          getFirmSolvencyCertificates(primaryFirm.id, 1),
-          getFirmExperiences(primaryFirm.id, 1),
-          getFirmCertifications(primaryFirm.id, 1),
-          getFirmExemptions(primaryFirm.id),
-          getFirmPreferences(primaryFirm.id),
-          getFirmDocuments(primaryFirm.id, 1, 100),
-        ]);
-
+        const [firm, identityResult, locationsResult, financialsResult, solvencyResult, experiencesResult, certificationsResult, exemptionsResult, preferencesResult, documentsResult] =
+          await Promise.allSettled([
+            getFirm(primaryFirm.id),
+            getFirmIdentity(primaryFirm.id),
+            getFirmLocations(primaryFirm.id, 1),
+            getFirmFinancials(primaryFirm.id, 1),
+            getFirmSolvencyCertificates(primaryFirm.id, 1),
+            getFirmExperiences(primaryFirm.id, 1),
+            getFirmCertifications(primaryFirm.id, 1),
+            getFirmExemptions(primaryFirm.id),
+            getFirmPreferences(primaryFirm.id),
+            getFirmDocuments(primaryFirm.id, 1, 100),
+          ]);
         setData({
           firm: firm.status === "fulfilled" ? firm.value : primaryFirm,
           identity: identityResult.status === "fulfilled" ? identityResult.value : null,
@@ -210,8 +222,7 @@ export function FirmWorkspace() {
           bankings: solvencyResult.status === "fulfilled" ? solvencyResult.value.results : [],
           experience: experiencesResult.status === "fulfilled" ? (experiencesResult.value.results[0] ?? null) : null,
           experiences: experiencesResult.status === "fulfilled" ? experiencesResult.value.results : [],
-          certification:
-            certificationsResult.status === "fulfilled" ? (certificationsResult.value.results[0] ?? null) : null,
+          certification: certificationsResult.status === "fulfilled" ? (certificationsResult.value.results[0] ?? null) : null,
           certifications: certificationsResult.status === "fulfilled" ? certificationsResult.value.results : [],
           exemptions: exemptionsResult.status === "fulfilled" ? exemptionsResult.value : null,
           preferences: preferencesResult.status === "fulfilled" ? preferencesResult.value : null,
@@ -227,472 +238,377 @@ export function FirmWorkspace() {
         setIsLoading(false);
       }
     }
-
     void loadWorkspace();
   }, []);
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6">
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-900/5">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">Profile workspace</p>
-        <h2 className="mt-2 text-2xl font-semibold text-slate-900">Firm</h2>
-        <p className="mt-2 text-sm text-slate-500">
+    <div className="mx-auto max-w-7xl space-y-5">
+      {/* Header */}
+      <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+        <p className="text-xs font-semibold uppercase tracking-widest text-navy-600">Firm</p>
+        <h1 className="mt-1 text-xl font-bold text-ink-900">Profile workspace</h1>
+        <p className="mt-1 text-sm text-ink-500">
           Legal profile, compliance identifiers, locations, financials, and bidding preferences.
         </p>
       </div>
 
-      {error && <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">{error}</div>}
+      {isLoading && (
+        <div className="rounded-xl border border-ink-200 bg-white p-5 shadow-card">
+          <div className="flex items-center gap-3">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-600 border-t-transparent" aria-hidden />
+            <p className="text-sm text-ink-500">Loading firm workspace…</p>
+          </div>
+        </div>
+      )}
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <SummaryCard title="Business name" value={data.firm?.business_name || "Not set"} icon={Building2} />
-        <SummaryCard
-          title="Firm status"
-          value={data.firm ? (data.firm.is_active ? "Active" : "Inactive") : "Unknown"}
-          icon={MapPin}
-        />
-        <SummaryCard
-          title="Financial records"
-          value={data.financials.length > 0 ? `${data.financials.length} entries` : "No entries"}
-          icon={Landmark}
-        />
-        <SummaryCard
-          title="Certifications"
-          value={data.certifications.length > 0 ? `${data.certifications.length} certificates` : "No certificates"}
-          icon={ShieldCheck}
-        />
-      </div>
+      {error && (
+        <div className="rounded-xl border border-danger-200 bg-danger-50 px-5 py-4 text-sm text-danger-700">
+          {error}
+        </div>
+      )}
 
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-start">
-        <nav
-          aria-label="Firm sections"
-          className="flex shrink-0 gap-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-sm shadow-slate-900/5 xl:sticky xl:top-24 xl:w-60 xl:flex-col xl:overflow-visible"
-        >
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActive(tab.id)}
-              className={cn(
-                "whitespace-nowrap rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors",
-                active === tab.id
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </nav>
-
-        <div className="min-w-0 flex-1 space-y-6">
-          <FirmEditModal
-            section={editSection}
-            onClose={() => setEditSection(null)}
-            firmId={firmId}
-            data={data}
-            onSaved={(nextData) => {
-              setData((prev) => {
-                if (nextData.experience) {
-                  const exists = prev.experiences.some((item) => item.id === nextData.experience?.id);
-                  const experiences = exists
-                    ? prev.experiences.map((item) => (item.id === nextData.experience?.id ? nextData.experience! : item))
-                    : [nextData.experience, ...prev.experiences];
-                  return { ...prev, ...nextData, experiences };
-                }
-                if (nextData.financial) {
-                  const exists = prev.financials.some((item) => item.id === nextData.financial?.id);
-                  const financials = exists
-                    ? prev.financials.map((item) => (item.id === nextData.financial?.id ? nextData.financial! : item))
-                    : [nextData.financial, ...prev.financials];
-                  return { ...prev, ...nextData, financials };
-                }
-                if (nextData.banking) {
-                  const exists = prev.bankings.some((item) => item.id === nextData.banking?.id);
-                  const bankings = exists
-                    ? prev.bankings.map((item) => (item.id === nextData.banking?.id ? nextData.banking! : item))
-                    : [nextData.banking, ...prev.bankings];
-                  return { ...prev, ...nextData, bankings };
-                }
-                if (nextData.certification) {
-                  const exists = prev.certifications.some((item) => item.id === nextData.certification?.id);
-                  const certifications = exists
-                    ? prev.certifications.map((item) =>
-                        item.id === nextData.certification?.id ? nextData.certification! : item
-                      )
-                    : [nextData.certification, ...prev.certifications];
-                  return { ...prev, ...nextData, certifications };
-                }
-                return { ...prev, ...nextData };
-              });
-            }}
+      {/* Summary cards */}
+      {!isLoading && !error && (
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <SummaryCard title="Business name" value={data.firm?.business_name || "Not set"} icon={Building2} />
+          <SummaryCard
+            title="Firm status"
+            value={data.firm ? (data.firm.is_active ? "Active" : "Inactive") : "Unknown"}
+            icon={CheckSquare}
           />
+          <SummaryCard
+            title="Financial records"
+            value={data.financials.length > 0 ? `${data.financials.length} entries` : "No entries"}
+            icon={Landmark}
+          />
+          <SummaryCard
+            title="Certifications"
+            value={data.certifications.length > 0 ? `${data.certifications.length} certs` : "None"}
+            icon={ShieldCheck}
+          />
+        </div>
+      )}
 
-          {active === "firm" && (
-            <Card>
-              <SectionHeader title="Firm" onEdit={() => setEditSection("firm")} />
-              <FieldGrid
-                rows={[
-                  { label: "ID", value: data.firm?.id },
-                  {
-                    label: "Owner",
-                    value: data.firm?.owner_username ?? (data.firm?.owner ? String(data.firm.owner) : undefined),
-                  },
-                  { label: "Legal name", value: data.firm?.legal_name },
-                  { label: "Business name", value: data.firm?.business_name },
-                  { label: "Constitution", value: data.firm?.constitution },
-                  { label: "Incorporation date", value: data.firm?.incorporation_date ?? undefined },
-                  { label: "Industry type", value: data.firm?.industry_type },
-                  { label: "Scope of work", value: data.firm?.scope_of_work },
-                  { label: "Active", value: data.firm ? (data.firm.is_active ? "Yes" : "No") : undefined },
-                  { label: "Created at", value: formatDateTime(data.firm?.created_at) },
-                  { label: "Updated at", value: formatDateTime(data.firm?.updated_at) },
-                ]}
-              />
-            </Card>
-          )}
+      {/* Tab layout */}
+      {!isLoading && (
+        <div className="flex flex-col gap-5 xl:flex-row xl:items-start">
+          {/* Sidebar nav */}
+          <nav
+            aria-label="Firm sections"
+            className="flex shrink-0 gap-1 overflow-x-auto rounded-2xl border border-ink-200 bg-white p-2 shadow-card xl:sticky xl:top-6 xl:w-56 xl:flex-col xl:overflow-visible"
+          >
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActive(tab.id)}
+                className={cn(
+                  "whitespace-nowrap rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500",
+                  active === tab.id
+                    ? "bg-navy-600 text-white"
+                    : "text-ink-600 hover:bg-ink-100 hover:text-ink-900"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
 
-          {active === "identity" && (
-            <Card>
-              <SectionHeader title="Firm identity" onEdit={() => setEditSection("identity")} />
-              <FieldGrid
-                rows={[
-                  { label: "PAN number", value: data.identity?.pan_number },
-                  { label: "GSTIN", value: data.identity?.gstin },
-                  { label: "CIN", value: data.identity?.cin },
-                  { label: "Udyam number", value: data.identity?.udyam_number },
-                  { label: "DSC expiry date", value: data.identity?.dsc_expiry_date ?? undefined },
-                  { label: "Created at", value: formatDateTime(data.identity?.created_at) },
-                  { label: "Updated at", value: formatDateTime(data.identity?.updated_at) },
-                ]}
-              />
-            </Card>
-          )}
+          {/* Tab content */}
+          <div className="min-w-0 flex-1 space-y-5">
+            <FirmEditModal
+              section={editSection}
+              onClose={() => setEditSection(null)}
+              firmId={firmId}
+              data={data}
+              onSaved={(nextData) => {
+                setData((prev) => {
+                  if (nextData.experience) {
+                    const exists = prev.experiences.some((i) => i.id === nextData.experience?.id);
+                    const experiences = exists
+                      ? prev.experiences.map((i) => (i.id === nextData.experience?.id ? nextData.experience! : i))
+                      : [nextData.experience, ...prev.experiences];
+                    return { ...prev, ...nextData, experiences };
+                  }
+                  if (nextData.financial) {
+                    const exists = prev.financials.some((i) => i.id === nextData.financial?.id);
+                    const financials = exists
+                      ? prev.financials.map((i) => (i.id === nextData.financial?.id ? nextData.financial! : i))
+                      : [nextData.financial, ...prev.financials];
+                    return { ...prev, ...nextData, financials };
+                  }
+                  if (nextData.banking) {
+                    const exists = prev.bankings.some((i) => i.id === nextData.banking?.id);
+                    const bankings = exists
+                      ? prev.bankings.map((i) => (i.id === nextData.banking?.id ? nextData.banking! : i))
+                      : [nextData.banking, ...prev.bankings];
+                    return { ...prev, ...nextData, bankings };
+                  }
+                  if (nextData.certification) {
+                    const exists = prev.certifications.some((i) => i.id === nextData.certification?.id);
+                    const certifications = exists
+                      ? prev.certifications.map((i) => (i.id === nextData.certification?.id ? nextData.certification! : i))
+                      : [nextData.certification, ...prev.certifications];
+                    return { ...prev, ...nextData, certifications };
+                  }
+                  return { ...prev, ...nextData };
+                });
+              }}
+            />
 
-          {active === "locations" && (
-            <Card>
-              <SectionHeader title="Firm location" onEdit={() => setEditSection("locations")} />
-              {data.location ? (
+            {active === "firm" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader title="Firm" onEdit={() => setEditSection("firm")} />
                 <FieldGrid
                   rows={[
-                    { label: "Address line", value: data.location.address_line },
-                    { label: "City", value: data.location.city },
-                    { label: "State", value: data.location.state },
-                    { label: "Pincode", value: data.location.pincode },
-                    { label: "Primary", value: data.location.is_primary ? "Yes" : "No" },
-                    { label: "Created at", value: formatDateTime(data.location.created_at) },
-                    { label: "Updated at", value: formatDateTime(data.location.updated_at) },
+                    { label: "ID", value: data.firm?.id },
+                    { label: "Owner", value: data.firm?.owner_username ?? (data.firm?.owner ? String(data.firm.owner) : undefined) },
+                    { label: "Legal name", value: data.firm?.legal_name },
+                    { label: "Business name", value: data.firm?.business_name },
+                    { label: "Constitution", value: data.firm?.constitution },
+                    { label: "Incorporation date", value: data.firm?.incorporation_date ?? undefined },
+                    { label: "Industry type", value: data.firm?.industry_type },
+                    { label: "Scope of work", value: data.firm?.scope_of_work },
+                    { label: "Active", value: data.firm ? (data.firm.is_active ? "Yes" : "No") : undefined },
+                    { label: "Created at", value: formatDateTime(data.firm?.created_at) },
+                    { label: "Updated at", value: formatDateTime(data.firm?.updated_at) },
                   ]}
                 />
-              ) : (
-                <EmptyTableHint entity="location" />
-              )}
-            </Card>
-          )}
-
-          {active === "financials" && (
-            <Card>
-              <SectionHeader
-                title="Firm financials"
-                onEdit={() => {
-                  setData((prev) => ({ ...prev, financial: null }));
-                  setEditSection("financials");
-                }}
-              />
-              <p className="mb-4 text-sm text-slate-600">
-                Per financial year: turnover, net worth, profit after tax, audit status, and linked audit document.
-              </p>
-              {data.financials.length > 0 ? (
-                <div className="space-y-4">
-                  {data.financials.map((financial) => (
-                    <div key={financial.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
-                      <div className="mb-3 flex items-start justify-between gap-3">
-                        <div>
-                          <h4 className="text-sm font-semibold text-slate-900">{financial.financial_year || "Financial year"}</h4>
-                          <p className="text-xs text-slate-500">Turnover: {String(financial.turnover_amount)}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setData((prev) => ({ ...prev, financial }));
-                            setEditSection("financials");
-                          }}
-                          aria-label={`Edit financial ${financial.financial_year || financial.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
-                        >
-                          <Pencil className="h-4 w-4" aria-hidden />
-                        </button>
-                      </div>
-                      <FieldGrid
-                        rows={[
-                          { label: "Net worth", value: financial.net_worth != null ? String(financial.net_worth) : undefined },
-                          {
-                            label: "Profit after tax",
-                            value: financial.profit_after_tax != null ? String(financial.profit_after_tax) : undefined,
-                          },
-                          { label: "Audited", value: financial.is_audited ? "Yes" : "No" },
-                          { label: "Audit document", value: resolveDocumentLabel(financial.audit_document) },
-                          { label: "Created at", value: formatDateTime(financial.created_at) },
-                          { label: "Updated at", value: formatDateTime(financial.updated_at) },
-                        ]}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <EmptyTableHint entity="financial" />
-              )}
-            </Card>
-          )}
-
-          {active === "banking" && (
-            <Card>
-              <SectionHeader
-                title="Banking & solvency"
-                onEdit={() => {
-                  setData((prev) => ({ ...prev, banking: null }));
-                  setEditSection("banking");
-                }}
-              />
-              {data.bankings.length > 0 ? (
-                <div className="space-y-4">
-                  {data.bankings.map((banking) => (
-                    <div key={banking.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
-                      <div className="mb-3 flex items-start justify-between gap-3">
-                        <div>
-                          <h4 className="text-sm font-semibold text-slate-900">{banking.bank_name || "Bank record"}</h4>
-                          <p className="text-xs text-slate-500">Solvency: {String(banking.solvency_amount)}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setData((prev) => ({ ...prev, banking }));
-                            setEditSection("banking");
-                          }}
-                          aria-label={`Edit banking ${banking.bank_name || banking.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
-                        >
-                          <Pencil className="h-4 w-4" aria-hidden />
-                        </button>
-                      </div>
-                      <FieldGrid
-                        rows={[
-                          { label: "Issue date", value: banking.issue_date },
-                          { label: "Expiry date", value: banking.expiry_date },
-                          { label: "Created at", value: formatDateTime(banking.created_at) },
-                          { label: "Updated at", value: formatDateTime(banking.updated_at) },
-                        ]}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <EmptyTableHint entity="banking / solvency" />
-              )}
-            </Card>
-          )}
-
-          {active === "experience" && (
-            <Card>
-              <SectionHeader
-                title="Firm experience"
-                onEdit={() => {
-                  setData((prev) => ({ ...prev, experience: null }));
-                  setEditSection("experience");
-                }}
-              />
-              {data.experiences.length > 0 ? (
-                <div className="space-y-4">
-                  {data.experiences.map((experience) => (
-                    <div key={experience.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
-                      <div className="mb-3 flex items-start justify-between gap-3">
-                        <div>
-                          <h4 className="text-sm font-semibold text-slate-900">{experience.project_name || "Untitled project"}</h4>
-                          <p className="text-xs text-slate-500">Client: {experience.client_name || "—"}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setData((prev) => ({ ...prev, experience }));
-                            setEditSection("experience");
-                          }}
-                          aria-label={`Edit experience ${experience.project_name || experience.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
-                        >
-                          <Pencil className="h-4 w-4" aria-hidden />
-                        </button>
-                      </div>
-                      <FieldGrid
-                        rows={[
-                          { label: "Work order value", value: String(experience.work_order_value) },
-                          { label: "Start date", value: experience.start_date ?? undefined },
-                          { label: "Completion date", value: experience.completion_date ?? undefined },
-                          { label: "Tags", value: experience.category_tags.join(", ") || undefined },
-                          { label: "Created at", value: formatDateTime(experience.created_at) },
-                          { label: "Updated at", value: formatDateTime(experience.updated_at) },
-                        ]}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <EmptyTableHint entity="experience" />
-              )}
-            </Card>
-          )}
-
-          {active === "certifications" && (
-            <Card>
-              <SectionHeader
-                title="Firm certifications"
-                onEdit={() => {
-                  setData((prev) => ({ ...prev, certification: null }));
-                  setEditSection("certifications");
-                }}
-              />
-              <p className="mb-4 text-sm text-slate-600">
-                May link to an experience record for past-work certificates.
-              </p>
-              {data.certifications.length > 0 ? (
-                <div className="space-y-4">
-                  {data.certifications.map((certification) => (
-                    <div key={certification.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
-                      <div className="mb-3 flex items-start justify-between gap-3">
-                        <div>
-                          <h4 className="text-sm font-semibold text-slate-900">{certification.cert_type}</h4>
-                          <p className="text-xs text-slate-500">Certificate no: {certification.cert_number || "—"}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setData((prev) => ({ ...prev, certification }));
-                            setEditSection("certifications");
-                          }}
-                          aria-label={`Edit certification ${certification.cert_number || certification.id}`}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-colors hover:bg-slate-100"
-                        >
-                          <Pencil className="h-4 w-4" aria-hidden />
-                        </button>
-                      </div>
-                      <FieldGrid
-                        rows={[
-                          { label: "Other type", value: certification.other_cert_type || undefined },
-                          { label: "Rating", value: certification.rating_level || undefined },
-                          { label: "Issue date", value: certification.issue_date ?? undefined },
-                          { label: "Expiry date", value: certification.expiry_date ?? undefined },
-                          { label: "Linked experience", value: certification.experience ?? undefined },
-                          { label: "Document", value: resolveDocumentLabel(certification.document) },
-                          { label: "Created at", value: formatDateTime(certification.created_at) },
-                          { label: "Updated at", value: formatDateTime(certification.updated_at) },
-                        ]}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <EmptyTableHint entity="certification" />
-              )}
-            </Card>
-          )}
-
-          {active === "exemptions" && (
-            <Card>
-              <SectionHeader title="Firm exemptions log" onEdit={() => setEditSection("exemptions")} />
-              <FieldGrid
-                rows={[
-                  {
-                    label: "Eligible for EMD waiver",
-                    value: data.exemptions ? (data.exemptions.eligible_for_emd_waiver ? "Yes" : "No") : undefined,
-                  },
-                  {
-                    label: "Eligible for experience waiver",
-                    value: data.exemptions ? (data.exemptions.eligible_for_exp_waiver ? "Yes" : "No") : undefined,
-                  },
-                  { label: "Local preference state", value: data.exemptions?.local_preference_state },
-                  { label: "Updated at", value: formatDateTime(data.exemptions?.updated_at) },
-                ]}
-              />
-            </Card>
-          )}
-
-          {active === "preferences" && (
-            <Card>
-              <SectionHeader title="Firm preferences" onEdit={() => setEditSection("preferences")} />
-              <FieldGrid
-                rows={[
-                  { label: "Preferred regions", value: data.preferences?.preferred_regions?.join(", ") },
-                  { label: "Target sectors", value: data.preferences?.target_sectors?.join(", ") },
-                  { label: "Excluded departments", value: data.preferences?.excluded_depts?.join(", ") },
-                  {
-                    label: "Min tender value",
-                    value: data.preferences?.min_tender_value != null ? String(data.preferences.min_tender_value) : undefined,
-                  },
-                  {
-                    label: "Max tender value",
-                    value: data.preferences?.max_tender_value != null ? String(data.preferences.max_tender_value) : undefined,
-                  },
-                  { label: "Updated at", value: formatDateTime(data.preferences?.updated_at) },
-                ]}
-              />
-            </Card>
-          )}
-
-          {active === "documents" && (
-            <Card>
-              <div className="mb-5 border-b border-slate-200 pb-4">
-                <h3 className="text-lg font-semibold text-slate-900">Firm documents</h3>
-                <p className="mt-1 text-sm text-slate-600">
-                  All uploaded files available in your firm document vault.
-                </p>
               </div>
-              {data.documents.length > 0 ? (
-                <div className="space-y-3">
-                  {data.documents.map((document) => {
-                    const fileName = document.file.split("/").pop() || document.id;
-                    return (
-                      <div
-                        key={document.id}
-                        className="rounded-xl border border-slate-200 bg-slate-50/40 p-4"
+            )}
+
+            {active === "identity" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader title="Firm identity" onEdit={() => setEditSection("identity")} />
+                <FieldGrid
+                  rows={[
+                    { label: "PAN number", value: data.identity?.pan_number },
+                    { label: "GSTIN", value: data.identity?.gstin },
+                    { label: "CIN", value: data.identity?.cin },
+                    { label: "Udyam number", value: data.identity?.udyam_number },
+                    { label: "DSC expiry date", value: data.identity?.dsc_expiry_date ?? undefined },
+                    { label: "Created at", value: formatDateTime(data.identity?.created_at) },
+                    { label: "Updated at", value: formatDateTime(data.identity?.updated_at) },
+                  ]}
+                />
+              </div>
+            )}
+
+            {active === "locations" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader title="Firm location" onEdit={() => setEditSection("locations")} />
+                {data.location ? (
+                  <FieldGrid
+                    rows={[
+                      { label: "Address line", value: data.location.address_line },
+                      { label: "City", value: data.location.city },
+                      { label: "State", value: data.location.state },
+                      { label: "Pincode", value: data.location.pincode },
+                      { label: "Primary", value: data.location.is_primary ? "Yes" : "No" },
+                      { label: "Created at", value: formatDateTime(data.location.created_at) },
+                      { label: "Updated at", value: formatDateTime(data.location.updated_at) },
+                    ]}
+                  />
+                ) : (
+                  <EmptyState entity="location" />
+                )}
+              </div>
+            )}
+
+            {active === "financials" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader
+                  title="Financials"
+                  onEdit={() => { setData((prev) => ({ ...prev, financial: null })); setEditSection("financials"); }}
+                />
+                <p className="mb-4 text-sm text-ink-500">Per financial year: turnover, net worth, PAT, audit status.</p>
+                {data.financials.length > 0 ? (
+                  <div className="space-y-3">
+                    {data.financials.map((financial) => (
+                      <RecordCard
+                        key={financial.id}
+                        title={financial.financial_year || "Financial year"}
+                        subtitle={`Turnover: ${String(financial.turnover_amount)}`}
+                        onEdit={() => { setData((prev) => ({ ...prev, financial })); setEditSection("financials"); }}
                       >
-                        <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                          <div className="min-w-0 space-y-1">
-                            <h4 className="truncate text-sm font-semibold text-slate-900">
-                              {document.title || fileName}
-                            </h4>
-                            <p className="text-xs text-slate-500">Type: {resolveDocumentTypeLabel(document)}</p>
-                            <p className="truncate text-xs text-slate-500">File: {fileName}</p>
-                          </div>
-                          <a
-                            href={document.file}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="inline-flex w-fit items-center rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-100"
-                          >
-                            Open file
-                          </a>
-                        </div>
-                        <div className="mt-3 border-t border-slate-200 pt-3">
-                          <FieldGrid
-                            rows={[
-                              { label: "Document ID", value: document.id },
-                              { label: "Created at", value: formatDateTime(document.created_at) },
-                              { label: "Updated at", value: formatDateTime(document.updated_at) },
-                            ]}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
+                        <FieldGrid
+                          rows={[
+                            { label: "Net worth", value: financial.net_worth != null ? String(financial.net_worth) : undefined },
+                            { label: "Profit after tax", value: financial.profit_after_tax != null ? String(financial.profit_after_tax) : undefined },
+                            { label: "Audited", value: financial.is_audited ? "Yes" : "No" },
+                            { label: "Audit document", value: resolveDocumentLabel(financial.audit_document) },
+                          ]}
+                        />
+                      </RecordCard>
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState entity="financial" />
+                )}
+              </div>
+            )}
+
+            {active === "banking" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader
+                  title="Banking & solvency"
+                  onEdit={() => { setData((prev) => ({ ...prev, banking: null })); setEditSection("banking"); }}
+                />
+                {data.bankings.length > 0 ? (
+                  <div className="space-y-3">
+                    {data.bankings.map((banking) => (
+                      <RecordCard
+                        key={banking.id}
+                        title={banking.bank_name || "Bank record"}
+                        subtitle={`Solvency: ${String(banking.solvency_amount)}`}
+                        onEdit={() => { setData((prev) => ({ ...prev, banking })); setEditSection("banking"); }}
+                      >
+                        <FieldGrid
+                          rows={[
+                            { label: "Issue date", value: banking.issue_date },
+                            { label: "Expiry date", value: banking.expiry_date },
+                          ]}
+                        />
+                      </RecordCard>
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState entity="banking / solvency" />
+                )}
+              </div>
+            )}
+
+            {active === "experience" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader
+                  title="Experience"
+                  onEdit={() => { setData((prev) => ({ ...prev, experience: null })); setEditSection("experience"); }}
+                />
+                {data.experiences.length > 0 ? (
+                  <div className="space-y-3">
+                    {data.experiences.map((exp) => (
+                      <RecordCard
+                        key={exp.id}
+                        title={exp.project_name || "Untitled project"}
+                        subtitle={`Client: ${exp.client_name || "—"}`}
+                        onEdit={() => { setData((prev) => ({ ...prev, experience: exp })); setEditSection("experience"); }}
+                      >
+                        <FieldGrid
+                          rows={[
+                            { label: "Work order value", value: String(exp.work_order_value) },
+                            { label: "Start date", value: exp.start_date ?? undefined },
+                            { label: "Completion date", value: exp.completion_date ?? undefined },
+                            { label: "Tags", value: exp.category_tags.join(", ") || undefined },
+                          ]}
+                        />
+                      </RecordCard>
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState entity="experience" />
+                )}
+              </div>
+            )}
+
+            {active === "certifications" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader
+                  title="Certifications"
+                  onEdit={() => { setData((prev) => ({ ...prev, certification: null })); setEditSection("certifications"); }}
+                />
+                {data.certifications.length > 0 ? (
+                  <div className="space-y-3">
+                    {data.certifications.map((cert) => (
+                      <RecordCard
+                        key={cert.id}
+                        title={cert.cert_type}
+                        subtitle={`Cert no: ${cert.cert_number || "—"}`}
+                        onEdit={() => { setData((prev) => ({ ...prev, certification: cert })); setEditSection("certifications"); }}
+                      >
+                        <FieldGrid
+                          rows={[
+                            { label: "Rating", value: cert.rating_level || undefined },
+                            { label: "Issue date", value: cert.issue_date ?? undefined },
+                            { label: "Expiry date", value: cert.expiry_date ?? undefined },
+                            { label: "Document", value: resolveDocumentLabel(cert.document) },
+                          ]}
+                        />
+                      </RecordCard>
+                    ))}
+                  </div>
+                ) : (
+                  <EmptyState entity="certification" />
+                )}
+              </div>
+            )}
+
+            {active === "exemptions" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader title="Exemptions" onEdit={() => setEditSection("exemptions")} />
+                <FieldGrid
+                  rows={[
+                    { label: "EMD waiver eligible", value: data.exemptions ? (data.exemptions.eligible_for_emd_waiver ? "Yes" : "No") : undefined },
+                    { label: "Experience waiver eligible", value: data.exemptions ? (data.exemptions.eligible_for_exp_waiver ? "Yes" : "No") : undefined },
+                    { label: "Local preference state", value: data.exemptions?.local_preference_state },
+                    { label: "Updated at", value: formatDateTime(data.exemptions?.updated_at) },
+                  ]}
+                />
+              </div>
+            )}
+
+            {active === "preferences" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <SectionHeader title="Preferences" onEdit={() => setEditSection("preferences")} />
+                <FieldGrid
+                  rows={[
+                    { label: "Preferred regions", value: data.preferences?.preferred_regions?.join(", ") },
+                    { label: "Target sectors", value: data.preferences?.target_sectors?.join(", ") },
+                    { label: "Excluded departments", value: data.preferences?.excluded_depts?.join(", ") },
+                    { label: "Min tender value", value: data.preferences?.min_tender_value != null ? `₹${data.preferences.min_tender_value.toLocaleString("en-IN")}` : undefined },
+                    { label: "Max tender value", value: data.preferences?.max_tender_value != null ? `₹${data.preferences.max_tender_value.toLocaleString("en-IN")}` : undefined },
+                    { label: "Updated at", value: formatDateTime(data.preferences?.updated_at) },
+                  ]}
+                />
+              </div>
+            )}
+
+            {active === "documents" && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+                <div className="mb-5 border-b border-ink-100 pb-4">
+                  <h3 className="text-base font-semibold text-ink-900">Firm documents</h3>
+                  <p className="mt-0.5 text-sm text-ink-500">All uploaded files in your document vault.</p>
                 </div>
-              ) : (
-                <EmptyTableHint entity="document" />
-              )}
-            </Card>
-          )}
-        </div>
-      </div>
-      {isLoading && (
-        <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-500">
-          Loading firm workspace...
+                {data.documents.length > 0 ? (
+                  <div className="space-y-2">
+                    {data.documents.map((document) => {
+                      const fileName = document.file.split("/").pop() || document.id;
+                      return (
+                        <div key={document.id} className="rounded-xl border border-ink-200 bg-ink-50/50 p-4">
+                          <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                            <div className="min-w-0 space-y-0.5">
+                              <p className="truncate text-sm font-semibold text-ink-900">{document.title || fileName}</p>
+                              <p className="text-xs text-ink-400">Type: {resolveDocumentTypeLabel(document)}</p>
+                            </div>
+                            <a
+                              href={document.file}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex w-fit shrink-0 items-center rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-xs font-medium text-ink-700 transition-colors hover:bg-ink-50"
+                            >
+                              Open file
+                            </a>
+                          </div>
+                          <p className="mt-2 text-xs text-ink-400">Created {formatDateTime(document.created_at)}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <EmptyState entity="document" />
+                )}
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
