@@ -249,23 +249,23 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
           </div>
 
           {/* Quick facts row */}
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
-            {[
-              { icon: CircleDot, label: "Category", value: String(fv(b.tender_category)) },
-              { icon: CircleDot, label: "Sub-category", value: String(fv(w.product_category)) },
-              { icon: MapPin, label: "Location", value: String(fv(w.location)) },
-              { icon: MapPin, label: "Pincode", value: String(fv(w.pincode)) },
-              { icon: Clock, label: "Contract type", value: String(fv(w.contract_type)) },
-              { icon: Timer, label: "Bid opening place", value: String(fv(w.bid_opening_place)) },
-            ].filter(f => f.value !== "—").map(({ icon: Icon, label, value }) => (
-              <div key={label} className="flex items-start gap-2 rounded-xl border border-ink-200 bg-ink-50 px-3 py-2.5">
-                <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
-                <div className="min-w-0">
-                  <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">{label}</p>
-                  <p className="mt-0.5 text-sm font-medium text-ink-800 truncate">{value}</p>
+          <div className="rounded-2xl border border-ink-200 bg-white shadow-card">
+            <dl className="divide-y divide-ink-100">
+              {[
+                { icon: CircleDot, label: "Category", value: String(fv(b.tender_category)) },
+                { icon: CircleDot, label: "Sub-category", value: String(fv(w.product_category)) },
+                { icon: MapPin, label: "Location", value: String(fv(w.location)) },
+                { icon: MapPin, label: "Pincode", value: String(fv(w.pincode)) },
+                { icon: Clock, label: "Contract type", value: String(fv(w.contract_type)) },
+                { icon: Timer, label: "Bid opening place", value: String(fv(w.bid_opening_place)) },
+              ].filter(f => f.value !== "—").map(({ icon: Icon, label, value }) => (
+                <div key={label} className="flex items-center gap-4 px-5 py-3">
+                  <Icon className="h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
+                  <dt className="w-36 shrink-0 text-xs font-semibold uppercase tracking-wide text-ink-400">{label}</dt>
+                  <dd className="text-sm font-medium text-ink-800">{value}</dd>
                 </div>
-              </div>
-            ))}
+              ))}
+            </dl>
           </div>
 
           {/* Description — full width */}
