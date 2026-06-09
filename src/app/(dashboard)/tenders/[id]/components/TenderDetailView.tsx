@@ -9,7 +9,6 @@ import {
   Download,
   Eye,
   FileText,
-  IndianRupee,
   Landmark,
   MapPin,
   ScrollText,
@@ -249,46 +248,43 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
             </div>
           </div>
 
-          {/* Two-column: description + quick facts */}
-          <div className="grid gap-4 xl:grid-cols-[1fr_280px]">
-            {/* Description */}
-            <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-              <div className="flex items-center gap-2 mb-4">
-                <ScrollText className="h-4 w-4 text-ink-400" aria-hidden />
-                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Work description</h3>
+          {/* Quick facts row */}
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+            {[
+              { icon: CircleDot, label: "Category", value: String(fv(b.tender_category)) },
+              { icon: CircleDot, label: "Sub-category", value: String(fv(w.product_category)) },
+              { icon: MapPin, label: "Location", value: String(fv(w.location)) },
+              { icon: MapPin, label: "Pincode", value: String(fv(w.pincode)) },
+              { icon: Clock, label: "Contract type", value: String(fv(w.contract_type)) },
+              { icon: Timer, label: "Bid opening place", value: String(fv(w.bid_opening_place)) },
+            ].filter(f => f.value !== "—").map(({ icon: Icon, label, value }) => (
+              <div key={label} className="flex items-start gap-2 rounded-xl border border-ink-200 bg-ink-50 px-3 py-2.5">
+                <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
+                <div className="min-w-0">
+                  <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">{label}</p>
+                  <p className="mt-0.5 text-sm font-medium text-ink-800 truncate">{value}</p>
+                </div>
               </div>
-              {fv(w.work_description) !== "—" ? (
-                <p className="text-sm text-ink-700 leading-relaxed whitespace-pre-line">{w.work_description}</p>
-              ) : (
-                <p className="text-sm text-ink-400 italic">No description provided.</p>
-              )}
-              {fv(w.pre_qualification_details) !== "—" && (
-                <div className="mt-4 rounded-lg bg-warning-50 border border-warning-200 px-4 py-3">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-warning-700 mb-1">Pre-qualification</p>
-                  <p className="text-sm text-warning-900 leading-relaxed">{w.pre_qualification_details}</p>
-                </div>
-              )}
-            </div>
+            ))}
+          </div>
 
-            {/* Quick facts sidebar */}
-            <div className="space-y-3">
-              {[
-                { icon: CircleDot, label: "Category", value: String(fv(b.tender_category)) },
-                { icon: CircleDot, label: "Sub-category", value: String(fv(w.product_category)) },
-                { icon: MapPin, label: "Location", value: String(fv(w.location)) },
-                { icon: MapPin, label: "Pincode", value: String(fv(w.pincode)) },
-                { icon: Clock, label: "Contract type", value: String(fv(w.contract_type)) },
-                { icon: Timer, label: "Bid opening place", value: String(fv(w.bid_opening_place)) },
-              ].filter(f => f.value !== "—").map(({ icon: Icon, label, value }) => (
-                <div key={label} className="flex items-start gap-3 rounded-xl border border-ink-200 bg-ink-50 px-3 py-2.5">
-                  <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
-                  <div className="min-w-0">
-                    <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">{label}</p>
-                    <p className="mt-0.5 text-sm font-medium text-ink-800 truncate">{value}</p>
-                  </div>
-                </div>
-              ))}
+          {/* Description — full width */}
+          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+            <div className="flex items-center gap-2 mb-4">
+              <ScrollText className="h-4 w-4 text-ink-400" aria-hidden />
+              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Work description</h3>
             </div>
+            {fv(w.work_description) !== "—" ? (
+              <p className="text-sm text-ink-700 leading-relaxed whitespace-pre-line">{w.work_description}</p>
+            ) : (
+              <p className="text-sm text-ink-400 italic">No description provided.</p>
+            )}
+            {fv(w.pre_qualification_details) !== "—" && (
+              <div className="mt-4 rounded-lg bg-warning-50 border border-warning-200 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-warning-700 mb-1">Pre-qualification</p>
+                <p className="text-sm text-warning-900 leading-relaxed">{w.pre_qualification_details}</p>
+              </div>
+            )}
           </div>
 
           {/* Authority — full width */}
