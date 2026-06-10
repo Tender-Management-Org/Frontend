@@ -153,6 +153,34 @@ export interface InterestedTenderApi {
   updated_at: string;
 }
 
+export type RecommendationStatus = "matched" | "interested" | "ignored" | "applied" | "won" | "lost";
+
+export interface TenderRecommendationApi {
+  match_id: string;
+  tender_id: string;
+  title: string;
+  tender_type: string;
+  organisation_chain: string;
+  product_category: string;
+  sub_category: string | null;
+  location: string;
+  tender_value: string | null;
+  publish_date: string | null;
+  bid_submission_end_date: string | null;
+  bid_opening_date: string | null;
+  fit_score: number;
+  status: RecommendationStatus;
+  match_reason: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type RecommendationsQuery = {
+  page?: number;
+  page_size?: number;
+  include_ignored?: boolean;
+};
+
 export async function getTenders(params: TendersQuery = {}) {
   const query = new URLSearchParams();
 
@@ -192,4 +220,17 @@ export async function markTender(tenderId: string, status: TenderMatchStatus) {
 
 export async function getInterestedTenders() {
   return apiRequest<InterestedTenderApi[]>("/tenders/interested/");
+}
+
+export async function getRecommendations(firmId: string, params: RecommendationsQuery = {}) {
+  const query = new URLSearchParams();
+  if (params.page) query.set("page", String(params.page));
+  if (params.page_size) query.set("page_size", String(params.page_size));
+  if (params.include_ignored) query.set("include_ignored", "true");
+  const suffix = query.toString() ? `?${query.toString()}` : "";
+  return apiRequest<PaginatedResponse<TenderRecommendationApi>>(`/firms/${firmId}/recommendations/${suffix}`);
+}
+
+export async function refreshRecommendations(firmId: string) {
+  return apiRequest<{ detail: string }>(`/firms/${firmId}/recommendations/refresh/`, { method: "POST" });
 }
