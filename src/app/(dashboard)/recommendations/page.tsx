@@ -4,6 +4,7 @@ import {
   ArrowRight,
   Building2,
   CalendarDays,
+  EyeOff,
   IndianRupee,
   MapPin,
   Sparkles,
@@ -13,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { ApiError } from "@/lib/api/client";
 import { getFirms } from "@/lib/api/firms";
 import { getRecommendations, type TenderRecommendationApi } from "@/lib/api/tenders";
+import { TenderMatchActionButton } from "@/components/tenders/TenderMatchActionButton";
 import { RefreshButton } from "./components/RefreshButton";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -165,7 +167,15 @@ function RecommendationCard({ item }: { item: TenderRecommendationApi }) {
       )}
 
       {/* Footer */}
-      <div className="mt-4 flex items-center justify-end border-t border-ink-100 pt-3">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink-100 pt-3">
+        <TenderMatchActionButton
+          tenderId={item.tender_id}
+          status="ignored"
+          label="Not for me"
+          loadingLabel="Dismissing…"
+          icon={EyeOff}
+          errorMessage="Could not dismiss tender. Please try again."
+        />
         <Link
           href={`/tenders/${encodeURIComponent(item.tender_id)}`}
           className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
