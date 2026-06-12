@@ -4,6 +4,7 @@ import { getInterestedTenders, type InterestedTenderApi } from "@/lib/api/tender
 import { redirect } from "next/navigation";
 import { ArrowRight, Bookmark, Building2, CalendarDays, FolderOpen, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { RemoveFromInterestedButton } from "./components/RemoveFromInterestedButton";
 
 function formatInr(value: string) {
   const num = Number(value);
@@ -174,7 +175,8 @@ export default async function InterestedPage() {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-4 flex items-center justify-end border-t border-ink-100 pt-3">
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink-100 pt-3">
+                  <RemoveFromInterestedButton tenderId={item.tender_id} />
                   <Link
                     href={`/interested/${encodeURIComponent(item.tender_id)}/workspace`}
                     className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"

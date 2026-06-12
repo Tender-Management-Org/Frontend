@@ -126,7 +126,7 @@ export interface TenderSemanticSearchResultApi {
   similarity_score: number;
 }
 
-export type TenderMatchStatus = "interested" | "ignored" | "applied";
+export type TenderMatchStatus = "matched" | "interested" | "ignored" | "applied";
 
 export interface TenderMatchApi {
   match_id: string;
