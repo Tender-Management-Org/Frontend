@@ -2,17 +2,24 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import type { LucideIcon } from "lucide-react";
+import { BookmarkMinus, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ApiError } from "@/lib/api/client";
 import { markTender, type TenderMatchStatus } from "@/lib/api/tenders";
+
+const ACTION_ICONS = {
+  "bookmark-minus": BookmarkMinus,
+  "eye-off": EyeOff,
+} as const;
+
+type TenderMatchActionIcon = keyof typeof ACTION_ICONS;
 
 interface TenderMatchActionButtonProps {
   tenderId: string;
   status: TenderMatchStatus;
   label: string;
   loadingLabel: string;
-  icon: LucideIcon;
+  icon: TenderMatchActionIcon;
   errorMessage?: string;
 }
 
@@ -21,9 +28,10 @@ export function TenderMatchActionButton({
   status,
   label,
   loadingLabel,
-  icon: Icon,
+  icon,
   errorMessage = "Could not update tender. Please try again.",
 }: TenderMatchActionButtonProps) {
+  const Icon = ACTION_ICONS[icon];
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

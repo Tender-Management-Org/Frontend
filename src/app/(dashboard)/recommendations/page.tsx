@@ -4,7 +4,6 @@ import {
   ArrowRight,
   Building2,
   CalendarDays,
-  EyeOff,
   IndianRupee,
   MapPin,
   Sparkles,
@@ -173,7 +172,7 @@ function RecommendationCard({ item }: { item: TenderRecommendationApi }) {
           status="ignored"
           label="Not for me"
           loadingLabel="Dismissing…"
-          icon={EyeOff}
+          icon="eye-off"
           errorMessage="Could not dismiss tender. Please try again."
         />
         <Link

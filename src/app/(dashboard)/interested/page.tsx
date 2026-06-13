@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ApiError } from "@/lib/api/client";
 import { getInterestedTenders, type InterestedTenderApi } from "@/lib/api/tenders";
 import { redirect } from "next/navigation";
-import { ArrowRight, Bookmark, BookmarkMinus, Building2, CalendarDays, FolderOpen, MapPin } from "lucide-react";
+import { ArrowRight, Bookmark, Building2, CalendarDays, FolderOpen, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TenderMatchActionButton } from "@/components/tenders/TenderMatchActionButton";
 
@@ -181,7 +181,7 @@ export default async function InterestedPage() {
                     status="matched"
                     label="Remove from shortlist"
                     loadingLabel="Removing…"
-                    icon={BookmarkMinus}
+                    icon="bookmark-minus"
                     errorMessage="Could not remove tender. Please try again."
                   />
                   <Link
