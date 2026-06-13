@@ -7,32 +7,97 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ApiError, registerWithPassword } from "@/lib/api/client";
 import { emitToast } from "@/lib/toast";
-import { AlertCircle, FileSearch } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, FileSearch } from "lucide-react";
+
+interface FieldErrors {
+  username?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+}
+
+const USERNAME_REGEX = /^[a-zA-Z0-9_.-]+$/;
+
+function validateForm(username: string, email: string, password: string, confirmPassword: string): FieldErrors {
+  const errs: FieldErrors = {};
+
+  if (!username) {
+    errs.username = "Username is required.";
+  } else if (/\s/.test(username)) {
+    errs.username = "Username cannot contain spaces.";
+  } else if (username.length < 3) {
+    errs.username = "Username must be at least 3 characters.";
+  } else if (!USERNAME_REGEX.test(username)) {
+    errs.username = "Only letters, numbers, underscores, dots, and hyphens are allowed.";
+  }
+
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errs.email = "Enter a valid email address.";
+  }
+
+  if (!password) {
+    errs.password = "Password is required.";
+  } else if (password.length < 8) {
+    errs.password = "Password must be at least 8 characters.";
+  } else if (/^\d+$/.test(password)) {
+    errs.password = "Password cannot be entirely numeric.";
+  }
+
+  if (!confirmPassword) {
+    errs.confirmPassword = "Please confirm your password.";
+  } else if (password && confirmPassword !== password) {
+    errs.confirmPassword = "Passwords do not match.";
+  }
+
+  return errs;
+}
 
 export default function RegisterPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  function clearFieldError(field: keyof FieldErrors) {
+    setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
+  }
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError(null);
+    const errs = validateForm(username, email, password, confirmPassword);
+    if (Object.keys(errs).length > 0) {
+      setFieldErrors(errs);
+      return;
+    }
+    setFieldErrors({});
     setIsSubmitting(true);
     try {
-      await registerWithPassword(username.trim(), email.trim(), password);
+      await registerWithPassword(username, email.trim(), password);
       emitToast({ type: "success", title: "Account created.", description: "Complete onboarding to unlock dashboard." });
       router.replace("/onboarding");
       router.refresh();
     } catch (err) {
       if (err instanceof ApiError && err.status === 400) {
-        setError("Please check your details. Username or email may already be taken.");
-        emitToast({ type: "error", title: "Registration failed.", description: "Please check your details and try again." });
+        // Parse field-level errors returned by the API
+        const data = err.data as Record<string, string | string[]> | null;
+        if (data && typeof data === "object") {
+          const apiErrors: FieldErrors = {};
+          if (data.username) apiErrors.username = Array.isArray(data.username) ? data.username[0] : data.username;
+          if (data.email) apiErrors.email = Array.isArray(data.email) ? data.email[0] : data.email;
+          if (data.password) apiErrors.password = Array.isArray(data.password) ? data.password[0] : data.password;
+          if (Object.keys(apiErrors).length > 0) {
+            setFieldErrors(apiErrors);
+            return;
+          }
+        }
+        setFieldErrors({ username: "Username or email may already be taken." });
       } else {
-        setError("Unable to create account right now. Please try again.");
-        emitToast({ type: "error", title: "Registration failed.", description: "Please try again in a moment." });
+        emitToast({ type: "error", title: "Registration failed.", description: "Unable to create account right now. Please try again." });
       }
     } finally {
       setIsSubmitting(false);
@@ -88,6 +153,7 @@ export default function RegisterPage() {
           </div>
 
           <form className="space-y-4" onSubmit={onSubmit} noValidate>
+            {/* Username */}
             <div className="space-y-1.5">
               <label htmlFor="username" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
                 Username <span className="text-danger-500">*</span>
@@ -96,11 +162,20 @@ export default function RegisterPage() {
                 id="username"
                 placeholder="your_username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => { setUsername(e.target.value); clearFieldError("username"); }}
                 autoComplete="username"
-                required
+                aria-invalid={!!fieldErrors.username}
               />
+              {fieldErrors.username && (
+                <p className="flex items-center gap-1 text-xs text-danger-600">
+                  <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
+                  {fieldErrors.username}
+                </p>
+              )}
+              <p className="text-xs text-ink-400">Letters, numbers, underscores, dots, hyphens. No spaces.</p>
             </div>
+
+            {/* Email */}
             <div className="space-y-1.5">
               <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
                 Email <span className="text-ink-400 font-normal normal-case tracking-normal">(optional)</span>
@@ -110,31 +185,87 @@ export default function RegisterPage() {
                 placeholder="you@company.com"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => { setEmail(e.target.value); clearFieldError("email"); }}
                 autoComplete="email"
+                aria-invalid={!!fieldErrors.email}
               />
+              {fieldErrors.email && (
+                <p className="flex items-center gap-1 text-xs text-danger-600">
+                  <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
+                  {fieldErrors.email}
+                </p>
+              )}
             </div>
+
+            {/* Password */}
             <div className="space-y-1.5">
               <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
                 Password <span className="text-danger-500">*</span>
               </label>
-              <Input
-                id="password"
-                placeholder="••••••••"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="new-password"
-                required
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  placeholder="••••••••"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => { setPassword(e.target.value); clearFieldError("password"); clearFieldError("confirmPassword"); }}
+                  autoComplete="new-password"
+                  aria-invalid={!!fieldErrors.password}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((v) => !v)}
+                  className="absolute inset-y-0 right-3 flex items-center text-ink-400 hover:text-ink-600"
+                  tabIndex={-1}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {fieldErrors.password ? (
+                <p className="flex items-center gap-1 text-xs text-danger-600">
+                  <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
+                  {fieldErrors.password}
+                </p>
+              ) : (
+                <p className="text-xs text-ink-400">At least 8 characters. Cannot be entirely numeric.</p>
+              )}
             </div>
 
-            {error && (
-              <div className="flex items-start gap-2 rounded-lg border border-danger-200 bg-danger-50 px-3 py-2.5">
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-                <p className="text-sm text-danger-700">{error}</p>
+            {/* Confirm password */}
+            <div className="space-y-1.5">
+              <label htmlFor="confirmPassword" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+                Confirm password <span className="text-danger-500">*</span>
+              </label>
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  placeholder="••••••••"
+                  type={showConfirm ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => { setConfirmPassword(e.target.value); clearFieldError("confirmPassword"); }}
+                  autoComplete="new-password"
+                  aria-invalid={!!fieldErrors.confirmPassword}
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirm((v) => !v)}
+                  className="absolute inset-y-0 right-3 flex items-center text-ink-400 hover:text-ink-600"
+                  tabIndex={-1}
+                  aria-label={showConfirm ? "Hide password" : "Show password"}
+                >
+                  {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
               </div>
-            )}
+              {fieldErrors.confirmPassword && (
+                <p className="flex items-center gap-1 text-xs text-danger-600">
+                  <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
+                  {fieldErrors.confirmPassword}
+                </p>
+              )}
+            </div>
 
             <Button className="mt-2 w-full" size="lg" type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Creating account…" : "Create account"}
@@ -143,10 +274,7 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-center text-sm text-ink-500">
             Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-semibold text-navy-600 underline-offset-4 hover:underline"
-            >
+            <Link href="/login" className="font-semibold text-navy-600 underline-offset-4 hover:underline">
               Sign in
             </Link>
           </p>

@@ -10,6 +10,10 @@ export interface FirmProfileFormData {
   cin: string;
   udyam_number: string;
   dsc_expiry_date: string;
+  san_brn: string;
+  esi_number: string;
+  pf_code: string;
+  shop_act_number: string;
   address_line: string;
   city: string;
   state: string;

@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/Input";
+import { TagInput } from "@/components/ui/TagInput";
 import type { FirmProfileFormData, FormErrors } from "./types";
 
 interface Step1BasicInfoProps {
@@ -70,12 +71,11 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">Scope of work *</label>
-        <textarea
+        <label className="text-sm font-medium text-slate-700">Scope of Work *</label>
+        <TagInput
           value={formData.scope_of_work}
-          onChange={(event) => onChange("scope_of_work", event.target.value)}
-          placeholder="Describe work your firm performs, comma-separated if needed"
-          className="min-h-[96px] w-full resize-y rounded-lg border border-border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300"
+          onChange={(val) => onChange("scope_of_work", val)}
+          placeholder="Type a category and press Enter — e.g. Civil Construction"
         />
         {errors.scope_of_work && <p className="text-xs text-red-600">{errors.scope_of_work}</p>}
       </div>

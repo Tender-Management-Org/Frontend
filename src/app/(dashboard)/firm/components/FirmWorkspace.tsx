@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, CheckSquare, Landmark, Pencil, ShieldCheck } from "lucide-react";
+import { Building2, CheckSquare, Landmark, Pencil, Plus, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/lib/api/client";
 import {
@@ -89,20 +89,40 @@ function EmptyState({ entity }: { entity: string }) {
   );
 }
 
-function SectionHeader({ title, onEdit }: { title: string; onEdit: () => void }) {
+function SectionHeader({ title, onEdit, onAdd }: { title: string; onEdit: () => void; onAdd?: () => void }) {
   return (
     <div className="mb-5 flex items-center justify-between gap-3 border-b border-ink-100 pb-4">
       <h3 className="text-base font-semibold text-ink-900">{title}</h3>
-      <button
-        type="button"
-        onClick={onEdit}
-        aria-label={`Edit ${title}`}
-        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-ink-200 text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
-      >
-        <Pencil className="h-3.5 w-3.5" aria-hidden />
-      </button>
+      <div className="flex items-center gap-2">
+        {onAdd && (
+          <button
+            type="button"
+            onClick={onAdd}
+            aria-label={`Add ${title}`}
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-600 bg-navy-600 px-3 text-xs font-medium text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+          >
+            <Plus className="h-3.5 w-3.5" aria-hidden />
+            Add
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={onEdit}
+          aria-label={`Edit ${title}`}
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-ink-200 text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+        >
+          <Pencil className="h-3.5 w-3.5" aria-hidden />
+        </button>
+      </div>
     </div>
   );
+}
+
+function fmt(value: string | number | null | undefined): string | undefined {
+  if (value == null || value === "") return undefined;
+  const num = Number(String(value).replace(/,/g, ""));
+  if (!Number.isFinite(num)) return String(value);
+  return `₹${num.toLocaleString("en-IN")}`;
 }
 
 function SummaryCard({ title, value, icon: Icon }: { title: string; value: string; icon: typeof Building2 }) {
@@ -361,8 +381,7 @@ export function FirmWorkspace() {
                 <SectionHeader title="Firm" onEdit={() => setEditSection("firm")} />
                 <FieldGrid
                   rows={[
-                    { label: "ID", value: data.firm?.id },
-                    { label: "Owner", value: data.firm?.owner_username ?? (data.firm?.owner ? String(data.firm.owner) : undefined) },
+                    { label: "Owner", value: data.firm?.owner_username },
                     { label: "Legal name", value: data.firm?.legal_name },
                     { label: "Business name", value: data.firm?.business_name },
                     { label: "Constitution", value: data.firm?.constitution },
@@ -370,8 +389,6 @@ export function FirmWorkspace() {
                     { label: "Industry type", value: data.firm?.industry_type },
                     { label: "Scope of work", value: data.firm?.scope_of_work },
                     { label: "Active", value: data.firm ? (data.firm.is_active ? "Yes" : "No") : undefined },
-                    { label: "Created at", value: formatDateTime(data.firm?.created_at) },
-                    { label: "Updated at", value: formatDateTime(data.firm?.updated_at) },
                   ]}
                 />
               </div>
@@ -386,9 +403,11 @@ export function FirmWorkspace() {
                     { label: "GSTIN", value: data.identity?.gstin },
                     { label: "CIN", value: data.identity?.cin },
                     { label: "Udyam number", value: data.identity?.udyam_number },
+                    { label: "SAN / BRN", value: data.identity?.san_brn },
+                    { label: "ESI number", value: data.identity?.esi_number },
+                    { label: "PF code", value: data.identity?.pf_code },
+                    { label: "Shop Act Reg. No.", value: data.identity?.shop_act_number },
                     { label: "DSC expiry date", value: data.identity?.dsc_expiry_date ?? undefined },
-                    { label: "Created at", value: formatDateTime(data.identity?.created_at) },
-                    { label: "Updated at", value: formatDateTime(data.identity?.updated_at) },
                   ]}
                 />
               </div>
@@ -405,8 +424,6 @@ export function FirmWorkspace() {
                       { label: "State", value: data.location.state },
                       { label: "Pincode", value: data.location.pincode },
                       { label: "Primary", value: data.location.is_primary ? "Yes" : "No" },
-                      { label: "Created at", value: formatDateTime(data.location.created_at) },
-                      { label: "Updated at", value: formatDateTime(data.location.updated_at) },
                     ]}
                   />
                 ) : (
@@ -420,21 +437,21 @@ export function FirmWorkspace() {
                 <SectionHeader
                   title="Financials"
                   onEdit={() => { setData((prev) => ({ ...prev, financial: null })); setEditSection("financials"); }}
+                  onAdd={() => { setData((prev) => ({ ...prev, financial: null })); setEditSection("financials"); }}
                 />
-                <p className="mb-4 text-sm text-ink-500">Per financial year: turnover, net worth, PAT, audit status.</p>
+                <p className="mb-4 text-sm text-ink-500">Per financial year: turnover and audit status.</p>
                 {data.financials.length > 0 ? (
                   <div className="space-y-3">
                     {data.financials.map((financial) => (
                       <RecordCard
                         key={financial.id}
                         title={financial.financial_year || "Financial year"}
-                        subtitle={`Turnover: ${String(financial.turnover_amount)}`}
+                        subtitle={`Turnover: ${fmt(financial.turnover_amount) ?? "—"}`}
                         onEdit={() => { setData((prev) => ({ ...prev, financial })); setEditSection("financials"); }}
                       >
                         <FieldGrid
                           rows={[
-                            { label: "Net worth", value: financial.net_worth != null ? String(financial.net_worth) : undefined },
-                            { label: "Profit after tax", value: financial.profit_after_tax != null ? String(financial.profit_after_tax) : undefined },
+                            { label: "Turnover", value: fmt(financial.turnover_amount) },
                             { label: "Audited", value: financial.is_audited ? "Yes" : "No" },
                             { label: "Audit document", value: resolveDocumentLabel(financial.audit_document) },
                           ]}
@@ -453,6 +470,7 @@ export function FirmWorkspace() {
                 <SectionHeader
                   title="Banking & solvency"
                   onEdit={() => { setData((prev) => ({ ...prev, banking: null })); setEditSection("banking"); }}
+                  onAdd={() => { setData((prev) => ({ ...prev, banking: null })); setEditSection("banking"); }}
                 />
                 {data.bankings.length > 0 ? (
                   <div className="space-y-3">
@@ -460,7 +478,7 @@ export function FirmWorkspace() {
                       <RecordCard
                         key={banking.id}
                         title={banking.bank_name || "Bank record"}
-                        subtitle={`Solvency: ${String(banking.solvency_amount)}`}
+                        subtitle={`Solvency: ${fmt(banking.solvency_amount) ?? "—"}`}
                         onEdit={() => { setData((prev) => ({ ...prev, banking })); setEditSection("banking"); }}
                       >
                         <FieldGrid
@@ -483,6 +501,7 @@ export function FirmWorkspace() {
                 <SectionHeader
                   title="Experience"
                   onEdit={() => { setData((prev) => ({ ...prev, experience: null })); setEditSection("experience"); }}
+                  onAdd={() => { setData((prev) => ({ ...prev, experience: null })); setEditSection("experience"); }}
                 />
                 {data.experiences.length > 0 ? (
                   <div className="space-y-3">
@@ -495,9 +514,9 @@ export function FirmWorkspace() {
                       >
                         <FieldGrid
                           rows={[
-                            { label: "Work order value", value: String(exp.work_order_value) },
+                            { label: "Work order value", value: fmt(exp.work_order_value) },
                             { label: "Start date", value: exp.start_date ?? undefined },
-                            { label: "Completion date", value: exp.completion_date ?? undefined },
+                            { label: "Status", value: exp.is_currently_working ? "Ongoing" : (exp.completion_date ? `Completed ${exp.completion_date}` : "Completed") },
                             { label: "Tags", value: exp.category_tags.join(", ") || undefined },
                           ]}
                         />
@@ -515,21 +534,21 @@ export function FirmWorkspace() {
                 <SectionHeader
                   title="Certifications"
                   onEdit={() => { setData((prev) => ({ ...prev, certification: null })); setEditSection("certifications"); }}
+                  onAdd={() => { setData((prev) => ({ ...prev, certification: null })); setEditSection("certifications"); }}
                 />
                 {data.certifications.length > 0 ? (
                   <div className="space-y-3">
                     {data.certifications.map((cert) => (
                       <RecordCard
                         key={cert.id}
-                        title={cert.cert_type}
-                        subtitle={`Cert no: ${cert.cert_number || "—"}`}
+                        title={cert.cert_type === "other" ? (cert.other_cert_type || "Other") : cert.cert_type}
+                        subtitle={cert.cert_number ? `Cert no: ${cert.cert_number}` : undefined}
                         onEdit={() => { setData((prev) => ({ ...prev, certification: cert })); setEditSection("certifications"); }}
                       >
                         <FieldGrid
                           rows={[
-                            { label: "Rating", value: cert.rating_level || undefined },
                             { label: "Issue date", value: cert.issue_date ?? undefined },
-                            { label: "Expiry date", value: cert.expiry_date ?? undefined },
+                            { label: "Expiry date", value: cert.expiry_date ?? "Does not expire" },
                             { label: "Document", value: resolveDocumentLabel(cert.document) },
                           ]}
                         />
@@ -550,7 +569,6 @@ export function FirmWorkspace() {
                     { label: "EMD waiver eligible", value: data.exemptions ? (data.exemptions.eligible_for_emd_waiver ? "Yes" : "No") : undefined },
                     { label: "Experience waiver eligible", value: data.exemptions ? (data.exemptions.eligible_for_exp_waiver ? "Yes" : "No") : undefined },
                     { label: "Local preference state", value: data.exemptions?.local_preference_state },
-                    { label: "Updated at", value: formatDateTime(data.exemptions?.updated_at) },
                   ]}
                 />
               </div>
@@ -564,9 +582,8 @@ export function FirmWorkspace() {
                     { label: "Preferred regions", value: data.preferences?.preferred_regions?.join(", ") },
                     { label: "Target sectors", value: data.preferences?.target_sectors?.join(", ") },
                     { label: "Excluded departments", value: data.preferences?.excluded_depts?.join(", ") },
-                    { label: "Min tender value", value: data.preferences?.min_tender_value != null ? `₹${data.preferences.min_tender_value.toLocaleString("en-IN")}` : undefined },
-                    { label: "Max tender value", value: data.preferences?.max_tender_value != null ? `₹${data.preferences.max_tender_value.toLocaleString("en-IN")}` : undefined },
-                    { label: "Updated at", value: formatDateTime(data.preferences?.updated_at) },
+                    { label: "Min tender value", value: fmt(data.preferences?.min_tender_value) },
+                    { label: "Max tender value", value: fmt(data.preferences?.max_tender_value) },
                   ]}
                 />
               </div>

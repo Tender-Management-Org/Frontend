@@ -24,6 +24,10 @@ export interface FirmIdentityApi {
   cin: string;
   udyam_number: string;
   dsc_expiry_date: string | null;
+  san_brn: string;
+  esi_number: string;
+  pf_code: string;
+  shop_act_number: string;
   created_at: string;
   updated_at: string;
 }
@@ -73,6 +77,7 @@ export interface FirmExperienceApi {
   work_order_value: string | number;
   start_date: string | null;
   completion_date: string | null;
+  is_currently_working: boolean;
   category_tags: string[];
   created_at: string;
   updated_at: string;

@@ -33,7 +33,7 @@ export async function uploadDocument(payload: {
   if (payload.title) formData.append("title", payload.title);
   if (payload.other_doc_type) formData.append("other_doc_type", payload.other_doc_type);
 
-  return apiRequest<DocumentApi>("/documents/upload/", {
+  return apiRequest<DocumentApi>(`/firms/${payload.firm}/documents/`, {
     method: "POST",
     body: formData,
   });

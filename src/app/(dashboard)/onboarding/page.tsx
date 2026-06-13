@@ -36,6 +36,10 @@ const initialState: FirmProfileFormData = {
   cin: "",
   udyam_number: "",
   dsc_expiry_date: "",
+  san_brn: "",
+  esi_number: "",
+  pf_code: "",
+  shop_act_number: "",
   address_line: "",
   city: "",
   state: "",
@@ -82,13 +86,33 @@ export default function OnboardingPage() {
       if (!formData.scope_of_work.trim()) nextErrors.scope_of_work = "Scope of work is required.";
     }
     if (step === 1) {
+      const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+      const udyamRegex = /^UDYAM-[A-Z]{2}-\d{2}-\d{7}$/;
+      const cinRegex = /^[A-Z]{1}[0-9]{5}[A-Z]{2}[0-9]{4}[A-Z]{3}[0-9]{6}$/;
+
       if (!formData.pan_number.trim()) {
         nextErrors.pan_number = "PAN number is required.";
       } else if (!panRegex.test(formData.pan_number)) {
-        nextErrors.pan_number = "PAN format should be like ABCDE1234F.";
+        nextErrors.pan_number = "Invalid PAN. Expected format: ABCDE1234F (5 letters · 4 digits · 1 letter).";
       }
-      if (!formData.gstin.trim()) nextErrors.gstin = "GSTIN is required.";
-      if (!formData.cin.trim()) nextErrors.cin = "CIN is required.";
+
+      if (!formData.gstin.trim()) {
+        nextErrors.gstin = "GSTIN is required.";
+      } else if (!gstinRegex.test(formData.gstin.trim())) {
+        nextErrors.gstin = "Invalid GSTIN. Expected 15-character format like 27AABCS1429B1Z5.";
+      }
+
+      if (formData.cin.trim() && !cinRegex.test(formData.cin.trim())) {
+        nextErrors.cin = "Invalid CIN. Expected format: U74999WB2000PTC200542 (21 characters).";
+      }
+
+      if (formData.udyam_number.trim() && !udyamRegex.test(formData.udyam_number.trim())) {
+        nextErrors.udyam_number = "Invalid Udyam number. Expected format: UDYAM-RJ-06-0012345.";
+      }
+
+      if (formData.esi_number.trim() && !/^\d{17}$/.test(formData.esi_number.trim())) {
+        nextErrors.esi_number = "ESI number must be exactly 17 digits.";
+      }
     }
     if (step === 2) {
       if (!formData.address_line.trim()) nextErrors.address_line = "Address is required.";
@@ -158,10 +182,14 @@ export default function OnboardingPage() {
 
       await upsertFirmIdentity(firm.id, {
         pan_number: formData.pan_number.trim().toUpperCase(),
-        gstin: formData.gstin.trim(),
-        cin: formData.cin.trim(),
-        udyam_number: formData.udyam_number.trim(),
+        gstin: formData.gstin.trim().toUpperCase(),
+        cin: formData.cin.trim().toUpperCase(),
+        udyam_number: formData.udyam_number.trim().toUpperCase(),
         dsc_expiry_date: formData.dsc_expiry_date || null,
+        san_brn: formData.san_brn.trim(),
+        esi_number: formData.esi_number.trim(),
+        pf_code: formData.pf_code.trim().toUpperCase(),
+        shop_act_number: formData.shop_act_number.trim(),
       });
 
       const locations = await getFirmLocations(firm.id, 1);
@@ -196,7 +224,7 @@ export default function OnboardingPage() {
 
   return (
     <div className="flex min-h-full items-start justify-center py-8">
-      <section className="w-full max-w-2xl space-y-6">
+      <section className="w-full max-w-3xl space-y-6">
         {/* Header */}
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-navy-600">Setup</p>
