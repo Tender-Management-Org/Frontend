@@ -53,16 +53,11 @@ export default async function RecommendationsPage() {
               <Sparkles className="h-5 w-5 text-navy-600" aria-hidden />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-bold text-ink-900">Recommendations</h1>
-                {totalCount > 0 && (
-                  <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-navy-600 px-1.5 text-xs font-bold text-white">
-                    {totalCount}
-                  </span>
-                )}
-              </div>
+              <h1 className="text-xl font-bold text-ink-900">Recommendations</h1>
               <p className="mt-1 text-sm text-ink-500">
-                Tenders matched to your firm profile by AI — sorted by fit score.
+                {totalCount > 0
+                  ? `Total recommendations: ${totalCount} — sorted by fit score.`
+                  : "Tenders matched to your firm profile by AI — sorted by fit score."}
               </p>
             </div>
           </div>
