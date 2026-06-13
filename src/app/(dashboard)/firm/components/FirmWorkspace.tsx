@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, CheckSquare, Landmark, Pencil, Plus, ShieldCheck } from "lucide-react";
+import { Building2, CheckSquare, Eye, Landmark, Pencil, Plus, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/lib/api/client";
 import {
@@ -197,6 +197,12 @@ export function FirmWorkspace() {
     const match = data.documents.find((d) => d.id === documentId);
     if (!match) return documentId;
     return match.title || match.file.split("/").pop() || match.id;
+  };
+
+  const resolveDocumentUrl = (documentId?: string | null): string | undefined => {
+    if (!documentId) return undefined;
+    const match = data.documents.find((d) => d.id === documentId);
+    return match?.file;
   };
 
   const resolveDocumentTypeLabel = (document: DocumentApi) => {
@@ -453,9 +459,28 @@ export function FirmWorkspace() {
                           rows={[
                             { label: "Turnover", value: fmt(financial.turnover_amount) },
                             { label: "Audited", value: financial.is_audited ? "Yes" : "No" },
-                            { label: "Audit document", value: resolveDocumentLabel(financial.audit_document) },
                           ]}
                         />
+                        {(() => {
+                          const url = resolveDocumentUrl(financial.audit_document);
+                          const label = resolveDocumentLabel(financial.audit_document);
+                          return url ? (
+                            <div className="mt-3 border-t border-ink-100 pt-3">
+                              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-400">Audit document</p>
+                              <a
+                                href={url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-xs font-medium text-ink-700 transition-colors hover:bg-ink-50"
+                              >
+                                <Eye className="h-3.5 w-3.5" aria-hidden />
+                                {label ?? "View document"}
+                              </a>
+                            </div>
+                          ) : (
+                            <p className="mt-2 text-xs text-ink-400">No audit document linked.</p>
+                          );
+                        })()}
                       </RecordCard>
                     ))}
                   </div>

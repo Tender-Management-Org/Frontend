@@ -319,6 +319,11 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
                   });
                   documentId = uploaded.id;
                 }
+                if (!documentId) {
+                  setError("Certificate document is required. Please upload the certificate file.");
+                  setIsSaving(false);
+                  return;
+                }
                 const issueDate = asOptionalString(fd.get("issue_date"));
                 if (!issueDate) {
                   setError("Issue date is required.");
@@ -705,11 +710,8 @@ function CertificationFormFields({ certification, experiences }: { certification
           <Input name="expiry_date" type="date" defaultValue={certification?.expiry_date ?? ""} />
         </Field>
       </div>
-      <Field label="Certificate document" hint="Upload PDF or image of the certificate">
+      <Field label="Certificate document" required hint={certification?.document ? "A document is already linked. Upload a new file to replace it." : "Upload PDF or image of the certificate."}>
         <Input name="document_file" type="file" accept=".pdf,.jpg,.jpeg,.png" />
-        {certification?.document && (
-          <p className="text-xs text-slate-500">A document is already linked. Upload a new file to replace it.</p>
-        )}
       </Field>
     </div>
   );
