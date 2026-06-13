@@ -86,12 +86,17 @@ export function RecommendationCard({ item, firmId }: Props) {
   const fit = fitBand(item.fit_score);
   const detailHref = `/tenders/${encodeURIComponent(item.tender_id)}`;
 
+  function broadcastRead() {
+    window.dispatchEvent(new CustomEvent("recommendation-read"));
+  }
+
   async function handleMarkRead() {
     if (isRead || markingRead) return;
     setMarkingRead(true);
     try {
       await markRecommendationsRead(firmId, [item.match_id]);
       setIsRead(true);
+      broadcastRead();
     } catch {
       // Best-effort — let them try again
     } finally {
@@ -100,12 +105,10 @@ export function RecommendationCard({ item, firmId }: Props) {
   }
 
   async function handleViewDetails() {
-    // Mark as read first (fire-and-forget), then navigate
     if (!isRead) {
       setIsRead(true);
-      markRecommendationsRead(firmId, [item.match_id]).catch(() => {
-        // Best-effort
-      });
+      broadcastRead();
+      markRecommendationsRead(firmId, [item.match_id]).catch(() => {});
     }
     router.push(detailHref);
   }

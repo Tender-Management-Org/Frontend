@@ -91,24 +91,14 @@ export function Sidebar() {
     return () => { cancelled = true; };
   }, []);
 
-  // Manage badge visibility based on route
-  const prevPathRef2 = useRef(pathname);
+  // Decrement badge whenever a card is individually marked as read
   useEffect(() => {
-    const prev = prevPathRef2.current;
-    prevPathRef2.current = pathname;
-
-    if (pathname === "/recommendations") {
-      // Hide badge while user is actively reading the page
-      setUnreadCount(0);
-    } else if (prev === "/recommendations") {
-      // Re-fetch when leaving — some items may still be unread
-      if (firmIdRef.current) {
-        getUnreadRecommendationsCount(firmIdRef.current)
-          .then(({ unread_count }) => setUnreadCount(unread_count))
-          .catch(() => {});
-      }
+    function handleRead() {
+      setUnreadCount((prev) => Math.max(0, prev - 1));
     }
-  }, [pathname]);
+    window.addEventListener("recommendation-read", handleRead);
+    return () => window.removeEventListener("recommendation-read", handleRead);
+  }, []);
 
   return (
     <>
