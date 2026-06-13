@@ -171,6 +171,8 @@ export interface TenderRecommendationApi {
   fit_score: number;
   status: RecommendationStatus;
   match_reason: string;
+  is_read: boolean;
+  read_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -233,4 +235,15 @@ export async function getRecommendations(firmId: string, params: Recommendations
 
 export async function refreshRecommendations(firmId: string) {
   return apiRequest<{ detail: string }>(`/firms/${firmId}/recommendations/refresh/`, { method: "POST" });
+}
+
+export async function getUnreadRecommendationsCount(firmId: string) {
+  return apiRequest<{ unread_count: number }>(`/firms/${firmId}/recommendations/unread-count/`);
+}
+
+export async function markRecommendationsRead(firmId: string, matchIds?: string[]) {
+  return apiRequest<{ marked: number }>(`/firms/${firmId}/recommendations/mark-read/`, {
+    method: "POST",
+    body: matchIds ? { match_ids: matchIds } : {},
+  });
 }

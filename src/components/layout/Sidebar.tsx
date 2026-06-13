@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Bookmark,
   Building2,
@@ -16,6 +16,8 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getFirms } from "@/lib/api/firms";
+import { getUnreadRecommendationsCount } from "@/lib/api/tenders";
 
 const menuItems = [
   {
@@ -55,6 +57,8 @@ export function Sidebar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(true);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const firmIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -63,6 +67,47 @@ export function Sidebar() {
       .find((entry) => entry.startsWith("tp_onboarding_complete="))
       ?.split("=")[1];
     setIsOnboardingComplete(cookieValue === "true");
+  }, [pathname]);
+
+  // Fetch unread count once on mount — recommendations only update nightly at 2AM
+  // so there's no need to poll; the badge just needs to show on the next page load.
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchCount() {
+      try {
+        if (!firmIdRef.current) {
+          const firmsRes = await getFirms(1);
+          const active = firmsRes.results.find((f) => f.is_active);
+          if (!active) return;
+          firmIdRef.current = active.id;
+        }
+        const { unread_count } = await getUnreadRecommendationsCount(firmIdRef.current);
+        if (!cancelled) setUnreadCount(unread_count);
+      } catch {
+        // Best-effort — ignore errors
+      }
+    }
+    fetchCount();
+    return () => { cancelled = true; };
+  }, []);
+
+  // Manage badge visibility based on route
+  const prevPathRef2 = useRef(pathname);
+  useEffect(() => {
+    const prev = prevPathRef2.current;
+    prevPathRef2.current = pathname;
+
+    if (pathname === "/recommendations") {
+      // Hide badge while user is actively reading the page
+      setUnreadCount(0);
+    } else if (prev === "/recommendations") {
+      // Re-fetch when leaving — some items may still be unread
+      if (firmIdRef.current) {
+        getUnreadRecommendationsCount(firmIdRef.current)
+          .then(({ unread_count }) => setUnreadCount(unread_count))
+          .catch(() => {});
+      }
+    }
   }, [pathname]);
 
   return (
@@ -151,16 +196,30 @@ export function Sidebar() {
                     )}
                     title={isCollapsed ? item.name : undefined}
                   >
-                    <Icon
-                      className={cn(
-                        "h-4 w-4 shrink-0",
-                        isActive ? "text-white" : "text-ink-400 group-hover:text-ink-700"
+                    <span className="relative shrink-0">
+                      <Icon
+                        className={cn(
+                          "h-4 w-4",
+                          isActive ? "text-white" : "text-ink-400 group-hover:text-ink-700"
+                        )}
+                        aria-hidden
+                      />
+                      {/* Unread badge (collapsed mode — dot on icon) */}
+                      {isCollapsed && item.href === "/recommendations" && unreadCount > 0 && (
+                        <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white leading-none">
+                          {unreadCount > 9 ? "9+" : unreadCount}
+                        </span>
                       )}
-                      aria-hidden
-                    />
+                    </span>
                     {!isCollapsed && (
                       <>
                         <span className="flex-1 truncate">{item.name}</span>
+                        {/* Unread badge (expanded mode) */}
+                        {item.href === "/recommendations" && unreadCount > 0 && (
+                          <span className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white leading-none">
+                            {unreadCount > 99 ? "99+" : unreadCount}
+                          </span>
+                        )}
                         {!isOnboardingComplete && item.href !== "/dashboard" && (
                           <Lock
                             className="h-3 w-3 shrink-0 text-ink-300"

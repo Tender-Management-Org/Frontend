@@ -17,10 +17,9 @@ export function RefreshButton({ firmId }: RefreshButtonProps) {
     try {
       await refreshRecommendations(firmId);
       setState("done");
-      // Reset after 4 seconds so user can trigger again
-      setTimeout(() => setState("idle"), 4000);
+      setTimeout(() => setState("idle"), 5000);
     } catch (err) {
-      const message = err instanceof ApiError ? String(err.message) : "Failed to refresh";
+      const message = err instanceof ApiError ? String(err.message) : "Failed to regenerate";
       console.error(message);
       setState("error");
       setTimeout(() => setState("idle"), 4000);
@@ -39,13 +38,16 @@ export function RefreshButton({ firmId }: RefreshButtonProps) {
           className={`h-4 w-4 ${state === "loading" ? "animate-spin" : ""}`}
           aria-hidden
         />
-        {state === "loading" ? "Refreshing…" : state === "done" ? "Queued!" : "Refresh"}
+        {state === "loading" ? "Queuing…" : state === "done" ? "Queued!" : "Regenerate recommendations"}
       </button>
+      {state === "idle" && (
+        <p className="text-xs text-ink-400">Run this after updating your firm profile.</p>
+      )}
       {state === "done" && (
         <p className="text-xs text-ink-400">Running in background — reload in a moment.</p>
       )}
       {state === "error" && (
-        <p className="text-xs text-danger-600">Couldn&apos;t queue refresh. Try again.</p>
+        <p className="text-xs text-danger-600">Couldn&apos;t queue task. Try again.</p>
       )}
     </div>
   );
