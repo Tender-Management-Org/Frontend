@@ -86,7 +86,12 @@ export function setOnboardingComplete(completed: boolean) {
   setClientCookie(ONBOARDING_COOKIE, completed ? "true" : "false", 60 * 60 * 24 * 7);
 }
 
-async function refreshAccessToken(): Promise<string | null> {
+// Singleton refresh promise — prevents multiple concurrent 401s from each
+// firing their own refresh, which would blacklist the rotating refresh token
+// mid-flight and log the user out.
+let _refreshPromise: Promise<string | null> | null = null;
+
+async function doRefreshAccessToken(): Promise<string | null> {
   const refresh = await getRefreshToken();
   if (!refresh) return null;
 
@@ -106,6 +111,14 @@ async function refreshAccessToken(): Promise<string | null> {
   const nextRefresh = data.refresh ?? refresh;
   setAuthTokens({ access: data.access, refresh: nextRefresh });
   return data.access;
+}
+
+async function refreshAccessToken(): Promise<string | null> {
+  if (_refreshPromise) return _refreshPromise;
+  _refreshPromise = doRefreshAccessToken().finally(() => {
+    _refreshPromise = null;
+  });
+  return _refreshPromise;
 }
 
 async function rawApiRequest<T>(path: string, options: RequestOptions = {}, accessToken?: string | null): Promise<T> {
@@ -155,6 +168,10 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
     }
     const refreshed = await refreshAccessToken();
     if (!refreshed) {
+      // Refresh failed — session is dead. Redirect to login.
+      if (typeof window !== "undefined") {
+        window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
+      }
       throw error;
     }
     return rawApiRequest<T>(path, options, refreshed);
