@@ -1,14 +1,22 @@
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { FilterX, SlidersHorizontal } from "lucide-react";
 
+export type TenderStatus = "active" | "closing_soon" | "closed" | "all";
+
 export type TenderFilterValues = {
   location: string;
-  minValue: string;
-  maxValue: string;
-  deadlineTo: string;
+  status: TenderStatus;
 };
+
+const STATUS_OPTIONS: { value: TenderStatus; label: string }[] = [
+  { value: "active", label: "Active" },
+  { value: "closing_soon", label: "Closing Soon" },
+  { value: "closed", label: "Closed" },
+  { value: "all", label: "All" },
+];
 
 type TenderFiltersProps = {
   values: TenderFilterValues;
@@ -17,8 +25,7 @@ type TenderFiltersProps = {
 };
 
 export function TenderFilters({ values, onChange, onReset }: TenderFiltersProps) {
-  const hasActive =
-    values.location || values.minValue || values.maxValue || values.deadlineTo;
+  const hasActive = values.location || values.status !== "active";
 
   return (
     <Card className="space-y-5 p-5 lg:sticky lg:top-6">
@@ -38,50 +45,40 @@ export function TenderFilters({ values, onChange, onReset }: TenderFiltersProps)
         </Button>
       </div>
 
+      {/* Status filter */}
+      <div className="space-y-1.5">
+        <label className="block text-xs font-semibold uppercase tracking-wide text-ink-400">Status</label>
+        <div className="flex flex-wrap gap-1.5">
+          {STATUS_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange({ ...values, status: opt.value })}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs font-semibold transition-colors",
+                values.status === opt.value
+                  ? opt.value === "active"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                    : opt.value === "closing_soon"
+                    ? "border-warning-500 bg-warning-50 text-warning-700"
+                    : opt.value === "closed"
+                    ? "border-danger-400 bg-danger-50 text-danger-700"
+                    : "border-navy-500 bg-navy-50 text-navy-700"
+                  : "border-ink-200 bg-white text-ink-500 hover:border-ink-300 hover:text-ink-700"
+              )}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="space-y-1.5">
         <label className="block text-xs font-semibold uppercase tracking-wide text-ink-400">Location</label>
         <Input
           placeholder="City or state"
           value={values.location}
           onChange={(e) => onChange({ ...values, location: e.target.value })}
-        />
-      </div>
-
-      <div className="space-y-1.5">
-        <label className="block text-xs font-semibold uppercase tracking-wide text-ink-400">Tender value (₹)</label>
-        <div className="grid grid-cols-2 gap-2">
-          <Input
-            type="number"
-            placeholder="Min"
-            value={values.minValue}
-            onChange={(e) => onChange({ ...values, minValue: e.target.value })}
-          />
-          <Input
-            type="number"
-            placeholder="Max"
-            value={values.maxValue}
-            onChange={(e) => onChange({ ...values, maxValue: e.target.value })}
-          />
-        </div>
-        <p className="text-xs text-ink-400">Enter value in rupees</p>
-      </div>
-
-      <div className="space-y-1.5">
-        <div className="flex items-center gap-1.5">
-          <label className="block text-xs font-semibold uppercase tracking-wide text-ink-400">
-            Submission deadline
-          </label>
-          <span
-            title="Shows tenders closing on or before this date"
-            className="inline-flex h-4 w-4 cursor-help items-center justify-center rounded-full bg-ink-100 text-2xs font-bold text-ink-500"
-          >
-            i
-          </span>
-        </div>
-        <Input
-          type="date"
-          value={values.deadlineTo}
-          onChange={(e) => onChange({ ...values, deadlineTo: e.target.value })}
         />
       </div>
     </Card>

@@ -12,15 +12,69 @@ import { TenderSearch } from "./TenderSearch";
 
 const PAGE_SIZE_KEY = "tender_dashboard_page_size";
 const SEARCH_MODE_KEY = "tender_dashboard_search_mode";
-const FILTERS_KEY = "tender_dashboard_filters";
+const FILTERS_KEY = "tender_dashboard_filters_v2";
+const SORT_KEY = "tender_dashboard_sort";
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
 const SEARCH_MODE_OPTIONS = ["semantic", "keyword", "hybrid"] as const;
+
+const SORT_OPTIONS = [
+  { value: "bid_submission_end_date", label: "Closing soon first" },
+  { value: "-bid_submission_end_date", label: "Latest deadline" },
+  { value: "-publish_date", label: "Newest listed" },
+  { value: "-tender_value", label: "Highest value" },
+  { value: "tender_value", label: "Lowest value" },
+] as const;
+
+type SortValue = (typeof SORT_OPTIONS)[number]["value"];
+
 const DEFAULT_FILTER_VALUES: TenderFilterValues = {
   location: "",
-  minValue: "",
-  maxValue: "",
-  deadlineTo: "",
+  status: "active",
 };
+
+function getTodayStr() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function getDateOffsetStr(days: number) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split("T")[0];
+}
+
+function buildDateParams(filters: TenderFilterValues) {
+  const today = getTodayStr();
+  const yesterday = getDateOffsetStr(-1);
+  const sevenDaysOut = getDateOffsetStr(7);
+
+  switch (filters.status) {
+    case "active":
+      return {
+        is_active: true as boolean | undefined,
+        bid_submission_end_date_from: today,
+        bid_submission_end_date_to: undefined,
+      };
+    case "closing_soon":
+      return {
+        is_active: true as boolean | undefined,
+        bid_submission_end_date_from: today,
+        bid_submission_end_date_to: sevenDaysOut,
+      };
+    case "closed":
+      return {
+        is_active: undefined as boolean | undefined,
+        bid_submission_end_date_from: undefined as string | undefined,
+        bid_submission_end_date_to: yesterday,
+      };
+    case "all":
+    default:
+      return {
+        is_active: true as boolean | undefined,
+        bid_submission_end_date_from: undefined as string | undefined,
+        bid_submission_end_date_to: undefined,
+      };
+  }
+}
 
 export function TenderDashboardExplorer() {
   const [items, setItems] = useState<TenderItem[]>([]);
@@ -33,6 +87,7 @@ export function TenderDashboardExplorer() {
   const [hasLoadedPageSizePreference, setHasLoadedPageSizePreference] = useState(false);
   const [hasLoadedSearchModePreference, setHasLoadedSearchModePreference] = useState(false);
   const [hasLoadedFiltersPreference, setHasLoadedFiltersPreference] = useState(false);
+  const [hasLoadedSortPreference, setHasLoadedSortPreference] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -41,6 +96,7 @@ export function TenderDashboardExplorer() {
   const [activeSemanticMode, setActiveSemanticMode] = useState<"semantic" | "keyword" | "hybrid">("hybrid");
   const [interestedIds, setInterestedIds] = useState<Set<string>>(new Set());
   const [filters, setFilters] = useState<TenderFilterValues>(DEFAULT_FILTER_VALUES);
+  const [sortBy, setSortBy] = useState<SortValue>("bid_submission_end_date");
 
   // Preferences hydration
   useEffect(() => {
@@ -68,6 +124,14 @@ export function TenderDashboardExplorer() {
     }
   }, []);
 
+  useEffect(() => {
+    const saved = window.localStorage.getItem(SORT_KEY);
+    if (saved && SORT_OPTIONS.some((o) => o.value === saved)) {
+      setSortBy(saved as SortValue);
+    }
+    setHasLoadedSortPreference(true);
+  }, []);
+
   // Persist preferences
   useEffect(() => {
     if (!hasLoadedPageSizePreference) return;
@@ -84,6 +148,11 @@ export function TenderDashboardExplorer() {
     window.localStorage.setItem(FILTERS_KEY, JSON.stringify(filters));
   }, [filters, hasLoadedFiltersPreference]);
 
+  useEffect(() => {
+    if (!hasLoadedSortPreference) return;
+    window.localStorage.setItem(SORT_KEY, sortBy);
+  }, [sortBy, hasLoadedSortPreference]);
+
   // Interested tenders
   useEffect(() => {
     let isCancelled = false;
@@ -95,19 +164,17 @@ export function TenderDashboardExplorer() {
 
   // Default browse fetch
   useEffect(() => {
-    if (mode !== "default" || !hasLoadedFiltersPreference) return;
+    if (mode !== "default" || !hasLoadedFiltersPreference || !hasLoadedSortPreference) return;
     let isCancelled = false;
     setIsLoading(true);
-    const minValue = filters.minValue.trim() ? Number(filters.minValue) : undefined;
-    const maxValue = filters.maxValue.trim() ? Number(filters.maxValue) : undefined;
+    const dateParams = buildDateParams(filters);
+
     getTenders({
-      is_active: true,
+      ...dateParams,
       page,
       page_size: pageSize,
       location: filters.location.trim() || undefined,
-      min_value: Number.isFinite(minValue) ? minValue : undefined,
-      max_value: Number.isFinite(maxValue) ? maxValue : undefined,
-      bid_submission_end_date_to: filters.deadlineTo || undefined,
+      ordering: sortBy,
     })
       .then((response) => {
         if (isCancelled) return;
@@ -117,7 +184,7 @@ export function TenderDashboardExplorer() {
       .catch(() => { if (!isCancelled) { setItems([]); setTotalCount(0); } })
       .finally(() => { if (!isCancelled) setIsLoading(false); });
     return () => { isCancelled = true; };
-  }, [mode, page, pageSize, filters, hasLoadedFiltersPreference]);
+  }, [mode, page, pageSize, filters, sortBy, hasLoadedFiltersPreference, hasLoadedSortPreference]);
 
   const semanticPageItems = useMemo(() => {
     if (mode !== "semantic") return [];
@@ -158,7 +225,13 @@ export function TenderDashboardExplorer() {
   async function fetchSemanticResults(offset: number, append: boolean, q: string, m: "semantic" | "keyword" | "hybrid") {
     const trimmed = q.trim();
     if (!trimmed) return;
-    const results = await semanticSearchTenders({ query: trimmed, top_k: semanticTopK, offset, search_mode: m, is_active: true });
+    const results = await semanticSearchTenders({
+      query: trimmed,
+      top_k: semanticTopK,
+      offset,
+      search_mode: m,
+      is_active: filters.status !== "closed",
+    });
     const mapped = results.map(mapTenderSemanticResultToUi);
     setSemanticResults((prev) => (append ? [...prev, ...mapped] : mapped));
     setHasMoreSemanticResults(mapped.length === semanticTopK);
@@ -277,18 +350,34 @@ export function TenderDashboardExplorer() {
                 </>
               )}
             </p>
-            <label className="inline-flex items-center gap-2 text-sm text-ink-500">
-              Per page
-              <select
-                value={pageSize}
-                onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
-                className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-sm text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
-              >
-                {PAGE_SIZE_OPTIONS.map((s) => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
-            </label>
+            <div className="flex flex-wrap items-center gap-3">
+              {mode === "default" && (
+                <label className="inline-flex items-center gap-2 text-sm text-ink-500">
+                  Sort by
+                  <select
+                    value={sortBy}
+                    onChange={(e) => { setSortBy(e.target.value as SortValue); setPage(1); }}
+                    className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-sm text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+                  >
+                    {SORT_OPTIONS.map((o) => (
+                      <option key={o.value} value={o.value}>{o.label}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              <label className="inline-flex items-center gap-2 text-sm text-ink-500">
+                Per page
+                <select
+                  value={pageSize}
+                  onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
+                  className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-sm text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+                >
+                  {PAGE_SIZE_OPTIONS.map((s) => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
           </div>
 
           <TenderList tenders={currentItems} />

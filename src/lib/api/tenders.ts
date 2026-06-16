@@ -98,8 +98,10 @@ export type TendersQuery = {
   min_value?: number;
   max_value?: number;
   product_category?: string;
+  bid_submission_end_date_from?: string;
   bid_submission_end_date_to?: string;
   is_active?: boolean;
+  ordering?: string;
 };
 
 export interface TenderSemanticSearchRequest {
@@ -193,10 +195,14 @@ export async function getTenders(params: TendersQuery = {}) {
   if (params.min_value !== undefined) query.set("min_value", String(params.min_value));
   if (params.max_value !== undefined) query.set("max_value", String(params.max_value));
   if (params.product_category) query.set("product_category", params.product_category);
+  if (params.bid_submission_end_date_from) {
+    query.set("bid_submission_end_date_from", params.bid_submission_end_date_from);
+  }
   if (params.bid_submission_end_date_to) {
     query.set("bid_submission_end_date_to", params.bid_submission_end_date_to);
   }
   if (params.is_active !== undefined) query.set("is_active", String(params.is_active));
+  if (params.ordering) query.set("ordering", params.ordering);
 
   const suffix = query.toString() ? `?${query.toString()}` : "";
   return apiRequest<PaginatedResponse<TenderListItemApi>>(`/tenders/${suffix}`);
