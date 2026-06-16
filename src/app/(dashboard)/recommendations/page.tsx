@@ -36,14 +36,12 @@ export default async function RecommendationsPage() {
 
   // Fetch recommendations
   let items: TenderRecommendationApi[] = [];
-  let totalCount = 0;
   let embeddingMissing = false;
 
   if (firmId) {
     try {
       const res = await getRecommendations(firmId, { page_size: recommendationsCount });
       items = res.results;
-      totalCount = res.count;
     } catch (error) {
       if (error instanceof ApiError && error.status === 400) {
         embeddingMissing = true;
@@ -66,8 +64,8 @@ export default async function RecommendationsPage() {
             <div>
               <h1 className="text-xl font-bold text-ink-900">Recommendations</h1>
               <p className="mt-1 text-sm text-ink-500">
-                {totalCount > 0
-                  ? `Today's top ${totalCount} match${totalCount === 1 ? "" : "es"} — refreshes daily, sorted by fit score.`
+                {items.length > 0
+                  ? `Today's top ${items.length} match${items.length === 1 ? "" : "es"} — refreshes daily, sorted by fit score.`
                   : "Your daily shortlist of tenders matched to your firm profile."}
               </p>
             </div>
@@ -144,7 +142,7 @@ export default async function RecommendationsPage() {
 
       {/* Browse more */}
       <p className="text-center text-xs text-ink-400">
-        These are today&apos;s top {recommendationsCount} matches.{" "}
+        These are today&apos;s top {items.length} matches.{" "}
         <Link href="/tenders" className="font-semibold text-navy-600 hover:underline">
           Browse all tenders
         </Link>
