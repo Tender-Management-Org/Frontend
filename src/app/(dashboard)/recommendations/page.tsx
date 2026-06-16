@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { ApiError } from "@/lib/api/client";
-import { getFirms } from "@/lib/api/firms";
+import { getFirms, getFirmPreferences } from "@/lib/api/firms";
 import { getRecommendations, type TenderRecommendationApi } from "@/lib/api/tenders";
 import { RefreshButton } from "./components/RefreshButton";
 import { RecommendationCard } from "./components/RecommendationCard";
@@ -23,6 +23,17 @@ export default async function RecommendationsPage() {
     throw error;
   }
 
+  // Fetch firm preferences to get recommendations_count
+  let recommendationsCount = 10;
+  if (firmId) {
+    try {
+      const prefs = await getFirmPreferences(firmId);
+      recommendationsCount = prefs.recommendations_count ?? 10;
+    } catch {
+      // Fall back to default
+    }
+  }
+
   // Fetch recommendations
   let items: TenderRecommendationApi[] = [];
   let totalCount = 0;
@@ -30,7 +41,7 @@ export default async function RecommendationsPage() {
 
   if (firmId) {
     try {
-      const res = await getRecommendations(firmId, { page_size: 50 });
+      const res = await getRecommendations(firmId, { page_size: recommendationsCount });
       items = res.results;
       totalCount = res.count;
     } catch (error) {
@@ -56,8 +67,8 @@ export default async function RecommendationsPage() {
               <h1 className="text-xl font-bold text-ink-900">Recommendations</h1>
               <p className="mt-1 text-sm text-ink-500">
                 {totalCount > 0
-                  ? `Total recommendations: ${totalCount} — sorted by fit score.`
-                  : "Tenders matched to your firm profile by AI — sorted by fit score."}
+                  ? `Today's top ${totalCount} match${totalCount === 1 ? "" : "es"} — refreshes daily, sorted by fit score.`
+                  : "Your daily shortlist of tenders matched to your firm profile."}
               </p>
             </div>
           </div>
@@ -131,15 +142,13 @@ export default async function RecommendationsPage() {
         </div>
       )}
 
-      {/* Pagination hint */}
-      {totalCount > items.length && (
-        <p className="text-center text-xs text-ink-400">
-          Showing {items.length} of {totalCount} matches.{" "}
-          <Link href="/tenders" className="font-semibold text-navy-600 hover:underline">
-            Browse all tenders
-          </Link>
-        </p>
-      )}
+      {/* Browse more */}
+      <p className="text-center text-xs text-ink-400">
+        These are today&apos;s top {recommendationsCount} matches.{" "}
+        <Link href="/tenders" className="font-semibold text-navy-600 hover:underline">
+          Browse all tenders
+        </Link>
+      </p>
     </section>
   );
 }

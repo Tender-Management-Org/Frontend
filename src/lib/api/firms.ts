@@ -107,6 +107,8 @@ export interface FirmExemptionsApi {
   updated_at: string;
 }
 
+export type RecommendationStrategy = "balanced" | "interest_led";
+
 export interface FirmPreferencesApi {
   id: string;
   firm: string;
@@ -115,6 +117,8 @@ export interface FirmPreferencesApi {
   excluded_depts: string[];
   min_tender_value: string | number | null;
   max_tender_value: string | number | null;
+  recommendations_count: number;
+  recommendation_strategy: RecommendationStrategy;
   updated_at: string;
 }
 
