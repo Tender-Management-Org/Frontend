@@ -32,14 +32,23 @@ const DEFAULT_FILTER_VALUES: TenderFilterValues = {
   status: "active",
 };
 
+function toLocalDateStr(d: Date) {
+  // Use local calendar date — NOT toISOString() which returns UTC and can
+  // be a day behind in IST (UTC+5:30) until 5:30 AM local time.
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 function getTodayStr() {
-  return new Date().toISOString().split("T")[0];
+  return toLocalDateStr(new Date());
 }
 
 function getDateOffsetStr(days: number) {
   const d = new Date();
   d.setDate(d.getDate() + days);
-  return d.toISOString().split("T")[0];
+  return toLocalDateStr(d);
 }
 
 function buildDateParams(filters: TenderFilterValues) {
