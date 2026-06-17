@@ -253,3 +253,43 @@ export async function markRecommendationsRead(firmId: string, matchIds?: string[
     body: matchIds ? { match_ids: matchIds } : {},
   });
 }
+
+// ─── Dashboard ────────────────────────────────────────────────────────────────
+
+export interface DashboardAttentionItem {
+  tender_id: string;
+  title: string;
+  bid_submission_end_date: string | null;
+  status: "matched" | "interested";
+  fit_score: number;
+  href: string;
+}
+
+export interface DashboardRecentMatch {
+  tender_id: string;
+  title: string;
+  fit_score: number;
+  status: string;
+  match_reason: string;
+  bid_submission_end_date: string | null;
+}
+
+export interface DashboardFunnelItem {
+  stage: string;
+  count: number;
+}
+
+export interface DashboardStatsApi {
+  unread_recommendations: number;
+  total_recommendations: number;
+  expiring_soon: number;
+  needs_decision: number;
+  applied: number;
+  attention_items: DashboardAttentionItem[];
+  recent_matches: DashboardRecentMatch[];
+  funnel: DashboardFunnelItem[];
+}
+
+export async function getDashboardStats(firmId: string) {
+  return apiRequest<DashboardStatsApi>(`/firms/${firmId}/dashboard/`);
+}

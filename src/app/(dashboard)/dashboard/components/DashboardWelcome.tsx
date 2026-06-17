@@ -2,21 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-export interface DashboardWelcomeProps {
-  summary?: {
-    needsDecision: number;
-    expiringSoon: number;
-    applied: number;
-  };
-}
-
 type ClockState = {
   greeting: string;
   dateLabel: string;
   timeLabel: string;
 };
 
-export function DashboardWelcome({ summary }: DashboardWelcomeProps) {
+export function DashboardWelcome() {
   const [clock, setClock] = useState<ClockState | null>(null);
 
   useEffect(() => {
@@ -62,23 +54,6 @@ export function DashboardWelcome({ summary }: DashboardWelcomeProps) {
       <p className="mt-1.5 max-w-md text-sm leading-relaxed text-ink-500">
         Your tender pipeline at a glance — new matches, urgent deadlines, and bid progress.
       </p>
-
-      {summary && (
-        <ul className="mt-4 flex flex-wrap gap-2" aria-label="Pipeline summary">
-          <li className="inline-flex items-center gap-1.5 rounded-full border border-danger-200 bg-danger-50 px-3 py-1 text-xs font-medium">
-            <span className="tabular-nums font-bold text-danger-600">{summary.needsDecision}</span>
-            <span className="text-ink-500">need decision</span>
-          </li>
-          <li className="inline-flex items-center gap-1.5 rounded-full border border-warning-200 bg-warning-50 px-3 py-1 text-xs font-medium">
-            <span className="tabular-nums font-bold text-warning-600">{summary.expiringSoon}</span>
-            <span className="text-ink-500">expiring soon</span>
-          </li>
-          <li className="inline-flex items-center gap-1.5 rounded-full border border-success-200 bg-success-50 px-3 py-1 text-xs font-medium">
-            <span className="tabular-nums font-bold text-success-600">{summary.applied}</span>
-            <span className="text-ink-500">applied</span>
-          </li>
-        </ul>
-      )}
     </div>
   );
 }
