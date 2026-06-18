@@ -234,7 +234,7 @@ export function FirmWorkspace() {
             getFirmDocuments(activeFirmId, 1, 100),
           ]);
         setData({
-          firm: firm.status === "fulfilled" ? firm.value : primaryFirm,
+          firm: firm.status === "fulfilled" ? firm.value : null,
           identity: identityResult.status === "fulfilled" ? identityResult.value : null,
           location: locationsResult.status === "fulfilled" ? (locationsResult.value.results[0] ?? null) : null,
           financial: financialsResult.status === "fulfilled" ? (financialsResult.value.results[0] ?? null) : null,
