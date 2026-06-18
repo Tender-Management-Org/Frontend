@@ -11,6 +11,7 @@ interface RefreshButtonProps {
 
 export function RefreshButton({ firmId }: RefreshButtonProps) {
   const [state, setState] = useState<"idle" | "loading" | "done" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState<string>("Couldn't queue task. Try again.");
 
   async function handleRefresh() {
     setState("loading");
@@ -19,10 +20,13 @@ export function RefreshButton({ firmId }: RefreshButtonProps) {
       setState("done");
       setTimeout(() => setState("idle"), 5000);
     } catch (err) {
-      const message = err instanceof ApiError ? String(err.message) : "Failed to regenerate";
-      console.error(message);
+      const detail =
+        err instanceof ApiError
+          ? (err.data as { detail?: string })?.detail ?? err.message
+          : "Couldn't queue task. Try again.";
+      setErrorMsg(String(detail));
       setState("error");
-      setTimeout(() => setState("idle"), 4000);
+      setTimeout(() => setState("idle"), 6000);
     }
   }
 
@@ -47,7 +51,7 @@ export function RefreshButton({ firmId }: RefreshButtonProps) {
         <p className="text-xs text-ink-400">Running in background — reload in a moment.</p>
       )}
       {state === "error" && (
-        <p className="text-xs text-danger-600">Couldn&apos;t queue task. Try again.</p>
+        <p className="text-xs text-danger-600">{errorMsg}</p>
       )}
     </div>
   );
