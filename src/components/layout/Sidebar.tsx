@@ -13,6 +13,7 @@ import {
   Lock,
   Menu,
   Sparkles,
+  Zap,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -49,6 +50,12 @@ const menuItems = [
     href: "/recommendations",
     icon: Sparkles,
     description: "AI suggestions",
+  },
+  {
+    name: "Upgrade",
+    href: "/upgrade",
+    icon: Zap,
+    description: "Plans & pricing",
   },
 ];
 
