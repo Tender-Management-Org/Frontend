@@ -95,8 +95,7 @@ export function FirmProvider({ children }: { children: ReactNode }) {
       if (!firm) return;
       setActiveFirmId(firmId);
       writeActiveFirmCookie(firmId);
-      // Force a full page reload so server components re-render with the new cookie
-      window.location.reload();
+      // Caller should invoke router.refresh() to re-render server components
     },
     [allFirms]
   );

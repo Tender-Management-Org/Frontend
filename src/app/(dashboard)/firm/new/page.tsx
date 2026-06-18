@@ -78,7 +78,7 @@ function Input({
 
 export default function NewFirmPage() {
   const router = useRouter();
-  const { refreshFirms, setActiveFirm } = useFirm();
+  const { refreshFirms } = useFirm();
 
   const [form, setForm] = useState<FormState>(INITIAL);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
@@ -117,14 +117,13 @@ export default function NewFirmPage() {
 
       const newFirm = await createFirm(payload);
 
-      // Refresh context so the new firm appears in the switcher
+      // Write cookie so server components and FirmContext both see the new firm
+      document.cookie = `tp_active_firm=${encodeURIComponent(newFirm.id)}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+
+      // Re-fetch firms so context picks up the new firm + activeFirmId
       await refreshFirms();
 
-      // Switch to the newly created firm
-      setActiveFirm(newFirm.id);
-
-      // setActiveFirm does window.location.reload() — but if context isn't
-      // loaded yet we also push to /firm as a fallback.
+      // Navigate to workspace — FirmWorkspace reacts to activeFirmId from context
       router.push("/firm");
     } catch (err: unknown) {
       const msg =

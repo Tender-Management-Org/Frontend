@@ -3,6 +3,7 @@
 import { Building2, CheckSquare, Eye, Landmark, Pencil, Plus, ShieldCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ApiError } from "@/lib/api/client";
+import { useFirm } from "@/context/FirmContext";
 import {
   getFirm,
   getFirmCertifications,
@@ -12,7 +13,6 @@ import {
   getFirmIdentity,
   getFirmLocations,
   getFirmPreferences,
-  getFirms,
   getFirmSolvencyCertificates,
   type FirmApi,
   type FirmBankingSolvencyApi,
@@ -170,6 +170,7 @@ function RecordCard({
 }
 
 export function FirmWorkspace() {
+  const { activeFirmId } = useFirm();
   const [active, setActive] = useState<TabId>("firm");
   const [editSection, setEditSection] = useState<FirmModalSection | null>(null);
   const [firmId, setFirmId] = useState<string | null>(null);
@@ -214,29 +215,23 @@ export function FirmWorkspace() {
 
   useEffect(() => {
     async function loadWorkspace() {
+      if (!activeFirmId) return;
       setIsLoading(true);
       setError(null);
       try {
-        const firmsResponse = await getFirms(1);
-        const primaryFirm = firmsResponse.results[0];
-        if (!primaryFirm) {
-          setFirmId(null);
-          setError("No firm found. Please complete onboarding first.");
-          return;
-        }
-        setFirmId(primaryFirm.id);
+        setFirmId(activeFirmId);
         const [firm, identityResult, locationsResult, financialsResult, solvencyResult, experiencesResult, certificationsResult, exemptionsResult, preferencesResult, documentsResult] =
           await Promise.allSettled([
-            getFirm(primaryFirm.id),
-            getFirmIdentity(primaryFirm.id),
-            getFirmLocations(primaryFirm.id, 1),
-            getFirmFinancials(primaryFirm.id, 1),
-            getFirmSolvencyCertificates(primaryFirm.id, 1),
-            getFirmExperiences(primaryFirm.id, 1),
-            getFirmCertifications(primaryFirm.id, 1),
-            getFirmExemptions(primaryFirm.id),
-            getFirmPreferences(primaryFirm.id),
-            getFirmDocuments(primaryFirm.id, 1, 100),
+            getFirm(activeFirmId),
+            getFirmIdentity(activeFirmId),
+            getFirmLocations(activeFirmId, 1),
+            getFirmFinancials(activeFirmId, 1),
+            getFirmSolvencyCertificates(activeFirmId, 1),
+            getFirmExperiences(activeFirmId, 1),
+            getFirmCertifications(activeFirmId, 1),
+            getFirmExemptions(activeFirmId),
+            getFirmPreferences(activeFirmId),
+            getFirmDocuments(activeFirmId, 1, 100),
           ]);
         setData({
           firm: firm.status === "fulfilled" ? firm.value : primaryFirm,
@@ -265,7 +260,7 @@ export function FirmWorkspace() {
       }
     }
     void loadWorkspace();
-  }, []);
+  }, [activeFirmId]);
 
   return (
     <div className="mx-auto max-w-7xl space-y-5">

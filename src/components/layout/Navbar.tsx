@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { clearAuthTokens, hasAuthSession } from "@/lib/api/client";
+import { FirmSwitcher } from "@/components/layout/FirmSwitcher";
 import {
   AppNotification,
   getNotifications,
@@ -179,6 +180,9 @@ export function Navbar() {
 
       {/* Right: actions */}
       <div className="flex shrink-0 items-center gap-2">
+
+        {/* ── Firm switcher ── */}
+        <FirmSwitcher />
 
         {/* ── Notifications bell ── */}
         <div className="relative" ref={notificationsRef}>

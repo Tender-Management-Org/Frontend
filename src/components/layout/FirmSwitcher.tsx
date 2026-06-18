@@ -2,12 +2,14 @@
 
 import { Building2, Check, ChevronDown, Plus } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { useFirm } from "@/context/FirmContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { cn } from "@/lib/utils";
 
 export function FirmSwitcher() {
+  const router = useRouter();
   const { allFirms, activeFirm, activeFirmId, loading, setActiveFirm } = useFirm();
   const { subscription } = useSubscription();
   const [open, setOpen] = useState(false);
@@ -87,7 +89,10 @@ export function FirmSwitcher() {
                 type="button"
                 onClick={() => {
                   setOpen(false);
-                  if (!isActive) setActiveFirm(firm.id);
+                  if (!isActive) {
+                    setActiveFirm(firm.id);
+                    router.refresh();
+                  }
                 }}
                 className={cn(
                   "flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors",
@@ -114,7 +119,7 @@ export function FirmSwitcher() {
           <div className="my-1 border-t border-ink-100" />
           {canAddFirm ? (
             <Link
-              href="/firm?action=add"
+              href="/firm/new"
               onClick={() => setOpen(false)}
               className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-navy-600 transition-colors hover:bg-navy-50"
             >
