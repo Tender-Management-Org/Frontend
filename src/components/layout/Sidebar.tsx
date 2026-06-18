@@ -12,59 +12,30 @@ import {
   LayoutDashboard,
   Lock,
   Menu,
+  Settings,
   Sparkles,
-  Zap,
   X,
+  Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getFirms } from "@/lib/api/firms";
 import { getUnreadRecommendationsCount } from "@/lib/api/tenders";
 
 const menuItems = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: LayoutDashboard,
-    description: "Pipeline overview",
-  },
-  {
-    name: "Firm",
-    href: "/firm",
-    icon: Building2,
-    description: "Company profile",
-  },
-  {
-    name: "Tenders",
-    href: "/tenders",
-    icon: FileSearch,
-    description: "Browse & search",
-  },
-  {
-    name: "Interested",
-    href: "/interested",
-    icon: Bookmark,
-    description: "Your shortlist",
-  },
-  {
-    name: "Recommendations",
-    href: "/recommendations",
-    icon: Sparkles,
-    description: "AI suggestions",
-  },
-  {
-    name: "Upgrade",
-    href: "/upgrade",
-    icon: Zap,
-    description: "Plans & pricing",
-  },
+  { name: "Dashboard",       href: "/dashboard",       icon: LayoutDashboard, description: "Pipeline overview" },
+  { name: "Firm",            href: "/firm",             icon: Building2,       description: "Company profile"  },
+  { name: "Tenders",         href: "/tenders",          icon: FileSearch,      description: "Browse & search"  },
+  { name: "Interested",      href: "/interested",       icon: Bookmark,        description: "Your shortlist"   },
+  { name: "Recommendations", href: "/recommendations",  icon: Sparkles,        description: "AI suggestions"   },
+  { name: "Settings",        href: "/settings",         icon: Settings,        description: "Preferences"      },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
-  const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileOpen, setIsMobileOpen]         = useState(false);
+  const [isCollapsed,  setIsCollapsed]           = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(true);
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadCount,  setUnreadCount]           = useState(0);
   const firmIdRef = useRef<string | null>(null);
 
   useEffect(() => {
@@ -76,8 +47,6 @@ export function Sidebar() {
     setIsOnboardingComplete(cookieValue === "true");
   }, [pathname]);
 
-  // Fetch unread count once on mount — recommendations only update nightly at 2AM
-  // so there's no need to poll; the badge just needs to show on the next page load.
   useEffect(() => {
     let cancelled = false;
     async function fetchCount() {
@@ -90,19 +59,14 @@ export function Sidebar() {
         }
         const { unread_count } = await getUnreadRecommendationsCount(firmIdRef.current);
         if (!cancelled) setUnreadCount(unread_count);
-      } catch {
-        // Best-effort — ignore errors
-      }
+      } catch { /* best-effort */ }
     }
     fetchCount();
     return () => { cancelled = true; };
   }, []);
 
-  // Decrement badge whenever a card is individually marked as read
   useEffect(() => {
-    function handleRead() {
-      setUnreadCount((prev) => Math.max(0, prev - 1));
-    }
+    function handleRead() { setUnreadCount((prev) => Math.max(0, prev - 1)); }
     window.addEventListener("recommendation-read", handleRead);
     return () => window.removeEventListener("recommendation-read", handleRead);
   }, []);
@@ -201,7 +165,6 @@ export function Sidebar() {
                         )}
                         aria-hidden
                       />
-                      {/* Unread badge (collapsed mode — dot on icon) */}
                       {isCollapsed && item.href === "/recommendations" && unreadCount > 0 && (
                         <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white leading-none">
                           {unreadCount > 9 ? "9+" : unreadCount}
@@ -211,13 +174,12 @@ export function Sidebar() {
                     {!isCollapsed && (
                       <>
                         <span className="flex-1 truncate">{item.name}</span>
-                        {/* Unread badge (expanded mode) */}
                         {item.href === "/recommendations" && unreadCount > 0 && (
                           <span className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white leading-none">
                             {unreadCount > 99 ? "99+" : unreadCount}
                           </span>
                         )}
-                        {!isOnboardingComplete && item.href !== "/dashboard" && (
+                        {!isOnboardingComplete && item.href !== "/dashboard" && item.href !== "/settings" && (
                           <Lock
                             className="h-3 w-3 shrink-0 text-ink-300"
                             aria-label={`${item.name} locked until onboarding is complete`}
@@ -225,7 +187,7 @@ export function Sidebar() {
                         )}
                       </>
                     )}
-                    {isCollapsed && !isOnboardingComplete && item.href !== "/dashboard" && (
+                    {isCollapsed && !isOnboardingComplete && item.href !== "/dashboard" && item.href !== "/settings" && (
                       <Lock
                         className="absolute right-1 top-1 h-2.5 w-2.5 text-ink-300"
                         aria-label={`${item.name} locked`}
@@ -238,12 +200,35 @@ export function Sidebar() {
           </ul>
         </nav>
 
-        {/* Footer */}
-        {!isCollapsed && (
-          <div className="shrink-0 border-t border-ink-100 px-4 py-3">
-            <p className="text-xs text-ink-400">TenderPilot &copy; 2026</p>
+        {/* Footer — Upgrade callout + copyright */}
+        <div className="shrink-0 border-t border-ink-100">
+          {/* Upgrade strip */}
+          <div className={cn("px-2 py-2", isCollapsed && "flex justify-center")}>
+            <Link
+              href="/upgrade"
+              onClick={() => setIsMobileOpen(false)}
+              title={isCollapsed ? "Upgrade plan" : undefined}
+              className={cn(
+                "group flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-navy-600 to-navy-700 px-3 py-2.5 text-white transition-opacity hover:opacity-90",
+                isCollapsed ? "w-10 justify-center px-0" : "w-full"
+              )}
+            >
+              <Zap className="h-4 w-4 shrink-0 text-yellow-300" aria-hidden />
+              {!isCollapsed && (
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold leading-tight">Upgrade plan</p>
+                  <p className="truncate text-[10px] text-navy-200">Unlock more features</p>
+                </div>
+              )}
+            </Link>
           </div>
-        )}
+
+          {!isCollapsed && (
+            <div className="px-4 pb-3 pt-1">
+              <p className="text-xs text-ink-400">TenderPilot &copy; 2026</p>
+            </div>
+          )}
+        </div>
       </aside>
     </>
   );
