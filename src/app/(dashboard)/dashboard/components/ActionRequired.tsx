@@ -61,7 +61,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
           <p className="mt-0.5 text-xs text-success-700">No urgent deadlines right now.</p>
         </div>
       ) : (
-        <ul className="space-y-2.5">
+        <ul className="max-h-[420px] space-y-2.5 overflow-y-auto pr-1">
           {sorted.map((item) => {
             const { formatted, daysLeft, urgent, past } = deadlineMeta(item.deadline);
             const hint = urgencyLabel(daysLeft, past);
