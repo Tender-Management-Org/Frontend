@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bookmark,
   Building2,
@@ -18,8 +18,8 @@ import {
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getFirms } from "@/lib/api/firms";
 import { getUnreadRecommendationsCount } from "@/lib/api/tenders";
+import { useFirm } from "@/context/FirmContext";
 
 const menuItems = [
   { name: "Dashboard",       href: "/dashboard",       icon: LayoutDashboard, description: "Pipeline overview" },
@@ -36,7 +36,7 @@ export function Sidebar() {
   const [isCollapsed,  setIsCollapsed]           = useState(false);
   const [isOnboardingComplete, setIsOnboardingComplete] = useState(true);
   const [unreadCount,  setUnreadCount]           = useState(0);
-  const firmIdRef = useRef<string | null>(null);
+  const { activeFirmId } = useFirm();
 
   useEffect(() => {
     if (typeof document === "undefined") return;
@@ -48,22 +48,17 @@ export function Sidebar() {
   }, [pathname]);
 
   useEffect(() => {
+    if (!activeFirmId) return;
     let cancelled = false;
     async function fetchCount() {
       try {
-        if (!firmIdRef.current) {
-          const firmsRes = await getFirms(1);
-          const active = firmsRes.results.find((f) => f.is_active);
-          if (!active) return;
-          firmIdRef.current = active.id;
-        }
-        const { unread_count } = await getUnreadRecommendationsCount(firmIdRef.current);
+        const { unread_count } = await getUnreadRecommendationsCount(activeFirmId!);
         if (!cancelled) setUnreadCount(unread_count);
       } catch { /* best-effort */ }
     }
     fetchCount();
     return () => { cancelled = true; };
-  }, []);
+  }, [activeFirmId]);
 
   useEffect(() => {
     function handleRead() { setUnreadCount((prev) => Math.max(0, prev - 1)); }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { ApiError } from "@/lib/api/client";
 import { getFirms, getFirmPreferences } from "@/lib/api/firms";
@@ -10,12 +11,15 @@ import { RecommendationCard } from "./components/RecommendationCard";
 // ─── page ────────────────────────────────────────────────────────────────────
 
 export default async function RecommendationsPage() {
-  // Fetch active firm
+  // Fetch active firm (prefer cookie set by FirmSwitcher)
   let firmId: string | null = null;
   try {
+    const cookieStore = await cookies();
+    const cookieFirmId = cookieStore.get("tp_active_firm")?.value ?? null;
     const firmsRes = await getFirms(1);
-    const activeFirm = firmsRes.results.find((f) => f.is_active);
-    firmId = activeFirm?.id ?? null;
+    const activeList = firmsRes.results.filter((f) => f.is_active);
+    const cookieMatch = cookieFirmId ? activeList.find((f) => f.id === cookieFirmId) : null;
+    firmId = (cookieMatch ?? activeList[0])?.id ?? null;
   } catch (error) {
     if (error instanceof ApiError && error.status === 401) {
       redirect("/login?next=%2Frecommendations");

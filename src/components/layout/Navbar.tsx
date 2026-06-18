@@ -1,6 +1,7 @@
 "use client";
 
 import { Bell, ChevronDown, LogOut, User, Check, CheckCheck } from "lucide-react";
+import { FirmSwitcher } from "./FirmSwitcher";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -176,6 +177,9 @@ export function Navbar() {
         <span className="hidden text-ink-200 sm:inline">/</span>
         <h1 className="truncate text-sm font-semibold text-ink-900">{title}</h1>
       </div>
+
+      {/* Centre: firm switcher */}
+      <FirmSwitcher />
 
       {/* Right: actions */}
       <div className="flex shrink-0 items-center gap-2">
