@@ -58,6 +58,16 @@ export default function OnboardingPage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
 
+  // If firm data already exists in the backend, mark onboarding complete and redirect.
+  useEffect(() => {
+    getFirms(1).then((res) => {
+      if (res.results.length > 0) {
+        setOnboardingComplete(true);
+        window.location.replace("/dashboard");
+      }
+    }).catch(() => { /* ignore — let user proceed with onboarding */ });
+  }, []);
+
   const stepDescription = useMemo(
     () =>
       [
