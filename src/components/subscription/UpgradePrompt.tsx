@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 interface UpgradePromptProps {
   /** Short label for the locked feature, e.g. "Advanced filters" */
@@ -32,6 +33,20 @@ export function UpgradePrompt({
   variant = "inline",
   className,
 }: UpgradePromptProps) {
+  const { invite_only } = useSiteConfig();
+
+  // In invite-only mode just show a locked indicator — no upgrade CTA
+  if (invite_only) {
+    return (
+      <div className={cn("flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3", className)}>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink-100">
+          <Lock className="h-4 w-4 text-ink-400" />
+        </div>
+        <p className="text-sm text-ink-500">{feature} is not available on your current plan.</p>
+      </div>
+    );
+  }
+
   if (variant === "overlay") {
     return (
       <div

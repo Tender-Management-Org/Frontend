@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { getUnreadRecommendationsCount } from "@/lib/api/tenders";
 import { useFirm } from "@/context/FirmContext";
+import { useSiteConfig } from "@/context/SiteConfigContext";
 
 const menuItems = [
   { name: "Dashboard",       href: "/dashboard",       icon: LayoutDashboard, description: "Pipeline overview" },
@@ -38,6 +39,7 @@ export function Sidebar() {
   const [unreadCount,         setUnreadCount]         = useState(0);
 
   const { activeFirm, activeFirmId } = useFirm();
+  const { invite_only } = useSiteConfig();
 
   // ── Onboarding cookie ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -234,25 +236,27 @@ export function Sidebar() {
 
         {/* ── Footer — Upgrade callout + copyright ────────────────────────── */}
         <div className="shrink-0 border-t border-ink-100">
-          <div className={cn("px-2 py-2", isCollapsed && "flex justify-center")}>
-            <Link
-              href="/upgrade"
-              onClick={() => setIsMobileOpen(false)}
-              title={isCollapsed ? "Upgrade plan" : undefined}
-              className={cn(
-                "group flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-navy-600 to-navy-700 px-3 py-2.5 text-white transition-opacity hover:opacity-90",
-                isCollapsed ? "w-10 justify-center px-0" : "w-full"
-              )}
-            >
-              <Zap className="h-4 w-4 shrink-0 text-yellow-300" aria-hidden />
-              {!isCollapsed && (
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold leading-tight">Upgrade plan</p>
-                  <p className="truncate text-[10px] text-navy-200">Unlock more features</p>
-                </div>
-              )}
-            </Link>
-          </div>
+          {!invite_only && (
+            <div className={cn("px-2 py-2", isCollapsed && "flex justify-center")}>
+              <Link
+                href="/upgrade"
+                onClick={() => setIsMobileOpen(false)}
+                title={isCollapsed ? "Upgrade plan" : undefined}
+                className={cn(
+                  "group flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-navy-600 to-navy-700 px-3 py-2.5 text-white transition-opacity hover:opacity-90",
+                  isCollapsed ? "w-10 justify-center px-0" : "w-full"
+                )}
+              >
+                <Zap className="h-4 w-4 shrink-0 text-yellow-300" aria-hidden />
+                {!isCollapsed && (
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold leading-tight">Upgrade plan</p>
+                    <p className="truncate text-[10px] text-navy-200">Unlock more features</p>
+                  </div>
+                )}
+              </Link>
+            </div>
+          )}
           {!isCollapsed && (
             <div className="px-4 pb-3 pt-1">
               <p className="text-xs text-ink-400">TenderPilot &copy; 2026</p>
