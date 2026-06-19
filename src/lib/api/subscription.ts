@@ -3,7 +3,8 @@ import { apiRequest } from "./client";
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type PlanTier = "trial" | "starter" | "growth" | "enterprise";
-export type SubscriptionStatus = "trial" | "active" | "expired" | "cancelled";
+export type BillingCycle = "monthly" | "annual";
+export type SubscriptionStatus = "trial" | "pending" | "active" | "expired" | "cancelled";
 
 export interface PlanFeatures {
   can_use_advanced_filters: boolean;
@@ -32,11 +33,14 @@ export interface UserSubscriptionApi {
   plan: PlanApi;
   status: SubscriptionStatus;
   is_active: boolean;
+  billing_cycle: BillingCycle | null;
+  cancel_at_period_end: boolean;
   trial_started_at: string | null;
   trial_ends_at: string | null;
   days_remaining: number | null;
   current_period_start: string | null;
   current_period_end: string | null;
+  cf_subscription_id: string | null;
   created_at: string;
 }
 
@@ -62,4 +66,24 @@ export async function activatePlan(planTier: PlanTier): Promise<UserSubscription
     method: "POST",
     body: { plan_slug: planTier },
   });
+}
+
+/**
+ * Initiate a Cashfree subscription.
+ * Returns auth_link — redirect the user there for UPI mandate authorization.
+ */
+export async function subscribeToPlan(
+  planTier: PlanTier,
+  billingCycle: BillingCycle,
+  phone: string,
+): Promise<{ auth_link: string; cf_subscription_id: string }> {
+  return apiRequest("/subscriptions/subscribe/", {
+    method: "POST",
+    body: { plan_tier: planTier, billing_cycle: billingCycle, phone },
+  });
+}
+
+/** Cancel the current active subscription at period end. */
+export async function cancelSubscription(): Promise<{ detail: string }> {
+  return apiRequest("/subscriptions/cancel/", { method: "POST" });
 }
