@@ -95,6 +95,7 @@ export type TendersQuery = {
   page_size?: number;
   search?: string;
   location?: string;
+  source?: string;
   min_value?: number;
   max_value?: number;
   product_category?: string;
@@ -103,6 +104,11 @@ export type TendersQuery = {
   is_active?: boolean;
   ordering?: string;
 };
+
+export interface ScraperSourceApi {
+  slug: string;
+  display_name: string;
+}
 
 export interface TenderSemanticSearchRequest {
   query: string;
@@ -203,9 +209,14 @@ export async function getTenders(params: TendersQuery = {}) {
   }
   if (params.is_active !== undefined) query.set("is_active", String(params.is_active));
   if (params.ordering) query.set("ordering", params.ordering);
+  if (params.source) query.set("source", params.source);
 
   const suffix = query.toString() ? `?${query.toString()}` : "";
   return apiRequest<PaginatedResponse<TenderListItemApi>>(`/tenders/${suffix}`);
+}
+
+export async function getScraperSources() {
+  return apiRequest<ScraperSourceApi[]>("/scraper-sources/");
 }
 
 export async function semanticSearchTenders(payload: TenderSemanticSearchRequest) {

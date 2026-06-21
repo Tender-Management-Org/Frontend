@@ -30,6 +30,7 @@ type SortValue = (typeof SORT_OPTIONS)[number]["value"];
 const DEFAULT_FILTER_VALUES: TenderFilterValues = {
   location: "",
   status: "active",
+  source: "",
 };
 
 function toLocalDateStr(d: Date) {
@@ -127,7 +128,10 @@ export function TenderDashboardExplorer() {
     if (!saved) { setHasLoadedFiltersPreference(true); return; }
     try {
       const parsed = JSON.parse(saved);
-      if (parsed && typeof parsed.location === "string") setFilters(parsed);
+      if (parsed && typeof parsed.location === "string") {
+        // Ensure new fields added later have a default value
+        setFilters({ ...DEFAULT_FILTER_VALUES, ...parsed });
+      }
     } catch { /* ignore */ } finally {
       setHasLoadedFiltersPreference(true);
     }
@@ -183,6 +187,7 @@ export function TenderDashboardExplorer() {
       page,
       page_size: pageSize,
       location: filters.location.trim() || undefined,
+      source: filters.source || undefined,
       ordering: sortBy,
     })
       .then((response) => {
