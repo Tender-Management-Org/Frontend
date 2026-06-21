@@ -260,6 +260,13 @@ export function Sidebar() {
           {!isCollapsed && (
             <div className="px-4 pb-3 pt-1">
               <p className="text-xs text-ink-400">TenderPilot &copy; 2026</p>
+              <div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-0.5">
+                <Link href="/terms" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Terms</Link>
+                <span className="text-[10px] text-ink-300">&middot;</span>
+                <Link href="/privacy" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Privacy</Link>
+                <span className="text-[10px] text-ink-300">&middot;</span>
+                <Link href="/disclaimer" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Disclaimer</Link>
+              </div>
             </div>
           )}
         </div>

@@ -278,6 +278,14 @@ export function RegisterForm() {
               Sign in
             </Link>
           </p>
+
+          <div className="mt-6 flex justify-center gap-4 text-xs text-ink-400">
+            <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms</Link>
+            <span>·</span>
+            <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy</Link>
+            <span>·</span>
+            <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal</Link>
+          </div>
         </div>
       </div>
     </div>
