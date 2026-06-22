@@ -43,6 +43,7 @@ export interface TenderListUiItem {
   value: string;
   deadline: string;
   description: string;
+  source?: string;
   similarityScore?: number;
 }
 
@@ -55,6 +56,7 @@ export function mapTenderListItemToUi(item: TenderListItemApi): TenderListUiItem
     value: formatInrFromNumber(toNumber(item.tender_value)),
     deadline: formatDateForList(item.bid_submission_end_date ?? null),
     description: item.title,
+    source: item.source || undefined,
   };
 }
 

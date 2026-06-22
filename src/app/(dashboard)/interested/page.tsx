@@ -41,6 +41,10 @@ function deadlineMeta(value: string | null) {
   return { label: `${daysLeft}d left`, tone: "neutral" as const };
 }
 
+function formatSource(slug: string): string {
+  return slug.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 function fitBand(score: number | null | undefined): { label: string; color: string; bar: string } {
   if (score == null) return { label: "—", color: "text-ink-400", bar: "bg-ink-200" };
   if (score >= 80) return { label: `${score} · High`, color: "text-success-700", bar: "bg-success-500" };
@@ -176,14 +180,21 @@ export default async function InterestedPage() {
 
                 {/* Footer */}
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink-100 pt-3">
-                  <TenderMatchActionButton
-                    tenderId={item.tender_id}
-                    status="matched"
-                    label="Remove from shortlist"
-                    loadingLabel="Removing…"
-                    icon="bookmark-minus"
-                    errorMessage="Could not remove tender. Please try again."
-                  />
+                  <div className="flex flex-wrap items-center gap-2">
+                    {item.source && (
+                      <span className="inline-flex items-center rounded-full border border-ink-200 bg-ink-50 px-2.5 py-0.5 text-xs font-medium text-ink-500">
+                        {formatSource(item.source)}
+                      </span>
+                    )}
+                    <TenderMatchActionButton
+                      tenderId={item.tender_id}
+                      status="matched"
+                      label="Remove from shortlist"
+                      loadingLabel="Removing…"
+                      icon="bookmark-minus"
+                      errorMessage="Could not remove tender. Please try again."
+                    />
+                  </div>
                   <Link
                     href={`/interested/${encodeURIComponent(item.tender_id)}/workspace`}
                     className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"

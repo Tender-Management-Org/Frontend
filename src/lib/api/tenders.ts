@@ -12,6 +12,7 @@ export interface TenderListItemApi {
   sub_category: string;
   bid_submission_end_date: string;
   is_active: boolean;
+  source: string;
   created_at: string;
   updated_at: string;
 }
@@ -158,6 +159,7 @@ export interface InterestedTenderApi {
   fit_score: number;
   status: "interested";
   match_reason: string;
+  source: string;
   updated_at: string;
 }
 
@@ -179,6 +181,7 @@ export interface TenderRecommendationApi {
   fit_score: number;
   status: RecommendationStatus;
   match_reason: string;
+  source: string;
   is_read: boolean;
   read_at: string | null;
   created_at: string;

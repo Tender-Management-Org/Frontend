@@ -54,6 +54,10 @@ function deadlineMeta(value: string | null) {
   return { label: `${daysLeft}d left`, tone: "neutral" as const };
 }
 
+function formatSource(slug: string): string {
+  return slug.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+}
+
 function fitBand(score: number | null) {
   if (score == null) return { label: "—", color: "text-ink-400", bar: "bg-ink-200" };
   if (score >= 80) return { label: `${score} · High`, color: "text-success-700", bar: "bg-success-500" };
@@ -208,7 +212,12 @@ export function RecommendationCard({ item, firmId }: Props) {
 
       {/* Footer */}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink-100 pt-3">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {item.source && (
+            <span className="inline-flex items-center rounded-full border border-ink-200 bg-ink-50 px-2.5 py-0.5 text-xs font-medium text-ink-500">
+              {formatSource(item.source)}
+            </span>
+          )}
           <TenderMatchActionButton
             tenderId={item.tender_id}
             status="ignored"

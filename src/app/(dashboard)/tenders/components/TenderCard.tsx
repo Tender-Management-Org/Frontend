@@ -10,8 +10,13 @@ export interface TenderItem {
   value: string;
   deadline: string;
   description: string;
+  source?: string;
   similarityScore?: number;
   isInterested?: boolean;
+}
+
+function formatSource(slug: string): string {
+  return slug.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 }
 
 interface TenderCardProps {
@@ -117,7 +122,13 @@ export function TenderCard({ tender }: TenderCardProps) {
 
       {/* Footer */}
       <div className="mt-4 flex items-center justify-between border-t border-ink-100 pt-3">
-        <p className="text-xs text-ink-400">Open for eligibility and NIT documents</p>
+        {tender.source ? (
+          <span className="inline-flex items-center rounded-full border border-ink-200 bg-ink-50 px-2.5 py-0.5 text-xs font-medium text-ink-500">
+            {formatSource(tender.source)}
+          </span>
+        ) : (
+          <span />
+        )}
         <Link
           href={`/tenders/${encodeURIComponent(tender.id)}`}
           className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
