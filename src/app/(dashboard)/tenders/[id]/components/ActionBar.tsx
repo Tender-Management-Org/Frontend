@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ApiError } from "@/lib/api/client";
 import { getInterestedTenders, markTender, type TenderMatchStatus } from "@/lib/api/tenders";
-import { AlertCircle, Bookmark, BookmarkCheck, ExternalLink, EyeOff } from "lucide-react";
+import { AlertCircle, Bookmark, BookmarkCheck, EyeOff } from "lucide-react";
 
 interface ActionBarProps {
   tenderId: string;
-  sourceUrl?: string | null;
 }
 
-export function ActionBar({ tenderId, sourceUrl }: ActionBarProps) {
+export function ActionBar({ tenderId }: ActionBarProps) {
   const [currentStatus, setCurrentStatus] = useState<TenderMatchStatus | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

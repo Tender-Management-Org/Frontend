@@ -176,7 +176,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
         </div>
         <div className="col-span-12 lg:col-span-4">
           <div className="space-y-5 lg:sticky lg:top-6">
-            <ActionBar tenderId={id} sourceUrl={sourceUrl} />
+            <ActionBar tenderId={id} />
           </div>
         </div>
       </div>
