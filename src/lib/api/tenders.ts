@@ -309,3 +309,40 @@ export interface DashboardStatsApi {
 export async function getDashboardStats(firmId: string) {
   return apiRequest<DashboardStatsApi>(`/firms/${firmId}/dashboard/`);
 }
+
+// ─── Scraper Requests ─────────────────────────────────────────────────────────
+
+export type ScraperRequestPortalType = "government" | "corporate";
+export type ScraperRequestPriority = "low" | "medium" | "high";
+export type ScraperRequestStatus = "pending" | "in_progress" | "live" | "rejected";
+
+export interface ScraperRequestApi {
+  id: number;
+  portal_name: string;
+  portal_url: string;
+  portal_type: ScraperRequestPortalType;
+  notes: string;
+  priority: ScraperRequestPriority;
+  status: ScraperRequestStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateScraperRequestPayload {
+  portal_name: string;
+  portal_url: string;
+  portal_type: ScraperRequestPortalType;
+  notes?: string;
+  priority: ScraperRequestPriority;
+}
+
+export async function listScraperRequests() {
+  return apiRequest<ScraperRequestApi[]>("/scraper-requests/");
+}
+
+export async function createScraperRequest(payload: CreateScraperRequestPayload) {
+  return apiRequest<ScraperRequestApi>("/scraper-requests/", {
+    method: "POST",
+    body: payload,
+  });
+}

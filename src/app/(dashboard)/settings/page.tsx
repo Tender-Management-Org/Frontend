@@ -5,6 +5,7 @@ import {
   Bell,
   Crown,
   Loader2,
+  Plus,
   Save,
   Settings,
   Sparkles,
@@ -27,10 +28,17 @@ import {
   upsertFirmPreferences,
 } from "@/lib/api/firms";
 import { useSubscription } from "@/hooks/useSubscription";
+import {
+  listScraperRequests,
+  createScraperRequest,
+  type ScraperRequestApi,
+  type ScraperRequestPriority,
+  type ScraperRequestPortalType,
+} from "@/lib/api/tenders";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Tab = "notifications" | "recommendations" | "account";
+type Tab = "notifications" | "recommendations" | "account" | "scrapers";
 
 // ─── Toggle row ───────────────────────────────────────────────────────────────
 
@@ -467,11 +475,180 @@ function AccountTab() {
   );
 }
 
+// ─── Scrapers tab ─────────────────────────────────────────────────────────────
+
+const STATUS_BADGE: Record<string, { label: string; style: string }> = {
+  pending:     { label: "Pending",     style: "bg-yellow-100 text-yellow-700" },
+  in_progress: { label: "In Progress", style: "bg-blue-100 text-blue-700"    },
+  live:        { label: "Live",        style: "bg-green-100 text-green-700"  },
+  rejected:    { label: "Rejected",    style: "bg-red-100 text-red-700"      },
+};
+
+function ScrapersTab() {
+  const [requests, setRequests] = useState<ScraperRequestApi[]>([]);
+  const [loading, setLoading]   = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  // Form state
+  const [portalName, setPortalName] = useState("");
+  const [portalUrl, setPortalUrl]   = useState("");
+  const [portalType, setPortalType] = useState<ScraperRequestPortalType>("government");
+  const [notes, setNotes]           = useState("");
+  const [priority, setPriority]     = useState<ScraperRequestPriority>("medium");
+
+  useEffect(() => {
+    listScraperRequests()
+      .then(setRequests)
+      .catch(() => emitToast({ type: "error", title: "Could not load scraper requests." }))
+      .finally(() => setLoading(false));
+  }, []);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setSubmitting(true);
+    try {
+      const created = await createScraperRequest({ portal_name: portalName, portal_url: portalUrl, portal_type: portalType, notes, priority });
+      setRequests((prev) => [created, ...prev]);
+      setShowForm(false);
+      setPortalName(""); setPortalUrl(""); setNotes(""); setPriority("medium"); setPortalType("government");
+      emitToast({ type: "success", title: "Scraper request submitted! We'll get back to you soon." });
+    } catch {
+      emitToast({ type: "error", title: "Failed to submit request. Please try again." });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  if (loading) {
+    return <div className="flex justify-center py-16"><Loader2 className="h-5 w-5 animate-spin text-ink-300" /></div>;
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-xl border border-ink-100 bg-white p-5">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <h3 className="text-sm font-semibold text-ink-900">Request a scraper</h3>
+            <p className="mt-1 text-xs text-ink-400">
+              Need tenders from a portal we don&apos;t cover yet? Submit a request and our team will build it for you.
+            </p>
+          </div>
+          {!showForm && (
+            <Button size="sm" onClick={() => setShowForm(true)}>
+              <Plus className="h-3.5 w-3.5" /> New request
+            </Button>
+          )}
+        </div>
+
+        {showForm && (
+          <form onSubmit={handleSubmit} className="mt-5 space-y-4 border-t border-ink-100 pt-5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600">Portal name *</label>
+                <Input required placeholder="e.g. GeM Portal, CPPP" value={portalName} onChange={(e) => setPortalName(e.target.value)} />
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600">Portal URL *</label>
+                <Input required type="url" placeholder="https://..." value={portalUrl} onChange={(e) => setPortalUrl(e.target.value)} />
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600">Portal type *</label>
+                <div className="flex gap-2">
+                  {(["government", "corporate"] as ScraperRequestPortalType[]).map((t) => (
+                    <button
+                      key={t} type="button"
+                      onClick={() => setPortalType(t)}
+                      className={cn(
+                        "flex-1 rounded-lg border px-3 py-2 text-xs font-medium transition-all capitalize",
+                        portalType === t ? "border-navy-600 bg-navy-50 text-navy-700" : "border-ink-200 text-ink-600 hover:border-ink-300"
+                      )}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600">Priority *</label>
+                <div className="flex gap-2">
+                  {([["low", "Nice to have"], ["medium", "Important"], ["high", "Urgent"]] as [ScraperRequestPriority, string][]).map(([val, label]) => (
+                    <button
+                      key={val} type="button"
+                      onClick={() => setPriority(val)}
+                      className={cn(
+                        "flex-1 rounded-lg border px-2 py-2 text-xs font-medium transition-all",
+                        priority === val ? "border-navy-600 bg-navy-50 text-navy-700" : "border-ink-200 text-ink-600 hover:border-ink-300"
+                      )}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label className="mb-1.5 block text-xs font-medium text-ink-600">Notes</label>
+              <textarea
+                rows={3}
+                placeholder="What kind of tenders do you need from this portal? Any specific categories or requirements?"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="w-full rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm text-ink-800 placeholder:text-ink-300 focus:border-navy-400 focus:outline-none focus:ring-2 focus:ring-navy-100"
+              />
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button variant="secondary" size="sm" type="button" onClick={() => setShowForm(false)}>Cancel</Button>
+              <Button size="sm" type="submit" disabled={submitting}>
+                {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
+                Submit request
+              </Button>
+            </div>
+          </form>
+        )}
+      </div>
+
+      {requests.length > 0 && (
+        <div className="rounded-xl border border-ink-100 bg-white p-5">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400">Your requests</h3>
+          <div className="space-y-3">
+            {requests.map((r) => {
+              const badge = STATUS_BADGE[r.status] ?? STATUS_BADGE.pending;
+              return (
+                <div key={r.id} className="flex items-start justify-between gap-3 rounded-lg border border-ink-100 p-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-ink-900">{r.portal_name}</p>
+                    <p className="mt-0.5 truncate text-xs text-ink-400">{r.portal_url}</p>
+                    <p className="mt-1 text-xs text-ink-500 capitalize">{r.portal_type} · {r.priority === "low" ? "Nice to have" : r.priority === "medium" ? "Important" : "Urgent"}</p>
+                  </div>
+                  <span className={cn("shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold", badge.style)}>
+                    {badge.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {requests.length === 0 && !showForm && (
+        <p className="text-center text-sm text-ink-400 py-4">No scraper requests yet.</p>
+      )}
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 const TABS: { id: Tab; label: string; icon: React.ElementType }[] = [
   { id: "notifications",   label: "Notifications",   icon: Bell     },
   { id: "recommendations", label: "Recommendations", icon: Sparkles },
+  { id: "scrapers",        label: "Scrapers",        icon: Zap      },
   { id: "account",         label: "Account & Plan",  icon: Settings },
 ];
 
@@ -508,6 +685,7 @@ export default function SettingsPage() {
       {/* Tab content */}
       {activeTab === "notifications"   && <NotificationsTab />}
       {activeTab === "recommendations" && <RecommendationsTab />}
+      {activeTab === "scrapers"        && <ScrapersTab />}
       {activeTab === "account"         && <AccountTab />}
     </div>
   );
