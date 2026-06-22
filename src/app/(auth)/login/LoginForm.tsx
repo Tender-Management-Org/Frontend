@@ -6,11 +6,9 @@ import { ApiError, getOnboardingStatus, loginWithPassword, setOnboardingComplete
 import { emitToast } from "@/lib/toast";
 import { FileSearch, Lock } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
 export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
-  const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -25,8 +23,10 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
       const status = await getOnboardingStatus();
       setOnboardingComplete(status.onboarding_complete);
       emitToast({ type: "success", title: "Logged in successfully." });
-      router.replace(status.onboarding_complete ? "/dashboard" : "/onboarding");
-      router.refresh();
+      // Hard redirect so the browser sends the freshly-set cookies in the
+      // very first request — avoids the middleware seeing a missing
+      // tp_onboarding_complete cookie and briefly flashing the onboarding page.
+      window.location.replace(status.onboarding_complete ? "/dashboard" : "/onboarding");
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) {
         setError("Invalid username or password.");
