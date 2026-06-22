@@ -535,7 +535,7 @@ function ScrapersTab() {
             </p>
           </div>
           {!showForm && (
-            <Button size="sm" onClick={() => setShowForm(true)}>
+            <Button size="sm" onClick={() => setShowForm(true)} className="shrink-0 whitespace-nowrap">
               <Plus className="h-3.5 w-3.5" /> New request
             </Button>
           )}
