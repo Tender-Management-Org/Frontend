@@ -2,7 +2,7 @@ import { mapTenderDetailToLegacyShape } from "@/lib/api/tenderAdapters";
 import { ApiError } from "@/lib/api/client";
 import { getTenderDetail } from "@/lib/api/tenders";
 import type { TenderDetail } from "@/types/tenderDetail";
-import { ArrowLeft, CalendarClock, Clock4, IndianRupee, Tag } from "lucide-react";
+import { ArrowLeft, CalendarClock, Clock4, ExternalLink, IndianRupee, Tag } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ActionBar } from "./components/ActionBar";
@@ -36,8 +36,10 @@ function deadlineUrgency(isoDate: string | null | undefined): "danger" | "warnin
 export default async function TenderDetailPage({ params }: PageProps) {
   const id = decodeURIComponent(params.id);
   let tender: TenderDetail;
+  let sourceUrl: string | null = null;
   try {
     const detail = await getTenderDetail(id);
+    sourceUrl = detail.source_url ?? null;
     tender = mapTenderDetailToLegacyShape(detail);
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) notFound();
@@ -76,11 +78,24 @@ export default async function TenderDetailPage({ params }: PageProps) {
 
       {/* Hero */}
       <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full border border-ink-200 bg-ink-50 px-2.5 py-1 text-xs font-semibold text-ink-600">
-            {tender.basic_details.tender_category || "Works"}
-          </span>
-          <span className="text-xs font-mono text-ink-400">#{tender.basic_details.tender_id}</span>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-ink-200 bg-ink-50 px-2.5 py-1 text-xs font-semibold text-ink-600">
+              {tender.basic_details.tender_category || "Works"}
+            </span>
+            <span className="text-xs font-mono text-ink-400">#{tender.basic_details.tender_id}</span>
+          </div>
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 rounded-full border border-navy-200 bg-navy-50 px-2.5 py-1 text-xs font-semibold text-navy-600 transition-colors hover:bg-navy-100 hover:text-navy-800"
+            >
+              <ExternalLink className="h-3 w-3" aria-hidden />
+              View on source
+            </a>
+          )}
         </div>
 
         <h1 className="mt-3 text-xl font-bold leading-snug text-ink-900 sm:text-2xl">{title}</h1>
@@ -161,7 +176,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
         </div>
         <div className="col-span-12 lg:col-span-4">
           <div className="space-y-5 lg:sticky lg:top-6">
-            <ActionBar tenderId={id} />
+            <ActionBar tenderId={id} sourceUrl={sourceUrl} />
           </div>
         </div>
       </div>

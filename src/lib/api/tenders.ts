@@ -83,6 +83,8 @@ export interface TenderDetailApi {
   bid_submission_end_date: string | null;
   bid_opening_date: string | null;
   is_active: boolean;
+  source: string;
+  source_url: string | null;
   documents: TenderDocumentApi[];
   fees: TenderFeeApi | null;
   emd: EmdFeeApi | null;
