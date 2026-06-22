@@ -19,7 +19,7 @@ import { Step1BasicInfo } from "./components/Step1BasicInfo";
 import { Step2Identity } from "./components/Step2Identity";
 import { Step3Location } from "./components/Step3Location";
 import type { FirmProfileFormData, FormErrors } from "./components/types";
-import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 
 const stepTitles = ["Basic info", "Identity", "Location"];
 const ONBOARDING_DRAFT_KEY = "firm-onboarding-draft-v1";
@@ -57,6 +57,7 @@ export default function OnboardingPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [hasLoadedDraft, setHasLoadedDraft] = useState(false);
+  const [isCheckingFirm, setIsCheckingFirm] = useState(true);
 
   // If firm data already exists in the backend, mark onboarding complete and redirect.
   useEffect(() => {
@@ -64,8 +65,12 @@ export default function OnboardingPage() {
       if (res.results.length > 0) {
         setOnboardingComplete(true);
         window.location.replace("/dashboard");
+      } else {
+        setIsCheckingFirm(false);
       }
-    }).catch(() => { /* ignore — let user proceed with onboarding */ });
+    }).catch(() => {
+      setIsCheckingFirm(false); // let user proceed with onboarding
+    });
   }, []);
 
   const stepDescription = useMemo(
@@ -231,6 +236,14 @@ export default function OnboardingPage() {
       setIsSubmitting(false);
     }
   };
+
+  if (isCheckingFirm) {
+    return (
+      <div className="flex min-h-full items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-ink-300" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-full items-start justify-center py-8">
