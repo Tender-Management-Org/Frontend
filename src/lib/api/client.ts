@@ -44,33 +44,40 @@ async function readServerCookie(name: string): Promise<string | null> {
   return cookies().get(name)?.value ?? null;
 }
 
+function getClientCookie(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(`${name}=`));
+  return match ? decodeURIComponent(match.split("=").slice(1).join("=")) : null;
+}
+
 async function getAccessToken(): Promise<string | null> {
   if (typeof window === "undefined") {
     return readServerCookie(ACCESS_COOKIE);
   }
-  return window.localStorage.getItem(ACCESS_TOKEN_KEY);
+  // Always read from cookie — keeps client and middleware in sync after token rotation.
+  return getClientCookie(ACCESS_COOKIE);
 }
 
 async function getRefreshToken(): Promise<string | null> {
   if (typeof window === "undefined") {
     return readServerCookie(REFRESH_COOKIE);
   }
-  return window.localStorage.getItem(REFRESH_TOKEN_KEY);
+  // Always read from cookie — middleware rotates refresh tokens into cookies,
+  // so localStorage would hold a stale (blacklisted) token after rotation.
+  return getClientCookie(REFRESH_COOKIE);
 }
 
 export function setAuthTokens(tokens: { access: string; refresh: string }) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(ACCESS_TOKEN_KEY, tokens.access);
-  window.localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refresh);
+  // Cookies only — no localStorage. Middleware writes new tokens to cookies on
+  // every rotation; reading localStorage would see the old blacklisted token.
   setClientCookie(ACCESS_COOKIE, tokens.access, 60 * 15);
   setClientCookie(REFRESH_COOKIE, tokens.refresh, 60 * 60 * 24 * 7);
 }
 
 export function clearAuthTokens() {
-  if (typeof window !== "undefined") {
-    window.localStorage.removeItem(ACCESS_TOKEN_KEY);
-    window.localStorage.removeItem(REFRESH_TOKEN_KEY);
-  }
   clearClientCookie(ACCESS_COOKIE);
   clearClientCookie(REFRESH_COOKIE);
   clearClientCookie(ONBOARDING_COOKIE);
@@ -78,7 +85,7 @@ export function clearAuthTokens() {
 
 export function hasAuthSession() {
   if (typeof window === "undefined") return false;
-  return Boolean(window.localStorage.getItem(REFRESH_TOKEN_KEY));
+  return Boolean(getClientCookie(REFRESH_COOKIE));
 }
 
 export function setOnboardingComplete(completed: boolean) {
