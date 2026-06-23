@@ -4,8 +4,6 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 // Server-side fetch in Next.js requires absolute URLs. Use a local default in dev
 // so pages don't crash when .env.local is not created yet.
 const API_BASE_URL = (rawBaseUrl || (isDevelopment ? "http://127.0.0.1:8000/api" : "")).replace(/\/+$/, "");
-const ACCESS_TOKEN_KEY = "tp_access_token";
-const REFRESH_TOKEN_KEY = "tp_refresh_token";
 const ACCESS_COOKIE = "tp_access_token";
 const REFRESH_COOKIE = "tp_refresh_token";
 const ONBOARDING_COOKIE = "tp_onboarding_complete";
