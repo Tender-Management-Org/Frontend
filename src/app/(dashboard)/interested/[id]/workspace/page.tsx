@@ -73,7 +73,7 @@ export default async function InterestedTenderWorkspacePage({ params }: PageProp
       {/* Content */}
       <div className="grid grid-cols-12 gap-5">
         <div className="col-span-12 xl:col-span-8">
-          <TenderDetailView data={tender} />
+          <TenderDetailView data={tender} tenderId={id} />
         </div>
 
         <div className="col-span-12 space-y-4 xl:col-span-4">

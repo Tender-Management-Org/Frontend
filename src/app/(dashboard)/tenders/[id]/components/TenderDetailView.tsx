@@ -15,6 +15,7 @@ import {
   Timer,
 } from "lucide-react";
 import { useState } from "react";
+import { EligibilityTab } from "./EligibilityTab";
 
 function formatDateTime(iso: string | null | undefined): string {
   if (iso == null || iso === "") return "—";
@@ -163,7 +164,7 @@ function DocRow({ doc, onView, onDownload }: {
 
 // ── Tab IDs ───────────────────────────────────────────────────────────────────
 
-type TabId = "overview" | "details" | "dates" | "fee" | "documents";
+type TabId = "overview" | "details" | "dates" | "fee" | "documents" | "eligibility";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "overview", label: "Overview" },
@@ -171,15 +172,17 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "dates", label: "Dates" },
   { id: "fee", label: "Fee & EMD" },
   { id: "documents", label: "Documents" },
+  { id: "eligibility", label: "✓ Eligibility" },
 ];
 
 // ── Main component ────────────────────────────────────────────────────────────
 
 interface TenderDetailViewProps {
   data: TenderDetail;
+  tenderId: string;
 }
 
-export function TenderDetailView({ data }: TenderDetailViewProps) {
+export function TenderDetailView({ data, tenderId }: TenderDetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>("overview");
 
   const b = data.basic_details;
@@ -471,6 +474,11 @@ export function TenderDetailView({ data }: TenderDetailViewProps) {
             <DetailRow label="EMD payable at">{fv(emd.emd_payable_at)}</DetailRow>
           </SectionCard>
         </div>
+      )}
+
+      {/* ── Eligibility tab ── */}
+      {activeTab === "eligibility" && (
+        <EligibilityTab tenderId={tenderId} />
       )}
 
       {/* ── Documents tab ── */}
