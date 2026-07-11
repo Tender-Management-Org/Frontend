@@ -86,30 +86,35 @@ export const SAMPLE_TENDER_DETAIL: TenderDetail = {
   tender_documents: {
     nit_documents: [
       {
+        id: 1,
         s_no: 1,
         document_name: "Tendernotice_1.pdf",
         description: "Agreement",
         document_size_kb: 1478.26
       },
       {
+        id: 2,
         s_no: 2,
         document_name: "Tendernotice_2.pdf",
         description: "Additional Performance Security",
         document_size_kb: 547.07
       },
       {
+        id: 3,
         s_no: 3,
         document_name: "Tendernotice_3.pdf",
         description: "CIRCULAR DLP NEW",
         document_size_kb: 167.07
       },
       {
+        id: 4,
         s_no: 4,
         document_name: "Tendernotice_4.pdf",
         description: "Performance Security",
         document_size_kb: 397.1
       },
       {
+        id: 5,
         s_no: 5,
         document_name: "Tendernotice_5.pdf",
         description: "NIT-NO-37/2025-26 EE PWD DIVISION NAGAUR",
@@ -118,6 +123,7 @@ export const SAMPLE_TENDER_DETAIL: TenderDetail = {
     ],
     work_item_documents: [
       {
+        id: 6,
         s_no: 1,
         document_type: "BOQ",
         document_name: "BOQ_980904.xls",
@@ -125,6 +131,7 @@ export const SAMPLE_TENDER_DETAIL: TenderDetail = {
         document_size_kb: 340.0
       },
       {
+        id: 7,
         s_no: 2,
         document_type: "Tender Documents",
         document_name: "01.pdf",

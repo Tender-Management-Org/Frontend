@@ -346,3 +346,70 @@ export async function createScraperRequest(payload: CreateScraperRequestPayload)
     body: payload,
   });
 }
+
+
+// ─── Document Intelligence — Eligibility Check ────────────────────────────────
+
+export type EligibilityCriterionStatus = "met" | "unknown" | "not_met";
+
+export interface EligibilityCriterion {
+  criteria: string;
+  category: "financial" | "technical" | "registration" | "experience" | "legal" | "location" | "other";
+  key_value: string | null;
+  // Added by matching phase
+  status?: EligibilityCriterionStatus;
+  reason?: string;
+  // Added by owner override
+  owner_override?: boolean;
+  owner_note?: string;
+}
+
+export interface EligibilityCheckSummary {
+  total: number;
+  met: number;
+  unknown: number;
+  not_met: number;
+}
+
+export interface EligibilityCheckApi {
+  id: number;
+  tender_id: string;
+  firm_id: string;
+  status: "pending" | "processing" | "done" | "failed";
+  raw_criteria: EligibilityCriterion[];
+  matched_criteria: EligibilityCriterion[];
+  summary: EligibilityCheckSummary | null;
+  error_message: string;
+  extracted_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getEligibilityCheck(tenderId: string, firmId: string) {
+  return apiRequest<EligibilityCheckApi>(
+    `/tenders/${encodeURIComponent(tenderId)}/eligibility-check/?firm_id=${firmId}`
+  );
+}
+
+export async function runEligibilityCheck(tenderId: string, firmId: string, refresh = false) {
+  return apiRequest<EligibilityCheckApi>(
+    `/tenders/${encodeURIComponent(tenderId)}/eligibility-check/`,
+    { method: "POST", body: { firm_id: firmId, refresh } }
+  );
+}
+
+export async function overrideCriterionStatus(
+  tenderId: string,
+  firmId: string,
+  criteriaIndex: number,
+  status: EligibilityCriterionStatus,
+  ownerNote = ""
+) {
+  return apiRequest<EligibilityCheckApi>(
+    `/tenders/${encodeURIComponent(tenderId)}/eligibility-check/`,
+    {
+      method: "PATCH",
+      body: { firm_id: firmId, criteria_index: criteriaIndex, status, owner_note: ownerNote },
+    }
+  );
+}

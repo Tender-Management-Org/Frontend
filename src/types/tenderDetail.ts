@@ -81,6 +81,7 @@ export interface CriticalDates {
 }
 
 export interface NitDocumentRow {
+  id: number;
   s_no: number;
   document_name: string;
   description: string;
@@ -89,6 +90,7 @@ export interface NitDocumentRow {
 }
 
 export interface WorkItemDocumentRow {
+  id: number;
   s_no: number;
   document_type: string;
   document_name: string;
