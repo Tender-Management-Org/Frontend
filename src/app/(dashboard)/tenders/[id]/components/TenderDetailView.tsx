@@ -261,6 +261,9 @@ interface TenderDetailViewProps {
 
 export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab = "overview" }: TenderDetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>(defaultTab);
+  const visibleTabs = filingWorkspace?.enabled
+    ? TABS.filter((tab) => tab.id !== "eligibility")
+    : TABS;
 
   const b = data.basic_details;
   const w = data.work_items;
@@ -285,7 +288,7 @@ export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab =
         role="tablist"
         aria-label="Tender detail sections"
       >
-        {TABS.map((tab) => (
+        {visibleTabs.map((tab) => (
           <button
             key={tab.id}
             type="button"
