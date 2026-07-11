@@ -3,13 +3,17 @@
 import { cn } from "@/lib/utils";
 import type { TenderDetail } from "@/types/tenderDetail";
 import {
+  Brain,
   CalendarDays,
+  CheckCircle2,
+  ChevronRight,
   CircleDot,
   Clock,
   Download,
   Eye,
   FileText,
   Landmark,
+  Loader2,
   MapPin,
   ScrollText,
   Timer,
@@ -121,24 +125,53 @@ function SectionCard({ title, children }: { title: string; children: React.React
   );
 }
 
-function DocRow({ doc, onView, onDownload }: {
+function DocRow({
+  doc,
+  onView,
+  onDownload,
+  filingWorkspace,
+  documentId,
+}: {
   doc: { document_name?: string | null; description?: string | null; document_size_kb: number; file_url?: string | null };
   onView: () => void;
   onDownload: () => void;
+  filingWorkspace?: FilingWorkspaceDocIntelProps;
+  documentId?: number;
 }) {
   const hasUrl = Boolean(doc.file_url);
+  const isPdf = (() => {
+    const name = (doc.document_name ?? "").toLowerCase();
+    const url = (doc.file_url ?? "").toLowerCase();
+    return name.endsWith(".pdf") || url.includes(".pdf");
+  })();
+
+  const docIntel =
+    filingWorkspace?.enabled && documentId != null && isPdf
+      ? filingWorkspace.docIntelByDocumentId[documentId]
+      : undefined;
+  const isSelected = filingWorkspace?.selectedDocumentId === documentId;
+  const showDocIntel = Boolean(filingWorkspace?.enabled && documentId != null && isPdf);
+
   return (
-    <div className="flex flex-col gap-3 rounded-xl border border-ink-200 p-3.5 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      className={cn(
+        "flex flex-col gap-3 rounded-xl border p-3.5 sm:flex-row sm:items-center sm:justify-between",
+        isSelected ? "border-navy-300 bg-navy-50/40" : "border-ink-200"
+      )}
+    >
       <div className="min-w-0 flex-1">
         <p className="flex items-center gap-2 text-sm font-semibold text-ink-900">
           <FileText className="h-4 w-4 shrink-0 text-ink-400" aria-hidden />
           <span className="truncate">{fv(doc.document_name)}</span>
+          {docIntel?.status === "complete" && (
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-success-600" aria-label="Analysis complete" />
+          )}
         </p>
         <p className="mt-0.5 text-xs text-ink-400">
           {fv(doc.description)} · {formatSize(doc.document_size_kb)}
         </p>
       </div>
-      <div className="flex shrink-0 gap-2">
+      <div className="flex shrink-0 flex-wrap gap-2">
         <button
           type="button"
           onClick={onView}
@@ -157,6 +190,38 @@ function DocRow({ doc, onView, onDownload }: {
           <Download className="h-3.5 w-3.5" aria-hidden />
           Download
         </button>
+        {showDocIntel && docIntel?.status !== "complete" && (
+          <button
+            type="button"
+            onClick={() =>
+              filingWorkspace?.onRequestDocIntel(documentId!, doc.document_name ?? "Document")
+            }
+            disabled={docIntel?.status === "processing"}
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-200 bg-navy-50 px-3 text-xs font-medium text-navy-700 transition-colors hover:bg-navy-100 disabled:opacity-60"
+          >
+            {docIntel?.status === "processing" ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+            ) : (
+              <Brain className="h-3.5 w-3.5" aria-hidden />
+            )}
+            {docIntel?.status === "processing" ? "Analyzing…" : "Analyze"}
+          </button>
+        )}
+        {showDocIntel && docIntel?.status === "complete" && (
+          <button
+            type="button"
+            onClick={() => filingWorkspace?.onSelectDocIntel(documentId!)}
+            className={cn(
+              "inline-flex h-8 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium transition-colors",
+              isSelected
+                ? "border-navy-600 bg-navy-600 text-white"
+                : "border-navy-200 bg-white text-navy-700 hover:bg-navy-50"
+            )}
+            aria-label="View analysis results"
+          >
+            <ChevronRight className="h-4 w-4" aria-hidden />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -177,13 +242,25 @@ const TABS: { id: TabId; label: string }[] = [
 
 // ── Main component ────────────────────────────────────────────────────────────
 
+export type DocIntelDocStatus = "idle" | "processing" | "complete" | "error";
+
+export interface FilingWorkspaceDocIntelProps {
+  enabled: boolean;
+  docIntelByDocumentId: Record<number, { status: DocIntelDocStatus; documentName: string }>;
+  selectedDocumentId: number | null;
+  onRequestDocIntel: (documentId: number, documentName: string) => void;
+  onSelectDocIntel: (documentId: number) => void;
+}
+
 interface TenderDetailViewProps {
   data: TenderDetail;
   tenderId: string;
+  filingWorkspace?: FilingWorkspaceDocIntelProps;
+  defaultTab?: TabId;
 }
 
-export function TenderDetailView({ data, tenderId }: TenderDetailViewProps) {
-  const [activeTab, setActiveTab] = useState<TabId>("overview");
+export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab = "overview" }: TenderDetailViewProps) {
+  const [activeTab, setActiveTab] = useState<TabId>(defaultTab);
 
   const b = data.basic_details;
   const w = data.work_items;
@@ -498,8 +575,10 @@ export function TenderDetailView({ data, tenderId }: TenderDetailViewProps) {
               <div className="space-y-2">
                 {data.tender_documents.nit_documents.map((doc) => (
                   <DocRow
-                    key={doc.s_no}
+                    key={doc.id}
                     doc={doc}
+                    documentId={doc.id}
+                    filingWorkspace={filingWorkspace}
                     onView={() => doc.file_url && handleView(doc.file_url)}
                     onDownload={() => doc.file_url && void handleDownload(doc.file_url)}
                   />
@@ -522,8 +601,10 @@ export function TenderDetailView({ data, tenderId }: TenderDetailViewProps) {
               <div className="space-y-2">
                 {data.tender_documents.work_item_documents.map((doc) => (
                   <DocRow
-                    key={doc.s_no}
+                    key={doc.id}
                     doc={{ ...doc, document_name: doc.document_name ?? doc.document_type }}
+                    documentId={doc.id}
+                    filingWorkspace={filingWorkspace}
                     onView={() => doc.file_url && handleView(doc.file_url)}
                     onDownload={() => doc.file_url && void handleDownload(doc.file_url)}
                   />

@@ -12,6 +12,7 @@ export interface FirmApi {
   industry_type: string;
   scope_of_work: string;
   is_active: boolean;
+  doc_intel_credits: number;
   created_at: string;
   updated_at: string;
 }

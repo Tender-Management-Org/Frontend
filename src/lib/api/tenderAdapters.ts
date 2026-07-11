@@ -127,6 +127,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
       : base.emd_fee_details,
     tender_documents: {
       nit_documents: api.documents.map((doc, index) => ({
+        id: Number(doc.id),
         s_no: index + 1,
         document_name: doc.document_name || doc.document?.title || "Untitled document",
         description: doc.description || "—",
@@ -134,6 +135,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
         file_url: getDocumentFileUrl(doc),
       })),
       work_item_documents: api.documents.map((doc, index) => ({
+        id: Number(doc.id),
         s_no: index + 1,
         document_type: doc.document_type || "Document",
         document_name: doc.document_name || doc.document?.title || "Untitled document",
