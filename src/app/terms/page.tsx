@@ -29,23 +29,13 @@ export default function TermsPage() {
     <div className="min-h-screen bg-ink-50">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center px-6 py-4">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
             <span className="font-semibold text-ink-900">TenderKhoj</span>
           </Link>
-          <div className="flex items-center gap-4 text-sm text-ink-500">
-            <Link href="/privacy" className="hover:text-ink-900 transition-colors">Privacy Policy</Link>
-            <Link href="/disclaimer" className="hover:text-ink-900 transition-colors">Legal Disclaimer</Link>
-            <Link
-              href="/login"
-              className="rounded-lg bg-navy-600 px-4 py-2 text-sm font-medium text-white hover:bg-navy-700 transition-colors"
-            >
-              Sign in
-            </Link>
-          </div>
         </div>
       </header>
 
@@ -130,8 +120,9 @@ export default function TermsPage() {
                     (Interested → Applied → Won/Lost), and receive deadline alerts.
                   </ListItem>
                   <ListItem>
-                    <strong>Document intelligence (Phase 2)</strong> — OCR-based extraction of eligibility criteria from
-                    tender documents you choose to upload, and a workspace for organising bid documents.
+                    <strong>Document intelligence</strong> — OCR-based extraction of eligibility criteria from
+                    tender documents you choose to upload, and a workspace for organising bid documents. Available on
+                    Starter, Growth, and Enterprise plans.
                   </ListItem>
                 </ul>
                 <p className="mt-3">
@@ -235,12 +226,13 @@ export default function TermsPage() {
                     must only upload documents that you have the legal right to upload and store.
                   </p>
                 </Subsection>
-                <Subsection title="7.2 Document Intelligence (OCR) — Phase 2">
+                <Subsection title="7.2 Document Intelligence (OCR)">
                   <p>
-                    TenderKhoj&apos;s upcoming document intelligence feature will allow you to upload tender document packages
-                    (ZIP files or individual PDFs) downloaded from official portals. Our system will perform Optical Character
+                    TenderKhoj&apos;s document intelligence feature allows you to upload tender document packages
+                    (ZIP files or individual PDFs) downloaded from official portals. Our system performs Optical Character
                     Recognition (OCR) to extract information such as eligibility criteria, EMD requirements, experience
-                    criteria, and financial thresholds, and display this information within your bid workspace.
+                    criteria, and financial thresholds, and displays this information within your bid workspace. This
+                    feature is available on Starter, Growth, and Enterprise plans.
                   </p>
                   <p className="mt-3">
                     <strong>This extraction is for informational and productivity purposes only.</strong> OCR extraction
@@ -279,8 +271,8 @@ export default function TermsPage() {
                       <tbody className="divide-y divide-ink-50">
                         {[
                           ["Trial (14 days)", "5", "1"],
-                          ["Starter",         "15", "1"],
-                          ["Growth",          "30", "3"],
+                          ["Starter",         "15", "2"],
+                          ["Growth",          "30", "5"],
                           ["Enterprise",      "Unlimited", "Unlimited"],
                         ].map(([plan, recs, firms]) => (
                           <tr key={plan}>

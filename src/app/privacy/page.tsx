@@ -24,23 +24,13 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-ink-50">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center px-6 py-4">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
             <span className="font-semibold text-ink-900">TenderKhoj</span>
           </Link>
-          <div className="flex items-center gap-4 text-sm text-ink-500">
-            <Link href="/terms" className="hover:text-ink-900 transition-colors">Terms of Service</Link>
-            <Link href="/disclaimer" className="hover:text-ink-900 transition-colors">Legal Disclaimer</Link>
-            <Link
-              href="/login"
-              className="rounded-lg bg-navy-600 px-4 py-2 text-sm font-medium text-white hover:bg-navy-700 transition-colors"
-            >
-              Sign in
-            </Link>
-          </div>
         </div>
       </header>
 
@@ -131,8 +121,8 @@ export default function PrivacyPage() {
                   experience certificates, financial audit reports, solvency certificates). These files are stored securely
                   on our servers and are associated only with your account.</p>
                   <p className="mt-2">You may also upload tender document packages (PDF/ZIP) for AI-assisted OCR extraction
-                  (Phase 2 feature). These files are processed by our systems to extract text-based information and are
-                  not shared with any third party.</p>
+                  (available on Starter, Growth, and Enterprise plans). These files are processed by our systems to extract
+                  text-based information and are not shared with any third party.</p>
                 </Subsection>
                 <Subsection title="2.4 Tender Interaction Data">
                   <p>We collect data about how you interact with tenders on the platform: tenders you have viewed,
@@ -175,7 +165,7 @@ export default function PrivacyPage() {
                     the correct plan limits to your account.
                   </ListItem>
                   <ListItem>
-                    <strong>Document Intelligence (Phase 2):</strong> To perform OCR on documents you upload and surface
+                    <strong>Document Intelligence:</strong> To perform OCR on documents you upload and surface
                     extracted information (eligibility criteria, deadlines, fee requirements) within your workspace.
                   </ListItem>
                   <ListItem>

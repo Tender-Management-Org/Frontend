@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, LogOut, User, Check, CheckCheck, FileText, Shield, RotateCcw, Mail } from "lucide-react";
+import { Bell, ChevronDown, LogOut, User, Check, CheckCheck, FileText, Shield, RotateCcw, Mail, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -353,10 +353,11 @@ export function Navbar() {
                     Legal &amp; support
                   </p>
                   {[
-                    { href: "/terms",   label: "Terms",     icon: FileText },
-                    { href: "/privacy", label: "Privacy",   icon: Shield },
-                    { href: "/refund",  label: "Refunds",   icon: RotateCcw },
-                    { href: "/contact", label: "Contact",   icon: Mail },
+                    { href: "/terms",      label: "Terms",      icon: FileText },
+                    { href: "/privacy",    label: "Privacy",    icon: Shield },
+                    { href: "/refund",     label: "Refunds",    icon: RotateCcw },
+                    { href: "/disclaimer", label: "Disclaimer", icon: AlertTriangle },
+                    { href: "/contact",    label: "Contact",    icon: Mail },
                   ].map(({ href, label, icon: Icon }) => (
                     <Link
                       key={href}

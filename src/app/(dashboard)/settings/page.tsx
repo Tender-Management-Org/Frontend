@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
+  AlertTriangle,
   Bell,
   Crown,
   FileText,
@@ -478,12 +479,13 @@ function AccountTab() {
       )}
 
       <Section title="Legal & support">
-        <div className="grid grid-cols-2 gap-2 py-1 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 py-1 sm:grid-cols-3">
           {[
-            { href: "/terms",   label: "Terms",     icon: FileText },
-            { href: "/privacy", label: "Privacy",   icon: Shield },
-            { href: "/refund",  label: "Refunds",   icon: RotateCcw },
-            { href: "/contact", label: "Contact",   icon: Mail },
+            { href: "/terms",      label: "Terms",      icon: FileText },
+            { href: "/privacy",    label: "Privacy",    icon: Shield },
+            { href: "/refund",     label: "Refunds",    icon: RotateCcw },
+            { href: "/disclaimer", label: "Disclaimer", icon: AlertTriangle },
+            { href: "/contact",    label: "Contact",    icon: Mail },
           ].map(({ href, label, icon: Icon }) => (
             <Link
               key={href}

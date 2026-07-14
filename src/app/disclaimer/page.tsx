@@ -22,23 +22,13 @@ export default function DisclaimerPage() {
     <div className="min-h-screen bg-ink-50">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center px-6 py-4">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
             <span className="font-semibold text-ink-900">TenderKhoj</span>
           </Link>
-          <div className="flex items-center gap-4 text-sm text-ink-500">
-            <Link href="/terms" className="hover:text-ink-900 transition-colors">Terms of Service</Link>
-            <Link href="/privacy" className="hover:text-ink-900 transition-colors">Privacy Policy</Link>
-            <Link
-              href="/login"
-              className="rounded-lg bg-navy-600 px-4 py-2 text-sm font-medium text-white hover:bg-navy-700 transition-colors"
-            >
-              Sign in
-            </Link>
-          </div>
         </div>
       </header>
 
@@ -181,8 +171,9 @@ export default function DisclaimerPage() {
               {/* 4 */}
               <Section id="ocr-disclaimer" title="4. Document Intelligence & OCR Disclaimer">
                 <p>
-                  TenderKhoj&apos;s document intelligence feature (available in Phase 2) allows you to upload tender documents
-                  for automated text extraction via Optical Character Recognition (OCR). This feature is provided as a
+                  TenderKhoj&apos;s document intelligence feature (available on Starter, Growth, and Enterprise plans)
+                  allows you to upload tender documents for automated text extraction via Optical Character
+                  Recognition (OCR). This feature is provided as a
                   <strong> productivity aid only</strong> and carries the following limitations:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
