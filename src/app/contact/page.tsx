@@ -7,7 +7,7 @@ export const metadata = {
   description: "Get in touch with TenderKhoj — send a message or email us directly.",
 };
 
-const CONTACT_EMAIL = "tenderpilotadmin@gmail.com";
+const CONTACT_EMAIL = "tenderkhojadmin@gmail.com";
 
 export default function ContactPage() {
   return (

@@ -162,8 +162,8 @@ export default function RefundPage() {
                   <p>Rajasthan, India</p>
                   <p>
                     Email:{" "}
-                    <a href="mailto:support@tenderkhoj.com?subject=Cancellation%20or%20Refund" className="text-navy-600 hover:underline">
-                      support@tenderkhoj.com
+                    <a href="mailto:tenderkhojadmin@gmail.com?subject=Cancellation%20or%20Refund" className="text-navy-600 hover:underline">
+                      tenderkhojadmin@gmail.com
                     </a>
                   </p>
                   <p>

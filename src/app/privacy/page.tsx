@@ -347,7 +347,7 @@ export default function PrivacyPage() {
                   <p><strong>Data Controller: Electrocom Solutions</strong></p>
                   <p>Proprietor: Vaibhav Paliwal</p>
                   <p>Rajasthan, India</p>
-                  <p>Email: <a href="mailto:privacy@tenderkhoj.com" className="text-navy-600 hover:underline">privacy@tenderkhoj.com</a></p>
+                  <p>Email: <a href="mailto:tenderkhojadmin@gmail.com" className="text-navy-600 hover:underline">tenderkhojadmin@gmail.com</a></p>
                   <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
                 </div>
                 <p className="mt-4 text-sm text-ink-500">

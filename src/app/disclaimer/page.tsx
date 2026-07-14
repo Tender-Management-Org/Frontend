@@ -275,7 +275,7 @@ export default function DisclaimerPage() {
                   <p><strong>Electrocom Solutions</strong></p>
                   <p>Proprietor: Vaibhav Paliwal</p>
                   <p>Rajasthan, India</p>
-                  <p>Email: <a href="mailto:legal@tenderkhoj.com" className="text-navy-600 hover:underline">legal@tenderkhoj.com</a></p>
+                  <p>Email: <a href="mailto:tenderkhojadmin@gmail.com" className="text-navy-600 hover:underline">tenderkhojadmin@gmail.com</a></p>
                   <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
                 </div>
               </Section>
