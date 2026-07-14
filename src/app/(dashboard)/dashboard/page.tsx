@@ -10,7 +10,6 @@ import { ActionRequired } from "./components/ActionRequired";
 import { DashboardWelcome } from "./components/DashboardWelcome";
 import { FunnelChart } from "./components/FunnelChart";
 import { StatsCard } from "./components/StatsCard";
-import { TenderMatchList } from "./components/TenderMatchList";
 
 export default async function DashboardPage() {
   // ── Resolve active firm (prefer cookie set by FirmSwitcher) ───────────────
@@ -47,20 +46,6 @@ export default async function DashboardPage() {
   const applied = stats?.applied ?? 0;
   const attentionItems = stats?.attention_items ?? [];
   const attentionCount = attentionItems.length;
-
-  const recentMatches = (stats?.recent_matches ?? []).map((m) => ({
-    title: m.title,
-    tenderId: m.tender_id,
-    fit_score: m.fit_score,
-    // Backend sends lowercase; component expects title-case
-    status: (m.status.charAt(0).toUpperCase() + m.status.slice(1)) as
-      | "Matched"
-      | "Interested"
-      | "Applied"
-      | "Won"
-      | "Lost",
-    reason: m.match_reason,
-  }));
 
   const funnelData = stats?.funnel ?? [
     { stage: "Matched", count: 0 },
@@ -141,7 +126,6 @@ export default async function DashboardPage() {
       {/* Main content + sidebar */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 space-y-6 lg:col-span-8">
-          <TenderMatchList matches={recentMatches} />
           <FunnelChart data={funnelData} />
         </div>
         <div className="col-span-12 lg:col-span-4">
