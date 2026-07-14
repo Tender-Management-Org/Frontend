@@ -2,20 +2,17 @@ import Link from "next/link";
 import { FileSearch, ChevronRight } from "lucide-react";
 
 export const metadata = {
-  title: "Refund & Cancellation Policy — TenderKhoj",
-  description: "How subscription cancellations and refunds work on TenderKhoj.",
+  title: "Cancellation & Refund Policy — TenderKhoj",
+  description: "Cancellation and refund policy for VAIBHAV PALIWAL / TenderKhoj.",
 };
 
 const TOC = [
-  { id: "overview",        label: "Overview" },
-  { id: "cancellation",    label: "How to Cancel" },
-  { id: "access",          label: "Access After Cancellation" },
-  { id: "refunds",         label: "Refund Policy" },
-  { id: "trial",           label: "Free Trial" },
-  { id: "mandate",         label: "UPI Mandate Verification" },
-  { id: "failed-payments", label: "Failed Payments" },
-  { id: "enterprise",      label: "Enterprise Plans" },
-  { id: "contact",         label: "Contact" },
+  { id: "cancellation", label: "Cancellations" },
+  { id: "perishable",   label: "Perishable Items" },
+  { id: "defective",    label: "Damaged or Defective" },
+  { id: "warranty",     label: "Warranty Products" },
+  { id: "refunds",      label: "Refund Processing" },
+  { id: "contact",      label: "Contact" },
 ];
 
 export default function RefundPage() {
@@ -69,140 +66,77 @@ export default function RefundPage() {
                 <span className="h-1.5 w-1.5 rounded-full bg-navy-600" />
                 <span className="text-xs font-medium text-navy-700">Legal Document</span>
               </div>
-              <h1 className="text-3xl font-bold text-ink-900">Refund &amp; Cancellation Policy</h1>
+              <h1 className="text-3xl font-bold text-ink-900">Cancellation &amp; Refund Policy</h1>
               <p className="mt-3 text-ink-500">
-                This policy explains how subscription cancellations and refunds work on TenderKhoj. It should be read
-                together with our{" "}
-                <Link href="/terms" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">
-                  Terms of Service
-                </Link>
-                .
+                This Cancellation and Refund Policy applies to purchases and orders placed with VAIBHAV PALIWAL
+                (TenderKhoj / Electrocom Solutions).
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-ink-400">
-                <span><strong className="text-ink-600">Effective:</strong> June 20, 2026</span>
-                <span><strong className="text-ink-600">Operated by:</strong> Electrocom Solutions</span>
+                <span><strong className="text-ink-600">Last updated:</strong> 15-07-2026</span>
+                <span><strong className="text-ink-600">Merchant:</strong> VAIBHAV PALIWAL</span>
               </div>
             </div>
 
             <div className="space-y-6">
 
-              <Section id="overview" title="1. Overview">
+              <Section id="cancellation" title="1. Cancellations">
                 <p>
-                  TenderKhoj paid plans (Starter, Growth, and Enterprise) are billed via Cashfree Payments on a monthly
-                  or annual cycle using UPI AutoPay. You may cancel at any time. Unless required by applicable law, we
-                  do not issue pro-rated refunds for unused time in a billing period.
+                  VAIBHAV PALIWAL believes in helping its customers as far as possible, and has therefore a liberal
+                  cancellation policy. Under this policy:
                 </p>
-              </Section>
-
-              <Section id="cancellation" title="2. How to Cancel">
-                <p>You can cancel your subscription in either of the following ways:</p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
                   <ListItem>
-                    From the <strong>Upgrade / Plans</strong> page while signed in — use the cancel subscription option
-                    on your current plan card
-                  </ListItem>
-                  <ListItem>
-                    By emailing{" "}
-                    <a href="mailto:support@tenderkhoj.com?subject=Cancel%20subscription" className="text-navy-600 hover:underline">
-                      support@tenderkhoj.com
-                    </a>{" "}
-                    from the email associated with your account
+                    Cancellations will be considered only if the request is made immediately after placing the order.
+                    However, the cancellation request may not be entertained if the orders have been communicated to the
+                    vendors/merchants and they have initiated the process of shipping them.
                   </ListItem>
                 </ul>
-                <p className="mt-3">
-                  Cancellation takes effect at the end of your current billing period. No further charges will be
-                  attempted after that period ends, provided the UPI AutoPay mandate is revoked or cancelled as part of
-                  the process.
+              </Section>
+
+              <Section id="perishable" title="2. Perishable Items">
+                <p>
+                  VAIBHAV PALIWAL does not accept cancellation requests for perishable items like flowers, eatables etc.
+                  However, refund/replacement can be made if the customer establishes that the quality of product delivered
+                  is not good.
                 </p>
               </Section>
 
-              <Section id="access" title="3. Access After Cancellation">
+              <Section id="defective" title="3. Damaged or Defective Items">
                 <p>
-                  After you cancel, your paid plan features remain available until the end of the current billing period.
-                  When that period ends, your subscription status becomes expired and paid features (including recommendation
-                  generation limits associated with your plan) may be restricted until you reactivate or upgrade again.
-                </p>
-                <p className="mt-3">
-                  Your firm data and uploaded documents are retained according to our{" "}
-                  <Link href="/terms" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link href="/privacy" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">
-                    Privacy Policy
-                  </Link>
-                  . Cancelling a subscription is not the same as deleting your account.
+                  In case of receipt of damaged or defective items please report the same to our Customer Service team.
+                  The request will, however, be entertained once the Merchant has checked and determined the same at its
+                  own end. This should be reported within <strong>7 Days</strong> of receipt of the products. In case you
+                  feel that the product received is not as shown on the site or as per your expectations, you must bring
+                  it to the notice of our customer service within <strong>7 Days</strong> of receiving the product. The
+                  Customer Service Team after looking into your complaint will take an appropriate decision.
                 </p>
               </Section>
 
-              <Section id="refunds" title="4. Refund Policy">
+              <Section id="warranty" title="4. Warranty Products">
                 <p>
-                  <strong>No pro-rated refunds</strong> are issued for partial billing periods after cancellation, unless
-                  required by applicable Indian law or mandated by a competent authority.
-                </p>
-                <p className="mt-3">We may consider a refund (in whole or in part) only in limited cases, such as:</p>
-                <ul className="mt-3 space-y-2 text-sm text-ink-600">
-                  <ListItem>A duplicate or accidental charge caused by a clear billing error on our side</ListItem>
-                  <ListItem>A charge made after a properly completed cancellation had already taken effect</ListItem>
-                  <ListItem>Where required under applicable consumer protection or other laws</ListItem>
-                </ul>
-                <p className="mt-3">
-                  Refund requests should be sent to{" "}
-                  <a href="mailto:support@tenderkhoj.com?subject=Refund%20request" className="text-navy-600 hover:underline">
-                    support@tenderkhoj.com
-                  </a>{" "}
-                  with your account username, approximate charge date, and amount. Approved refunds are processed through
-                  Cashfree back to the original payment instrument and typically appear within 5–10 business days,
-                  depending on your bank.
+                  In case of complaints regarding products that come with a warranty from manufacturers, please refer the
+                  issue to them.
                 </p>
               </Section>
 
-              <Section id="trial" title="5. Free Trial">
+              <Section id="refunds" title="5. Refund Processing">
                 <p>
-                  New accounts receive a <strong>14-day free trial</strong>. No payment information is required to start
-                  the trial, and <strong>no subscription charge is collected during the trial</strong>. Accordingly, the
-                  trial period is not refundable.
+                  In case of any Refunds approved by the VAIBHAV PALIWAL, it&apos;ll take <strong>6–8 Days</strong> for the
+                  refund to be processed to the end customer.
                 </p>
               </Section>
 
-              <Section id="mandate" title="6. UPI Mandate Verification Charge">
+              <Section id="contact" title="6. Contact">
                 <p>
-                  When you set up a paid subscription via Cashfree UPI AutoPay, a small verification charge (currently ₹1)
-                  may be collected to validate the mandate. This verification amount is refunded by the payment process
-                  and is not a subscription fee.
-                </p>
-              </Section>
-
-              <Section id="failed-payments" title="7. Failed Payments">
-                <p>
-                  If a recurring payment fails (for example, due to insufficient balance or a revoked mandate), your
-                  subscription may become inactive or expired and paid features may be restricted until payment succeeds
-                  or you resubscribe. Failed charge attempts themselves do not create a refund entitlement.
-                </p>
-              </Section>
-
-              <Section id="enterprise" title="8. Enterprise Plans">
-                <p>
-                  Enterprise pricing and commercial terms may be agreed separately. Where a custom agreement exists, that
-                  agreement prevails over this policy to the extent of any conflict. For Enterprise enquiries, contact{" "}
-                  <a href="mailto:hello@tenderkhoj.com?subject=Enterprise%20plan%20enquiry" className="text-navy-600 hover:underline">
-                    hello@tenderkhoj.com
-                  </a>
-                  .
-                </p>
-              </Section>
-
-              <Section id="contact" title="9. Contact">
-                <p>
-                  For cancellation help, refund requests, or billing questions:
+                  For cancellation or refund requests, contact our Customer Service team:
                 </p>
                 <div className="mt-4 rounded-xl border border-ink-100 bg-ink-50 p-5 text-sm text-ink-700 space-y-1">
-                  <p><strong>Electrocom Solutions</strong></p>
-                  <p>Proprietor: Vaibhav Paliwal</p>
+                  <p><strong>VAIBHAV PALIWAL</strong></p>
+                  <p>Electrocom Solutions · TenderKhoj</p>
                   <p>Rajasthan, India</p>
                   <p>
                     Email:{" "}
-                    <a href="mailto:support@tenderkhoj.com" className="text-navy-600 hover:underline">
+                    <a href="mailto:support@tenderkhoj.com?subject=Cancellation%20or%20Refund" className="text-navy-600 hover:underline">
                       support@tenderkhoj.com
                     </a>
                   </p>
@@ -224,7 +158,7 @@ export default function RefundPage() {
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy Policy</Link>
-            <Link href="/refund" className="text-navy-600 font-medium">Refund &amp; Cancellation</Link>
+            <Link href="/refund" className="text-navy-600 font-medium">Cancellation &amp; Refund</Link>
             <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact Us</Link>
             <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal Disclaimer</Link>
           </div>

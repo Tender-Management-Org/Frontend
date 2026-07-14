@@ -12,6 +12,7 @@ const TOC = [
   { id: "privacy",     label: "Privacy & Data" },
   { id: "legal",       label: "Legal" },
   { id: "enterprise",  label: "Enterprise" },
+  { id: "refund",      label: "Cancellation & Refund" },
   { id: "company",     label: "Company Details" },
 ];
 
@@ -35,9 +36,13 @@ const CHANNELS = [
     subject: "Billing enquiry",
     response: (
       <>
-        For cancellation and refund rules, see our{" "}
+        See our{" "}
+        <a href="#refund" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">
+          Cancellation &amp; Refund Policy
+        </a>{" "}
+        below, or the standalone page at{" "}
         <Link href="/refund" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">
-          Refund &amp; Cancellation Policy
+          /refund
         </Link>
         .
       </>
@@ -127,7 +132,7 @@ export default function ContactPage() {
                 Choose the right channel below and we&apos;ll get back to you as soon as we can.
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-ink-400">
-                <span><strong className="text-ink-600">Operated by:</strong> Electrocom Solutions</span>
+                <span><strong className="text-ink-600">Merchant:</strong> VAIBHAV PALIWAL</span>
                 <span><strong className="text-ink-600">Based in:</strong> Rajasthan, India</span>
               </div>
             </div>
@@ -161,11 +166,62 @@ export default function ContactPage() {
                 );
               })}
 
-              <Section id="company" title="6. Company Details">
+              <Section id="refund" title="6. Cancellation & Refund Policy">
+                <p className="mb-4 text-ink-400">
+                  <strong className="text-ink-600">Last updated:</strong> 15-07-2026
+                </p>
+                <p>
+                  VAIBHAV PALIWAL believes in helping its customers as far as possible, and has therefore a liberal
+                  cancellation policy. Under this policy:
+                </p>
+                <ul className="mt-3 space-y-2 text-sm text-ink-600">
+                  <ListItem>
+                    Cancellations will be considered only if the request is made immediately after placing the order.
+                    However, the cancellation request may not be entertained if the orders have been communicated to the
+                    vendors/merchants and they have initiated the process of shipping them.
+                  </ListItem>
+                  <ListItem>
+                    VAIBHAV PALIWAL does not accept cancellation requests for perishable items like flowers, eatables etc.
+                    However, refund/replacement can be made if the customer establishes that the quality of product
+                    delivered is not good.
+                  </ListItem>
+                  <ListItem>
+                    In case of receipt of damaged or defective items please report the same to our Customer Service team.
+                    The request will, however, be entertained once the Merchant has checked and determined the same at its
+                    own end. This should be reported within <strong>7 Days</strong> of receipt of the products. In case
+                    you feel that the product received is not as shown on the site or as per your expectations, you must
+                    bring it to the notice of our customer service within <strong>7 Days</strong> of receiving the product.
+                    The Customer Service Team after looking into your complaint will take an appropriate decision.
+                  </ListItem>
+                  <ListItem>
+                    In case of complaints regarding products that come with a warranty from manufacturers, please refer
+                    the issue to them.
+                  </ListItem>
+                  <ListItem>
+                    In case of any Refunds approved by the VAIBHAV PALIWAL, it&apos;ll take <strong>6–8 Days</strong> for
+                    the refund to be processed to the end customer.
+                  </ListItem>
+                </ul>
+                <p className="mt-4 text-sm text-ink-500">
+                  A standalone copy of this policy is also available at{" "}
+                  <Link href="/refund" className="text-navy-600 hover:underline">
+                    /refund
+                  </Link>
+                  .
+                </p>
+              </Section>
+
+              <Section id="company" title="7. Company Details">
                 <div className="rounded-xl border border-ink-100 bg-ink-50 p-5 text-sm text-ink-700 space-y-1">
-                  <p><strong>Electrocom Solutions</strong></p>
-                  <p>Proprietor: Vaibhav Paliwal</p>
+                  <p><strong>VAIBHAV PALIWAL</strong></p>
+                  <p>Electrocom Solutions · TenderKhoj</p>
                   <p>Rajasthan, India</p>
+                  <p>
+                    Email:{" "}
+                    <a href="mailto:support@tenderkhoj.com" className="text-navy-600 hover:underline">
+                      support@tenderkhoj.com
+                    </a>
+                  </p>
                   <p>
                     Platform:{" "}
                     <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">
@@ -179,7 +235,7 @@ export default function ContactPage() {
                   {" · "}
                   <Link href="/privacy" className="text-navy-600 hover:underline">Privacy Policy</Link>
                   {" · "}
-                  <Link href="/refund" className="text-navy-600 hover:underline">Refund &amp; Cancellation</Link>
+                  <Link href="/refund" className="text-navy-600 hover:underline">Cancellation &amp; Refund</Link>
                   {" · "}
                   <Link href="/disclaimer" className="text-navy-600 hover:underline">Legal Disclaimer</Link>
                 </p>
@@ -192,7 +248,7 @@ export default function ContactPage() {
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy Policy</Link>
-            <Link href="/refund" className="hover:text-ink-600 transition-colors">Refund &amp; Cancellation</Link>
+            <Link href="/refund" className="hover:text-ink-600 transition-colors">Cancellation &amp; Refund</Link>
             <Link href="/contact" className="text-navy-600 font-medium">Contact Us</Link>
             <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal Disclaimer</Link>
           </div>
@@ -209,5 +265,14 @@ function Section({ id, title, children }: { id: string; title: string; children:
       <h2 className="mb-4 text-lg font-semibold text-ink-900">{title}</h2>
       <div className="text-sm leading-relaxed text-ink-600 space-y-0">{children}</div>
     </section>
+  );
+}
+
+function ListItem({ children }: { children: React.ReactNode }) {
+  return (
+    <li className="flex items-start gap-2.5">
+      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-navy-400" />
+      <span>{children}</span>
+    </li>
   );
 }
