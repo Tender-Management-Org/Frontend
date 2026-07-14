@@ -260,7 +260,7 @@ function PlanCard({
         </div>
       ) : isEnterprise ? (
         <a
-          href="mailto:hello@tenderpilot.in?subject=Enterprise plan enquiry"
+          href="mailto:hello@tenderkhoj.com?subject=Enterprise plan enquiry"
           className="block rounded-xl bg-warning-600 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-warning-700"
         >
           Contact us

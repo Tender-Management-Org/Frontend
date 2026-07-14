@@ -48,8 +48,8 @@ function getRouteContext(pathname: string) {
     return { section: "Pipeline", title: "Filing workspace" };
   }
   return {
-    section: sectionMap[pathname] ?? "TenderPilot",
-    title: titleMap[pathname] ?? "TenderPilot",
+    section: sectionMap[pathname] ?? "TenderKhoj",
+    title: titleMap[pathname] ?? "TenderKhoj",
   };
 }
 

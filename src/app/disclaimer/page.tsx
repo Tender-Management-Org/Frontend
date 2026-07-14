@@ -2,8 +2,8 @@ import Link from "next/link";
 import { FileSearch, ChevronRight, AlertTriangle } from "lucide-react";
 
 export const metadata = {
-  title: "Legal Disclaimer — TenderPilot",
-  description: "Important legal notices and disclaimers about TenderPilot's services.",
+  title: "Legal Disclaimer — TenderKhoj",
+  description: "Important legal notices and disclaimers about TenderKhoj's services.",
 };
 
 const TOC = [
@@ -27,7 +27,7 @@ export default function DisclaimerPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
-            <span className="font-semibold text-ink-900">TenderPilot</span>
+            <span className="font-semibold text-ink-900">TenderKhoj</span>
           </Link>
           <div className="flex items-center gap-4 text-sm text-ink-500">
             <Link href="/terms" className="hover:text-ink-900 transition-colors">Terms of Service</Link>
@@ -75,7 +75,7 @@ export default function DisclaimerPage() {
               <h1 className="text-3xl font-bold text-ink-900">Legal Disclaimer</h1>
               <p className="mt-3 text-ink-600">
                 Please read this disclaimer carefully. It contains important information about the nature and
-                limitations of TenderPilot&apos;s services.
+                limitations of TenderKhoj&apos;s services.
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-ink-400">
                 <span><strong className="text-ink-600">Effective:</strong> June 20, 2026</span>
@@ -88,7 +88,7 @@ export default function DisclaimerPage() {
               <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
               <div className="text-sm text-amber-800">
                 <strong>Always verify tender details on the official government portal</strong> before making any
-                bidding decisions. TenderPilot is a productivity tool — not the authoritative source for government procurement data.
+                bidding decisions. TenderKhoj is a productivity tool — not the authoritative source for government procurement data.
               </div>
             </div>
 
@@ -97,11 +97,11 @@ export default function DisclaimerPage() {
               {/* 1 */}
               <Section id="independence" title="1. Platform Independence — Not a Government Portal">
                 <p>
-                  TenderPilot is an <strong>independent, privately operated software platform</strong> developed and
+                  TenderKhoj is an <strong>independent, privately operated software platform</strong> developed and
                   maintained by Electrocom Solutions, a proprietorship firm based in Rajasthan, India.
                 </p>
                 <p className="mt-3">
-                  TenderPilot is <strong>not</strong> affiliated with, endorsed by, sponsored by, or in any way
+                  TenderKhoj is <strong>not</strong> affiliated with, endorsed by, sponsored by, or in any way
                   connected to:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
@@ -113,7 +113,7 @@ export default function DisclaimerPage() {
                   <ListItem>Any other central or state government department, ministry, or agency</ListItem>
                 </ul>
                 <p className="mt-3">
-                  Use of TenderPilot does not constitute registration with or approval from any government body.
+                  Use of TenderKhoj does not constitute registration with or approval from any government body.
                   Your eligibility to bid on a tender is determined solely by the criteria stated in the official
                   tender notice published by the relevant procuring entity.
                 </p>
@@ -122,15 +122,15 @@ export default function DisclaimerPage() {
               {/* 2 */}
               <Section id="data-accuracy" title="2. Tender Data Accuracy & Timeliness">
                 <p>
-                  TenderPilot aggregates tender data from publicly accessible government e-procurement portals through
+                  TenderKhoj aggregates tender data from publicly accessible government e-procurement portals through
                   automated processes. While we make every reasonable effort to ensure the accuracy and completeness of
                   this data, we make <strong>no representations or warranties</strong>, express or implied, regarding:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
                   <ListItem>The completeness or accuracy of tender listings, values, deadlines, or descriptions displayed on our platform</ListItem>
-                  <ListItem>The timeliness of data — our scrapers run on a nightly schedule, which means there may be a lag of up to 24 hours between a tender being published on the official portal and appearing on TenderPilot</ListItem>
+                  <ListItem>The timeliness of data — our scrapers run on a nightly schedule, which means there may be a lag of up to 24 hours between a tender being published on the official portal and appearing on TenderKhoj</ListItem>
                   <ListItem>The continued accuracy of tender details that may be updated or cancelled after we have scraped them (corrigenda, deadline extensions, cancellations)</ListItem>
-                  <ListItem>The availability of tenders — a tender visible on TenderPilot may have been cancelled, withdrawn, or modified on the source portal</ListItem>
+                  <ListItem>The availability of tenders — a tender visible on TenderKhoj may have been cancelled, withdrawn, or modified on the source portal</ListItem>
                 </ul>
                 <Callout type="warning">
                   <strong>The official government portal is always the authoritative source.</strong> Before preparing
@@ -143,7 +143,7 @@ export default function DisclaimerPage() {
               {/* 3 */}
               <Section id="ai-disclaimer" title="3. AI Recommendations Disclaimer">
                 <p>
-                  TenderPilot&apos;s recommendation engine uses artificial intelligence (machine learning sentence embeddings
+                  TenderKhoj&apos;s recommendation engine uses artificial intelligence (machine learning sentence embeddings
                   and vector similarity algorithms) to identify tenders that may be relevant to your firm based on your
                   profile and past interactions.
                 </p>
@@ -173,7 +173,7 @@ export default function DisclaimerPage() {
                   </ListItem>
                 </ul>
                 <p className="mt-3">
-                  TenderPilot accepts no liability for any missed tender opportunities or costs incurred as a result of
+                  TenderKhoj accepts no liability for any missed tender opportunities or costs incurred as a result of
                   reliance on AI-generated recommendations.
                 </p>
               </Section>
@@ -181,7 +181,7 @@ export default function DisclaimerPage() {
               {/* 4 */}
               <Section id="ocr-disclaimer" title="4. Document Intelligence & OCR Disclaimer">
                 <p>
-                  TenderPilot&apos;s document intelligence feature (available in Phase 2) allows you to upload tender documents
+                  TenderKhoj&apos;s document intelligence feature (available in Phase 2) allows you to upload tender documents
                   for automated text extraction via Optical Character Recognition (OCR). This feature is provided as a
                   <strong> productivity aid only</strong> and carries the following limitations:
                 </p>
@@ -202,12 +202,12 @@ export default function DisclaimerPage() {
                   </ListItem>
                   <ListItem>
                     <strong>The bid preparation workspace does not submit anything.</strong> Any documents you organise
-                    or prepare using TenderPilot&apos;s workspace must be submitted directly through the official government
+                    or prepare using TenderKhoj&apos;s workspace must be submitted directly through the official government
                     portal by you.
                   </ListItem>
                 </ul>
                 <Callout type="info">
-                  TenderPilot&apos;s document tools help you work faster. They do not replace the need to read tender
+                  TenderKhoj&apos;s document tools help you work faster. They do not replace the need to read tender
                   documents carefully and assess your own eligibility.
                 </Callout>
               </Section>
@@ -215,26 +215,26 @@ export default function DisclaimerPage() {
               {/* 5 */}
               <Section id="no-advice" title="5. Not Professional, Legal, or Bidding Advice">
                 <p>
-                  Nothing on TenderPilot — including tender listings, AI recommendations, fit scores, match reasons,
+                  Nothing on TenderKhoj — including tender listings, AI recommendations, fit scores, match reasons,
                   OCR-extracted eligibility criteria, deadline alerts, or any other content — constitutes:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
                   <ListItem><strong>Legal advice:</strong> We are not lawyers. Tender eligibility, contract compliance, and bid regulations are legal matters. Consult a qualified legal professional for advice on specific tender requirements.</ListItem>
                   <ListItem><strong>Financial advice:</strong> Information about tender values, EMD amounts, or financial eligibility thresholds is for reference only. Consult a Chartered Accountant for financial eligibility assessments.</ListItem>
                   <ListItem><strong>Bidding strategy advice:</strong> We do not advise on pricing, bid preparation strategy, or competitive positioning.</ListItem>
-                  <ListItem><strong>Representation:</strong> TenderPilot does not represent or act as an agent for any user in any government procurement process.</ListItem>
+                  <ListItem><strong>Representation:</strong> TenderKhoj does not represent or act as an agent for any user in any government procurement process.</ListItem>
                 </ul>
               </Section>
 
               {/* 6 */}
               <Section id="third-party" title="6. Third-Party Portals & External Links">
                 <p>
-                  TenderPilot provides links to official government e-procurement portals for you to access tender
-                  documents, verify details, and submit bids. When you follow these links, you leave TenderPilot and
+                  TenderKhoj provides links to official government e-procurement portals for you to access tender
+                  documents, verify details, and submit bids. When you follow these links, you leave TenderKhoj and
                   enter third-party websites governed by their own terms and policies.
                 </p>
                 <p className="mt-3">
-                  TenderPilot has no control over the availability, content, or functionality of external government
+                  TenderKhoj has no control over the availability, content, or functionality of external government
                   portals. We are not responsible for:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
@@ -244,7 +244,7 @@ export default function DisclaimerPage() {
                   <ListItem>Any data you enter directly on government portals</ListItem>
                 </ul>
                 <p className="mt-3">
-                  Payments on TenderPilot are processed by <strong>Cashfree Payments</strong>. TenderPilot is not
+                  Payments on TenderKhoj are processed by <strong>Cashfree Payments</strong>. TenderKhoj is not
                   responsible for the availability or terms of Cashfree&apos;s services. Cashfree is a third-party payment
                   aggregator licensed by the Reserve Bank of India.
                 </p>
@@ -255,22 +255,22 @@ export default function DisclaimerPage() {
                 <p>
                   To the maximum extent permitted by applicable Indian law, Electrocom Solutions, its founders, employees,
                   and contractors shall not be liable for any loss or damage — direct, indirect, incidental, special,
-                  consequential, or punitive — arising from or related to your use of TenderPilot, including but not limited to:
+                  consequential, or punitive — arising from or related to your use of TenderKhoj, including but not limited to:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
                   <ListItem>Missed tender deadlines due to delayed data aggregation or notification failures</ListItem>
                   <ListItem>Bid disqualification arising from reliance on AI-generated recommendations, fit scores, or OCR-extracted eligibility information</ListItem>
-                  <ListItem>Financial losses arising from an unsuccessful bid prepared using TenderPilot&apos;s workspace</ListItem>
-                  <ListItem>Loss or corruption of documents uploaded to TenderPilot due to technical failure</ListItem>
-                  <ListItem>Unavailability of the TenderPilot platform due to maintenance, technical issues, or force majeure events</ListItem>
+                  <ListItem>Financial losses arising from an unsuccessful bid prepared using TenderKhoj&apos;s workspace</ListItem>
+                  <ListItem>Loss or corruption of documents uploaded to TenderKhoj due to technical failure</ListItem>
+                  <ListItem>Unavailability of the TenderKhoj platform due to maintenance, technical issues, or force majeure events</ListItem>
                   <ListItem>Any action taken by a government authority in connection with a tender bid you prepared or submitted</ListItem>
                 </ul>
                 <p className="mt-3">
-                  TenderPilot is provided on an &quot;as is&quot; and &quot;as available&quot; basis. We disclaim all implied warranties of
+                  TenderKhoj is provided on an &quot;as is&quot; and &quot;as available&quot; basis. We disclaim all implied warranties of
                   merchantability, fitness for a particular purpose, and non-infringement to the fullest extent permitted by law.
                 </p>
                 <p className="mt-3">
-                  You use TenderPilot at your own risk and are solely responsible for all decisions made in connection
+                  You use TenderKhoj at your own risk and are solely responsible for all decisions made in connection
                   with government tender bidding.
                 </p>
               </Section>
@@ -278,14 +278,14 @@ export default function DisclaimerPage() {
               {/* 8 */}
               <Section id="contact" title="8. Contact">
                 <p>
-                  If you have questions about this disclaimer or any legal aspects of TenderPilot, please contact us:
+                  If you have questions about this disclaimer or any legal aspects of TenderKhoj, please contact us:
                 </p>
                 <div className="mt-4 rounded-xl border border-ink-100 bg-ink-50 p-5 text-sm text-ink-700 space-y-1">
                   <p><strong>Electrocom Solutions</strong></p>
                   <p>Proprietor: Vaibhav Paliwal</p>
                   <p>Rajasthan, India</p>
-                  <p>Email: <a href="mailto:legal@electrocomsolutions.in" className="text-navy-600 hover:underline">legal@electrocomsolutions.in</a></p>
-                  <p>Platform: <a href="https://tender.web.electrocomsolutions.in" className="text-navy-600 hover:underline">tender.web.electrocomsolutions.in</a></p>
+                  <p>Email: <a href="mailto:legal@tenderkhoj.com" className="text-navy-600 hover:underline">legal@tenderkhoj.com</a></p>
+                  <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
                 </div>
               </Section>
 

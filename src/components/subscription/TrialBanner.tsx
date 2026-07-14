@@ -19,7 +19,7 @@ export function TrialBanner() {
         <div className="flex min-w-0 items-center gap-2">
           <AlertTriangle className="h-4 w-4 shrink-0 text-danger-600" aria-hidden />
           <p className="truncate text-sm font-medium text-danger-700">
-            Your free trial has ended. Upgrade to continue using TenderPilot.
+            Your free trial has ended. Upgrade to continue using TenderKhoj.
           </p>
         </div>
         <Link

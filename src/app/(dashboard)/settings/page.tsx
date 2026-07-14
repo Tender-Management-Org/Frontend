@@ -419,7 +419,7 @@ function AccountTab() {
               </p>
             )}
             {(status === "expired" || status === "cancelled") && (
-              <p className="mt-1 text-sm">Your plan has {status}. Upgrade to continue using TenderPilot.</p>
+              <p className="mt-1 text-sm">Your plan has {status}. Upgrade to continue using TenderKhoj.</p>
             )}
           </div>
         </div>

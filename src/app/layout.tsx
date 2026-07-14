@@ -8,8 +8,8 @@ import "@/styles/globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TenderPilot",
-  description: "TenderPilot platform for tender management"
+  title: "TenderKhoj",
+  description: "TenderKhoj platform for tender management"
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

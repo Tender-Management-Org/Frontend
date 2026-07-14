@@ -132,7 +132,7 @@ export function Sidebar() {
               </button>
             </div>
           ) : (
-            /* Expanded: firm avatar + TenderPilot label + firm name */
+            /* Expanded: firm avatar + TenderKhoj label + firm name */
             <div className="flex items-center justify-between gap-1">
               <div className="flex min-w-0 flex-1 items-center gap-2.5 px-2 py-2">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-600 text-sm font-bold text-white">
@@ -140,7 +140,7 @@ export function Sidebar() {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] font-semibold uppercase tracking-widest text-navy-500 leading-none mb-0.5">
-                    TenderPilot
+                    TenderKhoj
                   </p>
                   <p className="truncate text-sm font-semibold text-ink-800 leading-tight">
                     {firmName}
@@ -259,7 +259,7 @@ export function Sidebar() {
           )}
           {!isCollapsed && (
             <div className="px-4 pb-3 pt-1">
-              <p className="text-xs text-ink-400">TenderPilot &copy; 2026</p>
+              <p className="text-xs text-ink-400">TenderKhoj &copy; 2026</p>
               <div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-0.5">
                 <Link href="/terms" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Terms</Link>
                 <span className="text-[10px] text-ink-300">&middot;</span>

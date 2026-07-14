@@ -48,7 +48,7 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-600">
             <FileSearch className="h-5 w-5 text-white" />
           </div>
-          <span className="text-lg font-semibold text-white">TenderPilot</span>
+          <span className="text-lg font-semibold text-white">TenderKhoj</span>
         </div>
         <div className="space-y-6">
           <blockquote className="space-y-3">
@@ -70,7 +70,7 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
             ))}
           </div>
         </div>
-        <p className="text-xs text-ink-600">&copy; 2026 TenderPilot. All rights reserved.</p>
+        <p className="text-xs text-ink-600">&copy; 2026 TenderKhoj. All rights reserved.</p>
       </div>
 
       {/* Right form panel */}
@@ -81,7 +81,7 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
-            <span className="font-semibold text-ink-900">TenderPilot</span>
+            <span className="font-semibold text-ink-900">TenderKhoj</span>
           </div>
 
           <div className="mb-8">

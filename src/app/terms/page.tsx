@@ -2,13 +2,13 @@ import Link from "next/link";
 import { FileSearch, ChevronRight } from "lucide-react";
 
 export const metadata = {
-  title: "Terms of Service — TenderPilot",
-  description: "Terms and conditions governing the use of TenderPilot.",
+  title: "Terms of Service — TenderKhoj",
+  description: "Terms and conditions governing the use of TenderKhoj.",
 };
 
 const TOC = [
   { id: "acceptance",       label: "Acceptance of Terms" },
-  { id: "about",            label: "About TenderPilot" },
+  { id: "about",            label: "About TenderKhoj" },
   { id: "accounts",         label: "User Accounts" },
   { id: "firm-profile",     label: "Firm Profile & Data" },
   { id: "tender-data",      label: "Tender Data & Search" },
@@ -34,7 +34,7 @@ export default function TermsPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
-            <span className="font-semibold text-ink-900">TenderPilot</span>
+            <span className="font-semibold text-ink-900">TenderKhoj</span>
           </Link>
           <div className="flex items-center gap-4 text-sm text-ink-500">
             <Link href="/privacy" className="hover:text-ink-900 transition-colors">Privacy Policy</Link>
@@ -81,7 +81,7 @@ export default function TermsPage() {
               </div>
               <h1 className="text-3xl font-bold text-ink-900">Terms of Service</h1>
               <p className="mt-3 text-ink-500">
-                These Terms govern your use of TenderPilot. Please read them carefully before creating an account.
+                These Terms govern your use of TenderKhoj. Please read them carefully before creating an account.
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-ink-400">
                 <span><strong className="text-ink-600">Effective:</strong> June 20, 2026</span>
@@ -94,21 +94,21 @@ export default function TermsPage() {
               {/* 1 */}
               <Section id="acceptance" title="1. Acceptance of Terms">
                 <p>
-                  By accessing or using TenderPilot (available at <strong>tender.web.electrocomsolutions.in</strong>), creating an account,
+                  By accessing or using TenderKhoj (available at <strong>tenderkhoj.com</strong>), creating an account,
                   or clicking &quot;Create account&quot;, you agree to be bound by these Terms of Service (&quot;Terms&quot;) and our{" "}
                   <Link href="/privacy" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">Privacy Policy</Link>.
                   If you do not agree to these Terms, do not use the platform.
                 </p>
                 <p className="mt-3">
                   These Terms constitute a legally binding agreement between you (&quot;User&quot;) and Electrocom Solutions, a
-                  proprietorship firm owned by Vaibhav Paliwal, registered in Rajasthan, India (&quot;we&quot;, &quot;us&quot;, or &quot;TenderPilot&quot;).
+                  proprietorship firm owned by Vaibhav Paliwal, registered in Rajasthan, India (&quot;we&quot;, &quot;us&quot;, or &quot;TenderKhoj&quot;).
                 </p>
               </Section>
 
               {/* 2 */}
-              <Section id="about" title="2. About TenderPilot">
+              <Section id="about" title="2. About TenderKhoj">
                 <p>
-                  TenderPilot is an AI-powered tender discovery and bid management platform designed to help Indian businesses
+                  TenderKhoj is an AI-powered tender discovery and bid management platform designed to help Indian businesses
                   track, discover, and prepare for government procurement tenders. The platform provides the following core services:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
@@ -135,7 +135,7 @@ export default function TermsPage() {
                   </ListItem>
                 </ul>
                 <p className="mt-3">
-                  TenderPilot is a productivity tool. We do not submit tenders, sign documents, or act as a representative
+                  TenderKhoj is a productivity tool. We do not submit tenders, sign documents, or act as a representative
                   or agent for any bidder.
                 </p>
               </Section>
@@ -143,7 +143,7 @@ export default function TermsPage() {
               {/* 3 */}
               <Section id="accounts" title="3. User Accounts">
                 <p>
-                  To use TenderPilot you must create an account with a valid username and password. You are responsible for
+                  To use TenderKhoj you must create an account with a valid username and password. You are responsible for
                   maintaining the confidentiality of your credentials and for all activity that occurs under your account.
                 </p>
                 <p className="mt-3">
@@ -165,7 +165,7 @@ export default function TermsPage() {
               {/* 4 */}
               <Section id="firm-profile" title="4. Firm Profile & Data">
                 <p>
-                  TenderPilot allows you to create and maintain a detailed profile of your firm, including legal identifiers
+                  TenderKhoj allows you to create and maintain a detailed profile of your firm, including legal identifiers
                   (PAN, GSTIN, CIN, Udyam Registration Number), financial records, certifications, past experience, and uploaded
                   documents. This information is used solely to:
                 </p>
@@ -176,7 +176,7 @@ export default function TermsPage() {
                 </ul>
                 <p className="mt-3">
                   You are solely responsible for the accuracy and completeness of the firm profile data you provide.
-                  TenderPilot does not verify the authenticity of any legal identifiers, financial figures, or documents you
+                  TenderKhoj does not verify the authenticity of any legal identifiers, financial figures, or documents you
                   upload. Any eligibility determination for a specific tender must be made by you independently by
                   referring to the official tender notice.
                 </p>
@@ -189,18 +189,18 @@ export default function TermsPage() {
               {/* 5 */}
               <Section id="tender-data" title="5. Tender Data & Search">
                 <p>
-                  TenderPilot aggregates tender data from publicly accessible government e-procurement portals. All tenders
+                  TenderKhoj aggregates tender data from publicly accessible government e-procurement portals. All tenders
                   visible on our platform originate from portals that are freely accessible to any member of the public without
                   login or registration. We do not scrape data from portals that require authentication.
                 </p>
                 <p className="mt-3">
                   Our scrapers run on a nightly schedule. As a result, there may be a delay of up to 24 hours between a tender
-                  being published on the source portal and it appearing on TenderPilot. <strong>You must always verify all tender
+                  being published on the source portal and it appearing on TenderKhoj. <strong>You must always verify all tender
                   details — including deadlines, eligibility criteria, and fee amounts — directly on the official government
                   portal before taking any action.</strong>
                 </p>
                 <p className="mt-3">
-                  TenderPilot provides direct links to source tender detail pages on official portals. Tender documents (NIT,
+                  TenderKhoj provides direct links to source tender detail pages on official portals. Tender documents (NIT,
                   BOQ, Technical Specifications, etc.) are accessed directly from the official government portal via these links.
                   We do not host, modify, or redistribute government tender documents.
                 </p>
@@ -209,7 +209,7 @@ export default function TermsPage() {
               {/* 6 */}
               <Section id="recommendations" title="6. AI Recommendations">
                 <p>
-                  TenderPilot&apos;s recommendation engine uses machine learning (sentence embeddings and vector similarity) to
+                  TenderKhoj&apos;s recommendation engine uses machine learning (sentence embeddings and vector similarity) to
                   suggest tenders that may be relevant to your firm based on your profile and past interactions. Recommendations
                   are generated nightly and refreshed automatically.
                 </p>
@@ -237,7 +237,7 @@ export default function TermsPage() {
                 </Subsection>
                 <Subsection title="7.2 Document Intelligence (OCR) — Phase 2">
                   <p>
-                    TenderPilot&apos;s upcoming document intelligence feature will allow you to upload tender document packages
+                    TenderKhoj&apos;s upcoming document intelligence feature will allow you to upload tender document packages
                     (ZIP files or individual PDFs) downloaded from official portals. Our system will perform Optical Character
                     Recognition (OCR) to extract information such as eligibility criteria, EMD requirements, experience
                     criteria, and financial thresholds, and display this information within your bid workspace.
@@ -245,7 +245,7 @@ export default function TermsPage() {
                   <p className="mt-3">
                     <strong>This extraction is for informational and productivity purposes only.</strong> OCR extraction
                     may be incomplete or inaccurate. You must cross-reference any extracted information against the official
-                    tender documents. TenderPilot is not responsible for any loss arising from reliance on extracted data.
+                    tender documents. TenderKhoj is not responsible for any loss arising from reliance on extracted data.
                   </p>
                   <p className="mt-3">
                     By uploading tender documents, you confirm that those documents are publicly available government documents
@@ -255,7 +255,7 @@ export default function TermsPage() {
                 <Subsection title="7.3 Bid Workspace">
                   <p>
                     The bid workspace is a productivity tool to help you organise and track the documents required for a
-                    specific tender submission. TenderPilot does not submit bids on your behalf, does not sign documents,
+                    specific tender submission. TenderKhoj does not submit bids on your behalf, does not sign documents,
                     and does not interact with any government portal during bid submission.
                   </p>
                 </Subsection>
@@ -265,7 +265,7 @@ export default function TermsPage() {
               <Section id="subscriptions" title="8. Subscriptions & Payment">
                 <Subsection title="8.1 Plans">
                   <p>
-                    TenderPilot offers the following subscription tiers after the free trial period:
+                    TenderKhoj offers the following subscription tiers after the free trial period:
                   </p>
                   <div className="mt-3 overflow-x-auto rounded-lg border border-ink-100">
                     <table className="w-full text-sm">
@@ -301,7 +301,7 @@ export default function TermsPage() {
                     on the applicable billing cycle (monthly or annual).
                   </p>
                   <p className="mt-3">
-                    TenderPilot does not store your payment instrument details (UPI ID, bank account, card numbers).
+                    TenderKhoj does not store your payment instrument details (UPI ID, bank account, card numbers).
                     All payment data is handled exclusively by Cashfree in accordance with their terms and PCI-DSS compliance.
                   </p>
                 </Subsection>
@@ -326,36 +326,36 @@ export default function TermsPage() {
               <Section id="acceptable-use" title="9. Acceptable Use">
                 <p>You agree not to:</p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
-                  <ListItem>Use TenderPilot for any unlawful purpose or in violation of any applicable laws</ListItem>
+                  <ListItem>Use TenderKhoj for any unlawful purpose or in violation of any applicable laws</ListItem>
                   <ListItem>Attempt to gain unauthorised access to other users&apos; accounts or firm data</ListItem>
-                  <ListItem>Reverse engineer, decompile, or attempt to extract the source code, algorithms, or AI models used by TenderPilot</ListItem>
-                  <ListItem>Use automated tools, bots, or scripts to access the TenderPilot platform (separate from official API access granted to Enterprise users)</ListItem>
-                  <ListItem>Scrape, harvest, or systematically extract tender data from TenderPilot for redistribution or sale</ListItem>
+                  <ListItem>Reverse engineer, decompile, or attempt to extract the source code, algorithms, or AI models used by TenderKhoj</ListItem>
+                  <ListItem>Use automated tools, bots, or scripts to access the TenderKhoj platform (separate from official API access granted to Enterprise users)</ListItem>
+                  <ListItem>Scrape, harvest, or systematically extract tender data from TenderKhoj for redistribution or sale</ListItem>
                   <ListItem>Upload documents that you do not have the legal right to store or process</ListItem>
                   <ListItem>Upload malicious files, viruses, or any code designed to disrupt the platform</ListItem>
                   <ListItem>Provide false information about your firm, legal identifiers, or credentials</ListItem>
                   <ListItem>Share your account credentials with third parties or allow others to use your account</ListItem>
-                  <ListItem>Use TenderPilot in any manner that could damage, overburden, or impair our infrastructure</ListItem>
+                  <ListItem>Use TenderKhoj in any manner that could damage, overburden, or impair our infrastructure</ListItem>
                 </ul>
               </Section>
 
               {/* 10 */}
               <Section id="govt-disclaimer" title="10. Government Portal Disclaimer">
                 <p>
-                  TenderPilot is an independent, privately operated platform. We are <strong>not</strong> affiliated with,
+                  TenderKhoj is an independent, privately operated platform. We are <strong>not</strong> affiliated with,
                   endorsed by, or in any way connected to the Government of Rajasthan, the National Informatics Centre (NIC),
                   the Rajasthan e-Procurement portal (eproc.rajasthan.gov.in), the State Highway Public Procurement portal
                   (SHPP), or any other government department or agency.
                 </p>
                 <p className="mt-3">
-                  Tender data displayed on TenderPilot is sourced from publicly available government portals. While we make
+                  Tender data displayed on TenderKhoj is sourced from publicly available government portals. While we make
                   every effort to ensure accuracy, we make no representations or warranties regarding the completeness,
                   timeliness, or correctness of the tender data displayed. Official portals are the authoritative source of
                   all tender information.
                 </p>
                 <p className="mt-3">
                   Always download tender documents from and verify all details on the official government portal before
-                  submitting a bid. TenderPilot accepts no liability for any losses arising from reliance on information
+                  submitting a bid. TenderKhoj accepts no liability for any losses arising from reliance on information
                   displayed on our platform.
                 </p>
               </Section>
@@ -363,27 +363,27 @@ export default function TermsPage() {
               {/* 11 */}
               <Section id="ip" title="11. Intellectual Property">
                 <p>
-                  TenderPilot and all associated technology — including the recommendation engine, embedding models,
+                  TenderKhoj and all associated technology — including the recommendation engine, embedding models,
                   search algorithms, UI design, and platform code — are the intellectual property of Electrocom Solutions.
                   You are granted a limited, non-exclusive, non-transferable licence to use the platform for your own
                   internal business purposes in accordance with these Terms.
                 </p>
                 <p className="mt-3">
                   Tender data sourced from government portals remains the property of the respective government bodies.
-                  Firm data, documents, and content you upload to TenderPilot remain your property. By uploading content,
-                  you grant TenderPilot a limited licence to process and store that content solely for the purpose of
+                  Firm data, documents, and content you upload to TenderKhoj remain your property. By uploading content,
+                  you grant TenderKhoj a limited licence to process and store that content solely for the purpose of
                   providing the services described in these Terms.
                 </p>
                 <p className="mt-3">
                   You may not reproduce, distribute, create derivative works from, or commercially exploit any part of the
-                  TenderPilot platform, its algorithms, or its aggregated tender database.
+                  TenderKhoj platform, its algorithms, or its aggregated tender database.
                 </p>
               </Section>
 
               {/* 12 */}
               <Section id="liability" title="12. Limitation of Liability">
                 <p>
-                  To the fullest extent permitted by applicable law, TenderPilot, Electrocom Solutions, and its founders
+                  To the fullest extent permitted by applicable law, TenderKhoj, Electrocom Solutions, and its founders
                   shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including
                   but not limited to:
                 </p>
@@ -396,10 +396,10 @@ export default function TermsPage() {
                 </ul>
                 <p className="mt-3">
                   Our total aggregate liability to you for any claim arising from or related to these Terms or your use of
-                  the platform shall not exceed the amount paid by you to TenderPilot in the three months preceding the claim.
+                  the platform shall not exceed the amount paid by you to TenderKhoj in the three months preceding the claim.
                 </p>
                 <p className="mt-3">
-                  TenderPilot is provided on an &quot;as is&quot; and &quot;as available&quot; basis without warranties of any kind, express
+                  TenderKhoj is provided on an &quot;as is&quot; and &quot;as available&quot; basis without warranties of any kind, express
                   or implied, including but not limited to merchantability, fitness for a particular purpose, or
                   non-infringement.
                 </p>
@@ -446,8 +446,8 @@ export default function TermsPage() {
                   <p><strong>Electrocom Solutions</strong></p>
                   <p>Proprietor: Vaibhav Paliwal</p>
                   <p>Rajasthan, India</p>
-                  <p>Email: <a href="mailto:support@electrocomsolutions.in" className="text-navy-600 hover:underline">support@electrocomsolutions.in</a></p>
-                  <p>Platform: <a href="https://tender.web.electrocomsolutions.in" className="text-navy-600 hover:underline">tender.web.electrocomsolutions.in</a></p>
+                  <p>Email: <a href="mailto:support@tenderkhoj.com" className="text-navy-600 hover:underline">support@tenderkhoj.com</a></p>
+                  <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
                 </div>
               </Section>
 

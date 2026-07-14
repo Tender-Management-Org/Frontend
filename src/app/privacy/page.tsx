@@ -2,8 +2,8 @@ import Link from "next/link";
 import { FileSearch, ChevronRight } from "lucide-react";
 
 export const metadata = {
-  title: "Privacy Policy — TenderPilot",
-  description: "How TenderPilot collects, uses, and protects your data.",
+  title: "Privacy Policy — TenderKhoj",
+  description: "How TenderKhoj collects, uses, and protects your data.",
 };
 
 const TOC = [
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
               <FileSearch className="h-4 w-4 text-white" />
             </div>
-            <span className="font-semibold text-ink-900">TenderPilot</span>
+            <span className="font-semibold text-ink-900">TenderKhoj</span>
           </Link>
           <div className="flex items-center gap-4 text-sm text-ink-500">
             <Link href="/terms" className="hover:text-ink-900 transition-colors">Terms of Service</Link>
@@ -90,9 +90,9 @@ export default function PrivacyPage() {
               {/* 1 */}
               <Section id="introduction" title="1. Introduction">
                 <p>
-                  Electrocom Solutions (&quot;we&quot;, &quot;us&quot;, &quot;TenderPilot&quot;) is committed to protecting the privacy of our users.
+                  Electrocom Solutions (&quot;we&quot;, &quot;us&quot;, &quot;TenderKhoj&quot;) is committed to protecting the privacy of our users.
                   This Privacy Policy explains how we collect, use, store, and protect information when you use the
-                  TenderPilot platform at <strong>tender.web.electrocomsolutions.in</strong>.
+                  TenderKhoj platform at <strong>tenderkhoj.com</strong>.
                 </p>
                 <p className="mt-3">
                   This policy is drafted in compliance with the <strong>Digital Personal Data Protection Act, 2023 (DPDPA)</strong>,
@@ -100,7 +100,7 @@ export default function PrivacyPage() {
                   Information) Rules, 2011, and other applicable Indian data protection laws.
                 </p>
                 <p className="mt-3">
-                  By using TenderPilot, you consent to the practices described in this Privacy Policy. If you do not
+                  By using TenderKhoj, you consent to the practices described in this Privacy Policy. If you do not
                   agree, please discontinue use of the platform.
                 </p>
               </Section>
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
                   Your password is stored as a salted cryptographic hash — we never store or have access to your plaintext password.</p>
                 </Subsection>
                 <Subsection title="2.2 Firm Profile Data">
-                  <p>As part of setting up your firm on TenderPilot, you may provide the following information, which we treat as
+                  <p>As part of setting up your firm on TenderKhoj, you may provide the following information, which we treat as
                   sensitive business data:</p>
                   <ul className="mt-2 space-y-1.5 text-sm text-ink-600">
                     <ListItem><strong>Legal identifiers:</strong> PAN number, GSTIN, CIN, Udyam Registration Number, Shop Act Number, ESI Number, PF Code</ListItem>
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
                   <p className="mt-3">All firm profile data is entered voluntarily by you. You control what you enter and may update or delete it at any time.</p>
                 </Subsection>
                 <Subsection title="2.3 Uploaded Documents">
-                  <p>You may upload business documents to TenderPilot&apos;s document vault (e.g., PAN card, GST certificate,
+                  <p>You may upload business documents to TenderKhoj&apos;s document vault (e.g., PAN card, GST certificate,
                   experience certificates, financial audit reports, solvency certificates). These files are stored securely
                   on our servers and are associated only with your account.</p>
                   <p className="mt-2">You may also upload tender document packages (PDF/ZIP) for AI-assisted OCR extraction
@@ -238,7 +238,7 @@ export default function PrivacyPage() {
               {/* 6 */}
               <Section id="cookies" title="6. Cookies & Session Data">
                 <p>
-                  TenderPilot uses cookies to manage authentication sessions. We use the following cookies:
+                  TenderKhoj uses cookies to manage authentication sessions. We use the following cookies:
                 </p>
                 <div className="mt-3 overflow-x-auto rounded-lg border border-ink-100">
                   <table className="w-full text-sm">
@@ -357,8 +357,8 @@ export default function PrivacyPage() {
                   <p><strong>Data Controller: Electrocom Solutions</strong></p>
                   <p>Proprietor: Vaibhav Paliwal</p>
                   <p>Rajasthan, India</p>
-                  <p>Email: <a href="mailto:privacy@electrocomsolutions.in" className="text-navy-600 hover:underline">privacy@electrocomsolutions.in</a></p>
-                  <p>Platform: <a href="https://tender.web.electrocomsolutions.in" className="text-navy-600 hover:underline">tender.web.electrocomsolutions.in</a></p>
+                  <p>Email: <a href="mailto:privacy@tenderkhoj.com" className="text-navy-600 hover:underline">privacy@tenderkhoj.com</a></p>
+                  <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
                 </div>
                 <p className="mt-4 text-sm text-ink-500">
                   We aim to respond to all privacy-related requests within 15 business days.
