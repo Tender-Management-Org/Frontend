@@ -374,6 +374,8 @@ export default function PrivacyPage() {
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms of Service</Link>
             <Link href="/privacy" className="text-navy-600 font-medium">Privacy Policy</Link>
+            <Link href="/refund" className="hover:text-ink-600 transition-colors">Refund &amp; Cancellation</Link>
+            <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact Us</Link>
             <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal Disclaimer</Link>
           </div>
           <p className="mt-4">&copy; 2026 Electrocom Solutions. All rights reserved.</p>

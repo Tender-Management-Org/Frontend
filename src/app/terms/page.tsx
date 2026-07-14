@@ -307,10 +307,15 @@ export default function TermsPage() {
                 </Subsection>
                 <Subsection title="8.3 Cancellation & Refunds">
                   <p>
-                    You may cancel your subscription at any time from the Settings page. Upon cancellation, your subscription
-                    will remain active until the end of the current billing period, after which access will revert to an
-                    expired state. No pro-rated refunds are issued for partial billing periods unless required by applicable law.
-                    Trial periods are not refundable as no payment is collected during the trial.
+                    You may cancel your subscription at any time from the Upgrade page or by contacting support. Upon
+                    cancellation, your subscription will remain active until the end of the current billing period, after
+                    which access will revert to an expired state. No pro-rated refunds are issued for partial billing
+                    periods unless required by applicable law. Trial periods are not refundable as no payment is collected
+                    during the trial. Full details are in our{" "}
+                    <Link href="/refund" className="text-navy-600 underline underline-offset-2 hover:text-navy-700">
+                      Refund &amp; Cancellation Policy
+                    </Link>
+                    .
                   </p>
                 </Subsection>
                 <Subsection title="8.4 Plan Limits">
@@ -460,6 +465,8 @@ export default function TermsPage() {
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/terms" className="text-navy-600 font-medium">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy Policy</Link>
+            <Link href="/refund" className="hover:text-ink-600 transition-colors">Refund &amp; Cancellation</Link>
+            <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact Us</Link>
             <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal Disclaimer</Link>
           </div>
           <p className="mt-4">&copy; 2026 Electrocom Solutions. All rights reserved.</p>

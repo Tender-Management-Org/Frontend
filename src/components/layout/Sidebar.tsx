@@ -265,6 +265,10 @@ export function Sidebar() {
                 <span className="text-[10px] text-ink-300">&middot;</span>
                 <Link href="/privacy" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Privacy</Link>
                 <span className="text-[10px] text-ink-300">&middot;</span>
+                <Link href="/refund" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Refunds</Link>
+                <span className="text-[10px] text-ink-300">&middot;</span>
+                <Link href="/contact" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Contact</Link>
+                <span className="text-[10px] text-ink-300">&middot;</span>
                 <Link href="/disclaimer" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Disclaimer</Link>
               </div>
             </div>
