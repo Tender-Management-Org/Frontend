@@ -1,13 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import {
   Bell,
   Crown,
+  FileText,
   Loader2,
+  Mail,
   Plus,
+  RotateCcw,
   Save,
   Settings,
+  Shield,
   Sparkles,
   Zap,
 } from "lucide-react";
@@ -471,6 +476,26 @@ function AccountTab() {
           </Button>
         </div>
       )}
+
+      <Section title="Legal & support">
+        <div className="grid grid-cols-2 gap-2 py-1 sm:grid-cols-4">
+          {[
+            { href: "/terms",   label: "Terms",     icon: FileText },
+            { href: "/privacy", label: "Privacy",   icon: Shield },
+            { href: "/refund",  label: "Refunds",   icon: RotateCcw },
+            { href: "/contact", label: "Contact",   icon: Mail },
+          ].map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="flex items-center gap-2 rounded-lg px-2 py-2.5 text-sm text-ink-600 transition-colors hover:bg-ink-50 hover:text-ink-900"
+            >
+              <Icon className="h-3.5 w-3.5 shrink-0 text-ink-300" />
+              {label}
+            </Link>
+          ))}
+        </div>
+      </Section>
     </div>
   );
 }

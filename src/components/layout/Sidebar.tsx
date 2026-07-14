@@ -234,7 +234,7 @@ export function Sidebar() {
           </ul>
         </nav>
 
-        {/* ── Footer — Upgrade callout + copyright ────────────────────────── */}
+        {/* ── Footer — Upgrade callout ───────────────────────────────────────── */}
         <div className="shrink-0 border-t border-ink-100">
           {!invite_only && (
             <div className={cn("px-2 py-2", isCollapsed && "flex justify-center")}>
@@ -255,22 +255,6 @@ export function Sidebar() {
                   </div>
                 )}
               </Link>
-            </div>
-          )}
-          {!isCollapsed && (
-            <div className="px-4 pb-3 pt-1">
-              <p className="text-xs text-ink-400">TenderKhoj &copy; 2026</p>
-              <div className="mt-1.5 flex flex-wrap gap-x-2 gap-y-0.5">
-                <Link href="/terms" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Terms</Link>
-                <span className="text-[10px] text-ink-300">&middot;</span>
-                <Link href="/privacy" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Privacy</Link>
-                <span className="text-[10px] text-ink-300">&middot;</span>
-                <Link href="/refund" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Refunds</Link>
-                <span className="text-[10px] text-ink-300">&middot;</span>
-                <Link href="/contact" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Contact</Link>
-                <span className="text-[10px] text-ink-300">&middot;</span>
-                <Link href="/disclaimer" onClick={() => setIsMobileOpen(false)} className="text-[10px] text-ink-400 hover:text-ink-600 transition-colors">Disclaimer</Link>
-              </div>
             </div>
           )}
         </div>

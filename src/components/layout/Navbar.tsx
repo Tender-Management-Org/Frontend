@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, LogOut, User, Check, CheckCheck } from "lucide-react";
+import { Bell, ChevronDown, LogOut, User, Check, CheckCheck, FileText, Shield, RotateCcw, Mail } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -316,7 +316,7 @@ export function Navbar() {
           {profileOpen && (
             <div
               role="menu"
-              className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] animate-fade-in rounded-2xl border border-ink-200 bg-white py-1 shadow-dropdown"
+              className="absolute right-0 top-full z-50 mt-2 min-w-[12rem] animate-fade-in rounded-2xl border border-ink-200 bg-white py-1 shadow-dropdown"
             >
               {!isAuthenticated ? (
                 <>
@@ -338,15 +338,48 @@ export function Navbar() {
                   </Link>
                 </>
               ) : (
-                <button
-                  type="button"
-                  role="menuitem"
-                  className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-danger-600 transition-colors hover:bg-danger-50"
-                  onClick={handleLogout}
-                >
-                  <LogOut className="h-4 w-4" />
-                  Sign out
-                </button>
+                <>
+                  <Link
+                    href="/settings"
+                    role="menuitem"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 transition-colors hover:bg-ink-50"
+                    onClick={() => setProfileOpen(false)}
+                  >
+                    <User className="h-4 w-4 text-ink-400" />
+                    Settings
+                  </Link>
+                  <div className="my-1 border-t border-ink-100" />
+                  <p className="px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider text-ink-300">
+                    Legal &amp; support
+                  </p>
+                  {[
+                    { href: "/terms",   label: "Terms",     icon: FileText },
+                    { href: "/privacy", label: "Privacy",   icon: Shield },
+                    { href: "/refund",  label: "Refunds",   icon: RotateCcw },
+                    { href: "/contact", label: "Contact",   icon: Mail },
+                  ].map(({ href, label, icon: Icon }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      role="menuitem"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-ink-600 transition-colors hover:bg-ink-50"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      <Icon className="h-3.5 w-3.5 text-ink-300" />
+                      {label}
+                    </Link>
+                  ))}
+                  <div className="my-1 border-t border-ink-100" />
+                  <button
+                    type="button"
+                    role="menuitem"
+                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-danger-600 transition-colors hover:bg-danger-50"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </button>
+                </>
               )}
             </div>
           )}
