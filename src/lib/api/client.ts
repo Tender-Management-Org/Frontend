@@ -225,3 +225,49 @@ export async function registerWithPassword(username: string, email: string, pass
   setAuthTokens({ access: data.access, refresh: data.refresh });
   setOnboardingComplete(Boolean(data.onboarding_complete));
 }
+
+export async function requestPasswordReset(email: string) {
+  const response = await fetch(`${API_BASE_URL}/auth/password-reset/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+    cache: "no-store",
+  });
+  const data = (await response.json()) as { detail?: string; email?: unknown; [key: string]: unknown };
+  if (!response.ok) {
+    throw new ApiError(
+      typeof data.detail === "string" ? data.detail : "Unable to send reset email.",
+      response.status,
+      data
+    );
+  }
+  return data;
+}
+
+export async function confirmPasswordReset(payload: {
+  uid: string;
+  token: string;
+  password: string;
+  password_confirm: string;
+}) {
+  const response = await fetch(`${API_BASE_URL}/auth/password-reset/confirm/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    cache: "no-store",
+  });
+  const data = (await response.json()) as {
+    detail?: string;
+    password?: unknown;
+    password_confirm?: unknown;
+    [key: string]: unknown;
+  };
+  if (!response.ok) {
+    throw new ApiError(
+      typeof data.detail === "string" ? data.detail : "Unable to reset password.",
+      response.status,
+      data
+    );
+  }
+  return data;
+}

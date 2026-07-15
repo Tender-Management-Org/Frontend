@@ -104,9 +104,17 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
               />
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
-                Password
-              </label>
+              <div className="flex items-center justify-between gap-2">
+                <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-xs font-medium text-navy-600 hover:underline underline-offset-2"
+                >
+                  Forgot password?
+                </Link>
+              </div>
               <Input
                 id="password"
                 placeholder="••••••••"

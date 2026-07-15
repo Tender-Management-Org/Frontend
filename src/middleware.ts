@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/firm", "/onboarding", "/tenders", "/interested", "/recommendations"];
-const AUTH_ROUTES = ["/login", "/register"];
+const AUTH_ROUTES = ["/login", "/register", "/forgot-password"];
 
 const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL ?? "").replace(/\/+$/, "");
 
@@ -121,5 +121,16 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/firm/:path*", "/onboarding/:path*", "/tenders/:path*", "/interested/:path*", "/recommendations/:path*", "/login", "/register"],
+  matcher: [
+    "/dashboard/:path*",
+    "/firm/:path*",
+    "/onboarding/:path*",
+    "/tenders/:path*",
+    "/interested/:path*",
+    "/recommendations/:path*",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+  ],
 };
