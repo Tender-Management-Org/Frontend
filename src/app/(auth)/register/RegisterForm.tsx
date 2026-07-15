@@ -280,13 +280,13 @@ export function RegisterForm() {
           </p>
 
           <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400">
-            <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms</Link>
+            <Link href="/terms" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Terms</Link>
             <span>·</span>
-            <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy</Link>
+            <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Privacy</Link>
             <span>·</span>
-            <Link href="/refund" className="hover:text-ink-600 transition-colors">Refunds</Link>
+            <Link href="/refund" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Refunds</Link>
             <span>·</span>
-            <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Contact</Link>
           </div>
         </div>
       </div>

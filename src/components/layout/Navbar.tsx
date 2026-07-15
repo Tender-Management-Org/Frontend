@@ -362,6 +362,8 @@ export function Navbar() {
                     <Link
                       key={href}
                       href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       role="menuitem"
                       className="flex items-center gap-2 px-4 py-2 text-sm text-ink-600 transition-colors hover:bg-ink-50"
                       onClick={() => setProfileOpen(false)}

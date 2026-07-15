@@ -120,9 +120,11 @@ export default function PrivacyPage() {
                   <p>You may upload business documents to TenderKhoj&apos;s document vault (e.g., PAN card, GST certificate,
                   experience certificates, financial audit reports, solvency certificates). These files are stored securely
                   on our servers and are associated only with your account.</p>
-                  <p className="mt-2">You may also upload tender document packages (PDF/ZIP) for AI-assisted OCR extraction
-                  (available on Starter, Growth, and Enterprise plans). These files are processed by our systems to extract
-                  text-based information and are not shared with any third party.</p>
+                  <p className="mt-2">On Starter, Growth, and Enterprise plans, you can also trigger document
+                  intelligence on tender documents already sourced from the government portal — you do not upload
+                  anything for this feature. Our system processes the source document to extract text-based information
+                  (eligibility criteria, required documents, annexures, corrigendums) within your tender filing
+                  workspace. This processed data is not shared with any third party.</p>
                 </Subsection>
                 <Subsection title="2.4 Tender Interaction Data">
                   <p>We collect data about how you interact with tenders on the platform: tenders you have viewed,
@@ -165,8 +167,10 @@ export default function PrivacyPage() {
                     the correct plan limits to your account.
                   </ListItem>
                   <ListItem>
-                    <strong>Document Intelligence:</strong> To perform OCR on documents you upload and surface
-                    extracted information (eligibility criteria, deadlines, fee requirements) within your workspace.
+                    <strong>Document Intelligence:</strong> To perform OCR on the official tender documents sourced
+                    from government portals when you trigger this feature, and surface extracted information
+                    (eligibility criteria, required documents, annexures, corrigendums) within your tender filing
+                    workspace.
                   </ListItem>
                   <ListItem>
                     <strong>Platform Improvement:</strong> Aggregated, anonymised usage patterns may be used to improve
@@ -193,6 +197,7 @@ export default function PrivacyPage() {
                   <ListItem>Access to firm data is restricted to the authenticated account owner; no other user can access your firm&apos;s data</ListItem>
                   <ListItem>Database access is restricted to authorised backend services only</ListItem>
                   <ListItem>Uploaded files are stored with access control and are not publicly accessible via URL</ListItem>
+                  <ListItem>If you forget your password, you can reset it via a &quot;Forgot Password&quot; link sent to your registered email address. Password reset links are single-use and expire after a short period</ListItem>
                 </ul>
                 <p className="mt-3">
                   While we implement industry-standard security measures, no method of electronic storage or transmission
@@ -228,42 +233,14 @@ export default function PrivacyPage() {
               {/* 6 */}
               <Section id="cookies" title="6. Cookies & Session Data">
                 <p>
-                  TenderKhoj uses cookies to manage authentication sessions. We use the following cookies:
-                </p>
-                <div className="mt-3 overflow-x-auto rounded-lg border border-ink-100">
-                  <table className="w-full text-sm">
-                    <thead className="bg-ink-50">
-                      <tr>
-                        <th className="px-4 py-2.5 text-left text-xs font-semibold text-ink-500">Cookie</th>
-                        <th className="px-4 py-2.5 text-left text-xs font-semibold text-ink-500">Purpose</th>
-                        <th className="px-4 py-2.5 text-left text-xs font-semibold text-ink-500">Lifetime</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-ink-50">
-                      {[
-                        ["tp_access_token",       "Your authentication session token",                    "15 minutes"],
-                        ["tp_refresh_token",      "Used to issue a new access token without re-login",   "7 days"],
-                        ["tp_active_firm",        "Remembers which firm profile is currently active",     "Session"],
-                        ["tp_onboarding_complete","Tracks whether you have completed initial onboarding", "Session"],
-                      ].map(([name, purpose, lifetime]) => (
-                        <tr key={name}>
-                          <td className="px-4 py-2.5 font-mono text-xs text-ink-700">{name}</td>
-                          <td className="px-4 py-2.5 text-ink-600">{purpose}</td>
-                          <td className="px-4 py-2.5 text-ink-500">{lifetime}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <p className="mt-3">
-                  We do not use third-party tracking cookies, advertising cookies, or analytics cookies. The cookies
-                  listed above are strictly necessary for the platform to function and cannot be disabled without
-                  preventing login.
+                  TenderKhoj uses a small number of strictly necessary cookies to keep you logged in, remember your
+                  active firm profile, and track onboarding progress. These cookies are required for the platform to
+                  function and cannot be disabled without preventing login.
                 </p>
                 <p className="mt-3">
-                  We also use the browser&apos;s <strong>localStorage</strong> to temporarily save your onboarding form
-                  draft so you don&apos;t lose progress if you navigate away. This data is stored only on your device
-                  and is cleared once onboarding is complete.
+                  We do not use third-party tracking cookies, advertising cookies, or analytics cookies. Your browser
+                  may also briefly store your onboarding form draft locally on your device so you don&apos;t lose
+                  progress if you navigate away; this is cleared once onboarding is complete.
                 </p>
               </Section>
 

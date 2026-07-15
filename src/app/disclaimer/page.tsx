@@ -172,8 +172,9 @@ export default function DisclaimerPage() {
               <Section id="ocr-disclaimer" title="4. Document Intelligence & OCR Disclaimer">
                 <p>
                   TenderKhoj&apos;s document intelligence feature (available on Starter, Growth, and Enterprise plans)
-                  allows you to upload tender documents for automated text extraction via Optical Character
-                  Recognition (OCR). This feature is provided as a
+                  lets you apply automated OCR and AI analysis directly to the official tender documents TenderKhoj has
+                  already sourced from the government portal — you do not upload any documents yourself. This feature
+                  is provided as a
                   <strong> productivity aid only</strong> and carries the following limitations:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
@@ -183,16 +184,23 @@ export default function DisclaimerPage() {
                     missing information, or misinterpreted text.
                   </ListItem>
                   <ListItem>
+                    <strong>Results are highly dependent on the visual quality of the source document.</strong> The
+                    accuracy of document intelligence output depends on the scan quality, formatting, and layout of the
+                    original document published by the procuring government entity — poor-quality scans will produce
+                    lower-quality extraction.
+                  </ListItem>
+                  <ListItem>
                     <strong>Extracted eligibility criteria are informational only.</strong> They are intended to help
-                    you quickly understand the key requirements of a tender. You must read the complete official
-                    tender document to make any eligibility or compliance determination.
+                    you quickly understand the key requirements of a tender, including required documents, annexures,
+                    and corrigendums. You must read the complete official tender document to make any eligibility or
+                    compliance determination.
                   </ListItem>
                   <ListItem>
                     <strong>We do not modify or alter the underlying tender documents.</strong> All documents you
-                    download and use remain as-published by the procuring government entity.
+                    view and use remain as-published by the procuring government entity.
                   </ListItem>
                   <ListItem>
-                    <strong>The bid preparation workspace does not submit anything.</strong> Any documents you organise
+                    <strong>The tender filing workspace does not submit anything.</strong> Any documents you organise
                     or prepare using TenderKhoj&apos;s workspace must be submitted directly through the official government
                     portal by you.
                   </ListItem>

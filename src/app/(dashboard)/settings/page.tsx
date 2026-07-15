@@ -490,6 +490,8 @@ function AccountTab() {
             <Link
               key={href}
               href={href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 rounded-lg px-2 py-2.5 text-sm text-ink-600 transition-colors hover:bg-ink-50 hover:text-ink-900"
             >
               <Icon className="h-3.5 w-3.5 shrink-0 text-ink-300" />

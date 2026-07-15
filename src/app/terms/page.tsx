@@ -116,13 +116,14 @@ export default function TermsPage() {
                     profile, past experience, and tender interests.
                   </ListItem>
                   <ListItem>
-                    <strong>Bid management workspace</strong> — Tools to shortlist tenders, track pipeline stages
-                    (Interested → Applied → Won/Lost), and receive deadline alerts.
+                    <strong>Tender filing workspace</strong> — Tools to shortlist tenders, track pipeline stages
+                    (Interested → Applied → Won/Lost), receive deadline alerts, and prepare the documents needed
+                    for a tender submission.
                   </ListItem>
                   <ListItem>
-                    <strong>Document intelligence</strong> — OCR-based extraction of eligibility criteria from
-                    tender documents you choose to upload, and a workspace for organising bid documents. Available on
-                    Starter, Growth, and Enterprise plans.
+                    <strong>Document intelligence</strong> — On the official tender documents already sourced from the
+                    government portal, you can trigger OCR-based extraction to surface eligibility criteria, required
+                    documents, annexures, and corrigendums. Available on Starter, Growth, and Enterprise plans.
                   </ListItem>
                 </ul>
                 <p className="mt-3">
@@ -228,27 +229,27 @@ export default function TermsPage() {
                 </Subsection>
                 <Subsection title="7.2 Document Intelligence (OCR)">
                   <p>
-                    TenderKhoj&apos;s document intelligence feature allows you to upload tender document packages
-                    (ZIP files or individual PDFs) downloaded from official portals. Our system performs Optical Character
-                    Recognition (OCR) to extract information such as eligibility criteria, EMD requirements, experience
-                    criteria, and financial thresholds, and displays this information within your bid workspace. This
+                    On any tender sourced from an official government portal, you can click &quot;Apply Document
+                    Intelligence&quot; to run OCR and AI-based analysis directly on that tender&apos;s official documents.
+                    You do not upload any files for this feature — it is applied to the tender documents TenderKhoj has
+                    already retrieved from the source portal. The output surfaces information such as eligibility
+                    criteria, required documents, annexures, and corrigendums within your tender filing workspace. This
                     feature is available on Starter, Growth, and Enterprise plans.
                   </p>
                   <p className="mt-3">
                     <strong>This extraction is for informational and productivity purposes only.</strong> OCR extraction
-                    may be incomplete or inaccurate. You must cross-reference any extracted information against the official
-                    tender documents. TenderKhoj is not responsible for any loss arising from reliance on extracted data.
-                  </p>
-                  <p className="mt-3">
-                    By uploading tender documents, you confirm that those documents are publicly available government documents
-                    and that your upload is solely for the purpose of your own bid preparation.
+                    may be incomplete or inaccurate, and results depend heavily on the visual quality of the source
+                    document (scan quality, formatting, and layout of the original tender document). You must
+                    cross-reference any extracted information against the official tender documents. TenderKhoj is not
+                    responsible for any loss arising from reliance on extracted data.
                   </p>
                 </Subsection>
-                <Subsection title="7.3 Bid Workspace">
+                <Subsection title="7.3 Tender Filing Workspace">
                   <p>
-                    The bid workspace is a productivity tool to help you organise and track the documents required for a
-                    specific tender submission. TenderKhoj does not submit bids on your behalf, does not sign documents,
-                    and does not interact with any government portal during bid submission.
+                    The tender filing workspace is a productivity tool, powered by document intelligence, to help you
+                    organise and track the documents required for a specific tender submission. TenderKhoj does not
+                    submit bids on your behalf, does not sign documents, and does not interact with any government
+                    portal during bid submission.
                   </p>
                 </Subsection>
               </Section>
