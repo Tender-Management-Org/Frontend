@@ -5,7 +5,6 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { ApiError } from "@/lib/api/client";
 import { getFirms, getFirmPreferences } from "@/lib/api/firms";
 import { getRecommendations, type TenderRecommendationApi } from "@/lib/api/tenders";
-import { RefreshButton } from "./components/RefreshButton";
 import { RecommendationCard } from "./components/RecommendationCard";
 
 // ─── page ────────────────────────────────────────────────────────────────────
@@ -60,23 +59,18 @@ export default async function RecommendationsPage() {
     <section className="mx-auto w-full max-w-7xl space-y-5">
       {/* Header */}
       <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 shrink-0">
-              <Sparkles className="h-5 w-5 text-navy-600" aria-hidden />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-ink-900">Recommendations</h1>
-              <p className="mt-1 text-sm text-ink-500">
-                {items.length > 0
-                  ? `Today's top ${items.length} match${items.length === 1 ? "" : "es"} — refreshes daily, sorted by fit score.`
-                  : "Your daily shortlist of tenders matched to your firm profile."}
-              </p>
-            </div>
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 shrink-0">
+            <Sparkles className="h-5 w-5 text-navy-600" aria-hidden />
           </div>
-          {firmId && !embeddingMissing && (
-            <RefreshButton firmId={firmId} />
-          )}
+          <div>
+            <h1 className="text-xl font-bold text-ink-900">Recommendations</h1>
+            <p className="mt-1 text-sm text-ink-500">
+              {items.length > 0
+                ? `Today's top ${items.length} match${items.length === 1 ? "" : "es"} — refreshes daily, sorted by fit score.`
+                : "Your daily shortlist of tenders matched to your firm profile."}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -129,9 +123,15 @@ export default async function RecommendationsPage() {
           </div>
           <h3 className="text-base font-semibold text-ink-800">No recommendations yet</h3>
           <p className="mt-1 max-w-sm text-sm text-ink-400">
-            Click &ldquo;Refresh&rdquo; to generate your first batch of matched tenders based on your firm profile.
+            New matches appear here daily based on your firm profile. Check back soon, or browse all tenders in the meantime.
           </p>
-          {firmId && <RefreshButton firmId={firmId} />}
+          <Link
+            href="/tenders"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+          >
+            Browse all tenders
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
         </div>
       )}
 

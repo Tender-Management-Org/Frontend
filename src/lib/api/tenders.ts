@@ -255,10 +255,6 @@ export async function getRecommendations(firmId: string, params: Recommendations
   return apiRequest<PaginatedResponse<TenderRecommendationApi>>(`/firms/${firmId}/recommendations/${suffix}`);
 }
 
-export async function refreshRecommendations(firmId: string) {
-  return apiRequest<{ detail: string }>(`/firms/${firmId}/recommendations/refresh/`, { method: "POST" });
-}
-
 export async function getUnreadRecommendationsCount(firmId: string) {
   return apiRequest<{ unread_count: number }>(`/firms/${firmId}/recommendations/unread-count/`);
 }
