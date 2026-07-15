@@ -478,6 +478,7 @@ export default function LandingPage() {
             <div>
               <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-ink-500">Company</h4>
               <ul className="space-y-2.5 text-sm text-ink-400">
+                <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
                 <li><Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link></li>
                 <li><Link href="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link></li>
               </ul>
@@ -497,7 +498,7 @@ export default function LandingPage() {
           {/* Bottom bar */}
           <div className="mt-12 border-t border-ink-800 pt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
             <p className="text-xs text-ink-500">
-              © {new Date().getFullYear()} TenderKhoj. All rights reserved.
+              © {new Date().getFullYear()} TenderKhoj, operated by Vaibhav Paliwal. All rights reserved.
             </p>
             <p className="text-xs text-ink-600">
               The right tenders, for the right firm, at the right time.

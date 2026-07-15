@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FileSearch, Mail } from "lucide-react";
+import { FileSearch, Mail, Phone } from "lucide-react";
 import { ContactForm } from "./ContactForm";
 
 export const metadata = {
@@ -8,6 +8,8 @@ export const metadata = {
 };
 
 const CONTACT_EMAIL = "tenderkhojadmin@gmail.com";
+const CONTACT_PHONE_TEL = "7427089473";
+const CONTACT_PHONE_DISPLAY = "74270 89473";
 
 export default function ContactPage() {
   return (
@@ -31,18 +33,34 @@ export default function ContactPage() {
           </p>
         </div>
 
-        <div className="mb-6 flex items-start gap-3 rounded-xl border border-ink-100 bg-white p-5">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-navy-50">
-            <Mail className="h-4 w-4 text-navy-600" />
+        <div className="mb-6 grid gap-4 sm:grid-cols-2">
+          <div className="flex items-start gap-3 rounded-xl border border-ink-100 bg-white p-5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-navy-50">
+              <Mail className="h-4 w-4 text-navy-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-ink-900">Email us directly</p>
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="mt-0.5 inline-block text-sm font-medium text-navy-600 hover:underline"
+              >
+                {CONTACT_EMAIL}
+              </a>
+            </div>
           </div>
-          <div>
-            <p className="text-sm font-medium text-ink-900">Email us directly</p>
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="mt-0.5 inline-block text-sm font-medium text-navy-600 hover:underline"
-            >
-              {CONTACT_EMAIL}
-            </a>
+          <div className="flex items-start gap-3 rounded-xl border border-ink-100 bg-white p-5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-navy-50">
+              <Phone className="h-4 w-4 text-navy-600" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-ink-900">Call us</p>
+              <a
+                href={`tel:+91${CONTACT_PHONE_TEL}`}
+                className="mt-0.5 inline-block text-sm font-medium text-navy-600 hover:underline"
+              >
+                +91 {CONTACT_PHONE_DISPLAY}
+              </a>
+            </div>
           </div>
         </div>
 
@@ -53,11 +71,13 @@ export default function ContactPage() {
 
         <footer className="mt-12 border-t border-ink-100 pt-6 text-center text-sm text-ink-400">
           <div className="flex flex-wrap justify-center gap-5">
+            <Link href="/about" className="hover:text-ink-600 transition-colors">About</Link>
             <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms</Link>
             <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy</Link>
             <Link href="/refund" className="hover:text-ink-600 transition-colors">Cancellation &amp; Refund</Link>
+            <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Disclaimer</Link>
           </div>
-          <p className="mt-3">&copy; 2026 Electrocom Solutions</p>
+          <p className="mt-3">&copy; 2026 TenderKhoj, operated by Vaibhav Paliwal</p>
         </footer>
       </main>
     </div>

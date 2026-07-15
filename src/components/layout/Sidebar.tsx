@@ -257,6 +257,14 @@ export function Sidebar() {
               </Link>
             </div>
           )}
+          {!isCollapsed && (
+            <p
+              className="truncate px-4 pb-2.5 pt-1 text-[10px] leading-tight text-ink-300"
+              title="TenderKhoj, operated by Vaibhav Paliwal"
+            >
+              TenderKhoj, operated by Vaibhav Paliwal
+            </p>
+          )}
         </div>
       </aside>
     </>

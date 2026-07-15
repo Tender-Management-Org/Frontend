@@ -75,7 +75,7 @@ export default function TermsPage() {
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-ink-400">
                 <span><strong className="text-ink-600">Effective:</strong> June 20, 2026</span>
-                <span><strong className="text-ink-600">Operated by:</strong> Electrocom Solutions</span>
+                <span><strong className="text-ink-600">Operated by:</strong> Vaibhav Paliwal</span>
               </div>
             </div>
 
@@ -90,8 +90,8 @@ export default function TermsPage() {
                   If you do not agree to these Terms, do not use the platform.
                 </p>
                 <p className="mt-3">
-                  These Terms constitute a legally binding agreement between you (&quot;User&quot;) and Electrocom Solutions, a
-                  proprietorship firm owned by Vaibhav Paliwal, registered in Rajasthan, India (&quot;we&quot;, &quot;us&quot;, or &quot;TenderKhoj&quot;).
+                  These Terms constitute a legally binding agreement between you (&quot;User&quot;) and Vaibhav Paliwal, an
+                  individual operating TenderKhoj from Rajasthan, India (&quot;we&quot;, &quot;us&quot;, or &quot;TenderKhoj&quot;).
                 </p>
               </Section>
 
@@ -362,7 +362,7 @@ export default function TermsPage() {
               <Section id="ip" title="11. Intellectual Property">
                 <p>
                   TenderKhoj and all associated technology — including the recommendation engine, embedding models,
-                  search algorithms, UI design, and platform code — are the intellectual property of Electrocom Solutions.
+                  search algorithms, UI design, and platform code — are the intellectual property of Vaibhav Paliwal.
                   You are granted a limited, non-exclusive, non-transferable licence to use the platform for your own
                   internal business purposes in accordance with these Terms.
                 </p>
@@ -381,9 +381,8 @@ export default function TermsPage() {
               {/* 12 */}
               <Section id="liability" title="12. Limitation of Liability">
                 <p>
-                  To the fullest extent permitted by applicable law, TenderKhoj, Electrocom Solutions, and its founders
-                  shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including
-                  but not limited to:
+                  To the fullest extent permitted by applicable law, TenderKhoj and Vaibhav Paliwal shall not be liable
+                  for any indirect, incidental, special, consequential, or punitive damages, including but not limited to:
                 </p>
                 <ul className="mt-3 space-y-2 text-sm text-ink-600">
                   <ListItem>Loss of a tender bid or business opportunity arising from delayed, inaccurate, or missing tender data</ListItem>
@@ -441,8 +440,8 @@ export default function TermsPage() {
                   If you have questions, concerns, or requests regarding these Terms, please contact us:
                 </p>
                 <div className="mt-4 rounded-xl border border-ink-100 bg-ink-50 p-5 text-sm text-ink-700 space-y-1">
-                  <p><strong>Electrocom Solutions</strong></p>
-                  <p>Proprietor: Vaibhav Paliwal</p>
+                  <p><strong>Vaibhav Paliwal</strong></p>
+                  <p>TenderKhoj</p>
                   <p>Rajasthan, India</p>
                   <p>Email: <a href="mailto:tenderkhojadmin@gmail.com" className="text-navy-600 hover:underline">tenderkhojadmin@gmail.com</a></p>
                   <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
@@ -456,13 +455,14 @@ export default function TermsPage() {
         {/* Footer */}
         <footer className="mt-16 border-t border-ink-100 pt-8 text-center text-sm text-ink-400">
           <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/about" className="hover:text-ink-600 transition-colors">About</Link>
             <Link href="/terms" className="text-navy-600 font-medium">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy Policy</Link>
             <Link href="/refund" className="hover:text-ink-600 transition-colors">Refund &amp; Cancellation</Link>
             <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact Us</Link>
             <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal Disclaimer</Link>
           </div>
-          <p className="mt-4">&copy; 2026 Electrocom Solutions. All rights reserved.</p>
+          <p className="mt-4">&copy; 2026 TenderKhoj, operated by Vaibhav Paliwal. All rights reserved.</p>
         </footer>
       </div>
     </div>

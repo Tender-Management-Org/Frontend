@@ -71,7 +71,7 @@ export default function PrivacyPage() {
               </p>
               <div className="mt-4 flex flex-wrap gap-4 text-sm text-ink-400">
                 <span><strong className="text-ink-600">Effective:</strong> June 20, 2026</span>
-                <span><strong className="text-ink-600">Operated by:</strong> Electrocom Solutions</span>
+                <span><strong className="text-ink-600">Operated by:</strong> Vaibhav Paliwal</span>
               </div>
             </div>
 
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
               {/* 1 */}
               <Section id="introduction" title="1. Introduction">
                 <p>
-                  Electrocom Solutions (&quot;we&quot;, &quot;us&quot;, &quot;TenderKhoj&quot;) is committed to protecting the privacy of our users.
+                  Vaibhav Paliwal, operating as TenderKhoj (&quot;we&quot;, &quot;us&quot;, &quot;TenderKhoj&quot;), is committed to protecting the privacy of our users.
                   This Privacy Policy explains how we collect, use, store, and protect information when you use the
                   TenderKhoj platform at <strong>tenderkhoj.com</strong>.
                 </p>
@@ -321,8 +321,8 @@ export default function PrivacyPage() {
                   For privacy-related queries, data access requests, erasure requests, or grievances, please contact:
                 </p>
                 <div className="mt-4 rounded-xl border border-ink-100 bg-ink-50 p-5 text-sm text-ink-700 space-y-1">
-                  <p><strong>Data Controller: Electrocom Solutions</strong></p>
-                  <p>Proprietor: Vaibhav Paliwal</p>
+                  <p><strong>Data Controller: Vaibhav Paliwal</strong></p>
+                  <p>TenderKhoj</p>
                   <p>Rajasthan, India</p>
                   <p>Email: <a href="mailto:tenderkhojadmin@gmail.com" className="text-navy-600 hover:underline">tenderkhojadmin@gmail.com</a></p>
                   <p>Platform: <a href="https://tenderkhoj.com" className="text-navy-600 hover:underline">tenderkhoj.com</a></p>
@@ -339,13 +339,14 @@ export default function PrivacyPage() {
         {/* Footer */}
         <footer className="mt-16 border-t border-ink-100 pt-8 text-center text-sm text-ink-400">
           <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/about" className="hover:text-ink-600 transition-colors">About</Link>
             <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms of Service</Link>
             <Link href="/privacy" className="text-navy-600 font-medium">Privacy Policy</Link>
             <Link href="/refund" className="hover:text-ink-600 transition-colors">Refund &amp; Cancellation</Link>
             <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact Us</Link>
             <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Legal Disclaimer</Link>
           </div>
-          <p className="mt-4">&copy; 2026 Electrocom Solutions. All rights reserved.</p>
+          <p className="mt-4">&copy; 2026 TenderKhoj, operated by Vaibhav Paliwal. All rights reserved.</p>
         </footer>
       </div>
     </div>
