@@ -169,6 +169,38 @@ export default function LandingPage() {
             <a href="#features" className="hover:text-ink-900 transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-ink-900 transition-colors">How it works</a>
             <a href="#comparison" className="hover:text-ink-900 transition-colors">Why TenderKhoj</a>
+            <div className="relative group">
+              <button className="flex items-center gap-1 hover:text-ink-900 transition-colors">
+                Browse
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={2} className="w-3 h-3 mt-0.5">
+                  <path d="M4 6l4 4 4-4" />
+                </svg>
+              </button>
+              <div className="absolute left-1/2 top-full -translate-x-1/2 pt-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
+                <div className="w-52 rounded-xl border border-ink-200 bg-white py-1.5 shadow-lg">
+                  <Link href="/browse/states" className="flex items-center gap-2.5 px-4 py-2 text-sm text-ink-700 hover:bg-ink-50 hover:text-navy-700 transition-colors">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.75} className="w-4 h-4 text-ink-400">
+                      <path d="M8 1.5C5.5 1.5 3.5 3.5 3.5 6c0 3.5 4.5 8.5 4.5 8.5S12.5 9.5 12.5 6c0-2.5-2-4.5-4.5-4.5z"/>
+                      <circle cx="8" cy="6" r="1.5"/>
+                    </svg>
+                    Browse by State
+                  </Link>
+                  <Link href="/browse/categories" className="flex items-center gap-2.5 px-4 py-2 text-sm text-ink-700 hover:bg-ink-50 hover:text-navy-700 transition-colors">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.75} className="w-4 h-4 text-ink-400">
+                      <rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="9.5" y="1.5" width="5" height="5" rx="1"/>
+                      <rect x="1.5" y="9.5" width="5" height="5" rx="1"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/>
+                    </svg>
+                    Browse by Category
+                  </Link>
+                  <Link href="/browse/sectors" className="flex items-center gap-2.5 px-4 py-2 text-sm text-ink-700 hover:bg-ink-50 hover:text-navy-700 transition-colors">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth={1.75} className="w-4 h-4 text-ink-400">
+                      <circle cx="8" cy="8" r="6.5"/><path d="M8 1.5v13M1.5 8h13M3.5 3.5l9 9M12.5 3.5l-9 9"/>
+                    </svg>
+                    Browse by Sector
+                  </Link>
+                </div>
+              </div>
+            </div>
           </nav>
 
           {/* Desktop CTA */}
@@ -201,6 +233,12 @@ export default function LandingPage() {
               <a href="#features" onClick={() => setMobileOpen(false)} className="py-1">Features</a>
               <a href="#how-it-works" onClick={() => setMobileOpen(false)} className="py-1">How it works</a>
               <a href="#comparison" onClick={() => setMobileOpen(false)} className="py-1">Why TenderKhoj</a>
+              <div className="border-t border-ink-100 pt-2">
+                <p className="text-[10px] uppercase tracking-widest text-ink-400 mb-1.5">Browse Tenders</p>
+                <Link href="/browse/states" onClick={() => setMobileOpen(false)} className="block py-1 text-ink-600">By State</Link>
+                <Link href="/browse/categories" onClick={() => setMobileOpen(false)} className="block py-1 text-ink-600">By Category</Link>
+                <Link href="/browse/sectors" onClick={() => setMobileOpen(false)} className="block py-1 text-ink-600">By Sector</Link>
+              </div>
               <div className="mt-2 flex flex-col gap-2">
                 <Link href="/login" className="rounded-lg border border-ink-200 px-4 py-2 text-center">Sign in</Link>
                 <Link href="/register" className="rounded-lg bg-navy-600 px-4 py-2 text-center text-white font-semibold">
@@ -446,7 +484,7 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl px-4 pt-14 pb-8 sm:px-6">
 
           {/* Top row — logo + columns */}
-          <div className="grid gap-10 sm:grid-cols-4">
+          <div className="grid gap-10 sm:grid-cols-5">
 
             {/* Brand */}
             <div className="sm:col-span-1">
@@ -461,6 +499,16 @@ export default function LandingPage() {
               <p className="text-sm text-ink-400 leading-relaxed">
                 AI-powered tender intelligence for businesses that want to win more government contracts.
               </p>
+            </div>
+
+            {/* Browse links */}
+            <div>
+              <h4 className="mb-4 text-xs font-semibold uppercase tracking-widest text-ink-500">Browse</h4>
+              <ul className="space-y-2.5 text-sm text-ink-400">
+                <li><Link href="/browse/states" className="hover:text-white transition-colors">By State</Link></li>
+                <li><Link href="/browse/categories" className="hover:text-white transition-colors">By Category</Link></li>
+                <li><Link href="/browse/sectors" className="hover:text-white transition-colors">By Sector</Link></li>
+              </ul>
             </div>
 
             {/* Platform links */}
