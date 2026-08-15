@@ -253,7 +253,6 @@ export function FilingWorkspaceShell({ tenderId, tender }: FilingWorkspaceShellP
         <div className="col-span-12 xl:col-span-8">
           <TenderDetailView
             data={tender}
-            tenderId={tenderId}
             filingWorkspace={filingWorkspace}
             defaultTab="documents"
           />

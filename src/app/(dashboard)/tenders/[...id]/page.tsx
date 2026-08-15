@@ -173,7 +173,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
       {/* Content + Action sidebar */}
       <div className="grid grid-cols-12 gap-5">
         <div className="col-span-12 lg:col-span-8">
-          <TenderDetailView data={tender} tenderId={id} />
+          <TenderDetailView data={tender} />
         </div>
         <div className="col-span-12 lg:col-span-4">
           <div className="space-y-5 lg:sticky lg:top-6">

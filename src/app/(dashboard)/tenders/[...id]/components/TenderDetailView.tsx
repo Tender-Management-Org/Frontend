@@ -19,7 +19,6 @@ import {
   Timer,
 } from "lucide-react";
 import { useState } from "react";
-import { EligibilityTab } from "./EligibilityTab";
 
 function formatDateTime(iso: string | null | undefined): string {
   if (iso == null || iso === "") return "—";
@@ -229,7 +228,7 @@ function DocRow({
 
 // ── Tab IDs ───────────────────────────────────────────────────────────────────
 
-type TabId = "overview" | "details" | "dates" | "fee" | "documents" | "eligibility";
+type TabId = "overview" | "details" | "dates" | "fee" | "documents";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "overview", label: "Overview" },
@@ -237,7 +236,6 @@ const TABS: { id: TabId; label: string }[] = [
   { id: "dates", label: "Dates" },
   { id: "fee", label: "Fee & EMD" },
   { id: "documents", label: "Documents" },
-  { id: "eligibility", label: "✓ Eligibility" },
 ];
 
 // ── Main component ────────────────────────────────────────────────────────────
@@ -254,16 +252,12 @@ export interface FilingWorkspaceDocIntelProps {
 
 interface TenderDetailViewProps {
   data: TenderDetail;
-  tenderId: string;
   filingWorkspace?: FilingWorkspaceDocIntelProps;
   defaultTab?: TabId;
 }
 
-export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab = "overview" }: TenderDetailViewProps) {
+export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview" }: TenderDetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>(defaultTab);
-  const visibleTabs = filingWorkspace?.enabled
-    ? TABS.filter((tab) => tab.id !== "eligibility")
-    : TABS;
 
   const b = data.basic_details;
   const w = data.work_items;
@@ -288,7 +282,7 @@ export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab =
         role="tablist"
         aria-label="Tender detail sections"
       >
-        {visibleTabs.map((tab) => (
+        {TABS.map((tab) => (
           <button
             key={tab.id}
             type="button"
@@ -554,11 +548,6 @@ export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab =
             <DetailRow label="EMD payable at">{fv(emd.emd_payable_at)}</DetailRow>
           </SectionCard>
         </div>
-      )}
-
-      {/* ── Eligibility tab ── */}
-      {activeTab === "eligibility" && (
-        <EligibilityTab tenderId={tenderId} />
       )}
 
       {/* ── Documents tab ── */}
