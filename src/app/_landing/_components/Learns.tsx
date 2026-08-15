@@ -44,7 +44,7 @@ function Panel({
     <div className="flex h-full flex-col rounded-3xl border border-ink-900/8 bg-white/85 p-5 shadow-lift backdrop-blur-xl transition-shadow duration-300 hover:shadow-lift-lg">
       <span
         className={cn(
-          "inline-flex w-fit items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold",
+          "inline-flex w-fit items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-sm font-semibold",
           tones[tone]
         )}
       >
@@ -52,7 +52,7 @@ function Panel({
         {action}
       </span>
       <div className="mt-4 flex-1">{children}</div>
-      <p className="mt-4 border-t border-ink-900/6 pt-3 text-2xs leading-relaxed text-ink-400">{caption}</p>
+      <p className="mt-4 border-t border-ink-900/6 pt-3 text-xs leading-relaxed text-ink-400">{caption}</p>
     </div>
   );
 }
@@ -87,7 +87,7 @@ export function Learns() {
           <h2 className="mt-4 text-balance text-[clamp(1.9rem,4.4vw,3.25rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-900">
             The more you use it, <GradientText>the smarter it gets.</GradientText>
           </h2>
-          <p className="mt-4 max-w-xl text-pretty text-sm text-ink-500 sm:text-base">
+          <p className="mt-4 max-w-xl text-pretty text-base text-ink-500 sm:text-lg">
             tenderkhoj learns from your firm&rsquo;s actual behaviour to continuously improve future
             recommendations.
           </p>

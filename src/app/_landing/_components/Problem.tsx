@@ -191,7 +191,7 @@ function WorkflowStep({
       className="relative will-change-transform"
     >
       {step.visual}
-      <p className="mt-2 text-center text-xs font-medium text-ink-600">{step.label}</p>
+      <p className="mt-2 text-center text-sm font-medium text-ink-600">{step.label}</p>
       <span
         aria-hidden
         className="absolute -left-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full border border-ink-900/10 bg-white text-[0.625rem] font-bold tabular-nums text-ink-500 shadow-card"
@@ -229,7 +229,7 @@ export function Problem() {
             {STEPS.map((step, index) => (
               <li key={step.label}>
                 {step.visual}
-                <p className="mt-2 text-center text-xs font-medium text-ink-600">
+                <p className="mt-2 text-center text-sm font-medium text-ink-600">
                   {index + 1}. {step.label}
                 </p>
               </li>
@@ -238,7 +238,7 @@ export function Problem() {
           <h3 className="mt-14 text-[clamp(1.6rem,4vw,2.75rem)] font-semibold tracking-[-0.04em] text-ink-900">
             There&rsquo;s a <GradientText>smarter way.</GradientText>
           </h3>
-          <p className="mx-auto mt-4 max-w-xl text-base text-ink-500">
+          <p className="mx-auto mt-4 max-w-xl text-lg text-ink-500">
             tenderkhoj continuously monitors procurement portals and brings relevant opportunities
             directly to your team.
           </p>
@@ -292,11 +292,11 @@ export function Problem() {
               <h3 className="text-balance text-[clamp(1.75rem,4.4vw,3rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-900">
                 There&rsquo;s a <GradientText>smarter way.</GradientText>
               </h3>
-              <p className="mx-auto mt-4 max-w-md text-pretty text-sm text-ink-500 sm:text-base lg:mx-0">
+              <p className="mx-auto mt-4 max-w-md text-pretty text-base text-ink-500 sm:text-lg lg:mx-0">
                 tenderkhoj continuously monitors procurement portals and brings relevant
                 opportunities directly to your team.
               </p>
-              <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-ink-900/10 bg-white/70 px-3.5 py-1.5 text-xs font-medium text-ink-500 backdrop-blur">
+              <p className="mt-5 inline-flex items-center gap-2 rounded-full border border-ink-900/10 bg-white/70 px-4 py-2 text-sm font-medium text-ink-500 backdrop-blur">
                 <Sparkles className="h-3.5 w-3.5 text-elec-500" aria-hidden />
                 Eight manual steps → one screen
               </p>

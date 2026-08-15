@@ -86,7 +86,7 @@ export function SiteHeader({ active }: { active?: string }) {
             href="/register"
             className="group inline-flex items-center gap-2 rounded-full bg-stage px-5 py-2.5 text-[0.8125rem] font-semibold text-white shadow-lift transition-colors hover:bg-elec-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500 focus-visible:ring-offset-2"
           >
-            Get Early Access
+            Start free
             <ArrowRight
               className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
               aria-hidden
@@ -131,7 +131,7 @@ export function SubpageHero({
       />
 
       <div className="relative mx-auto max-w-6xl px-5 py-12 sm:py-16">
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-ink-400">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-ink-400">
           <Link href="/" className="transition-colors hover:text-elec-600">
             Home
           </Link>
@@ -147,7 +147,7 @@ export function SubpageHero({
             <h1 className="text-balance text-[clamp(1.75rem,4vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-ink-900">
               {title}
             </h1>
-            <p className="mt-2 max-w-2xl text-pretty text-sm text-ink-500 sm:text-base">{subtitle}</p>
+            <p className="mt-2 max-w-2xl text-pretty text-base text-ink-500 sm:text-lg">{subtitle}</p>
           </div>
         </div>
 
@@ -173,18 +173,18 @@ export function BrowseCta({ title, body }: { title: string; body: string }) {
         <h2 className="text-balance text-[clamp(1.35rem,3vw,2rem)] font-semibold tracking-[-0.03em]">
           {title}
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-sm text-white/60">{body}</p>
+        <p className="mx-auto mt-3 max-w-xl text-base text-white/60">{body}</p>
         <Link
           href="/register"
           className="group mt-7 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-stage shadow-lift transition-colors hover:bg-elec-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-stage"
         >
-          Get Early Access
+          Start free
           <ArrowRight
             className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
             aria-hidden
           />
         </Link>
-        <p className="mt-4 text-xs text-white/35">No credit card required.</p>
+        <p className="mt-4 text-sm text-white/35">No credit card required.</p>
       </div>
     </div>
   );

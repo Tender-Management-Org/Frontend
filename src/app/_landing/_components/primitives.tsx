@@ -217,7 +217,7 @@ export function Pill({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium tracking-tight backdrop-blur",
+        "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-tight backdrop-blur",
         tone === "light"
           ? "border-ink-900/10 bg-white/70 text-ink-600"
           : "border-white/15 bg-white/5 text-white/70",
@@ -233,7 +233,7 @@ export function SectionLabel({ children, tone = "light" }: { children: ReactNode
   return (
     <p
       className={cn(
-        "text-2xs font-semibold uppercase tracking-[0.22em]",
+        "text-xs font-semibold uppercase tracking-[0.2em]",
         tone === "light" ? "text-elec-600" : "text-elec-300"
       )}
     >

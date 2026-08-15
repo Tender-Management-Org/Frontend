@@ -47,7 +47,7 @@ function CompareRow({
     <li className="grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-4">
       <motion.div
         style={{ opacity: beforeOpacity, x: beforeX, filter: beforeBlur }}
-        className="relative rounded-xl border border-ink-900/8 bg-ink-100/80 px-2.5 py-2 text-right text-[0.6875rem] font-medium text-ink-500 sm:px-4 sm:py-2.5 sm:text-sm"
+        className="relative rounded-xl border border-ink-900/8 bg-ink-100/80 px-2.5 py-2 text-right text-xs font-medium text-ink-500 sm:px-4 sm:py-2.5 sm:text-base"
       >
         <span className="relative inline-block">
           {before}
@@ -65,7 +65,7 @@ function CompareRow({
 
       <motion.div
         style={{ opacity: afterOpacity, x: afterX, filter: afterBlur }}
-        className="relative flex items-center gap-1.5 rounded-xl border border-elec-500/20 bg-white px-2.5 py-2 text-[0.6875rem] font-semibold text-ink-900 shadow-card sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm"
+        className="relative flex items-center gap-1.5 rounded-xl border border-elec-500/20 bg-white px-2.5 py-2 text-xs font-semibold text-ink-900 shadow-card sm:gap-2 sm:px-4 sm:py-2.5 sm:text-base"
       >
         <motion.span
           aria-hidden
@@ -142,14 +142,14 @@ export function BeforeAfter() {
           <div className="mt-7 grid grid-cols-[1fr_auto_1fr] items-center gap-1.5 sm:gap-4">
             <motion.span
               style={{ opacity: todayOpacity }}
-              className="text-right text-2xs font-semibold uppercase tracking-[0.18em] text-ink-400"
+              className="text-right text-xs font-semibold uppercase tracking-[0.18em] text-ink-400"
             >
               Today
             </motion.span>
             <span aria-hidden className="w-3.5" />
             <motion.span
               style={{ opacity: newOpacity }}
-              className="text-2xs font-semibold uppercase tracking-[0.18em] text-elec-600"
+              className="text-xs font-semibold uppercase tracking-[0.18em] text-elec-600"
             >
               With tenderkhoj
             </motion.span>
@@ -177,13 +177,13 @@ export function BeforeAfter() {
           <div className="relative mt-5 h-5 text-center">
             <motion.p
               style={{ opacity: summaryOpacity }}
-              className="absolute inset-0 text-xs font-medium text-ink-500"
+              className="absolute inset-0 text-sm font-medium text-ink-500"
             >
               Eight manual habits replaced by one intelligent workflow.
             </motion.p>
             <motion.p
               style={{ opacity: counterOpacity }}
-              className="absolute inset-0 text-xs tabular-nums text-ink-400"
+              className="absolute inset-0 text-sm tabular-nums text-ink-400"
             >
               <motion.span>{countdown}</motion.span> of {COMPARISONS.length} replaced
             </motion.p>

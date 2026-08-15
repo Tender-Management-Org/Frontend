@@ -48,14 +48,14 @@ export function Footer() {
               </span>
               <span className="text-[0.95rem] font-semibold tracking-tight text-ink-900">tenderkhoj</span>
             </span>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
+            <p className="mt-4 max-w-xs text-base leading-relaxed text-ink-500">
               The right tenders. For the right firm. At the right time.
             </p>
           </div>
 
           {LINK_GROUPS.map((group) => (
             <nav key={group.title} aria-label={group.title}>
-              <p className="text-2xs font-semibold uppercase tracking-[0.18em] text-ink-400">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-400">
                 {group.title}
               </p>
               <ul className="mt-4 space-y-2.5">
@@ -75,8 +75,8 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-ink-900/8 pt-6 sm:flex-row">
-          <p className="text-xs text-ink-400">© 2026 tenderkhoj</p>
-          <p className="text-xs text-ink-300">Built for Indian businesses competing in government procurement.</p>
+          <p className="text-sm text-ink-400">© 2026 tenderkhoj</p>
+          <p className="text-sm text-ink-300">Built for Indian businesses competing in government procurement.</p>
         </div>
       </div>
     </footer>

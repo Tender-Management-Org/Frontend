@@ -161,7 +161,9 @@ export function Hero() {
     const measure = () => {
       const copyHeight = copyRef.current?.offsetHeight ?? 0;
       const payoffHeight = payoffRef.current?.offsetHeight ?? 0;
-      setLift(Math.max(0, Math.round((copyHeight - payoffHeight) * 0.78)));
+      // Reclaim nearly all of the void the taller hero copy leaves behind,
+      // keeping a small margin so the payoff never rides up under the nav.
+      setLift(Math.max(0, Math.round(copyHeight - payoffHeight - 12)));
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -256,14 +258,14 @@ export function Hero() {
               </span>
             </h1>
 
-            <p className="mx-auto mt-3.5 max-w-2xl text-pretty text-sm leading-relaxed text-ink-500 sm:text-base">
+            <p className="mx-auto mt-4 max-w-2xl text-pretty text-base leading-relaxed text-ink-500 sm:text-lg">
               tenderkhoj discovers government tenders, understands your business, and recommends the
               opportunities that actually fit your firm.
             </p>
 
             <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <MagneticButton href="#get-early-access" icon={<ArrowRight className="h-4 w-4" aria-hidden />}>
-                Get Early Access
+              <MagneticButton href="/register" icon={<ArrowRight className="h-4 w-4" aria-hidden />}>
+                Start free
               </MagneticButton>
               <MagneticButton
                 href="#how-it-works"
@@ -277,7 +279,11 @@ export function Hero() {
               </MagneticButton>
             </div>
 
-            <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs font-medium text-ink-400">
+            <p className="mt-3 text-xs text-ink-400">
+              Free trial · No credit card required
+            </p>
+
+            <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm font-medium text-ink-400">
               {["AI Recommendations", "Document Intelligence", "Eligibility Analysis"].map((item, index) => (
                 <li key={item} className="flex items-center gap-3">
                   {index > 0 && <span className="h-1 w-1 rounded-full bg-ink-300" aria-hidden />}
@@ -301,7 +307,7 @@ export function Hero() {
               <br />
               <GradientText>Only a few matter to you.</GradientText>
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-xs text-ink-500 sm:text-sm">
+            <p className="mx-auto mt-3 max-w-lg text-sm text-ink-500 sm:text-base">
               tenderkhoj filters the noise the moment it appears — so your team only ever looks at
               opportunities worth their time.
             </p>

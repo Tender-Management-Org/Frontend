@@ -25,7 +25,7 @@ export function Browse() {
           <h2 className="mt-4 text-balance text-[clamp(1.75rem,4.2vw,3rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-900">
             Or just start looking. <GradientText>Filters already applied.</GradientText>
           </h2>
-          <p className="mt-4 max-w-xl text-pretty text-sm text-ink-500 sm:text-base">
+          <p className="mt-4 max-w-xl text-pretty text-base text-ink-500 sm:text-lg">
             Every state, category and sector we track has its own page — and each one opens the
             dashboard with that filter already set.
           </p>
@@ -41,22 +41,22 @@ export function Browse() {
                     <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-elec-500/20 bg-elec-50 text-elec-600">
                       <Icon className="h-4 w-4" aria-hidden />
                     </span>
-                    <span className="rounded-full border border-ink-900/8 bg-canvas-soft px-2.5 py-1 text-2xs font-semibold text-ink-500">
+                    <span className="rounded-full border border-ink-900/8 bg-canvas-soft px-3 py-1 text-xs font-semibold text-ink-500">
                       {group.cta}
                     </span>
                   </div>
 
-                  <h3 className="mt-4 text-base font-semibold tracking-tight text-ink-900">
+                  <h3 className="mt-4 text-lg font-semibold tracking-tight text-ink-900">
                     {group.title}
                   </h3>
-                  <p className="mt-1.5 text-xs leading-relaxed text-ink-500">{group.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-500">{group.body}</p>
 
                   <ul className="mt-4 flex flex-wrap gap-1.5">
                     {group.popular.map((item) => (
                       <li key={item.label}>
                         <Link
                           href={item.href}
-                          className="inline-flex rounded-full border border-ink-900/8 bg-white px-2.5 py-1 text-2xs font-medium text-ink-600 transition-colors hover:border-elec-500/30 hover:bg-elec-50 hover:text-elec-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
+                          className="inline-flex rounded-full border border-ink-900/8 bg-white px-3 py-1.5 text-xs font-medium text-ink-600 transition-colors hover:border-elec-500/30 hover:bg-elec-50 hover:text-elec-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
                         >
                           {item.label}
                         </Link>
@@ -66,7 +66,7 @@ export function Browse() {
 
                   <Link
                     href={group.href}
-                    className="mt-5 inline-flex items-center gap-1.5 self-start rounded-lg text-xs font-semibold text-elec-600 transition-colors hover:text-elec-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
+                    className="mt-5 inline-flex items-center gap-1.5 self-start rounded-lg text-sm font-semibold text-elec-600 transition-colors hover:text-elec-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
                   >
                     {group.title}
                     <ArrowRight

@@ -163,7 +163,7 @@ export function Nav() {
             className="hidden px-5 py-2.5 text-[0.8125rem] sm:inline-flex"
             icon={<ArrowRight className="h-4 w-4" aria-hidden />}
           >
-            Get Early Access
+            Start free
           </MagneticButton>
           <button
             type="button"
@@ -227,7 +227,7 @@ export function Nav() {
               onClick={() => setOpen(false)}
               className="flex items-center justify-center gap-2 rounded-full bg-stage px-5 py-3 text-sm font-semibold text-white"
             >
-              Get Early Access
+              Start free
               <ArrowRight className="h-4 w-4" aria-hidden />
             </Link>
           </li>

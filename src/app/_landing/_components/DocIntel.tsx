@@ -255,7 +255,7 @@ export function DocIntel() {
               <RepoPanel />
             </div>
           </div>
-          <p className="mt-8 max-w-2xl text-sm text-ink-500">
+          <p className="mt-8 max-w-2xl text-base text-ink-500">
             Document Intelligence extracts eligibility criteria, required documents and submission
             requirements, then compares them with your firm&rsquo;s profile and document repository.
           </p>
@@ -319,7 +319,7 @@ export function DocIntel() {
             <h3 className="mx-auto max-w-3xl text-balance text-[clamp(1.6rem,4.4vw,3rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-ink-900">
               From hundreds of pages to <GradientText>one clear action plan.</GradientText>
             </h3>
-            <p className="mx-auto mt-4 max-w-xl text-sm text-ink-500">
+            <p className="mx-auto mt-4 max-w-xl text-base text-ink-500">
               Document Intelligence extracts eligibility criteria, required documents and submission
               requirements, then compares them with your firm&rsquo;s profile and document repository.
             </p>

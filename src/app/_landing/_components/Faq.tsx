@@ -34,7 +34,7 @@ export function Faq() {
                       aria-expanded={isOpen}
                       className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
                     >
-                      <span className="text-sm font-semibold text-ink-900">{item.q}</span>
+                      <span className="text-base font-semibold text-ink-900">{item.q}</span>
                       <Plus
                         className={cn(
                           "h-4 w-4 shrink-0 text-ink-400 transition-transform duration-300",
@@ -53,7 +53,7 @@ export function Faq() {
                         transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <p className="px-5 pb-4 text-sm leading-relaxed text-ink-500">{item.a}</p>
+                        <p className="px-5 pb-5 text-base leading-relaxed text-ink-500">{item.a}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>

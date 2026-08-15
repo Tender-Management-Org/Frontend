@@ -44,8 +44,8 @@ export function Outcome() {
                   <span className="relative inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/12 bg-white/[0.06] text-elec-300">
                     <Icon className="h-4.5 w-4.5" aria-hidden />
                   </span>
-                  <h3 className="relative mt-5 text-lg font-semibold tracking-tight">{card.title}</h3>
-                  <p className="relative mt-2 text-sm leading-relaxed text-white/55">{card.body}</p>
+                  <h3 className="relative mt-5 text-xl font-semibold tracking-tight">{card.title}</h3>
+                  <p className="relative mt-2 text-base leading-relaxed text-white/55">{card.body}</p>
                 </article>
               </Reveal>
             );

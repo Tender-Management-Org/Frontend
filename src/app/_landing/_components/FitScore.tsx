@@ -198,7 +198,7 @@ function GenericRow({ progress, title, index }: { progress: MotionValue<number>;
       className="flex items-center gap-2.5 rounded-xl border border-ink-900/8 bg-white/75 px-3 py-2.5 backdrop-blur"
     >
       <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-ink-300" aria-hidden />
-      <span className="min-w-0 flex-1 truncate text-xs text-ink-400">{title}</span>
+      <span className="min-w-0 flex-1 truncate text-sm text-ink-400">{title}</span>
       <span className="rounded-full bg-ink-100 px-2 py-0.5 text-[0.5625rem] font-semibold text-ink-400">
         keyword
       </span>
@@ -281,7 +281,7 @@ export function FitScore() {
                 <h2 className="text-[clamp(1.6rem,3.4vw,2.5rem)] font-semibold tracking-[-0.04em] text-ink-900">
                   {stage.title}
                 </h2>
-                <p className="mt-3 max-w-lg text-sm text-ink-500 sm:text-base">{stage.body}</p>
+                <p className="mt-3 max-w-lg text-base text-ink-500 sm:text-lg">{stage.body}</p>
               </div>
             ))}
           </div>
@@ -328,7 +328,7 @@ export function FitScore() {
                   <h2 className="text-balance text-[clamp(1.75rem,3.8vw,2.75rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-ink-900">
                     {stage.title}
                   </h2>
-                  <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-ink-500 sm:text-base">
+                  <p className="mt-4 max-w-lg text-pretty text-base leading-relaxed text-ink-500 sm:text-lg">
                     {stage.body}
                   </p>
                 </motion.div>
@@ -385,7 +385,7 @@ export function FitScore() {
                 ))}
                 <motion.p
                   style={{ opacity: genericCaption }}
-                  className="pt-1 text-center text-2xs text-ink-400"
+                  className="pt-1 text-center text-xs text-ink-400"
                 >
                   The same list, for every firm on the portal
                 </motion.p>

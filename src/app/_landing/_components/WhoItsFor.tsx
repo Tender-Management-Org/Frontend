@@ -108,17 +108,17 @@ export function WhoItsFor() {
             <Reveal key={audience.key} i={index} className="h-full">
               <article className="group flex h-full flex-col rounded-3xl border border-ink-900/8 bg-white/80 p-5 shadow-card backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-elec-500/25 hover:shadow-lift-lg">
                 <div className="h-16 w-full">{ICONS[audience.key]}</div>
-                <h3 className="mt-5 text-sm font-semibold tracking-tight text-ink-900">
+                <h3 className="mt-5 text-base font-semibold tracking-tight text-ink-900">
                   {audience.title}
                 </h3>
-                <p className="mt-1.5 text-xs leading-relaxed text-ink-500">{audience.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-500">{audience.body}</p>
               </article>
             </Reveal>
           ))}
         </div>
 
         <Reveal delay={0.15}>
-          <p className="mt-8 text-center text-sm text-ink-400">
+          <p className="mt-8 text-center text-base text-ink-400">
             Whether you&rsquo;re tracking 10 opportunities or thousands, tenderkhoj helps your team find
             the ones that matter.
           </p>

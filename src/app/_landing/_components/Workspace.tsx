@@ -80,7 +80,7 @@ export function Workspace() {
             {PIPELINE_STAGES.map((stage) => (
               <div key={stage} className="rounded-2xl border border-ink-900/8 bg-white p-4 shadow-card">
                 <p className="text-sm font-semibold text-ink-900">{stage}</p>
-                <p className="mt-1.5 text-xs text-ink-500">{STAGE_COPY[stage]}</p>
+                <p className="mt-1.5 text-sm text-ink-500">{STAGE_COPY[stage]}</p>
               </div>
             ))}
           </div>
@@ -188,13 +188,13 @@ function PipelineColumn({
           aria-hidden
           className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-elec-500/40"
         />
-        <p className="flex items-center gap-1.5 text-xs font-semibold text-ink-900">
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-ink-900">
           <motion.span style={{ opacity: borderOpacity }}>
             <Check className="h-3.5 w-3.5 text-success-600" aria-hidden />
           </motion.span>
           {stage}
         </p>
-        <p className="mt-1.5 text-2xs leading-relaxed text-ink-400">{copy}</p>
+        <p className="mt-1.5 text-xs leading-relaxed text-ink-400">{copy}</p>
       </div>
     </motion.li>
   );

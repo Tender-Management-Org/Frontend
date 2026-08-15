@@ -87,7 +87,7 @@ export function SemanticSearch() {
           <h2 className="mt-4 text-balance text-[clamp(1.9rem,4.6vw,3.25rem)] font-semibold leading-[1.04] tracking-[-0.04em] text-ink-900">
             Search tenders <GradientText>like you think.</GradientText>
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-sm text-ink-500 sm:text-base">
+          <p className="mx-auto mt-4 max-w-xl text-pretty text-base text-ink-500 sm:text-lg">
             No complicated filters. No exact keyword matching. Describe what you&rsquo;re looking for in
             natural language.
           </p>
@@ -150,7 +150,7 @@ export function SemanticSearch() {
                   initial={calm ? false : { opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
-                  className="pt-1 text-center text-2xs text-ink-400"
+                  className="pt-1 text-center text-xs text-ink-400"
                 >
                   Ranked by semantic relevance to your firm profile
                 </motion.li>

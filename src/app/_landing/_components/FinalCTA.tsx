@@ -5,7 +5,7 @@ import { GridBackdrop, MagneticButton, Orb, Reveal } from "./primitives";
 
 export function FinalCTA() {
   return (
-    <section id="get-early-access" className="relative bg-canvas px-4 pb-20 pt-8 sm:px-6">
+    <section id="start-free" className="relative bg-canvas px-4 pb-20 pt-8 sm:px-6">
       <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-stage px-6 py-20 text-center text-white sm:rounded-[2.5rem] sm:px-12 sm:py-28">
         {/* Animated orb field */}
         <div aria-hidden className="absolute inset-0">
@@ -25,7 +25,7 @@ export function FinalCTA() {
 
         <div className="relative">
           <Reveal>
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-3.5 py-1.5 text-xs font-medium text-white/70 backdrop-blur">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.06] px-4 py-2 text-sm font-medium text-white/70 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5" aria-hidden>
                 <span className="absolute inline-flex h-full w-full rounded-full bg-success-500 opacity-70 motion-safe:animate-ring-pulse" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-success-500" />
@@ -45,7 +45,7 @@ export function FinalCTA() {
           </Reveal>
 
           <Reveal delay={0.14}>
-            <p className="mx-auto mt-5 max-w-md text-pretty text-sm text-white/55 sm:text-base">
+            <p className="mx-auto mt-5 max-w-md text-pretty text-base text-white/55 sm:text-lg">
               Let AI find the tenders that fit your business.
             </p>
           </Reveal>
@@ -57,7 +57,7 @@ export function FinalCTA() {
                 variant="onDark"
                 icon={<ArrowRight className="h-4 w-4" aria-hidden />}
               >
-                Get Early Access
+                Start free
               </MagneticButton>
               <MagneticButton
                 href="/contact"
@@ -72,8 +72,8 @@ export function FinalCTA() {
           </Reveal>
 
           <Reveal delay={0.26}>
-            <p className="mt-6 text-xs text-white/40">No credit card required.</p>
-            <p className="mt-1 text-xs text-white/30">
+            <p className="mt-6 text-sm text-white/40">No credit card required.</p>
+            <p className="mt-1 text-sm text-white/30">
               Built for Indian businesses competing in government procurement.
             </p>
           </Reveal>

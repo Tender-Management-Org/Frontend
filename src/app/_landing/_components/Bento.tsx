@@ -36,8 +36,8 @@ function BentoCard({
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_0%,rgba(47,107,255,0.07),transparent_60%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         />
         <div className="relative">
-          <h3 className="text-sm font-semibold tracking-tight text-ink-900">{title}</h3>
-          <p className="mt-1.5 text-xs leading-relaxed text-ink-500">{body}</p>
+          <h3 className="text-base font-semibold tracking-tight text-ink-900">{title}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-ink-500">{body}</p>
         </div>
         <div className="relative mt-4 flex-1">{children}</div>
       </article>
