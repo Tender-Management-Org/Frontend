@@ -74,7 +74,7 @@ export function FinalCTA() {
           <Reveal delay={0.26}>
             <p className="mt-6 text-sm text-white/40">No credit card required.</p>
             <p className="mt-1 text-sm text-white/30">
-              Built for Indian businesses competing in government procurement.
+              Built with ❤️ in India, for Indian businesses competing in government tenders.
             </p>
           </Reveal>
         </div>

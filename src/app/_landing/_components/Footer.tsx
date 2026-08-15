@@ -68,7 +68,7 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-ink-900/8 pt-6 sm:flex-row">
           <p className="text-sm text-ink-400">© 2026 tenderkhoj</p>
-          <p className="text-sm text-ink-300">Built for Indian businesses competing in government procurement.</p>
+          <p className="text-sm text-ink-300">Built with ❤️ in India, for Indian businesses competing in government tenders.</p>
         </div>
       </div>
     </footer>
