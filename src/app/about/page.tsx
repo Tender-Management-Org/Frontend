@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone, MapPin } from "lucide-react";
-import { SiteHeader } from "../_landing/_components/SiteHeader";
+import { SiteHeader, PageBackLink } from "../_landing/_components/SiteHeader";
 
 export const metadata = {
   title: "About Us — TenderKhoj",
@@ -10,9 +10,10 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-canvas">
-      <SiteHeader showBack />
+      <SiteHeader showBrowse={false} />
 
       <main className="mx-auto max-w-3xl px-6 py-12">
+        <PageBackLink />
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-ink-900">About TenderKhoj</h1>
           <p className="mt-3 text-ink-500">

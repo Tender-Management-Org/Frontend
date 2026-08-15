@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { SiteHeader } from "../_landing/_components/SiteHeader";
+import { SiteHeader, PageBackLink } from "../_landing/_components/SiteHeader";
 
 export const metadata = {
   title: "Cancellation & Refund Policy — TenderKhoj",
@@ -19,9 +19,10 @@ const TOC = [
 export default function RefundPage() {
   return (
     <div className="min-h-screen bg-canvas">
-      <SiteHeader showBack />
+      <SiteHeader showBrowse={false} />
 
       <div className="mx-auto max-w-6xl px-6 py-12">
+        <PageBackLink />
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">
 
           <aside className="hidden lg:block">

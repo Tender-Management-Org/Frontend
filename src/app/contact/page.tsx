@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
-import { SiteHeader } from "../_landing/_components/SiteHeader";
+import { SiteHeader, PageBackLink } from "../_landing/_components/SiteHeader";
 import { ContactForm } from "./ContactForm";
 
 export const metadata = {
@@ -15,9 +15,10 @@ const CONTACT_PHONE_DISPLAY = "74270 89473";
 export default function ContactPage() {
   return (
     <div className="min-h-screen bg-canvas">
-      <SiteHeader showBack />
+      <SiteHeader showBrowse={false} />
 
       <main className="mx-auto max-w-3xl px-6 py-12">
+        <PageBackLink />
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-ink-900">Contact Us</h1>
           <p className="mt-2 text-ink-500">

@@ -14,10 +14,10 @@ import { BROWSE_LINKS } from "../_data/content";
  */
 export function SiteHeader({
   active,
-  showBack = false,
+  showBrowse = true,
 }: {
   active?: string;
-  showBack?: boolean;
+  showBrowse?: boolean;
 }) {
   const [scrolled, setScrolled] = useState(false);
 
@@ -44,41 +44,32 @@ export function SiteHeader({
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
-        <div className="flex min-w-0 items-center gap-3">
-          {showBack && (
-            <Link
-              href="/"
-              className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-ink-900/10 bg-white px-3 text-[0.8125rem] font-medium text-ink-700 transition-colors hover:border-ink-900/20 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
-            >
-              <ArrowLeft className="h-4 w-4" aria-hidden />
-              Back
-            </Link>
-          )}
-          <BrandHomeLink wordmarkHeight={36} priority />
-        </div>
+        <BrandHomeLink wordmarkHeight={36} priority />
 
-        <nav aria-label="Browse" className="hidden items-center gap-1 md:flex">
-          {BROWSE_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={active === link.href ? "page" : undefined}
-              className={cn(
-                "group relative rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500",
-                active === link.href ? "text-ink-900" : "text-ink-600 hover:text-ink-900"
-              )}
-            >
-              {link.label}
-              <span
-                aria-hidden
+        {showBrowse && (
+          <nav aria-label="Browse" className="hidden items-center gap-1 md:flex">
+            {BROWSE_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active === link.href ? "page" : undefined}
                 className={cn(
-                  "absolute inset-x-3 -bottom-0.5 h-px origin-left bg-elec-500 transition-transform duration-300 ease-out",
-                  active === link.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  "group relative rounded-lg px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500",
+                  active === link.href ? "text-ink-900" : "text-ink-600 hover:text-ink-900"
                 )}
-              />
-            </Link>
-          ))}
-        </nav>
+              >
+                {link.label}
+                <span
+                  aria-hidden
+                  className={cn(
+                    "absolute inset-x-3 -bottom-0.5 h-px origin-left bg-elec-500 transition-transform duration-300 ease-out",
+                    active === link.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  )}
+                />
+              </Link>
+            ))}
+          </nav>
+        )}
 
         <div className="flex items-center gap-1.5">
           <Link
@@ -100,6 +91,19 @@ export function SiteHeader({
         </div>
       </div>
     </header>
+  );
+}
+
+/** In-page back control for legal and company pages — not part of the navbar. */
+export function PageBackLink({ href = "/", label = "Back" }: { href?: string; label?: string }) {
+  return (
+    <Link
+      href={href}
+      className="mb-6 inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition-colors hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
+    >
+      <ArrowLeft className="h-4 w-4" aria-hidden />
+      {label}
+    </Link>
   );
 }
 
