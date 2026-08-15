@@ -58,6 +58,32 @@ const config: Config = {
           600: "#E11D48",
           700: "#BE123C",
         },
+        // ── Landing page 2 palette ──────────────────────────────────────────
+        /** Electric blue — primary accent for the marketing surface. */
+        elec: {
+          50: "#EFF5FF",
+          100: "#DBE8FF",
+          200: "#BDD5FF",
+          300: "#90B8FF",
+          400: "#5C91FF",
+          500: "#2F6BFF",
+          600: "#1B4DF5",
+          700: "#173CD8",
+          800: "#1833AE",
+          900: "#1A3189",
+          950: "#141F53",
+        },
+        /** Warm off-white canvas + near-black stage for dark sections. */
+        canvas: {
+          DEFAULT: "#FBFAF8",
+          soft: "#F5F4F1",
+          line: "#EBE9E4",
+        },
+        stage: {
+          DEFAULT: "#0A0B12",
+          soft: "#12141F",
+          line: "#242739",
+        },
       },
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "system-ui", "-apple-system", "sans-serif"],
@@ -70,10 +96,15 @@ const config: Config = {
         "card-hover": "0 4px 6px -1px rgb(15 23 42 / 0.08), 0 2px 4px -2px rgb(15 23 42 / 0.04)",
         "dropdown": "0 10px 15px -3px rgb(15 23 42 / 0.1), 0 4px 6px -4px rgb(15 23 42 / 0.05)",
         "sidebar": "1px 0 0 0 #E2E8F0",
+        // Landing page 2
+        "lift": "0 24px 48px -20px rgb(10 11 18 / 0.18), 0 8px 16px -12px rgb(10 11 18 / 0.12)",
+        "lift-lg": "0 48px 96px -32px rgb(10 11 18 / 0.28), 0 16px 32px -20px rgb(10 11 18 / 0.14)",
+        "glow": "0 0 0 1px rgb(47 107 255 / 0.12), 0 12px 36px -12px rgb(47 107 255 / 0.35)",
       },
       borderRadius: {
         "2xl": "1rem",
         "3xl": "1.5rem",
+        "4xl": "2rem",
       },
       keyframes: {
         "slide-in-from-left": {
@@ -84,10 +115,58 @@ const config: Config = {
           from: { opacity: "0", transform: "translateY(-4px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        // ── Landing page 2 ────────────────────────────────────────────────
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        "float-y": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "scan-y": {
+          "0%": { transform: "translateY(-8%)", opacity: "0" },
+          "10%, 90%": { opacity: "1" },
+          "100%": { transform: "translateY(760%)", opacity: "0" },
+        },
+        "orb-drift": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)" },
+          "33%": { transform: "translate3d(6%,-4%,0) scale(1.08)" },
+          "66%": { transform: "translate3d(-5%,5%,0) scale(0.96)" },
+        },
+        "grid-pan": {
+          from: { backgroundPosition: "0 0" },
+          to: { backgroundPosition: "56px 56px" },
+        },
+        "shimmer": {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(200%)" },
+        },
+        "caret": {
+          "0%, 45%": { opacity: "1" },
+          "50%, 95%": { opacity: "0" },
+        },
+        "ring-pulse": {
+          "0%": { transform: "scale(0.9)", opacity: "0.55" },
+          "70%, 100%": { transform: "scale(1.6)", opacity: "0" },
+        },
+        "dash": {
+          to: { strokeDashoffset: "-24" },
+        },
       },
       animation: {
         "slide-in-from-left": "slide-in-from-left 0.25s ease-out",
         "fade-in": "fade-in 0.15s ease-out",
+        // Landing page 2
+        "gradient-x": "gradient-x 7s ease infinite",
+        "float-y": "float-y 6s ease-in-out infinite",
+        "scan-y": "scan-y 4.5s cubic-bezier(0.4,0,0.2,1) infinite",
+        "orb-drift": "orb-drift 18s ease-in-out infinite",
+        "grid-pan": "grid-pan 8s linear infinite",
+        "shimmer": "shimmer 2.4s ease-in-out infinite",
+        "caret": "caret 1.1s step-end infinite",
+        "ring-pulse": "ring-pulse 2.6s cubic-bezier(0.4,0,0.2,1) infinite",
+        "dash": "dash 0.9s linear infinite",
       },
     }
   },

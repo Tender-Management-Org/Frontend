@@ -43,8 +43,11 @@ type TenderFiltersProps = {
   values: TenderFilterValues;
   onChange: (next: TenderFilterValues) => void;
   onReset: () => void;
-  /** `sidebar` (default) is the full card; `compact` is a single inline toolbar row. */
-  variant?: "sidebar" | "compact";
+  /**
+   * `sidebar` (default) is the full card, `compact` is a self-contained toolbar
+   * row, and `inline` is the bare controls for embedding in an existing bar.
+   */
+  variant?: "sidebar" | "compact" | "inline";
 };
 
 export function TenderFilters({ values, onChange, onReset, variant = "sidebar" }: TenderFiltersProps) {
@@ -57,6 +60,59 @@ export function TenderFilters({ values, onChange, onReset, variant = "sidebar" }
   }, []);
 
   const hasActive = Boolean(values.location) || values.status !== "active" || Boolean(values.source);
+
+  /* ---------------- Bare controls, for an existing toolbar ---------------- */
+  if (variant === "inline") {
+    return (
+      <>
+        <div className="flex flex-wrap items-center gap-1">
+          {STATUS_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange({ ...values, status: opt.value })}
+              className={cn(
+                "h-8 rounded-lg border px-2.5 text-xs font-semibold transition-colors",
+                statusChipClass(opt.value, values.status === opt.value)
+              )}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="relative">
+          <MapPin
+            className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-400"
+            aria-hidden
+          />
+          <input
+            placeholder="City or state"
+            aria-label="Filter by location"
+            value={values.location}
+            onChange={(e) => onChange({ ...values, location: e.target.value })}
+            className="h-8 w-32 rounded-lg border border-ink-200 bg-white pl-7 pr-2 text-xs text-ink-700 outline-none placeholder:text-ink-400 focus:ring-2 focus:ring-navy-500/30"
+          />
+        </div>
+
+        {sources.length > 0 && (
+          <select
+            aria-label="Filter by source"
+            value={values.source}
+            onChange={(e) => onChange({ ...values, source: e.target.value })}
+            className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+          >
+            <option value="">All sources</option>
+            {sources.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                {s.display_name}
+              </option>
+            ))}
+          </select>
+        )}
+      </>
+    );
+  }
 
   /* ---------------- Compact inline toolbar (minimal view) ---------------- */
   if (variant === "compact") {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Bookmark, CalendarDays, ChevronLeft, ChevronRight, Database, Loader2 } from "lucide-react";
+import { Bookmark, CalendarDays, ChevronLeft, ChevronRight, Database, FilterX, Loader2, Search, X } from "lucide-react";
 import { getInterestedTenders, getTenders, semanticSearchTenders } from "@/lib/api/tenders";
 import { mapTenderListItemToUi, mapTenderSemanticResultToUi } from "@/lib/api/tenderAdapters";
 import { cn } from "@/lib/utils";
@@ -314,82 +314,203 @@ export function TenderDashboardExplorer() {
 
   const viewSwitcher = <TenderViewSwitcher value={view} onChange={setView} />;
 
+  const hasActiveFilters =
+    Boolean(filters.location) || filters.status !== "active" || Boolean(filters.source);
+
+  const sortSelect = mode === "default" && (
+    <label className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+      <span className="hidden xl:inline">Sort</span>
+      <select
+        aria-label="Sort by"
+        value={sortBy}
+        onChange={(e) => { setSortBy(e.target.value as SortValue); setPage(1); }}
+        className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+      >
+        {SORT_OPTIONS.map((o) => (
+          <option key={o.value} value={o.value}>{o.label}</option>
+        ))}
+      </select>
+    </label>
+  );
+
+  const pageSizeSelect = (
+    <label className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+      <span className="hidden xl:inline">Per page</span>
+      <select
+        aria-label="Results per page"
+        value={pageSize}
+        onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
+        className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+      >
+        {PAGE_SIZE_OPTIONS.map((s) => (
+          <option key={s} value={s}>{s}</option>
+        ))}
+      </select>
+    </label>
+  );
+
   return (
-    <section className={cn("mx-auto w-full space-y-5", isMinimal ? "max-w-[100rem]" : "max-w-7xl")}>
+    <section className={cn("mx-auto w-full", isMinimal ? "max-w-[100rem] space-y-3" : "max-w-7xl space-y-5")}>
       {isMinimal ? (
-        /* ---------- Minimal: single slim header strip ---------- */
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-4 py-2.5 shadow-card">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-            <h1 className="text-base font-bold text-ink-900">Tender explorer</h1>
-            <span className="hidden h-4 w-px bg-ink-200 sm:block" aria-hidden />
-            <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
-              <Database className="h-3.5 w-3.5 text-ink-400" aria-hidden />
-              <span className="font-semibold tabular-nums text-ink-900">
-                {totalCount.toLocaleString("en-IN")}
+        /* ──────────────────────────────────────────────────────────────────
+           Minimal view: one sticky command bar replaces the stat cards, the
+           search card, the filter bar and the list toolbar. Those four blocks
+           cost ~420px of chrome before the first row — half the viewport on a
+           laptop — which defeats the point of a dense view.
+           ────────────────────────────────────────────────────────────────── */
+        <div className="sticky top-0 z-20 -mt-2 space-y-2 bg-ink-50/85 pb-2 pt-2 backdrop-blur">
+          {/* Line 1 — identity, live counts, view switcher */}
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 rounded-xl border border-ink-200 bg-white px-3 py-2 shadow-card">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <h1 className="text-sm font-bold text-ink-900">Tender explorer</h1>
+              <span className="hidden h-3.5 w-px bg-ink-200 sm:block" aria-hidden />
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+                <Database className="h-3.5 w-3.5 text-ink-400" aria-hidden />
+                {isLoading ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-ink-400" aria-hidden />
+                ) : (
+                  <span className="font-semibold tabular-nums text-ink-900">
+                    {totalCount.toLocaleString("en-IN")}
+                  </span>
+                )}
+                records
               </span>
-              records
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
-              <CalendarDays className="h-3.5 w-3.5 text-warning-600" aria-hidden />
-              <span className="font-semibold tabular-nums text-warning-700">{closingSoonCount}</span>
-              closing soon
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
-              <Bookmark className="h-3.5 w-3.5 text-violet-600" aria-hidden />
-              <span className="font-semibold tabular-nums text-violet-700">{interestedOnPageCount}</span>
-              interested
-            </span>
-          </div>
-          {viewSwitcher}
-        </div>
-      ) : (
-        /* ---------- Detailed: full stat cards ---------- */
-        <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <h1 className="text-xl font-bold text-ink-900">Tender explorer</h1>
-              <p className="mt-0.5 text-sm text-ink-400">Search and filter active government tenders.</p>
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+                <CalendarDays className="h-3.5 w-3.5 text-warning-600" aria-hidden />
+                <span className="font-semibold tabular-nums text-warning-700">{closingSoonCount}</span>
+                closing soon
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+                <Bookmark className="h-3.5 w-3.5 text-violet-600" aria-hidden />
+                <span className="font-semibold tabular-nums text-violet-700">{interestedOnPageCount}</span>
+                interested
+              </span>
+              <span className="hidden h-3.5 w-px bg-ink-200 sm:block" aria-hidden />
+              <span className="text-xs tabular-nums text-ink-400">
+                Page {page} / {totalPages}
+              </span>
             </div>
             {viewSwitcher}
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            <div className="flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
-              <Database className="h-5 w-5 shrink-0 text-ink-400" aria-hidden />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">Total records</p>
-                <p className="text-xl font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</p>
-              </div>
+
+          {/* Line 2 — search, filters and sorting on one wrapping row */}
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-ink-200 bg-white px-3 py-2 shadow-card">
+            <div className="relative min-w-[13rem] flex-1">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-400" aria-hidden />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") handleSemanticSearch(); }}
+                placeholder="Describe the opportunity you're looking for…"
+                aria-label="Search tenders"
+                className="h-8 w-full rounded-lg border border-ink-200 bg-white pl-8 pr-7 text-xs text-ink-800 outline-none placeholder:text-ink-400 focus:ring-2 focus:ring-navy-500/30"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={handleResetSearch}
+                  aria-label="Clear search"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 transition-colors hover:text-ink-700"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
             </div>
-            <div className="flex items-center gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3">
-              <CalendarDays className="h-5 w-5 shrink-0 text-warning-600" aria-hidden />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-warning-700">Closing soon</p>
-                <p className="text-xl font-bold tabular-nums text-warning-700">{closingSoonCount}</p>
-                <p className="text-xs text-warning-600">on this page</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3">
-              <Bookmark className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Interested</p>
-                <p className="text-xl font-bold tabular-nums text-violet-700">{interestedOnPageCount}</p>
-                <p className="text-xs text-violet-600">on this page</p>
-              </div>
+
+            <select
+              aria-label="Search mode"
+              value={searchMode}
+              onChange={(e) => setSearchMode(e.target.value as "semantic" | "keyword" | "hybrid")}
+              className="h-8 shrink-0 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+            >
+              <option value="hybrid">Hybrid</option>
+              <option value="semantic">Semantic</option>
+              <option value="keyword">Keyword</option>
+            </select>
+
+            <button
+              type="button"
+              onClick={handleSemanticSearch}
+              disabled={isLoading}
+              className="h-8 shrink-0 rounded-lg bg-ink-900 px-3 text-xs font-semibold text-white transition-colors hover:bg-navy-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isLoading ? "Searching…" : "Search"}
+            </button>
+
+            <span className="hidden h-5 w-px bg-ink-200 lg:block" aria-hidden />
+
+            <TenderFilters
+              variant="inline"
+              values={filters}
+              onChange={handleFilterChange}
+              onReset={handleFilterReset}
+            />
+
+            <div className="ml-auto flex items-center gap-2">
+              {sortSelect}
+              {pageSizeSelect}
+              {hasActiveFilters && (
+                <button
+                  type="button"
+                  onClick={handleFilterReset}
+                  className="inline-flex h-8 items-center gap-1 rounded-lg px-2 text-xs font-medium text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-800"
+                >
+                  <FilterX className="h-3.5 w-3.5" aria-hidden />
+                  Reset
+                </button>
+              )}
             </div>
           </div>
         </div>
-      )}
+      ) : (
+        <>
+          {/* ---------- Detailed: full stat cards ---------- */}
+          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h1 className="text-xl font-bold text-ink-900">Tender explorer</h1>
+                <p className="mt-0.5 text-sm text-ink-400">Search and filter active government tenders.</p>
+              </div>
+              {viewSwitcher}
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
+                <Database className="h-5 w-5 shrink-0 text-ink-400" aria-hidden />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">Total records</p>
+                  <p className="text-xl font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3">
+                <CalendarDays className="h-5 w-5 shrink-0 text-warning-600" aria-hidden />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-warning-700">Closing soon</p>
+                  <p className="text-xl font-bold tabular-nums text-warning-700">{closingSoonCount}</p>
+                  <p className="text-xs text-warning-600">on this page</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3">
+                <Bookmark className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Interested</p>
+                  <p className="text-xl font-bold tabular-nums text-violet-700">{interestedOnPageCount}</p>
+                  <p className="text-xs text-violet-600">on this page</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      {/* Search */}
-      <TenderSearch
-        value={query}
-        onChange={setQuery}
-        onSubmit={handleSemanticSearch}
-        onReset={handleResetSearch}
-        searchMode={searchMode}
-        onSearchModeChange={setSearchMode}
-        isLoading={isLoading}
-      />
+          <TenderSearch
+            value={query}
+            onChange={setQuery}
+            onSubmit={handleSemanticSearch}
+            onReset={handleResetSearch}
+            searchMode={searchMode}
+            onSearchModeChange={setSearchMode}
+            isLoading={isLoading}
+          />
+        </>
+      )}
 
       {/* Main layout: filters + list */}
       <div className={cn(!isMinimal && "grid grid-cols-12 gap-5")}>
@@ -400,61 +521,29 @@ export function TenderDashboardExplorer() {
         )}
 
         <div className={cn("space-y-3", !isMinimal && "col-span-12 space-y-4 lg:col-span-9")}>
-          {isMinimal && (
-            <TenderFilters
-              variant="compact"
-              values={filters}
-              onChange={handleFilterChange}
-              onReset={handleFilterReset}
-            />
-          )}
-
-          {/* List toolbar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-4 py-3 shadow-card">
-            <p className="text-sm text-ink-600">
-              {isLoading ? (
-                <span className="inline-flex items-center gap-2">
-                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Loading…
-                </span>
-              ) : (
-                <>
-                  <span className="font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</span>
-                  {" "}records · Page{" "}
-                  <span className="font-bold tabular-nums text-ink-900">{page}</span>
-                  {" "}of{" "}
-                  <span className="font-bold tabular-nums text-ink-900">{totalPages}</span>
-                </>
-              )}
-            </p>
-            <div className="flex flex-wrap items-center gap-3">
-              {mode === "default" && (
-                <label className="inline-flex items-center gap-2 text-sm text-ink-500">
-                  Sort by
-                  <select
-                    value={sortBy}
-                    onChange={(e) => { setSortBy(e.target.value as SortValue); setPage(1); }}
-                    className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-sm text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
-                  >
-                    {SORT_OPTIONS.map((o) => (
-                      <option key={o.value} value={o.value}>{o.label}</option>
-                    ))}
-                  </select>
-                </label>
-              )}
-              <label className="inline-flex items-center gap-2 text-sm text-ink-500">
-                Per page
-                <select
-                  value={pageSize}
-                  onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
-                  className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-sm text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
-                >
-                  {PAGE_SIZE_OPTIONS.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-              </label>
+          {!isMinimal && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-4 py-3 shadow-card">
+              <p className="text-sm text-ink-600">
+                {isLoading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Loading…
+                  </span>
+                ) : (
+                  <>
+                    <span className="font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</span>
+                    {" "}records · Page{" "}
+                    <span className="font-bold tabular-nums text-ink-900">{page}</span>
+                    {" "}of{" "}
+                    <span className="font-bold tabular-nums text-ink-900">{totalPages}</span>
+                  </>
+                )}
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                {sortSelect}
+                {pageSizeSelect}
+              </div>
             </div>
-          </div>
+          )}
 
           <TenderList tenders={currentItems} view={view} />
 

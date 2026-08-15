@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { FileSearch, ChevronRight } from "lucide-react";
+import { ArrowRight, Tags } from "lucide-react";
+import { BrowseCta, SiteHeader, SubpageHero } from "../../_landing/_components/SiteHeader";
+import { Footer } from "../../_landing/_components/Footer";
 
 export const metadata = {
-  title: "Tenders by Category — TenderKhoj",
+  title: "Tenders by Category — tenderkhoj",
   description:
-    "Browse government tenders by popular categories — Solar, Railway, IT, Construction, Medical and more. Find the right opportunities on TenderKhoj.",
+    "Browse government tenders by popular categories — Solar, Railway, IT, Construction, Medical and more. Find the right opportunities on tenderkhoj.",
+  alternates: { canonical: "/browse/categories" },
 };
 
 const CATEGORIES = [
@@ -108,124 +111,69 @@ const CATEGORIES = [
 
 export default function TendersByCategoryPage() {
   return (
-    <div className="min-h-screen bg-white font-sans text-ink-900">
-      {/* ── Navbar ── */}
-      <header className="sticky top-0 z-20 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
-              <FileSearch className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-semibold text-ink-900">TenderKhoj</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-ink-600 hover:text-ink-900 transition-colors"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/register"
-              className="rounded-lg bg-navy-600 px-4 py-2 text-sm font-semibold text-white hover:bg-navy-700 transition-colors"
-            >
-              Get Started Free
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-canvas text-ink-900 antialiased">
+      <SiteHeader active="/browse/categories" />
 
-      {/* ── Hero ── */}
-      <section className="border-b border-ink-100 bg-navy-950 py-12 sm:py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="flex items-center gap-2 mb-4 text-sm text-navy-400">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-white font-medium">Browse by Category</span>
-          </div>
-          <h1 className="text-2xl font-bold text-white sm:text-3xl">
-            Tenders by Category
-          </h1>
-          <p className="mt-2 text-navy-300 max-w-xl">
-            Explore government procurement across {CATEGORIES.length} popular categories.
-            Find the right tenders for your industry.
-          </p>
-        </div>
-      </section>
+      <SubpageHero
+        breadcrumb="Browse by Category"
+        title={
+          <>
+            Tenders by <span className="text-elec-600">Category</span>
+          </>
+        }
+        subtitle={`Government procurement across ${CATEGORIES.length} popular categories. Each one opens the dashboard with that search already applied.`}
+        icon={<Tags className="h-5 w-5" aria-hidden />}
+      />
 
-      {/* ── Category Grid ── */}
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <main className="mx-auto max-w-6xl px-5 py-12 sm:py-16">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {CATEGORIES.map((cat) => (
-            <Link
-              key={cat.name}
-              href={`/tenders?search=${encodeURIComponent(cat.query)}`}
-              className="group relative flex flex-col gap-2 rounded-xl border border-ink-100 bg-white p-5 shadow-sm transition-all hover:border-navy-200 hover:shadow-card"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-2xl" role="img" aria-label={cat.name}>
-                  {cat.icon}
-                </span>
-                <ChevronRight className="h-4 w-4 text-ink-300 transition-transform group-hover:translate-x-0.5 group-hover:text-navy-500" />
-              </div>
-              <h2 className="text-sm font-semibold text-ink-900 group-hover:text-navy-700 transition-colors leading-snug">
-                {cat.name}
-              </h2>
-              <p className="text-xs text-ink-400 leading-relaxed">
-                {cat.description}
-              </p>
-            </Link>
+            <li key={cat.name}>
+              <Link
+                href={`/tenders?search=${encodeURIComponent(cat.query)}`}
+                className="group flex h-full flex-col rounded-3xl border border-ink-900/8 bg-white/80 p-5 shadow-card backdrop-blur-xl transition-all duration-500 hover:-translate-y-1 hover:border-elec-500/25 hover:shadow-lift-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <span aria-hidden className="text-2xl leading-none">
+                    {cat.icon}
+                  </span>
+                  <ArrowRight
+                    className="h-4 w-4 shrink-0 text-ink-300 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-elec-600"
+                    aria-hidden
+                  />
+                </div>
+                <h2 className="mt-4 text-sm font-semibold tracking-tight text-ink-900 transition-colors group-hover:text-elec-700">
+                  {cat.name}
+                </h2>
+                <p className="mt-1.5 text-xs leading-relaxed text-ink-500">{cat.description}</p>
+              </Link>
+            </li>
           ))}
-        </div>
+        </ul>
 
-        {/* ── Also browse by ── */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-sm">
+          <span className="text-ink-400">Or browse</span>
           <Link
             href="/browse/states"
-            className="rounded-lg border border-ink-200 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-ink-50 transition-colors"
+            className="rounded-full border border-ink-900/10 bg-white px-4 py-2 font-medium text-ink-700 transition-colors hover:border-elec-500/30 hover:text-elec-700"
           >
-            Browse by State
+            By State
           </Link>
           <Link
             href="/browse/sectors"
-            className="rounded-lg border border-ink-200 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-ink-50 transition-colors"
+            className="rounded-full border border-ink-900/10 bg-white px-4 py-2 font-medium text-ink-700 transition-colors hover:border-elec-500/30 hover:text-elec-700"
           >
-            Browse by Sector
+            By Sector
           </Link>
         </div>
 
-        {/* ── CTA ── */}
-        <div className="mt-8 rounded-2xl bg-navy-50 border border-navy-100 px-6 py-8 text-center">
-          <h2 className="text-lg font-semibold text-ink-900">
-            Get AI-matched tenders for your firm
-          </h2>
-          <p className="mt-2 text-sm text-ink-500">
-            TenderKhoj goes beyond categories — it uses AI to surface the exact tenders your firm can win.
-          </p>
-          <Link
-            href="/register"
-            className="mt-5 inline-flex items-center gap-2 rounded-lg bg-navy-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-navy-700 transition-colors"
-          >
-            Start for free
-          </Link>
-        </div>
+        <BrowseCta
+          title="Get AI-matched tenders for your firm"
+          body="tenderkhoj goes beyond categories — it reads your firm profile and surfaces the exact tenders you can realistically win, each with a personalized Fit Score."
+        />
       </main>
 
-      {/* ── Footer ── */}
-      <footer className="border-t border-ink-100 py-8 text-center text-sm text-ink-400">
-        <div className="flex flex-wrap justify-center gap-5 mb-3">
-          <Link href="/browse/states" className="hover:text-ink-600 transition-colors">Browse by State</Link>
-          <Link href="/browse/categories" className="hover:text-ink-600 transition-colors font-medium text-ink-600">Browse by Category</Link>
-          <Link href="/browse/sectors" className="hover:text-ink-600 transition-colors">Browse by Sector</Link>
-        </div>
-        <div className="flex flex-wrap justify-center gap-5 mb-3">
-          <Link href="/terms" className="hover:text-ink-600 transition-colors">Terms</Link>
-          <Link href="/privacy" className="hover:text-ink-600 transition-colors">Privacy</Link>
-          <Link href="/disclaimer" className="hover:text-ink-600 transition-colors">Disclaimer</Link>
-          <Link href="/contact" className="hover:text-ink-600 transition-colors">Contact</Link>
-        </div>
-        <p>&copy; {new Date().getFullYear()} TenderKhoj, operated by Vaibhav Paliwal</p>
-      </footer>
+      <Footer />
     </div>
   );
 }

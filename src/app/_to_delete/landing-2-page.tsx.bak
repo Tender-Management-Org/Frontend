@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { Bento } from "./_landing/_components/Bento";
-import { Browse } from "./_landing/_components/Browse";
-import { BeforeAfter } from "./_landing/_components/BeforeAfter";
-import { DocIntel } from "./_landing/_components/DocIntel";
-import { Faq } from "./_landing/_components/Faq";
-import { FinalCTA } from "./_landing/_components/FinalCTA";
-import { FitScore } from "./_landing/_components/FitScore";
-import { Footer } from "./_landing/_components/Footer";
-import { Hero } from "./_landing/_components/Hero";
-import { Learns } from "./_landing/_components/Learns";
-import { Nav } from "./_landing/_components/Nav";
-import { Outcome } from "./_landing/_components/Outcome";
-import { Problem } from "./_landing/_components/Problem";
-import { SemanticSearch } from "./_landing/_components/SemanticSearch";
-import { Workspace } from "./_landing/_components/Workspace";
-import { WhoItsFor } from "./_landing/_components/WhoItsFor";
+import { Bento } from "./_components/Bento";
+import { Browse } from "./_components/Browse";
+import { BeforeAfter } from "./_components/BeforeAfter";
+import { DocIntel } from "./_components/DocIntel";
+import { Faq } from "./_components/Faq";
+import { FinalCTA } from "./_components/FinalCTA";
+import { FitScore } from "./_components/FitScore";
+import { Footer } from "./_components/Footer";
+import { Hero } from "./_components/Hero";
+import { Learns } from "./_components/Learns";
+import { Nav } from "./_components/Nav";
+import { Outcome } from "./_components/Outcome";
+import { Problem } from "./_components/Problem";
+import { SemanticSearch } from "./_components/SemanticSearch";
+import { Workspace } from "./_components/Workspace";
+import { WhoItsFor } from "./_components/WhoItsFor";
 
 export const metadata: Metadata = {
   title: "tenderkhoj — AI-powered tender intelligence for Indian businesses",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     "eligibility analysis",
     "bid management",
   ],
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/landing-2" },
   openGraph: {
     title: "tenderkhoj — The right tenders. For the right firm. At the right time.",
     description:
@@ -51,7 +51,7 @@ const STRUCTURED_DATA = {
   areaServed: "IN",
 };
 
-export default function HomePage() {
+export default function LandingTwoPage() {
   return (
     <>
       <script
@@ -60,14 +60,9 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
       />
 
-      {/*
-        `focus-visible`, not `focus`: the App Router moves focus to the top of
-        the document on every client-side navigation, so a plain `focus:` skip
-        link pops into view whenever you follow an internal link with the mouse.
-      */}
       <a
         href="#main"
-        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4 focus-visible:z-[60] focus-visible:rounded-full focus-visible:bg-stage focus-visible:px-4 focus-visible:py-2 focus-visible:text-sm focus-visible:font-semibold focus-visible:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-stage focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
       >
         Skip to content
       </a>

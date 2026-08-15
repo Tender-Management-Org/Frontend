@@ -50,11 +50,12 @@ export function TenderTable({ tenders }: TenderTableProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-ink-200 bg-white shadow-card">
+    <div className="rounded-2xl border border-ink-200 bg-white shadow-card">
       {/* ---------- Desktop: dense table ---------- */}
       <table className="hidden w-full table-fixed border-collapse md:table">
-        <thead>
-          <tr className="border-b border-ink-200 bg-ink-50/80">
+        {/* Sticky under the command bar (~7.5rem) so columns stay labelled. */}
+        <thead className="sticky top-[7.5rem] z-10">
+          <tr className="border-b border-ink-200 bg-ink-50 [&>th:first-child]:rounded-tl-2xl [&>th:last-child]:rounded-tr-2xl">
             <th className="w-[44%] px-4 py-2.5 text-left text-2xs font-semibold uppercase tracking-widest text-ink-400">
               Tender
             </th>
@@ -150,7 +151,7 @@ export function TenderTable({ tenders }: TenderTableProps) {
       </table>
 
       {/* ---------- Mobile: stacked compact rows ---------- */}
-      <ul className="divide-y divide-ink-100 md:hidden">
+      <ul className="divide-y divide-ink-100 overflow-hidden rounded-2xl md:hidden">
         {tenders.map((tender) => {
           const dl = deadlineMeta(tender.deadline);
           return (
