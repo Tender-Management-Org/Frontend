@@ -47,8 +47,8 @@ function formatInr(n: number): string {
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
 }
 
-function formatSize(sizeKb: number): string {
-  if (!Number.isFinite(sizeKb)) return "—";
+function formatSize(sizeKb: number | null | undefined): string {
+  if (sizeKb == null || !Number.isFinite(sizeKb) || sizeKb <= 0) return "—";
   if (sizeKb >= 1024) return `${(sizeKb / 1024).toFixed(2)} MB`;
   return `${sizeKb.toFixed(2)} KB`;
 }
@@ -132,7 +132,7 @@ function DocRow({
   filingWorkspace,
   documentId,
 }: {
-  doc: { document_name?: string | null; description?: string | null; document_size_kb: number; file_url?: string | null };
+  doc: { document_name?: string | null; description?: string | null; document_size_kb?: number | null; file_url?: string | null };
   onView: () => void;
   onDownload: () => void;
   filingWorkspace?: FilingWorkspaceDocIntelProps;
@@ -168,7 +168,7 @@ function DocRow({
           )}
         </p>
         <p className="mt-0.5 text-xs text-ink-400">
-          {fv(doc.description)} · {formatSize(doc.document_size_kb)}
+          {[doc.description?.trim(), formatSize(doc.document_size_kb)].filter((part) => part && part !== "—").join(" · ") || "—"}
         </p>
       </div>
       <div className="flex shrink-0 flex-wrap gap-2">
@@ -564,17 +564,21 @@ export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab =
       {/* ── Documents tab ── */}
       {activeTab === "documents" && (
         <div className="space-y-5">
-          {/* NIT documents */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-            <div className="mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">NIT documents</h3>
-              <p className="mt-0.5 text-xs text-ink-400">
-                {data.tender_documents.nit_documents.length} file(s)
-              </p>
-            </div>
-            {data.tender_documents.nit_documents.length === 0 ? (
-              <p className="text-sm text-ink-400">No NIT documents listed.</p>
-            ) : (
+          {data.tender_documents.nit_documents.length === 0 &&
+            data.tender_documents.work_item_documents.length === 0 && (
+              <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+                <p className="text-sm text-ink-400">No documents listed.</p>
+              </div>
+            )}
+
+          {data.tender_documents.nit_documents.length > 0 && (
+            <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+              <div className="mb-4">
+                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">NIT documents</h3>
+                <p className="mt-0.5 text-xs text-ink-400">
+                  {data.tender_documents.nit_documents.length} file(s)
+                </p>
+              </div>
               <div className="space-y-2">
                 {data.tender_documents.nit_documents.map((doc) => (
                   <DocRow
@@ -587,20 +591,17 @@ export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab =
                   />
                 ))}
               </div>
-            )}
-          </div>
-
-          {/* Work item documents */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-            <div className="mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Work item documents</h3>
-              <p className="mt-0.5 text-xs text-ink-400">
-                {data.tender_documents.work_item_documents.length} file(s)
-              </p>
             </div>
-            {data.tender_documents.work_item_documents.length === 0 ? (
-              <p className="text-sm text-ink-400">No work item documents listed.</p>
-            ) : (
+          )}
+
+          {data.tender_documents.work_item_documents.length > 0 && (
+            <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+              <div className="mb-4">
+                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Work item documents</h3>
+                <p className="mt-0.5 text-xs text-ink-400">
+                  {data.tender_documents.work_item_documents.length} file(s)
+                </p>
+              </div>
               <div className="space-y-2">
                 {data.tender_documents.work_item_documents.map((doc) => (
                   <DocRow
@@ -613,8 +614,8 @@ export function TenderDetailView({ data, tenderId, filingWorkspace, defaultTab =
                   />
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Corrigendum */}
           <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">

@@ -73,10 +73,29 @@ export function mapTenderSemanticResultToUi(item: TenderSemanticSearchResultApi)
   };
 }
 
+function isNitDocumentType(documentType: string | undefined): boolean {
+  return (documentType ?? "").trim().toLowerCase() === "nit";
+}
+
+function mapTenderDocument(
+  doc: TenderDetailApi["documents"][number],
+  index: number
+) {
+  return {
+    id: Number(doc.id),
+    s_no: index + 1,
+    document_name: doc.document_name || doc.document?.title || "Untitled document",
+    description: doc.description || "",
+    document_size_kb: toNumber(doc.document_size_kb, 0),
+    file_url: resolveDocumentUrl(doc.file_url ?? doc.file ?? doc.document?.file),
+    document_type: doc.document_type || "Document",
+  };
+}
+
 export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail {
   const base = SAMPLE_TENDER_DETAIL;
-  const getDocumentFileUrl = (doc: TenderDetailApi["documents"][number]): string | undefined =>
-    resolveDocumentUrl(doc.file ?? doc.document?.file);
+  const nitSource = api.documents.filter((doc) => isNitDocumentType(doc.document_type));
+  const workItemSource = api.documents.filter((doc) => !isNitDocumentType(doc.document_type));
 
   return {
     ...base,
@@ -126,23 +145,8 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
         }
       : base.emd_fee_details,
     tender_documents: {
-      nit_documents: api.documents.map((doc, index) => ({
-        id: Number(doc.id),
-        s_no: index + 1,
-        document_name: doc.document_name || doc.document?.title || "Untitled document",
-        description: doc.description || "—",
-        document_size_kb: doc.document_size_kb ?? 0,
-        file_url: getDocumentFileUrl(doc),
-      })),
-      work_item_documents: api.documents.map((doc, index) => ({
-        id: Number(doc.id),
-        s_no: index + 1,
-        document_type: doc.document_type || "Document",
-        document_name: doc.document_name || doc.document?.title || "Untitled document",
-        description: doc.description || "—",
-        document_size_kb: doc.document_size_kb ?? 0,
-        file_url: getDocumentFileUrl(doc),
-      })),
+      nit_documents: nitSource.map((doc, index) => mapTenderDocument(doc, index)),
+      work_item_documents: workItemSource.map((doc, index) => mapTenderDocument(doc, index)),
     },
     latest_corrigendum_list: api.corrigenda.map((item, index) => ({
       s_no: index + 1,

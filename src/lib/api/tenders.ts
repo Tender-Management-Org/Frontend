@@ -31,8 +31,9 @@ export interface TenderDocumentApi {
   document_type: string;
   document_name: string;
   description: string;
-  document_size_kb: number;
-  file?: string;
+  document_size_kb: number | null;
+  file?: string | null;
+  file_url?: string | null;
   document?: TenderDocumentVaultApi;
   created_at: string;
   updated_at: string;
