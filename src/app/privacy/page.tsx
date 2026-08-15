@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FileSearch, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { SiteHeader } from "../_landing/_components/SiteHeader";
 
 export const metadata = {
   title: "Privacy Policy — TenderKhoj",
@@ -21,18 +22,8 @@ const TOC = [
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-ink-50">
-      {/* Header */}
-      <header className="sticky top-0 z-20 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center px-6 py-4">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
-              <FileSearch className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-semibold text-ink-900">TenderKhoj</span>
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen bg-canvas">
+      <SiteHeader showBack />
 
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[260px_1fr]">

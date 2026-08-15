@@ -17,6 +17,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import { BrandMark, BrandWordmark } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import { getUnreadRecommendationsCount } from "@/lib/api/tenders";
 import { useFirm } from "@/context/FirmContext";
@@ -74,7 +75,6 @@ export function Sidebar() {
   const firmName = activeFirm
     ? (activeFirm.business_name || activeFirm.legal_name)
     : "No firm";
-  const firmInitial = firmName.charAt(0).toUpperCase();
 
   return (
     <>
@@ -114,14 +114,10 @@ export function Sidebar() {
           )}
         >
           {isCollapsed ? (
-            /* Collapsed: firm initial + expand button */
             <div className="flex flex-col items-center gap-2">
-              <div
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-600 text-sm font-bold text-white"
-                title={firmName}
-              >
-                {firmInitial}
-              </div>
+              <Link href="/dashboard" aria-label="tenderkhoj home" className="rounded-xl">
+                <BrandMark size={40} className="rounded-xl" />
+              </Link>
               <button
                 type="button"
                 onClick={() => setIsCollapsed(false)}
@@ -132,21 +128,17 @@ export function Sidebar() {
               </button>
             </div>
           ) : (
-            /* Expanded: firm avatar + TenderKhoj label + firm name */
             <div className="flex items-center justify-between gap-1">
-              <div className="flex min-w-0 flex-1 items-center gap-2.5 px-2 py-2">
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-600 text-sm font-bold text-white">
-                  {firmInitial}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-navy-500 leading-none mb-0.5">
-                    TenderKhoj
-                  </p>
-                  <p className="truncate text-sm font-semibold text-ink-800 leading-tight">
-                    {firmName}
-                  </p>
-                </div>
-              </div>
+              <Link
+                href="/dashboard"
+                aria-label="tenderkhoj home"
+                className="min-w-0 flex-1 rounded-lg px-2 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+              >
+                <BrandWordmark height={28} />
+                <p className="mt-1 truncate text-xs font-medium text-ink-500 leading-tight" title={firmName}>
+                  {firmName}
+                </p>
+              </Link>
               {/* Collapse button */}
               <button
                 type="button"

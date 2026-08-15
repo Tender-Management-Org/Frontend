@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FileSearch, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
+import { SiteHeader } from "../_landing/_components/SiteHeader";
 import { ContactForm } from "./ContactForm";
 
 export const metadata = {
@@ -13,17 +14,8 @@ const CONTACT_PHONE_DISPLAY = "74270 89473";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-ink-50">
-      <header className="sticky top-0 z-20 border-b border-ink-100 bg-white/90 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-3xl items-center px-6 py-4">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
-              <FileSearch className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-semibold text-ink-900">TenderKhoj</span>
-          </Link>
-        </div>
-      </header>
+    <div className="min-h-screen bg-canvas">
+      <SiteHeader showBack />
 
       <main className="mx-auto max-w-3xl px-6 py-12">
         <div className="mb-8">

@@ -5,29 +5,8 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BROWSE_LINKS, NAV_LINKS } from "../_data/content";
+import { BrandHomeLink } from "@/components/brand/BrandLogo";
 import { MagneticButton } from "./primitives";
-
-function Wordmark({ className }: { className?: string }) {
-  return (
-    <Link
-      href="/"
-      className={cn(
-        "group inline-flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500",
-        className
-      )}
-      aria-label="tenderkhoj home"
-    >
-      <span className="relative flex h-7 w-7 items-center justify-center rounded-[0.5rem] bg-stage text-white">
-        <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-          <circle cx="10.5" cy="10.5" r="6" stroke="currentColor" strokeWidth="2" />
-          <path d="m15.5 15.5 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <path d="M8 10.5h5M10.5 8v5" stroke="#5C91FF" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-      </span>
-      <span className="text-[0.95rem] font-semibold tracking-tight text-ink-900">tenderkhoj</span>
-    </Link>
-  );
-}
 
 /** Browse menu — the public state / category / sector directories. */
 function BrowseMenu() {
@@ -125,13 +104,13 @@ export function Nav() {
       <nav
         aria-label="Primary"
         className={cn(
-          "mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-4 py-2.5 transition-all duration-500 sm:px-5",
+          "mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full px-4 py-2 transition-all duration-500 sm:px-5",
           scrolled
             ? "border border-ink-900/8 bg-white/70 shadow-lift backdrop-blur-xl saturate-150"
             : "border border-transparent bg-transparent"
         )}
       >
-        <Wordmark />
+        <BrandHomeLink wordmarkHeight={40} priority />
 
         <ul className="hidden items-center gap-0.5 lg:flex">
           {NAV_LINKS.map((link) => (

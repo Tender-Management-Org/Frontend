@@ -3,7 +3,8 @@
 import { FormEvent, Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AlertCircle, ArrowLeft, Eye, EyeOff, FileSearch, Lock } from "lucide-react";
+import { AlertCircle, ArrowLeft, Eye, EyeOff, Lock } from "lucide-react";
+import { BrandHomeLink } from "@/components/brand/BrandLogo";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ApiError, confirmPasswordReset } from "@/lib/api/client";
@@ -77,12 +78,7 @@ function ResetPasswordFormInner() {
   return (
     <div className="flex min-h-screen bg-ink-50">
       <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 p-12">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-600">
-            <FileSearch className="h-5 w-5 text-white" />
-          </div>
-          <span className="text-lg font-semibold text-white">TenderKhoj</span>
-        </div>
+        <BrandHomeLink variant="onDark" wordmarkHeight={36} priority />
         <div className="space-y-3">
           <p className="text-2xl font-semibold leading-snug text-white">
             Choose a new password.
@@ -96,12 +92,7 @@ function ResetPasswordFormInner() {
 
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
-          <div className="mb-8 flex items-center gap-2 lg:hidden">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
-              <FileSearch className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-semibold text-ink-900">TenderKhoj</span>
-          </div>
+          <BrandHomeLink wordmarkHeight={32} className="mb-8 lg:hidden" priority />
 
           {linkMissing ? (
             <div className="rounded-xl border border-danger-200 bg-danger-50 p-6 text-center">

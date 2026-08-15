@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { BrandHomeLink } from "@/components/brand/BrandLogo";
 import { cn } from "@/lib/utils";
 import { BROWSE_LINKS } from "../_data/content";
 
@@ -11,7 +12,13 @@ import { BROWSE_LINKS } from "../_data/content";
  * page's floating nav is tied to its in-page hash sections, so subpages get
  * this solid variant instead — same wordmark, palette and CTAs.
  */
-export function SiteHeader({ active }: { active?: string }) {
+export function SiteHeader({
+  active,
+  showBack = false,
+}: {
+  active?: string;
+  showBack?: boolean;
+}) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -37,20 +44,18 @@ export function SiteHeader({ active }: { active?: string }) {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
-          aria-label="tenderkhoj home"
-        >
-          <span className="flex h-7 w-7 items-center justify-center rounded-[0.5rem] bg-stage text-white">
-            <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-              <circle cx="10.5" cy="10.5" r="6" stroke="currentColor" strokeWidth="2" />
-              <path d="m15.5 15.5 4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <path d="M8 10.5h5M10.5 8v5" stroke="#5C91FF" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
-          </span>
-          <span className="text-[0.95rem] font-semibold tracking-tight text-ink-900">tenderkhoj</span>
-        </Link>
+        <div className="flex min-w-0 items-center gap-3">
+          {showBack && (
+            <Link
+              href="/"
+              className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-ink-900/10 bg-white px-3 text-[0.8125rem] font-medium text-ink-700 transition-colors hover:border-ink-900/20 hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-elec-500"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden />
+              Back
+            </Link>
+          )}
+          <BrandHomeLink wordmarkHeight={36} priority />
+        </div>
 
         <nav aria-label="Browse" className="hidden items-center gap-1 md:flex">
           {BROWSE_LINKS.map((link) => (

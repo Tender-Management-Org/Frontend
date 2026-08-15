@@ -3,8 +3,9 @@
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { ApiError, getOnboardingStatus, loginWithPassword, setOnboardingComplete } from "@/lib/api/client";
+import { BrandHomeLink } from "@/components/brand/BrandLogo";
 import { emitToast } from "@/lib/toast";
-import { FileSearch, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
@@ -44,12 +45,7 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
     <div className="flex min-h-screen bg-ink-50">
       {/* Left decorative panel */}
       <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 p-12">
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-navy-600">
-            <FileSearch className="h-5 w-5 text-white" />
-          </div>
-          <span className="text-lg font-semibold text-white">TenderKhoj</span>
-        </div>
+        <BrandHomeLink variant="onDark" wordmarkHeight={36} priority />
         <div className="space-y-6">
           <blockquote className="space-y-3">
             <p className="text-2xl font-semibold leading-snug text-white">
@@ -77,12 +73,7 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
           {/* Mobile brand */}
-          <div className="mb-8 flex items-center gap-2 lg:hidden">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-600">
-              <FileSearch className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-semibold text-ink-900">TenderKhoj</span>
-          </div>
+          <BrandHomeLink wordmarkHeight={32} className="mb-8 lg:hidden" priority />
 
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-ink-900">Welcome back</h1>
