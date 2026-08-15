@@ -1,6 +1,7 @@
 import { mapTenderDetailToLegacyShape } from "@/lib/api/tenderAdapters";
 import { ApiError } from "@/lib/api/client";
 import { getTenderDetail } from "@/lib/api/tenders";
+import { tenderDetailHref, tenderIdFromCatchAll } from "@/lib/tenders/path";
 import type { TenderDetail } from "@/types/tenderDetail";
 import { ArrowLeft, CalendarClock, Clock4, ExternalLink, IndianRupee, Tag } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +13,7 @@ import { cn } from "@/lib/utils";
 export const dynamic = "force-dynamic";
 
 type PageProps = {
-  params: { id: string };
+  params: { id: string | string[] };
 };
 
 function formatInr(n: number): string {
@@ -34,7 +35,7 @@ function deadlineUrgency(isoDate: string | null | undefined): "danger" | "warnin
 }
 
 export default async function TenderDetailPage({ params }: PageProps) {
-  const id = decodeURIComponent(params.id);
+  const id = tenderIdFromCatchAll(params.id);
   let tender: TenderDetail;
   let sourceUrl: string | null = null;
   try {
@@ -44,7 +45,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) notFound();
     if (error instanceof ApiError && error.status === 401)
-      redirect(`/login?next=${encodeURIComponent(`/tenders/${id}`)}`);
+      redirect(`/login?next=${encodeURIComponent(tenderDetailHref(id))}`);
     throw error;
   }
 

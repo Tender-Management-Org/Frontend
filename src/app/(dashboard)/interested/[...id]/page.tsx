@@ -4,17 +4,18 @@ import { ArrowLeft } from "lucide-react";
 import { mapTenderDetailToLegacyShape } from "@/lib/api/tenderAdapters";
 import { ApiError } from "@/lib/api/client";
 import { getTenderDetail } from "@/lib/api/tenders";
+import { interestedWorkspaceHref, tenderIdFromInterestedCatchAll } from "@/lib/tenders/path";
 import type { TenderDetail } from "@/types/tenderDetail";
 import { FilingWorkspaceShell } from "./FilingWorkspaceShell";
 
 type PageProps = {
-  params: { id: string };
+  params: { id: string | string[] };
 };
 
 export const dynamic = "force-dynamic";
 
 export default async function InterestedTenderWorkspacePage({ params }: PageProps) {
-  const id = decodeURIComponent(params.id);
+  const id = tenderIdFromInterestedCatchAll(params.id);
   let tender: TenderDetail;
 
   try {
@@ -23,7 +24,7 @@ export default async function InterestedTenderWorkspacePage({ params }: PageProp
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) notFound();
     if (error instanceof ApiError && error.status === 401)
-      redirect(`/login?next=${encodeURIComponent(`/interested/${id}/workspace`)}`);
+      redirect(`/login?next=${encodeURIComponent(interestedWorkspaceHref(id))}`);
     throw error;
   }
 

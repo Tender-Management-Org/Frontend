@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { TenderDetail } from "@/types/tenderDetail";
-import { TenderDetailView, type FilingWorkspaceDocIntelProps } from "../../../tenders/[id]/components/TenderDetailView";
+import { TenderDetailView, type FilingWorkspaceDocIntelProps } from "../../tenders/[...id]/components/TenderDetailView";
 import { useFirm } from "@/context/FirmContext";
 import {
   getDocIntelStatus,

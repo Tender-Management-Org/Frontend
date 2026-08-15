@@ -44,7 +44,7 @@ function getRouteContext(pathname: string) {
   if (pathname.startsWith("/tenders/") && pathname !== "/tenders") {
     return { section: "Tenders", title: "Tender detail" };
   }
-  if (pathname.startsWith("/interested/") && pathname.includes("/workspace")) {
+  if (pathname.startsWith("/interested/") && pathname !== "/interested") {
     return { section: "Pipeline", title: "Filing workspace" };
   }
   return {

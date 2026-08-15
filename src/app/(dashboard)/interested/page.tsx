@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { ArrowRight, Bookmark, Building2, CalendarDays, FolderOpen, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TenderMatchActionButton } from "@/components/tenders/TenderMatchActionButton";
+import { interestedWorkspaceHref } from "@/lib/tenders/path";
 
 function formatInr(value: string) {
   const num = Number(value);
@@ -196,7 +197,7 @@ export default async function InterestedPage() {
                     />
                   </div>
                   <Link
-                    href={`/interested/${encodeURIComponent(item.tender_id)}/workspace`}
+                    href={interestedWorkspaceHref(item.tender_id)}
                     className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
                   >
                     <FolderOpen className="h-4 w-4" aria-hidden />

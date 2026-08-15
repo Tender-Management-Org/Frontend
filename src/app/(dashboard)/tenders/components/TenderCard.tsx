@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { tenderDetailHref } from "@/lib/tenders/path";
 import { ArrowRight, Building2, CalendarDays, IndianRupee, MapPin } from "lucide-react";
 import Link from "next/link";
 
@@ -55,7 +56,7 @@ export function TenderCard({ tender }: TenderCardProps) {
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1">
             <h3 className="text-base font-semibold leading-snug text-ink-900 group-hover:text-navy-700 transition-colors">
-              <Link href={`/tenders/${encodeURIComponent(tender.id)}`} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 rounded-sm">
+              <Link href={tenderDetailHref(tender.id)} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 rounded-sm">
                 {tender.title}
               </Link>
             </h3>
@@ -130,7 +131,7 @@ export function TenderCard({ tender }: TenderCardProps) {
           <span />
         )}
         <Link
-          href={`/tenders/${encodeURIComponent(tender.id)}`}
+          href={tenderDetailHref(tender.id)}
           className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
         >
           View details

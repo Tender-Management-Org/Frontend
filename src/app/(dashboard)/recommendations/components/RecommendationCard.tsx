@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { markRecommendationsRead, type TenderRecommendationApi } from "@/lib/api/tenders";
+import { tenderDetailHref } from "@/lib/tenders/path";
 import { TenderMatchActionButton } from "@/components/tenders/TenderMatchActionButton";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -88,7 +89,7 @@ export function RecommendationCard({ item, firmId }: Props) {
 
   const dl = deadlineMeta(item.bid_submission_end_date);
   const fit = fitBand(item.fit_score);
-  const detailHref = `/tenders/${encodeURIComponent(item.tender_id)}`;
+  const detailHref = tenderDetailHref(item.tender_id);
 
   function broadcastRead() {
     window.dispatchEvent(new CustomEvent("recommendation-read"));

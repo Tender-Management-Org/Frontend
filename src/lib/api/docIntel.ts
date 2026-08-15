@@ -1,3 +1,4 @@
+import { encodeTenderIdPath } from "@/lib/tenders/path";
 import { apiRequest } from "./client";
 
 export interface EligibilityCriterion {
@@ -50,7 +51,7 @@ export interface DocIntelProcessResponse {
 
 export function getDocIntelStatus(tenderId: string, documentId: number) {
   return apiRequest<DocIntelStatusResponse>(
-    `/tenders/${encodeURIComponent(tenderId)}/documents/${documentId}/doc-intel/`
+    `/tenders/${encodeTenderIdPath(tenderId)}/documents/${documentId}/doc-intel/`
   );
 }
 
@@ -60,19 +61,19 @@ export function processDocIntel(tenderId: string, documentId: number, firmId: st
     firm_id: firmId,
   });
   return apiRequest<DocIntelProcessResponse>(
-    `/tenders/${encodeURIComponent(tenderId)}/documents/${documentId}/doc-intel/process/?${params}`,
+    `/tenders/${encodeTenderIdPath(tenderId)}/documents/${documentId}/doc-intel/process/?${params}`,
     { method: "POST", body: {} }
   );
 }
 
 export function getDocIntelEligibility(tenderId: string, documentId: number) {
   return apiRequest<DocIntelRecord<EligibilityCriterion>>(
-    `/tenders/${encodeURIComponent(tenderId)}/documents/${documentId}/doc-intel/eligibility-criteria/`
+    `/tenders/${encodeTenderIdPath(tenderId)}/documents/${documentId}/doc-intel/eligibility-criteria/`
   );
 }
 
 export function getDocIntelRequiredDocuments(tenderId: string, documentId: number) {
   return apiRequest<DocIntelRecord<RequiredDocument>>(
-    `/tenders/${encodeURIComponent(tenderId)}/documents/${documentId}/doc-intel/required-documents/`
+    `/tenders/${encodeTenderIdPath(tenderId)}/documents/${documentId}/doc-intel/required-documents/`
   );
 }

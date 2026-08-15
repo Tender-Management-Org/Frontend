@@ -1,3 +1,4 @@
+import { encodeTenderIdPath } from "@/lib/tenders/path";
 import { apiRequest } from "./client";
 import type { PaginatedResponse } from "./types";
 
@@ -232,11 +233,11 @@ export async function semanticSearchTenders(payload: TenderSemanticSearchRequest
 }
 
 export async function getTenderDetail(tenderId: string) {
-  return apiRequest<TenderDetailApi>(`/tenders/${encodeURIComponent(tenderId)}/`);
+  return apiRequest<TenderDetailApi>(`/tenders/${encodeTenderIdPath(tenderId)}/`);
 }
 
 export async function markTender(tenderId: string, status: TenderMatchStatus) {
-  return apiRequest<TenderMatchApi>(`/tenders/${encodeURIComponent(tenderId)}/match/`, {
+  return apiRequest<TenderMatchApi>(`/tenders/${encodeTenderIdPath(tenderId)}/match/`, {
     method: "POST",
     body: { status }
   });
@@ -383,13 +384,13 @@ export interface EligibilityCheckApi {
 
 export async function getEligibilityCheck(tenderId: string, firmId: string) {
   return apiRequest<EligibilityCheckApi>(
-    `/tenders/${encodeURIComponent(tenderId)}/eligibility-check/?firm_id=${firmId}`
+    `/tenders/${encodeTenderIdPath(tenderId)}/eligibility-check/?firm_id=${firmId}`
   );
 }
 
 export async function runEligibilityCheck(tenderId: string, firmId: string, refresh = false) {
   return apiRequest<EligibilityCheckApi>(
-    `/tenders/${encodeURIComponent(tenderId)}/eligibility-check/`,
+    `/tenders/${encodeTenderIdPath(tenderId)}/eligibility-check/`,
     { method: "POST", body: { firm_id: firmId, refresh } }
   );
 }
@@ -402,7 +403,7 @@ export async function overrideCriterionStatus(
   ownerNote = ""
 ) {
   return apiRequest<EligibilityCheckApi>(
-    `/tenders/${encodeURIComponent(tenderId)}/eligibility-check/`,
+    `/tenders/${encodeTenderIdPath(tenderId)}/eligibility-check/`,
     {
       method: "PATCH",
       body: { firm_id: firmId, criteria_index: criteriaIndex, status, owner_note: ownerNote },
