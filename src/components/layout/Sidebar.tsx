@@ -40,7 +40,7 @@ export function Sidebar() {
   const [unreadCount,         setUnreadCount]         = useState(0);
 
   const { activeFirm, activeFirmId } = useFirm();
-  const { invite_only } = useSiteConfig();
+  const { invite_only, show_upgrade_cta } = useSiteConfig();
 
   // ── Onboarding cookie ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -228,7 +228,7 @@ export function Sidebar() {
 
         {/* ── Footer — Upgrade callout ───────────────────────────────────────── */}
         <div className="shrink-0 border-t border-ink-100">
-          {!invite_only && (
+          {show_upgrade_cta && !invite_only && (
             <div className={cn("px-2 py-2", isCollapsed && "flex justify-center")}>
               <Link
                 href="/upgrade"

@@ -3,7 +3,10 @@
 import { createContext, useContext } from "react";
 import type { SiteConfig } from "@/lib/api/config";
 
-const SiteConfigContext = createContext<SiteConfig>({ invite_only: false });
+const SiteConfigContext = createContext<SiteConfig>({
+  invite_only: false,
+  show_upgrade_cta: true,
+});
 
 export function SiteConfigProvider({
   value,
