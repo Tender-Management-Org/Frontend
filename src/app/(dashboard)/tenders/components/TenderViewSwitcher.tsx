@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, LayoutGrid, Rows3 } from "lucide-react";
+import { CalendarDays, Check, ChevronDown, Columns2, LayoutGrid, Rows3, Rows4 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type TenderView = "detailed" | "minimal";
+export type TenderView = "detailed" | "minimal" | "compact" | "calendar" | "split";
 
 export const TENDER_VIEW_OPTIONS = [
   {
@@ -18,6 +18,24 @@ export const TENDER_VIEW_OPTIONS = [
     label: "Minimalistic",
     description: "Dense table — more rows per screen",
     Icon: Rows3,
+  },
+  {
+    value: "compact" as const,
+    label: "Compact",
+    description: "Single-line rows — maximum density",
+    Icon: Rows4,
+  },
+  {
+    value: "split" as const,
+    label: "Split",
+    description: "List on the left, details on the right",
+    Icon: Columns2,
+  },
+  {
+    value: "calendar" as const,
+    label: "Calendar",
+    description: "Tenders placed on their closing date",
+    Icon: CalendarDays,
   },
 ];
 
@@ -77,7 +95,7 @@ export function TenderViewSwitcher({ value, onChange, className }: TenderViewSwi
         <div
           role="listbox"
           aria-label="Tender view"
-          className="absolute right-0 z-30 mt-1.5 w-64 animate-fade-in overflow-hidden rounded-xl border border-ink-200 bg-white p-1 shadow-dropdown"
+          className="absolute right-0 z-30 mt-1.5 w-72 animate-fade-in overflow-hidden rounded-xl border border-ink-200 bg-white p-1 shadow-dropdown"
         >
           {TENDER_VIEW_OPTIONS.map((option) => {
             const OptionIcon = option.Icon;

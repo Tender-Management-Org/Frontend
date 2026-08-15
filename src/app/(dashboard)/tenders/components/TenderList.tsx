@@ -1,5 +1,7 @@
 import { FileSearch } from "lucide-react";
+import { TenderCalendar } from "./TenderCalendar";
 import { TenderCard, type TenderItem } from "./TenderCard";
+import { TenderSplitView } from "./TenderSplitView";
 import { TenderTable } from "./TenderTable";
 import type { TenderView } from "./TenderViewSwitcher";
 
@@ -9,9 +11,10 @@ interface TenderListProps {
 }
 
 export function TenderList({ tenders, view = "detailed" }: TenderListProps) {
-  if (view === "minimal") {
-    return <TenderTable tenders={tenders} />;
-  }
+  if (view === "minimal") return <TenderTable tenders={tenders} />;
+  if (view === "compact") return <TenderTable tenders={tenders} density="compact" />;
+  if (view === "split") return <TenderSplitView tenders={tenders} />;
+  if (view === "calendar") return <TenderCalendar tenders={tenders} />;
 
   if (tenders.length === 0) {
     return (

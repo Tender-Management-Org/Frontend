@@ -18,7 +18,7 @@ const SORT_KEY = "tender_dashboard_sort";
 const VIEW_KEY = "tender_dashboard_view";
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
 const SEARCH_MODE_OPTIONS = ["semantic", "keyword", "hybrid"] as const;
-const VIEW_OPTIONS = ["detailed", "minimal"] as const;
+const VIEW_OPTIONS = ["detailed", "minimal", "compact", "split", "calendar"] as const;
 
 const SORT_OPTIONS = [
   { value: "bid_submission_end_date", label: "Closing soon first" },
@@ -113,7 +113,8 @@ export function TenderDashboardExplorer() {
   const [filters, setFilters] = useState<TenderFilterValues>(DEFAULT_FILTER_VALUES);
   const [sortBy, setSortBy] = useState<SortValue>("bid_submission_end_date");
 
-  const isMinimal = view === "minimal";
+  // Everything except the card view shares the dense command bar and full width.
+  const isMinimal = view !== "detailed";
 
   // Preferences hydration
   useEffect(() => {

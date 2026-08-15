@@ -9,6 +9,8 @@ import { deadlineMeta, formatSource, type TenderItem } from "./TenderCard";
 
 interface TenderTableProps {
   tenders: TenderItem[];
+  /** `compact` drops the secondary line and tightens rows to ~32px. */
+  density?: "comfortable" | "compact";
 }
 
 const toneDot: Record<"danger" | "warning" | "neutral", string> = {
@@ -37,8 +39,9 @@ function EmptyState() {
   );
 }
 
-export function TenderTable({ tenders }: TenderTableProps) {
+export function TenderTable({ tenders, density = "comfortable" }: TenderTableProps) {
   const router = useRouter();
+  const isCompact = density === "compact";
 
   if (tenders.length === 0) return <EmptyState />;
 
@@ -80,7 +83,10 @@ export function TenderTable({ tenders }: TenderTableProps) {
               <tr
                 key={tender.id}
                 onClick={(e) => handleRowActivate(e, tender.id)}
-                className="group cursor-pointer transition-colors hover:bg-navy-50/40"
+                className={cn(
+                  "group cursor-pointer transition-colors hover:bg-navy-50/40",
+                  isCompact && "[&>td]:py-1"
+                )}
               >
                 <td className="px-4 py-2.5 align-middle">
                   <div className="flex items-center gap-2">
@@ -108,12 +114,14 @@ export function TenderTable({ tenders }: TenderTableProps) {
                       </span>
                     )}
                   </div>
-                  <div className="mt-0.5 flex items-center gap-2 pl-3.5">
-                    <span className="truncate font-mono text-2xs text-ink-400">#{tender.id}</span>
-                    {tender.source && (
-                      <span className="shrink-0 text-2xs text-ink-300">{formatSource(tender.source)}</span>
-                    )}
-                  </div>
+                  {!isCompact && (
+                    <div className="mt-0.5 flex items-center gap-2 pl-3.5">
+                      <span className="truncate font-mono text-2xs text-ink-400">#{tender.id}</span>
+                      {tender.source && (
+                        <span className="shrink-0 text-2xs text-ink-300">{formatSource(tender.source)}</span>
+                      )}
+                    </div>
+                  )}
                 </td>
                 <td className="px-3 py-2.5 align-middle">
                   <span className="block truncate text-xs text-ink-600" title={tender.organization}>
@@ -132,7 +140,7 @@ export function TenderTable({ tenders }: TenderTableProps) {
                 </td>
                 <td className="px-4 py-2.5 align-middle">
                   <div className="flex items-center justify-end gap-2">
-                    <div className="min-w-0 text-right">
+                    <div className={cn("min-w-0 text-right", isCompact && "flex items-baseline justify-end gap-1.5")}>
                       <span className="block truncate text-xs tabular-nums text-ink-700">{dl.label}</span>
                       <span className={cn("block truncate text-2xs font-medium", toneText[dl.tone])}>
                         {dl.hint}
