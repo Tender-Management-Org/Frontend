@@ -9,13 +9,16 @@ import type { TenderItem } from "./TenderCard";
 import { TenderFilters, type TenderFilterValues } from "./TenderFilters";
 import { TenderList } from "./TenderList";
 import { TenderSearch } from "./TenderSearch";
+import { TenderViewSwitcher, type TenderView } from "./TenderViewSwitcher";
 
 const PAGE_SIZE_KEY = "tender_dashboard_page_size";
 const SEARCH_MODE_KEY = "tender_dashboard_search_mode";
 const FILTERS_KEY = "tender_dashboard_filters_v2";
 const SORT_KEY = "tender_dashboard_sort";
+const VIEW_KEY = "tender_dashboard_view";
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100];
 const SEARCH_MODE_OPTIONS = ["semantic", "keyword", "hybrid"] as const;
+const VIEW_OPTIONS = ["detailed", "minimal"] as const;
 
 const SORT_OPTIONS = [
   { value: "bid_submission_end_date", label: "Closing soon first" },
@@ -94,10 +97,12 @@ export function TenderDashboardExplorer() {
   const [searchMode, setSearchMode] = useState<"semantic" | "keyword" | "hybrid">("hybrid");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
+  const [view, setView] = useState<TenderView>("detailed");
   const [hasLoadedPageSizePreference, setHasLoadedPageSizePreference] = useState(false);
   const [hasLoadedSearchModePreference, setHasLoadedSearchModePreference] = useState(false);
   const [hasLoadedFiltersPreference, setHasLoadedFiltersPreference] = useState(false);
   const [hasLoadedSortPreference, setHasLoadedSortPreference] = useState(false);
+  const [hasLoadedViewPreference, setHasLoadedViewPreference] = useState(false);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -107,6 +112,8 @@ export function TenderDashboardExplorer() {
   const [interestedIds, setInterestedIds] = useState<Set<string>>(new Set());
   const [filters, setFilters] = useState<TenderFilterValues>(DEFAULT_FILTER_VALUES);
   const [sortBy, setSortBy] = useState<SortValue>("bid_submission_end_date");
+
+  const isMinimal = view === "minimal";
 
   // Preferences hydration
   useEffect(() => {
@@ -121,6 +128,14 @@ export function TenderDashboardExplorer() {
       setSearchMode(saved as "semantic" | "keyword" | "hybrid");
     }
     setHasLoadedSearchModePreference(true);
+  }, []);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(VIEW_KEY);
+    if (saved && VIEW_OPTIONS.includes(saved as TenderView)) {
+      setView(saved as TenderView);
+    }
+    setHasLoadedViewPreference(true);
   }, []);
 
   useEffect(() => {
@@ -155,6 +170,11 @@ export function TenderDashboardExplorer() {
     if (!hasLoadedSearchModePreference) return;
     window.localStorage.setItem(SEARCH_MODE_KEY, searchMode);
   }, [searchMode, hasLoadedSearchModePreference]);
+
+  useEffect(() => {
+    if (!hasLoadedViewPreference) return;
+    window.localStorage.setItem(VIEW_KEY, view);
+  }, [view, hasLoadedViewPreference]);
 
   useEffect(() => {
     if (!hasLoadedFiltersPreference) return;
@@ -292,42 +312,73 @@ export function TenderDashboardExplorer() {
     setFilters(DEFAULT_FILTER_VALUES); setMode("default"); setPage(1);
   }
 
+  const viewSwitcher = <TenderViewSwitcher value={view} onChange={setView} />;
+
   return (
-    <section className="mx-auto w-full max-w-7xl space-y-5">
-      {/* Header stats */}
-      <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h1 className="text-xl font-bold text-ink-900">Tender explorer</h1>
-            <p className="mt-0.5 text-sm text-ink-400">Search and filter active government tenders.</p>
+    <section className={cn("mx-auto w-full space-y-5", isMinimal ? "max-w-[100rem]" : "max-w-7xl")}>
+      {isMinimal ? (
+        /* ---------- Minimal: single slim header strip ---------- */
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-4 py-2.5 shadow-card">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <h1 className="text-base font-bold text-ink-900">Tender explorer</h1>
+            <span className="hidden h-4 w-px bg-ink-200 sm:block" aria-hidden />
+            <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+              <Database className="h-3.5 w-3.5 text-ink-400" aria-hidden />
+              <span className="font-semibold tabular-nums text-ink-900">
+                {totalCount.toLocaleString("en-IN")}
+              </span>
+              records
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+              <CalendarDays className="h-3.5 w-3.5 text-warning-600" aria-hidden />
+              <span className="font-semibold tabular-nums text-warning-700">{closingSoonCount}</span>
+              closing soon
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+              <Bookmark className="h-3.5 w-3.5 text-violet-600" aria-hidden />
+              <span className="font-semibold tabular-nums text-violet-700">{interestedOnPageCount}</span>
+              interested
+            </span>
+          </div>
+          {viewSwitcher}
+        </div>
+      ) : (
+        /* ---------- Detailed: full stat cards ---------- */
+        <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h1 className="text-xl font-bold text-ink-900">Tender explorer</h1>
+              <p className="mt-0.5 text-sm text-ink-400">Search and filter active government tenders.</p>
+            </div>
+            {viewSwitcher}
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
+              <Database className="h-5 w-5 shrink-0 text-ink-400" aria-hidden />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">Total records</p>
+                <p className="text-xl font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3">
+              <CalendarDays className="h-5 w-5 shrink-0 text-warning-600" aria-hidden />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-warning-700">Closing soon</p>
+                <p className="text-xl font-bold tabular-nums text-warning-700">{closingSoonCount}</p>
+                <p className="text-xs text-warning-600">on this page</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3">
+              <Bookmark className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Interested</p>
+                <p className="text-xl font-bold tabular-nums text-violet-700">{interestedOnPageCount}</p>
+                <p className="text-xs text-violet-600">on this page</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-4 grid gap-3 sm:grid-cols-3">
-          <div className="flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
-            <Database className="h-5 w-5 shrink-0 text-ink-400" aria-hidden />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">Total records</p>
-              <p className="text-xl font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3">
-            <CalendarDays className="h-5 w-5 shrink-0 text-warning-600" aria-hidden />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-warning-700">Closing soon</p>
-              <p className="text-xl font-bold tabular-nums text-warning-700">{closingSoonCount}</p>
-              <p className="text-xs text-warning-600">on this page</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3">
-            <Bookmark className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Interested</p>
-              <p className="text-xl font-bold tabular-nums text-violet-700">{interestedOnPageCount}</p>
-              <p className="text-xs text-violet-600">on this page</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Search */}
       <TenderSearch
@@ -341,12 +392,23 @@ export function TenderDashboardExplorer() {
       />
 
       {/* Main layout: filters + list */}
-      <div className="grid grid-cols-12 gap-5">
-        <div className="col-span-12 lg:col-span-3">
-          <TenderFilters values={filters} onChange={handleFilterChange} onReset={handleFilterReset} />
-        </div>
+      <div className={cn(!isMinimal && "grid grid-cols-12 gap-5")}>
+        {!isMinimal && (
+          <div className="col-span-12 lg:col-span-3">
+            <TenderFilters values={filters} onChange={handleFilterChange} onReset={handleFilterReset} />
+          </div>
+        )}
 
-        <div className="col-span-12 space-y-4 lg:col-span-9">
+        <div className={cn("space-y-3", !isMinimal && "col-span-12 space-y-4 lg:col-span-9")}>
+          {isMinimal && (
+            <TenderFilters
+              variant="compact"
+              values={filters}
+              onChange={handleFilterChange}
+              onReset={handleFilterReset}
+            />
+          )}
+
           {/* List toolbar */}
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-4 py-3 shadow-card">
             <p className="text-sm text-ink-600">
@@ -394,7 +456,7 @@ export function TenderDashboardExplorer() {
             </div>
           </div>
 
-          <TenderList tenders={currentItems} />
+          <TenderList tenders={currentItems} view={view} />
 
           {/* Pagination */}
           <div className="flex items-center justify-between gap-2">

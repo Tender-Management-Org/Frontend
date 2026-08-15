@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { FilterX, SlidersHorizontal } from "lucide-react";
+import { FilterX, MapPin, SlidersHorizontal } from "lucide-react";
 import { getScraperSources, type ScraperSourceApi } from "@/lib/api/tenders";
 
 export type TenderStatus = "active" | "closing_soon" | "closed" | "all";
@@ -23,13 +23,31 @@ const STATUS_OPTIONS: { value: TenderStatus; label: string }[] = [
   { value: "all", label: "All" },
 ];
 
+function statusChipClass(status: TenderStatus, isSelected: boolean) {
+  if (!isSelected) {
+    return "border-ink-200 bg-white text-ink-500 hover:border-ink-300 hover:text-ink-700";
+  }
+  switch (status) {
+    case "active":
+      return "border-emerald-500 bg-emerald-50 text-emerald-700";
+    case "closing_soon":
+      return "border-warning-500 bg-warning-50 text-warning-700";
+    case "closed":
+      return "border-danger-400 bg-danger-50 text-danger-700";
+    default:
+      return "border-navy-500 bg-navy-50 text-navy-700";
+  }
+}
+
 type TenderFiltersProps = {
   values: TenderFilterValues;
   onChange: (next: TenderFilterValues) => void;
   onReset: () => void;
+  /** `sidebar` (default) is the full card; `compact` is a single inline toolbar row. */
+  variant?: "sidebar" | "compact";
 };
 
-export function TenderFilters({ values, onChange, onReset }: TenderFiltersProps) {
+export function TenderFilters({ values, onChange, onReset, variant = "sidebar" }: TenderFiltersProps) {
   const [sources, setSources] = useState<ScraperSourceApi[]>([]);
 
   useEffect(() => {
@@ -38,8 +56,77 @@ export function TenderFilters({ values, onChange, onReset }: TenderFiltersProps)
       .catch(() => setSources([]));
   }, []);
 
-  const hasActive = values.location || values.status !== "active" || values.source;
+  const hasActive = Boolean(values.location) || values.status !== "active" || Boolean(values.source);
 
+  /* ---------------- Compact inline toolbar (minimal view) ---------------- */
+  if (variant === "compact") {
+    return (
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-ink-200 bg-white px-3 py-2 shadow-card">
+        <SlidersHorizontal className="h-4 w-4 shrink-0 text-ink-400" aria-hidden />
+
+        <div className="flex flex-wrap items-center gap-1.5">
+          {STATUS_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onChange({ ...values, status: opt.value })}
+              className={cn(
+                "rounded-full border px-2.5 py-1 text-xs font-semibold transition-colors",
+                statusChipClass(opt.value, values.status === opt.value)
+              )}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        <span className="hidden h-5 w-px bg-ink-200 sm:block" aria-hidden />
+
+        <div className="relative">
+          <MapPin
+            className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-400"
+            aria-hidden
+          />
+          <input
+            placeholder="City or state"
+            aria-label="Filter by location"
+            value={values.location}
+            onChange={(e) => onChange({ ...values, location: e.target.value })}
+            className="h-8 w-40 rounded-lg border border-ink-200 bg-white pl-7 pr-2 text-xs text-ink-700 outline-none placeholder:text-ink-400 focus:ring-2 focus:ring-navy-500/30"
+          />
+        </div>
+
+        {sources.length > 0 && (
+          <select
+            aria-label="Filter by source"
+            value={values.source}
+            onChange={(e) => onChange({ ...values, source: e.target.value })}
+            className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+          >
+            <option value="">All sources</option>
+            {sources.map((s) => (
+              <option key={s.slug} value={s.slug}>
+                {s.display_name}
+              </option>
+            ))}
+          </select>
+        )}
+
+        {hasActive && (
+          <button
+            type="button"
+            onClick={onReset}
+            className="ml-auto inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-700"
+          >
+            <FilterX className="h-3.5 w-3.5" aria-hidden />
+            Reset
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  /* ---------------- Sidebar card (detailed view) ---------------- */
   return (
     <Card className="space-y-5 p-5 lg:sticky lg:top-6">
       <div className="flex items-center justify-between gap-2">
@@ -69,15 +156,7 @@ export function TenderFilters({ values, onChange, onReset }: TenderFiltersProps)
               onClick={() => onChange({ ...values, status: opt.value })}
               className={cn(
                 "rounded-full border px-3 py-1 text-xs font-semibold transition-colors",
-                values.status === opt.value
-                  ? opt.value === "active"
-                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-                    : opt.value === "closing_soon"
-                    ? "border-warning-500 bg-warning-50 text-warning-700"
-                    : opt.value === "closed"
-                    ? "border-danger-400 bg-danger-50 text-danger-700"
-                    : "border-navy-500 bg-navy-50 text-navy-700"
-                  : "border-ink-200 bg-white text-ink-500 hover:border-ink-300 hover:text-ink-700"
+                statusChipClass(opt.value, values.status === opt.value)
               )}
             >
               {opt.label}

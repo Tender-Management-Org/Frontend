@@ -1,11 +1,18 @@
 import { FileSearch } from "lucide-react";
 import { TenderCard, type TenderItem } from "./TenderCard";
+import { TenderTable } from "./TenderTable";
+import type { TenderView } from "./TenderViewSwitcher";
 
 interface TenderListProps {
   tenders: TenderItem[];
+  view?: TenderView;
 }
 
-export function TenderList({ tenders }: TenderListProps) {
+export function TenderList({ tenders, view = "detailed" }: TenderListProps) {
+  if (view === "minimal") {
+    return <TenderTable tenders={tenders} />;
+  }
+
   if (tenders.length === 0) {
     return (
       <div className="flex min-h-[360px] flex-col items-center justify-center rounded-2xl border border-dashed border-ink-200 bg-white p-8 text-center">

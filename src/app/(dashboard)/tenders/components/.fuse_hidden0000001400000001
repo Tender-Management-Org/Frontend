@@ -16,7 +16,7 @@ export interface TenderItem {
   isInterested?: boolean;
 }
 
-export function formatSource(slug: string): string {
+function formatSource(slug: string): string {
   return slug.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 }
 
@@ -24,7 +24,7 @@ interface TenderCardProps {
   tender: TenderItem;
 }
 
-export function deadlineMeta(deadline: string) {
+function deadlineMeta(deadline: string) {
   const date = new Date(deadline);
   if (Number.isNaN(date.getTime())) {
     return { label: deadline, hint: "Date unavailable", tone: "neutral" as const };
