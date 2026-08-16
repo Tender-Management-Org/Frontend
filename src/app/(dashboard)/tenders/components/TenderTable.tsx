@@ -84,7 +84,7 @@ export function TenderTable({ tenders, density = "comfortable" }: TenderTablePro
                 key={tender.id}
                 onClick={(e) => handleRowActivate(e, tender.id)}
                 className={cn(
-                  "group cursor-pointer transition-colors hover:bg-navy-50/40 dark:bg-navy-900/40",
+                  "group cursor-pointer transition-colors hover:bg-navy-50/40 dark:hover:bg-navy-900/40",
                   isCompact && "[&>td]:py-1"
                 )}
               >

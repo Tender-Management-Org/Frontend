@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { getUnreadRecommendationsCount } from "@/lib/api/tenders";
 import { useFirm } from "@/context/FirmContext";
 import { useSiteConfig } from "@/context/SiteConfigContext";
+import { useTheme } from "@/context/ThemeContext";
 
 const menuItems = [
   { name: "Dashboard",       href: "/dashboard",       icon: LayoutDashboard, description: "Pipeline overview" },
@@ -41,6 +42,8 @@ export function Sidebar() {
 
   const { activeFirm, activeFirmId } = useFirm();
   const { invite_only, show_upgrade_cta } = useSiteConfig();
+  const { theme } = useTheme();
+  const brandVariant = theme === "dark" ? "onDark" : "onLight";
 
   // ── Onboarding cookie ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -116,7 +119,7 @@ export function Sidebar() {
           {isCollapsed ? (
             <div className="flex flex-col items-center gap-2">
               <Link href="/dashboard" aria-label="tenderkhoj home" className="rounded-xl">
-                <BrandMark size={40} className="rounded-xl" />
+                <BrandMark size={40} className="rounded-xl" variant={brandVariant} />
               </Link>
               <button
                 type="button"
@@ -134,7 +137,7 @@ export function Sidebar() {
                 aria-label="tenderkhoj home"
                 className="min-w-0 flex-1 rounded-lg px-2 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
               >
-                <BrandWordmark height={28} />
+                <BrandWordmark variant={brandVariant} height={28} />
                 <p className="mt-1 truncate text-xs font-medium text-ink-500 dark:text-ink-400 leading-tight" title={firmName}>
                   {firmName}
                 </p>

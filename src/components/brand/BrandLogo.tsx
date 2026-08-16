@@ -9,6 +9,11 @@ const WORDMARK = {
   onDark: { src: "/brand/logo-wordmark-dark.png", width: 815, height: 187 },
 } as const;
 
+const MARK = {
+  onLight: "/brand/logo-mark.png",
+  onDark: "/brand/logo-mark-dark.png",
+} as const;
+
 type WordmarkVariant = keyof typeof WORDMARK;
 
 export function BrandMark({
@@ -16,15 +21,17 @@ export function BrandMark({
   className,
   alt = "",
   priority = false,
+  variant = "onLight",
 }: {
   size?: number;
   className?: string;
   alt?: string;
   priority?: boolean;
+  variant?: WordmarkVariant;
 }) {
   return (
     <Image
-      src="/brand/logo-mark.png"
+      src={MARK[variant]}
       alt={alt}
       width={size}
       height={size}
