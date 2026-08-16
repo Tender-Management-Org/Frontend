@@ -9,6 +9,7 @@ import {
   ChevronLeft,
   ChevronRight,
   FileSearch,
+  Gift,
   LayoutDashboard,
   Lock,
   Menu,
@@ -30,6 +31,7 @@ const menuItems = [
   { name: "Tenders",         href: "/tenders",          icon: FileSearch,      description: "Browse & search"  },
   { name: "Interested",      href: "/interested",       icon: Bookmark,        description: "Your shortlist"   },
   { name: "Recommendations", href: "/recommendations",  icon: Sparkles,        description: "AI suggestions"   },
+  { name: "Genie",           href: "/genie",            icon: Gift,            description: "Govt. schemes"    },
   { name: "Settings",        href: "/settings",         icon: Settings,        description: "Preferences"      },
 ];
 
