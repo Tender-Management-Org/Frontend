@@ -23,7 +23,7 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               disabled={!isClickable}
               aria-current={isActive ? "step" : undefined}
               className={cn(
-                "flex w-full flex-col items-center gap-2 py-2 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2",
+                "flex w-full flex-col items-center gap-2 py-2 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2",
                 isClickable ? "cursor-pointer" : "cursor-default"
               )}
             >
@@ -31,9 +31,9 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               <span
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-bold transition-all",
-                  isComplete && "border-navy-600 bg-navy-600 text-white",
-                  isActive && "border-navy-600 bg-white text-navy-700 shadow-sm",
-                  !isComplete && !isActive && "border-ink-200 bg-white text-ink-400"
+                  isComplete && "border-navy-600 dark:border-navy-400 bg-navy-600 dark:bg-navy-400 text-white",
+                  isActive && "border-navy-600 dark:border-navy-400 bg-surface text-navy-700 dark:text-navy-500 shadow-sm",
+                  !isComplete && !isActive && "border-ink-200 dark:border-ink-800 bg-surface text-ink-400 dark:text-ink-600"
                 )}
               >
                 {isComplete ? <Check className="h-4 w-4" /> : index + 1}
@@ -42,9 +42,9 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               <span
                 className={cn(
                   "hidden text-xs font-medium sm:block",
-                  isActive && "text-navy-700",
-                  isComplete && "text-ink-600",
-                  !isComplete && !isActive && "text-ink-400"
+                  isActive && "text-navy-700 dark:text-navy-500",
+                  isComplete && "text-ink-600 dark:text-ink-300",
+                  !isComplete && !isActive && "text-ink-400 dark:text-ink-600"
                 )}
               >
                 {step}
@@ -56,7 +56,7 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               <div
                 className={cn(
                   "h-0.5 flex-1 transition-colors",
-                  index < currentStep ? "bg-navy-600" : "bg-ink-200"
+                  index < currentStep ? "bg-navy-600 dark:bg-navy-400" : "bg-ink-200 dark:bg-ink-800"
                 )}
                 aria-hidden
               />

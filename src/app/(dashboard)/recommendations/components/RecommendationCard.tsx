@@ -60,7 +60,7 @@ function formatSource(slug: string): string {
 }
 
 function fitBand(score: number | null) {
-  if (score == null) return { label: "—", color: "text-ink-400", bar: "bg-ink-200" };
+  if (score == null) return { label: "—", color: "text-ink-400 dark:text-ink-600", bar: "bg-ink-200 dark:bg-ink-800" };
   if (score >= 80) return { label: `${score} · High`, color: "text-success-700", bar: "bg-success-500" };
   if (score >= 60) return { label: `${score} · Medium`, color: "text-warning-700", bar: "bg-warning-500" };
   return { label: `${score} · Low`, color: "text-danger-600", bar: "bg-danger-500" };
@@ -72,7 +72,7 @@ const statusBadge: Record<string, string> = {
   applied: "bg-warning-50 text-warning-700 border border-warning-200",
   won: "bg-success-50 text-success-700 border border-success-200",
   lost: "bg-danger-50 text-danger-700 border border-danger-200",
-  ignored: "bg-ink-100 text-ink-500 border border-ink-200",
+  ignored: "bg-ink-100 dark:bg-ink-900 text-ink-500 dark:text-ink-400 border border-ink-200 dark:border-ink-800",
 };
 
 // ─── component ───────────────────────────────────────────────────────────────
@@ -121,24 +121,24 @@ export function RecommendationCard({ item, firmId }: Props) {
   return (
     <article
       className={cn(
-        "group relative rounded-2xl border bg-white p-5 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5",
-        isRead ? "border-ink-200" : "border-l-4 border-l-navy-500 border-ink-200"
+        "group relative rounded-2xl border bg-surface p-5 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5",
+        isRead ? "border-ink-200 dark:border-ink-800" : "border-l-4 border-l-navy-500 border-ink-200 dark:border-ink-800"
       )}
     >
       {/* Unread dot */}
       {!isRead && (
-        <span className="absolute right-4 top-4 flex h-2 w-2 rounded-full bg-navy-500" aria-label="Unread" />
+        <span className="absolute right-4 top-4 flex h-2 w-2 rounded-full bg-navy-500 dark:bg-navy-400" aria-label="Unread" />
       )}
 
       {/* Top row */}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 flex-1 space-y-1">
-          <h3 className="text-base font-semibold leading-snug text-ink-900 group-hover:text-navy-700 transition-colors pr-4">
+          <h3 className="text-base font-semibold leading-snug text-ink-900 dark:text-ink-50 group-hover:text-navy-700 dark:group-hover:text-navy-500 transition-colors pr-4">
             {item.title}
           </h3>
-          <p className="text-xs font-mono text-ink-400">#{item.tender_id}</p>
-          <p className="flex items-center gap-1.5 text-sm text-ink-500">
-            <Building2 className="h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
+          <p className="text-xs font-mono text-ink-400 dark:text-ink-600">#{item.tender_id}</p>
+          <p className="flex items-center gap-1.5 text-sm text-ink-500 dark:text-ink-400">
+            <Building2 className="h-3.5 w-3.5 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             <span className="truncate">{item.organisation_chain}</span>
           </p>
         </div>
@@ -146,7 +146,7 @@ export function RecommendationCard({ item, firmId }: Props) {
           <span
             className={cn(
               "rounded-full px-2.5 py-0.5 text-xs font-semibold capitalize",
-              statusBadge[item.status] ?? "bg-ink-100 text-ink-600"
+              statusBadge[item.status] ?? "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
             )}
           >
             {item.status}
@@ -156,7 +156,7 @@ export function RecommendationCard({ item, firmId }: Props) {
               "rounded-full px-2.5 py-0.5 text-xs font-semibold",
               dl.tone === "danger" && "bg-danger-50 text-danger-700 border border-danger-200",
               dl.tone === "warning" && "bg-warning-50 text-warning-700 border border-warning-200",
-              dl.tone === "neutral" && "bg-ink-100 text-ink-600"
+              dl.tone === "neutral" && "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
             )}
           >
             {dl.label}
@@ -166,24 +166,24 @@ export function RecommendationCard({ item, firmId }: Props) {
 
       {/* Meta row */}
       <div className="mt-3 grid grid-cols-3 gap-2">
-        <div className="rounded-lg bg-ink-50 px-2.5 py-2">
-          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Location</p>
-          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 truncate">
-            <MapPin className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="rounded-lg bg-ink-50 dark:bg-ink-950 px-2.5 py-2">
+          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Location</p>
+          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 dark:text-ink-200 truncate">
+            <MapPin className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             <span className="truncate">{item.location || "—"}</span>
           </p>
         </div>
-        <div className="rounded-lg bg-ink-50 px-2.5 py-2">
-          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Value</p>
-          <p className="flex items-center gap-1 text-xs font-semibold text-ink-800 truncate">
-            <IndianRupee className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="rounded-lg bg-ink-50 dark:bg-ink-950 px-2.5 py-2">
+          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Value</p>
+          <p className="flex items-center gap-1 text-xs font-semibold text-ink-800 dark:text-ink-100 truncate">
+            <IndianRupee className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             <span className="truncate">{formatInr(item.tender_value)}</span>
           </p>
         </div>
-        <div className="rounded-lg bg-ink-50 px-2.5 py-2">
-          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Deadline</p>
-          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 truncate">
-            <CalendarDays className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="rounded-lg bg-ink-50 dark:bg-ink-950 px-2.5 py-2">
+          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Deadline</p>
+          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 dark:text-ink-200 truncate">
+            <CalendarDays className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             <span className="truncate">{formatDate(item.bid_submission_end_date)}</span>
           </p>
         </div>
@@ -191,12 +191,12 @@ export function RecommendationCard({ item, firmId }: Props) {
 
       {/* Category + fit score */}
       <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5 text-xs text-ink-500">
-          <Tag className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
+          <Tag className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
           <span className="truncate">{item.product_category}{item.sub_category ? ` · ${item.sub_category}` : ""}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="h-1.5 w-20 overflow-hidden rounded-full bg-ink-100" aria-hidden>
+          <div className="h-1.5 w-20 overflow-hidden rounded-full bg-ink-100 dark:bg-ink-900" aria-hidden>
             <div
               className={cn("h-full rounded-full", fit.bar)}
               style={{ width: `${item.fit_score ?? 0}%` }}
@@ -208,14 +208,14 @@ export function RecommendationCard({ item, firmId }: Props) {
 
       {/* Match reason */}
       {item.match_reason && (
-        <p className="mt-3 text-xs leading-relaxed text-ink-500 line-clamp-2">{item.match_reason}</p>
+        <p className="mt-3 text-xs leading-relaxed text-ink-500 dark:text-ink-400 line-clamp-2">{item.match_reason}</p>
       )}
 
       {/* Footer */}
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink-100 pt-3">
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-ink-100 dark:border-ink-900 pt-3">
         <div className="flex flex-wrap items-center gap-2">
           {item.source && (
-            <span className="inline-flex items-center rounded-full border border-ink-200 bg-ink-50 px-2.5 py-0.5 text-xs font-medium text-ink-500">
+            <span className="inline-flex items-center rounded-full border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-2.5 py-0.5 text-xs font-medium text-ink-500 dark:text-ink-400">
               {formatSource(item.source)}
             </span>
           )}
@@ -232,7 +232,7 @@ export function RecommendationCard({ item, firmId }: Props) {
               type="button"
               onClick={handleMarkRead}
               disabled={markingRead}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-ink-200 px-3 py-2 text-xs font-medium text-ink-600 transition-colors hover:bg-ink-50 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-ink-200 dark:border-ink-800 px-3 py-2 text-xs font-medium text-ink-600 dark:text-ink-300 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 disabled:opacity-50"
             >
               <Check className="h-3.5 w-3.5" aria-hidden />
               {markingRead ? "Marking…" : "Mark as read"}
@@ -242,7 +242,7 @@ export function RecommendationCard({ item, firmId }: Props) {
         <button
           type="button"
           onClick={handleViewDetails}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
         >
           View details
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />

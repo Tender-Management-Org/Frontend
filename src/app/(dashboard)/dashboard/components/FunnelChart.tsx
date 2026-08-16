@@ -6,7 +6,7 @@ interface FunnelChartProps {
 }
 
 const stageConfig = [
-  { bar: "bg-navy-600", dot: "bg-navy-600" },
+  { bar: "bg-navy-600 dark:bg-navy-400", dot: "bg-navy-600 dark:bg-navy-400" },
   { bar: "bg-violet-500", dot: "bg-violet-500" },
   { bar: "bg-warning-500", dot: "bg-warning-500" },
   { bar: "bg-success-500", dot: "bg-success-500" },
@@ -21,8 +21,8 @@ export function FunnelChart({ data }: FunnelChartProps) {
   return (
     <Card className="space-y-5">
       <div>
-        <h2 className="text-base font-semibold text-ink-900">Conversion funnel</h2>
-        <p className="mt-0.5 text-xs text-ink-400">Volume at each stage · bar width relative to largest stage</p>
+        <h2 className="text-base font-semibold text-ink-900 dark:text-ink-50">Conversion funnel</h2>
+        <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">Volume at each stage · bar width relative to largest stage</p>
       </div>
 
       <div className="space-y-4" role="list" aria-label="Funnel stages">
@@ -37,17 +37,17 @@ export function FunnelChart({ data }: FunnelChartProps) {
               <div className="flex items-baseline justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span className={cn("h-2 w-2 shrink-0 rounded-full", cfg.dot)} aria-hidden />
-                  <span className="text-sm font-medium text-ink-700">{item.stage}</span>
+                  <span className="text-sm font-medium text-ink-700 dark:text-ink-200">{item.stage}</span>
                 </div>
                 <div className="flex items-baseline gap-2">
                   {pctOfPrev != null && (
-                    <span className="text-xs text-ink-400">{pctOfPrev}% of prior</span>
+                    <span className="text-xs text-ink-400 dark:text-ink-600">{pctOfPrev}% of prior</span>
                   )}
-                  <span className="text-sm font-bold tabular-nums text-ink-900">{item.count}</span>
+                  <span className="text-sm font-bold tabular-nums text-ink-900 dark:text-ink-50">{item.count}</span>
                 </div>
               </div>
               <div
-                className="h-2 w-full overflow-hidden rounded-full bg-ink-100"
+                className="h-2 w-full overflow-hidden rounded-full bg-ink-100 dark:bg-ink-900"
                 role="progressbar"
                 aria-valuemin={0}
                 aria-valuemax={maxValue}
@@ -65,12 +65,12 @@ export function FunnelChart({ data }: FunnelChartProps) {
       </div>
 
       {data.length >= 2 && (
-        <div className="rounded-xl border border-ink-100 bg-ink-50 px-4 py-3">
-          <p className="text-xs text-ink-600">
+        <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50 dark:bg-ink-950 px-4 py-3">
+          <p className="text-xs text-ink-600 dark:text-ink-300">
             End-to-end conversion:{" "}
-            <span className="font-bold text-ink-900">{endRate}%</span>
+            <span className="font-bold text-ink-900 dark:text-ink-50">{endRate}%</span>
             {" "}of {data[0]?.stage} reach {data[data.length - 1]?.stage}
-            <span className="ml-1 text-ink-400">— demo figures</span>
+            <span className="ml-1 text-ink-400 dark:text-ink-600">— demo figures</span>
           </p>
         </div>
       )}

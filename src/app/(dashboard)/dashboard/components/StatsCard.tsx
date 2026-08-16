@@ -18,9 +18,9 @@ const accentConfig: Record<
   { value: string; icon: string; subtitle: string; border: string }
 > = {
   default: {
-    value: "text-ink-900",
-    icon: "bg-ink-100 text-ink-600",
-    subtitle: "text-ink-400",
+    value: "text-ink-900 dark:text-ink-50",
+    icon: "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300",
+    subtitle: "text-ink-400 dark:text-ink-600",
     border: "border-l-ink-300",
   },
   warning: {
@@ -57,7 +57,7 @@ export function StatsCard({
   const inner = (
     <div
       className={cn(
-        "rounded-2xl border border-ink-200 border-l-4 bg-white p-5 shadow-card transition-all",
+        "rounded-2xl border border-ink-200 dark:border-ink-800 border-l-4 bg-surface p-5 shadow-card transition-all",
         cfg.border,
         href && "hover:shadow-card-hover hover:-translate-y-0.5"
       )}
@@ -66,11 +66,11 @@ export function StatsCard({
         <div className="min-w-0">
           {/* Title + optional info tooltip */}
           <div className="flex items-center gap-1.5">
-            <p className="text-xs font-semibold uppercase tracking-widest text-ink-400">{title}</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">{title}</p>
             {tooltip && (
               <div className="group relative flex items-center">
-                <Info className="h-3 w-3 text-ink-300 cursor-default" aria-hidden />
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-52 -translate-x-1/2 rounded-lg border border-ink-200 bg-white px-3 py-2 text-xs leading-snug text-ink-600 shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                <Info className="h-3 w-3 text-ink-300 dark:text-ink-700 cursor-default" aria-hidden />
+                <div className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 w-52 -translate-x-1/2 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 py-2 text-xs leading-snug text-ink-600 dark:text-ink-300 shadow-lg opacity-0 transition-opacity duration-150 group-hover:opacity-100">
                   {tooltip}
                   <div className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-ink-200" />
                 </div>
@@ -89,7 +89,7 @@ export function StatsCard({
 
   if (href) {
     return (
-      <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 rounded-2xl">
+      <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2 rounded-2xl">
         {inner}
       </Link>
     );

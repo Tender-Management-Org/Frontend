@@ -15,6 +15,7 @@ import {
 } from "@/lib/api/notifications";
 import { emitToast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -170,12 +171,12 @@ export function Navbar() {
   // ─── render ──────────────────────────────────────────────────────────────────
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 bg-white px-4 sm:px-6">
+    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 dark:border-ink-900 bg-surface px-4 sm:px-6">
       {/* Left: breadcrumb */}
       <div className="flex min-w-0 items-center gap-2">
-        <span className="hidden text-xs font-medium text-ink-400 sm:inline">{section}</span>
-        <span className="hidden text-ink-200 sm:inline">/</span>
-        <h1 className="truncate text-sm font-semibold text-ink-900">{title}</h1>
+        <span className="hidden text-xs font-medium text-ink-400 dark:text-ink-600 sm:inline">{section}</span>
+        <span className="hidden text-ink-200 dark:text-ink-800 sm:inline">/</span>
+        <h1 className="truncate text-sm font-semibold text-ink-900 dark:text-ink-50">{title}</h1>
       </div>
 
       {/* Right: actions */}
@@ -183,6 +184,9 @@ export function Navbar() {
 
         {/* ── Firm switcher ── */}
         <FirmSwitcher />
+
+        {/* ── Theme toggle ── */}
+        <ThemeToggle />
 
         {/* ── Notifications bell ── */}
         <div className="relative" ref={notificationsRef}>
@@ -195,7 +199,7 @@ export function Navbar() {
               setNotificationsOpen((o) => !o);
               setProfileOpen(false);
             }}
-            className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-700"
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 dark:border-ink-800 text-ink-500 dark:text-ink-400 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 hover:text-ink-700 dark:hover:text-ink-200"
           >
             <Bell className="h-4 w-4" />
             {unreadCount > 0 && (
@@ -209,11 +213,11 @@ export function Navbar() {
             <div
               role="menu"
               aria-label="Notifications"
-              className="absolute right-0 top-full z-50 mt-2 w-80 animate-fade-in rounded-2xl border border-ink-200 bg-white shadow-dropdown"
+              className="absolute right-0 top-full z-50 mt-2 w-80 animate-fade-in rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface shadow-dropdown"
             >
               {/* Panel header */}
-              <div className="flex items-center justify-between border-b border-ink-100 px-4 py-3">
-                <p className="text-sm font-semibold text-ink-900">
+              <div className="flex items-center justify-between border-b border-ink-100 dark:border-ink-900 px-4 py-3">
+                <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">
                   Notifications
                   {unreadCount > 0 && (
                     <span className="ml-2 rounded-full bg-red-100 px-1.5 py-0.5 text-[10px] font-bold text-red-600">
@@ -225,7 +229,7 @@ export function Navbar() {
                   <button
                     type="button"
                     onClick={handleMarkAllRead}
-                    className="flex items-center gap-1 text-xs text-ink-400 hover:text-ink-700"
+                    className="flex items-center gap-1 text-xs text-ink-400 dark:text-ink-600 hover:text-ink-700 dark:hover:text-ink-200"
                     title="Mark all as read"
                   >
                     <CheckCheck className="h-3.5 w-3.5" />
@@ -238,13 +242,13 @@ export function Navbar() {
               <div className="max-h-72 overflow-y-auto">
                 {loadingNotifs ? (
                   <div className="flex justify-center py-8">
-                    <span className="h-5 w-5 animate-spin rounded-full border-2 border-ink-200 border-t-navy-600" />
+                    <span className="h-5 w-5 animate-spin rounded-full border-2 border-ink-200 dark:border-ink-800 border-t-navy-600" />
                   </div>
                 ) : notifications.length === 0 ? (
                   <div className="flex flex-col items-center justify-center px-4 py-10 text-center">
-                    <Bell className="mb-2 h-8 w-8 text-ink-200" />
-                    <p className="text-sm font-medium text-ink-500">No notifications yet</p>
-                    <p className="mt-1 text-xs text-ink-400">
+                    <Bell className="mb-2 h-8 w-8 text-ink-200 dark:text-ink-800" />
+                    <p className="text-sm font-medium text-ink-500 dark:text-ink-400">No notifications yet</p>
+                    <p className="mt-1 text-xs text-ink-400 dark:text-ink-600">
                       Deadline alerts and match updates will appear here.
                     </p>
                   </div>
@@ -254,7 +258,7 @@ export function Navbar() {
                       <li
                         key={n.id}
                         className={cn(
-                          "flex items-start gap-3 border-b border-ink-50 px-4 py-3 last:border-0",
+                          "flex items-start gap-3 border-b border-ink-50 dark:border-ink-950 px-4 py-3 last:border-0",
                           !n.is_read && "bg-blue-50/40"
                         )}
                       >
@@ -265,20 +269,20 @@ export function Navbar() {
                           <p
                             className={cn(
                               "text-xs leading-snug",
-                              !n.is_read ? "font-semibold text-ink-900" : "text-ink-700"
+                              !n.is_read ? "font-semibold text-ink-900 dark:text-ink-50" : "text-ink-700 dark:text-ink-200"
                             )}
                           >
                             {n.title}
                           </p>
-                          <p className="mt-0.5 line-clamp-2 text-[11px] text-ink-400">{n.body}</p>
-                          <p className="mt-1 text-[10px] text-ink-300">{timeAgo(n.created_at)}</p>
+                          <p className="mt-0.5 line-clamp-2 text-[11px] text-ink-400 dark:text-ink-600">{n.body}</p>
+                          <p className="mt-1 text-[10px] text-ink-300 dark:text-ink-700">{timeAgo(n.created_at)}</p>
                         </div>
                         {!n.is_read && (
                           <button
                             type="button"
                             onClick={() => handleMarkRead(n.id)}
                             aria-label="Mark as read"
-                            className="mt-0.5 shrink-0 text-ink-300 hover:text-navy-600"
+                            className="mt-0.5 shrink-0 text-ink-300 dark:text-ink-700 hover:text-navy-600 dark:hover:text-navy-400"
                           >
                             <Check className="h-3.5 w-3.5" />
                           </button>
@@ -304,26 +308,26 @@ export function Navbar() {
               setNotificationsOpen(false);
             }}
             className={cn(
-              "flex h-9 items-center gap-1.5 rounded-lg border border-ink-200 px-2.5 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50",
+              "flex h-9 items-center gap-1.5 rounded-lg border border-ink-200 dark:border-ink-800 px-2.5 text-sm font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950",
             )}
           >
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-navy-600 text-white">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-navy-600 dark:bg-navy-400 text-white">
               <User className="h-3.5 w-3.5" />
             </div>
-            <ChevronDown className="h-3.5 w-3.5 text-ink-400" />
+            <ChevronDown className="h-3.5 w-3.5 text-ink-400 dark:text-ink-600" />
           </button>
 
           {profileOpen && (
             <div
               role="menu"
-              className="absolute right-0 top-full z-50 mt-2 min-w-[12rem] animate-fade-in rounded-2xl border border-ink-200 bg-white py-1 shadow-dropdown"
+              className="absolute right-0 top-full z-50 mt-2 min-w-[12rem] animate-fade-in rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface py-1 shadow-dropdown"
             >
               {!isAuthenticated ? (
                 <>
                   <Link
                     href="/login"
                     role="menuitem"
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 transition-colors hover:bg-ink-50"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950"
                     onClick={() => setProfileOpen(false)}
                   >
                     Login
@@ -331,7 +335,7 @@ export function Navbar() {
                   <Link
                     href="/register"
                     role="menuitem"
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 transition-colors hover:bg-ink-50"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950"
                     onClick={() => setProfileOpen(false)}
                   >
                     Register
@@ -342,13 +346,13 @@ export function Navbar() {
                   <Link
                     href="/settings"
                     role="menuitem"
-                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 transition-colors hover:bg-ink-50"
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950"
                     onClick={() => setProfileOpen(false)}
                   >
-                    <User className="h-4 w-4 text-ink-400" />
+                    <User className="h-4 w-4 text-ink-400 dark:text-ink-600" />
                     Settings
                   </Link>
-                  <div className="my-1 border-t border-ink-100" />
+                  <div className="my-1 border-t border-ink-100 dark:border-ink-900" />
                   <button
                     type="button"
                     role="menuitem"

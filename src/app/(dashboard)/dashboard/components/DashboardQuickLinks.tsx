@@ -26,21 +26,21 @@ const links = [
 ] as const;
 
 const accentClasses = {
-  navy: "bg-navy-600 text-white group-hover:bg-navy-700",
-  slate: "bg-ink-800 text-white group-hover:bg-ink-900",
+  navy: "bg-navy-600 dark:bg-navy-400 text-white group-hover:bg-navy-700 dark:group-hover:bg-navy-500",
+  slate: "bg-ink-800 dark:bg-ink-100 text-white dark:text-ink-900 group-hover:bg-ink-900 dark:group-hover:bg-ink-50",
   violet: "bg-violet-600 text-white group-hover:bg-violet-700",
 };
 
 export function DashboardQuickLinks() {
   return (
     <nav aria-label="Quick actions" className="w-full lg:max-w-sm">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-400">Quick actions</p>
+      <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Quick actions</p>
       <ul className="space-y-2">
         {links.map(({ href, label, description, icon: Icon, accent }) => (
           <li key={href}>
             <Link
               href={href}
-              className="group flex items-center gap-3 rounded-xl border border-ink-200 bg-white p-3 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+              className="group flex items-center gap-3 rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-3 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2"
             >
               <span
                 className={cn(
@@ -51,10 +51,10 @@ export function DashboardQuickLinks() {
                 <Icon className="h-4 w-4" aria-hidden />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-sm font-semibold text-ink-900">{label}</span>
-                <span className="block truncate text-xs text-ink-400">{description}</span>
+                <span className="block text-sm font-semibold text-ink-900 dark:text-ink-50">{label}</span>
+                <span className="block truncate text-xs text-ink-400 dark:text-ink-600">{description}</span>
               </span>
-              <ArrowRight className="h-4 w-4 shrink-0 text-ink-300 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-600" aria-hidden />
+              <ArrowRight className="h-4 w-4 shrink-0 text-ink-300 dark:text-ink-700 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-600 dark:group-hover:text-ink-300" aria-hidden />
             </Link>
           </li>
         ))}

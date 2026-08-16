@@ -47,9 +47,9 @@ export function ActionBar({ tenderId }: ActionBarProps) {
   const isIgnored = currentStatus === "ignored";
 
   return (
-    <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-      <h3 className="mb-1 text-sm font-semibold text-ink-900">Your decision</h3>
-      <p className="mb-4 text-xs text-ink-400">
+    <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
+      <h3 className="mb-1 text-sm font-semibold text-ink-900 dark:text-ink-50">Your decision</h3>
+      <p className="mb-4 text-xs text-ink-400 dark:text-ink-600">
         Mark this tender to track it in your pipeline.
       </p>
 
@@ -74,7 +74,7 @@ export function ActionBar({ tenderId }: ActionBarProps) {
         </Button>
         <Button
           variant="secondary"
-          className="w-full justify-center text-ink-600"
+          className="w-full justify-center text-ink-600 dark:text-ink-300"
           onClick={() => void handleMark("ignored")}
           disabled={isSubmitting || isIgnored}
         >

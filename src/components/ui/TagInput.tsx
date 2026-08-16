@@ -47,20 +47,20 @@ export function TagInput({ value, onChange, placeholder = "Type and press Enterâ
 
   return (
     <div
-      className={`min-h-[44px] w-full cursor-text rounded-lg border border-border bg-white px-3 py-2 focus-within:ring-2 focus-within:ring-slate-300 ${className ?? ""}`}
+      className={`min-h-[44px] w-full cursor-text rounded-lg border border-border bg-surface px-3 py-2 focus-within:ring-2 focus-within:ring-slate-300 dark:focus-within:ring-ink-700 ${className ?? ""}`}
       onClick={() => inputRef.current?.focus()}
     >
       <div className="flex flex-wrap gap-1.5">
         {tags.map((tag, i) => (
           <span
             key={i}
-            className="inline-flex items-center gap-1 rounded-md bg-navy-50 px-2 py-0.5 text-xs font-medium text-navy-800 border border-navy-200"
+            className="inline-flex items-center gap-1 rounded-md bg-navy-50 dark:bg-navy-900 px-2 py-0.5 text-xs font-medium text-navy-800 dark:text-navy-600 border border-navy-200 dark:border-navy-700"
           >
             {tag}
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); removeTag(i); }}
-              className="ml-0.5 rounded-sm text-navy-500 hover:text-navy-800 focus:outline-none"
+              className="ml-0.5 rounded-sm text-navy-500 dark:text-navy-400 hover:text-navy-800 dark:hover:text-navy-600 focus:outline-none"
               aria-label={`Remove ${tag}`}
             >
               <X className="h-3 w-3" />
@@ -75,7 +75,7 @@ export function TagInput({ value, onChange, placeholder = "Type and press Enterâ
           onKeyDown={onKeyDown}
           onBlur={() => { if (inputValue.trim()) addTag(inputValue); }}
           placeholder={tags.length === 0 ? placeholder : ""}
-          className="min-w-[160px] flex-1 bg-transparent text-sm outline-none placeholder:text-ink-400"
+          className="min-w-[160px] flex-1 bg-transparent text-sm outline-none placeholder:text-ink-400 dark:placeholder:text-ink-600"
         />
       </div>
     </div>

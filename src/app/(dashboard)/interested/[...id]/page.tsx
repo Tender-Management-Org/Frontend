@@ -32,7 +32,7 @@ export default async function InterestedTenderWorkspacePage({ params }: PageProp
     <section className="mx-auto w-full max-w-7xl space-y-5">
       <Link
         href="/interested"
-        className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 transition-colors hover:text-ink-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 rounded-md"
+        className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-500 dark:text-ink-400 transition-colors hover:text-ink-900 dark:hover:text-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 rounded-md"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to interested tenders
@@ -42,8 +42,8 @@ export default async function InterestedTenderWorkspacePage({ params }: PageProp
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold uppercase tracking-widest text-violet-500">Filing workspace</p>
-            <h1 className="mt-1 text-xl font-bold text-ink-900">{tender.work_items.title}</h1>
-            <p className="mt-0.5 text-sm text-ink-500">{tender.basic_details.organisation_chain}</p>
+            <h1 className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">{tender.work_items.title}</h1>
+            <p className="mt-0.5 text-sm text-ink-500 dark:text-ink-400">{tender.basic_details.organisation_chain}</p>
           </div>
           <span className="shrink-0 rounded-full border border-violet-200 bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700">
             Interested

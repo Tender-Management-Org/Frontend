@@ -13,7 +13,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
     <div className="space-y-4">
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">Legal Name *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Legal Name *</label>
           <Input
             value={formData.legal_name}
             onChange={(event) => onChange("legal_name", event.target.value)}
@@ -23,7 +23,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">Business Name *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Business Name *</label>
           <Input
             value={formData.business_name}
             onChange={(event) => onChange("business_name", event.target.value)}
@@ -33,11 +33,11 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">Constitution *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Constitution *</label>
           <select
             value={formData.constitution}
             onChange={(event) => onChange("constitution", event.target.value)}
-            className="h-10 w-full rounded-lg border border-border bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-slate-300"
+            className="h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-ink-700"
           >
             <option value="">Select constitution</option>
             <option value="proprietor">Proprietor</option>
@@ -50,7 +50,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">Industry Type *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Industry Type *</label>
           <Input
             value={formData.industry_type}
             onChange={(event) => onChange("industry_type", event.target.value)}
@@ -61,7 +61,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
       </div>
 
       <div className="space-y-2 md:max-w-sm">
-        <label className="text-sm font-medium text-slate-700">Incorporation Date *</label>
+        <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Incorporation Date *</label>
         <Input
           type="date"
           value={formData.incorporation_date}
@@ -71,7 +71,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
       </div>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">Scope of Work *</label>
+        <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Scope of Work *</label>
         <TagInput
           value={formData.scope_of_work}
           onChange={(val) => onChange("scope_of_work", val)}

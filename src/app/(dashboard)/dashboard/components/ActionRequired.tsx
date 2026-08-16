@@ -46,7 +46,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
     <Card id="attention" className="scroll-mt-24 space-y-4">
       <div className="flex items-center gap-2">
         <AlertTriangle className="h-4 w-4 text-danger-500" aria-hidden />
-        <h2 className="text-base font-semibold text-ink-900">Needs attention</h2>
+        <h2 className="text-base font-semibold text-ink-900 dark:text-ink-50">Needs attention</h2>
         {items.length > 0 && (
           <span className="ml-auto flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-danger-500 px-1.5 text-xs font-bold text-white">
             {items.length}
@@ -73,12 +73,12 @@ export function ActionRequired({ items }: ActionRequiredProps) {
                 <div
                   className={cn(
                     "rounded-xl border p-3.5",
-                    isCritical ? "border-danger-200 bg-danger-50" : "border-ink-200 bg-white"
+                    isCritical ? "border-danger-200 bg-danger-50" : "border-ink-200 dark:border-ink-800 bg-surface"
                   )}
                 >
-                  <p className="line-clamp-2 text-sm font-semibold leading-snug text-ink-900">{item.title}</p>
+                  <p className="line-clamp-2 text-sm font-semibold leading-snug text-ink-900 dark:text-ink-50">{item.title}</p>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center gap-1 text-xs text-ink-500">
+                    <span className="inline-flex items-center gap-1 text-xs text-ink-500 dark:text-ink-400">
                       <CalendarDays className="h-3.5 w-3.5" aria-hidden />
                       {formatted}
                     </span>
@@ -86,7 +86,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
                       <span
                         className={cn(
                           "rounded-full px-2 py-0.5 text-xs font-semibold",
-                          isCritical ? "bg-danger-100 text-danger-700" : "bg-ink-100 text-ink-600"
+                          isCritical ? "bg-danger-100 text-danger-700" : "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
                         )}
                       >
                         {hint}
@@ -96,10 +96,10 @@ export function ActionRequired({ items }: ActionRequiredProps) {
                   <Link
                     href={href}
                     className={cn(
-                      "mt-3 flex h-8 w-full items-center justify-center rounded-lg text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500",
+                      "mt-3 flex h-8 w-full items-center justify-center rounded-lg text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
                       isCritical
                         ? "bg-danger-600 text-white hover:bg-danger-700"
-                        : "bg-ink-900 text-white hover:bg-ink-800"
+                        : "bg-ink-900 dark:bg-ink-50 text-white dark:text-ink-900 hover:bg-ink-800 dark:hover:bg-ink-100"
                     )}
                   >
                     Review tender

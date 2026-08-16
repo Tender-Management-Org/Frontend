@@ -11,20 +11,20 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-slate-700">Address Line *</label>
+        <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Address Line *</label>
         <textarea
           value={formData.address_line}
           onChange={(event) => onChange("address_line", event.target.value)}
           rows={3}
           placeholder="Enter firm address"
-          className="w-full rounded-lg border border-border bg-white px-3 py-2 text-sm outline-none placeholder:text-slate-400 focus:ring-2 focus:ring-slate-300"
+          className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm outline-none placeholder:text-slate-400 dark:placeholder:text-ink-600 focus:ring-2 focus:ring-slate-300 dark:focus:ring-ink-700"
         />
         {errors.address_line && <p className="text-xs text-red-600">{errors.address_line}</p>}
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">City *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">City *</label>
           <Input
             value={formData.city}
             onChange={(event) => onChange("city", event.target.value)}
@@ -34,7 +34,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">State *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">State *</label>
           <Input
             value={formData.state}
             onChange={(event) => onChange("state", event.target.value)}
@@ -44,7 +44,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-700">Pincode *</label>
+          <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Pincode *</label>
           <Input
             value={formData.pincode}
             onChange={(event) => onChange("pincode", event.target.value.replace(/\D/g, ""))}

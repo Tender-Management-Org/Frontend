@@ -3,12 +3,27 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-border: 226 232 240;      /* ink-200 */
+    --color-muted: 100 116 139;       /* ink-500 */
+    --color-background: 248 250 252;  /* ink-50 */
+    --color-surface: 255 255 255;     /* white */
+  }
+
+  .dark {
+    --color-border: 51 65 85;         /* ink-700 */
+    --color-muted: 148 163 184;       /* ink-400 */
+    --color-background: 15 23 42;     /* ink-900 */
+    --color-surface: 30 41 59;        /* ink-800 */
+    color-scheme: dark;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-ink-50 text-ink-900 antialiased;
+    @apply bg-background text-ink-900 dark:text-ink-50 antialiased transition-colors duration-150;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
@@ -24,10 +39,10 @@
     @apply bg-transparent;
   }
   ::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-ink-300;
+    @apply rounded-full bg-ink-300 dark:bg-ink-600;
   }
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-ink-400;
+    @apply bg-ink-400 dark:bg-ink-500;
   }
 }
 
@@ -37,7 +52,7 @@
   }
 
   .stat-label {
-    @apply text-xs font-semibold uppercase tracking-widest text-ink-400;
+    @apply text-xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-500;
   }
 }
 

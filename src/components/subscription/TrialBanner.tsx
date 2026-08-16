@@ -51,15 +51,15 @@ export function TrialBanner() {
         "flex items-center justify-between gap-3 border-b px-4 py-2.5 sm:px-6",
         isUrgent
           ? "border-warning-500/20 bg-warning-50"
-          : "border-navy-200/40 bg-navy-50"
+          : "border-navy-200/40 bg-navy-50 dark:bg-navy-900"
       )}
     >
       <div className="flex min-w-0 items-center gap-2">
         <Zap
-          className={cn("h-4 w-4 shrink-0", isUrgent ? "text-warning-600" : "text-navy-600")}
+          className={cn("h-4 w-4 shrink-0", isUrgent ? "text-warning-600" : "text-navy-600 dark:text-navy-400")}
           aria-hidden
         />
-        <p className={cn("truncate text-sm font-medium", isUrgent ? "text-warning-700" : "text-navy-700")}>
+        <p className={cn("truncate text-sm font-medium", isUrgent ? "text-warning-700" : "text-navy-700 dark:text-navy-500")}>
           {label}
         </p>
       </div>
@@ -69,7 +69,7 @@ export function TrialBanner() {
           href="/upgrade"
           className={cn(
             "rounded-lg px-3 py-1.5 text-xs font-semibold text-white transition-colors",
-            isUrgent ? "bg-warning-600 hover:bg-warning-700" : "bg-navy-600 hover:bg-navy-700"
+            isUrgent ? "bg-warning-600 hover:bg-warning-700" : "bg-navy-600 dark:bg-navy-400 hover:bg-navy-700 dark:hover:bg-navy-500"
           )}
         >
           Upgrade
@@ -78,7 +78,7 @@ export function TrialBanner() {
           type="button"
           aria-label="Dismiss banner"
           onClick={() => setDismissed(true)}
-          className="inline-flex h-6 w-6 items-center justify-center rounded-md text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-600"
+          className="inline-flex h-6 w-6 items-center justify-center rounded-md text-ink-400 dark:text-ink-600 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-600 dark:hover:text-ink-300"
         >
           <X className="h-3.5 w-3.5" />
         </button>

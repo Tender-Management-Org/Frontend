@@ -50,22 +50,22 @@ export function TenderCard({ tender }: TenderCardProps) {
   const dl = deadlineMeta(tender.deadline);
 
   return (
-    <article className="group rounded-2xl border border-ink-200 bg-white p-5 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5">
+    <article className="group rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card transition-all hover:shadow-card-hover hover:-translate-y-0.5">
       {/* Header */}
       <div className="space-y-2">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1">
-            <h3 className="text-base font-semibold leading-snug text-ink-900 group-hover:text-navy-700 transition-colors">
-              <Link href={tenderDetailHref(tender.id)} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 rounded-sm">
+            <h3 className="text-base font-semibold leading-snug text-ink-900 dark:text-ink-50 group-hover:text-navy-700 dark:group-hover:text-navy-500 transition-colors">
+              <Link href={tenderDetailHref(tender.id)} className="hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 rounded-sm">
                 {tender.title}
               </Link>
             </h3>
-            <p className="text-xs font-mono text-ink-400">#{tender.id}</p>
+            <p className="text-xs font-mono text-ink-400 dark:text-ink-600">#{tender.id}</p>
           </div>
           {/* Badges */}
           <div className="flex shrink-0 flex-col items-end gap-1.5">
             {typeof tender.similarityScore === "number" && (
-              <span className="inline-flex items-center rounded-full bg-navy-50 px-2 py-0.5 text-xs font-semibold text-navy-700 border border-navy-200">
+              <span className="inline-flex items-center rounded-full bg-navy-50 dark:bg-navy-900 px-2 py-0.5 text-xs font-semibold text-navy-700 dark:text-navy-500 border border-navy-200 dark:border-navy-700">
                 {Math.round(tender.similarityScore * 100)}% match
               </span>
             )}
@@ -79,7 +79,7 @@ export function TenderCard({ tender }: TenderCardProps) {
                 "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold",
                 dl.tone === "danger" && "bg-danger-50 text-danger-700 border border-danger-200",
                 dl.tone === "warning" && "bg-warning-50 text-warning-700 border border-warning-200",
-                dl.tone === "neutral" && "bg-ink-100 text-ink-600"
+                dl.tone === "neutral" && "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
               )}
             >
               {dl.hint}
@@ -87,44 +87,44 @@ export function TenderCard({ tender }: TenderCardProps) {
           </div>
         </div>
 
-        <p className="flex items-center gap-1.5 text-sm text-ink-500">
-          <Building2 className="h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
+        <p className="flex items-center gap-1.5 text-sm text-ink-500 dark:text-ink-400">
+          <Building2 className="h-3.5 w-3.5 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
           <span className="truncate">{tender.organization}</span>
         </p>
       </div>
 
       {/* Meta row */}
       <div className="mt-3 grid grid-cols-3 gap-2">
-        <div className="rounded-lg bg-ink-50 px-2.5 py-2">
-          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Location</p>
-          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 truncate">
-            <MapPin className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="rounded-lg bg-ink-50 dark:bg-ink-950 px-2.5 py-2">
+          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Location</p>
+          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 dark:text-ink-200 truncate">
+            <MapPin className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             {tender.location}
           </p>
         </div>
-        <div className="rounded-lg bg-ink-50 px-2.5 py-2">
-          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Value</p>
-          <p className="flex items-center gap-1 text-xs font-semibold text-ink-800 truncate">
-            <IndianRupee className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="rounded-lg bg-ink-50 dark:bg-ink-950 px-2.5 py-2">
+          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Value</p>
+          <p className="flex items-center gap-1 text-xs font-semibold text-ink-800 dark:text-ink-100 truncate">
+            <IndianRupee className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             {tender.value}
           </p>
         </div>
-        <div className="rounded-lg bg-ink-50 px-2.5 py-2">
-          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400">Deadline</p>
-          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 truncate">
-            <CalendarDays className="h-3 w-3 shrink-0 text-ink-400" aria-hidden />
+        <div className="rounded-lg bg-ink-50 dark:bg-ink-950 px-2.5 py-2">
+          <p className="mb-0.5 text-2xs font-semibold uppercase tracking-widest text-ink-400 dark:text-ink-600">Deadline</p>
+          <p className="flex items-center gap-1 text-xs font-medium text-ink-700 dark:text-ink-200 truncate">
+            <CalendarDays className="h-3 w-3 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
             {dl.label}
           </p>
         </div>
       </div>
 
       {/* Description */}
-      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink-500">{tender.description}</p>
+      <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-ink-500 dark:text-ink-400">{tender.description}</p>
 
       {/* Footer */}
-      <div className="mt-4 flex items-center justify-between border-t border-ink-100 pt-3">
+      <div className="mt-4 flex items-center justify-between border-t border-ink-100 dark:border-ink-900 pt-3">
         {tender.source ? (
-          <span className="inline-flex items-center rounded-full border border-ink-200 bg-ink-50 px-2.5 py-0.5 text-xs font-medium text-ink-500">
+          <span className="inline-flex items-center rounded-full border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-2.5 py-0.5 text-xs font-medium text-ink-500 dark:text-ink-400">
             {formatSource(tender.source)}
           </span>
         ) : (
@@ -132,7 +132,7 @@ export function TenderCard({ tender }: TenderCardProps) {
         )}
         <Link
           href={tenderDetailHref(tender.id)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
         >
           View details
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />

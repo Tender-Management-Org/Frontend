@@ -34,10 +34,10 @@ import {
 import { uploadDocument, type DocumentApi } from "@/lib/api/documents";
 
 const selectClass =
-  "h-10 w-full rounded-lg border border-border bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-slate-300";
+  "h-10 w-full rounded-lg border border-border bg-surface px-3 text-sm outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-ink-700";
 
 const textareaClass =
-  "min-h-[88px] w-full resize-y rounded-lg border border-border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300";
+  "min-h-[88px] w-full resize-y rounded-lg border border-border bg-surface px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300 dark:focus:ring-ink-700";
 
 export type FirmModalSection =
   | "firm"
@@ -188,12 +188,12 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
         role="dialog"
         aria-modal="true"
         aria-labelledby="firm-edit-modal-title"
-        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-white p-6 shadow-lg"
+        className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl border border-border bg-surface p-6 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-5 flex items-start justify-between gap-3">
-          <h3 id="firm-edit-modal-title" className="text-lg font-semibold text-slate-900">{title}</h3>
-          <button type="button" onClick={onClose} className="rounded-lg p-1 text-slate-400 hover:text-slate-700" aria-label="Close">
+          <h3 id="firm-edit-modal-title" className="text-lg font-semibold text-slate-900 dark:text-ink-50">{title}</h3>
+          <button type="button" onClick={onClose} className="rounded-lg p-1 text-slate-400 dark:text-ink-600 hover:text-slate-700 dark:hover:text-ink-200" aria-label="Close">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -406,11 +406,11 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
 function Field({ label, hint, required, children }: { label: string; hint?: string; required?: boolean; children: ReactNode }) {
   return (
     <div className="space-y-1.5">
-      <label className="text-sm font-medium text-slate-700">
+      <label className="text-sm font-medium text-slate-700 dark:text-ink-200">
         {label}{required && <span className="ml-0.5 text-red-500">*</span>}
       </label>
       {children}
-      {hint && <p className="text-xs text-slate-400">{hint}</p>}
+      {hint && <p className="text-xs text-slate-400 dark:text-ink-600">{hint}</p>}
     </div>
   );
 }
@@ -486,7 +486,7 @@ function FirmFormFields({ firm }: { firm: FirmApi | null }) {
           onChange={setScopeOfWork}
           placeholder="Type and press Enter — e.g. Civil Construction"
         />
-        <p className="text-xs text-slate-400">Press Enter or comma to add each item as a tag.</p>
+        <p className="text-xs text-slate-400 dark:text-ink-600">Press Enter or comma to add each item as a tag.</p>
       </Field>
     </>
   );
@@ -496,7 +496,7 @@ function IdentityFormFields({ identity }: { identity: FirmIdentityApi | null }) 
   return (
     <div className="space-y-4">
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Required</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-ink-600">Required</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="PAN number" required hint="Format: ABCDE1234F">
             <Input name="pan_number" placeholder="ABCDE1234F" maxLength={10} defaultValue={identity?.pan_number ?? ""} />
@@ -507,7 +507,7 @@ function IdentityFormFields({ identity }: { identity: FirmIdentityApi | null }) 
         </div>
       </div>
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Optional</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-ink-600">Optional</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="CIN" hint="21-char Corporate Identity Number (companies only)">
             <Input name="cin" placeholder="U74999WB2000PTC200542" maxLength={21} defaultValue={identity?.cin ?? ""} />
@@ -590,7 +590,7 @@ function FinancialsFormFields({ financial }: { financial: FirmFinancialApi | nul
       <Field label="Audit document" required hint={financial?.audit_document ? "A document is already linked. Upload a new file to replace it." : "Upload the audited financial statement."}>
         <Input name="audit_document_file" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx" />
         {financial?.audit_document && (
-          <p className="text-xs text-slate-500">Current document will be kept unless you upload a replacement.</p>
+          <p className="text-xs text-slate-500 dark:text-ink-400">Current document will be kept unless you upload a replacement.</p>
         )}
       </Field>
     </div>

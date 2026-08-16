@@ -240,7 +240,7 @@ export default function OnboardingPage() {
   if (isCheckingFirm) {
     return (
       <div className="flex min-h-full items-center justify-center">
-        <Loader2 className="h-6 w-6 animate-spin text-ink-300" />
+        <Loader2 className="h-6 w-6 animate-spin text-ink-300 dark:text-ink-700" />
       </div>
     );
   }
@@ -250,15 +250,15 @@ export default function OnboardingPage() {
       <section className="w-full max-w-3xl space-y-6">
         {/* Header */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-navy-600">Setup</p>
-          <h1 className="mt-1 text-2xl font-bold text-ink-900">Firm profile onboarding</h1>
+          <p className="text-xs font-semibold uppercase tracking-widest text-navy-600 dark:text-navy-400">Setup</p>
+          <h1 className="mt-1 text-2xl font-bold text-ink-900 dark:text-ink-50">Firm profile onboarding</h1>
           {!isSubmitted && (
-            <p className="mt-1 text-sm text-ink-500">{stepDescription}</p>
+            <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">{stepDescription}</p>
           )}
         </div>
 
         {!isSubmitted && (
-          <div className="rounded-2xl border border-ink-200 bg-white p-4 shadow-card">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
             <Stepper
               steps={stepTitles}
               currentStep={currentStep}
@@ -272,20 +272,20 @@ export default function OnboardingPage() {
         )}
 
         {/* Form card */}
-        <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+        <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
           {isSubmitted ? (
             <div className="flex flex-col items-center py-8 text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success-50">
                 <CheckCircle2 className="h-8 w-8 text-success-600" />
               </div>
-              <h2 className="text-xl font-bold text-ink-900">Onboarding complete!</h2>
-              <p className="mt-2 max-w-xs text-sm text-ink-500">
+              <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50">Onboarding complete!</h2>
+              <p className="mt-2 max-w-xs text-sm text-ink-500 dark:text-ink-400">
                 Your firm profile has been saved. Your dashboard is now unlocked.
               </p>
               <div className="mt-6 flex flex-col items-center gap-3">
                 <Link
                   href="/firm"
-                  className="inline-flex items-center gap-2 rounded-lg bg-navy-600 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700"
+                  className="inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
                 >
                   Go to firm workspace
                   <ArrowRight className="h-4 w-4" aria-hidden />
@@ -299,7 +299,7 @@ export default function OnboardingPage() {
                     setSubmitError(null);
                     setFormData(initialState);
                   }}
-                  className="text-sm text-ink-500 underline-offset-4 hover:underline"
+                  className="text-sm text-ink-500 dark:text-ink-400 underline-offset-4 hover:underline"
                 >
                   Start over
                 </button>
@@ -319,7 +319,7 @@ export default function OnboardingPage() {
               )}
 
               {/* Nav buttons */}
-              <div className="flex items-center justify-between border-t border-ink-100 pt-5">
+              <div className="flex items-center justify-between border-t border-ink-100 dark:border-ink-900 pt-5">
                 <Button
                   variant="secondary"
                   onClick={handleBack}
@@ -329,7 +329,7 @@ export default function OnboardingPage() {
                   <ArrowLeft className="h-4 w-4" aria-hidden />
                   Back
                 </Button>
-                <p className="text-xs text-ink-400">
+                <p className="text-xs text-ink-400 dark:text-ink-600">
                   Step {currentStep + 1} of {stepTitles.length}
                 </p>
                 {currentStep < stepTitles.length - 1 ? (
@@ -349,7 +349,7 @@ export default function OnboardingPage() {
 
         {/* Draft indicator */}
         {!isSubmitted && (
-          <p className="text-center text-xs text-ink-400">
+          <p className="text-center text-xs text-ink-400 dark:text-ink-600">
             Your progress is auto-saved locally as a draft.
           </p>
         )}

@@ -19,7 +19,7 @@ const toastConfig: Record<
     Icon: AlertCircle,
   },
   info: {
-    className: "border-ink-200 bg-white text-ink-900",
+    className: "border-ink-200 dark:border-ink-800 bg-surface text-ink-900 dark:text-ink-50",
     Icon: Info,
   },
 };

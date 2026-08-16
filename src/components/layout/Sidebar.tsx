@@ -83,7 +83,7 @@ export function Sidebar() {
         type="button"
         onClick={() => setIsMobileOpen(true)}
         aria-label="Open navigation"
-        className="fixed left-4 top-4 z-40 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-700 shadow-sm md:hidden"
+        className="fixed left-4 top-4 z-40 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 dark:border-ink-800 bg-surface text-ink-700 dark:text-ink-200 shadow-sm md:hidden"
       >
         <Menu className="h-4 w-4" />
       </button>
@@ -101,7 +101,7 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col bg-white shadow-sidebar transition-all duration-300 md:static md:z-auto",
+          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col bg-surface shadow-sidebar transition-all duration-300 md:static md:z-auto",
           isCollapsed ? "w-[68px]" : "w-60",
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
@@ -109,7 +109,7 @@ export function Sidebar() {
         {/* ── Brand ───────────────────────────────────────────────────────── */}
         <div
           className={cn(
-            "shrink-0 border-b border-ink-100",
+            "shrink-0 border-b border-ink-100 dark:border-ink-900",
             isCollapsed ? "px-0 py-3" : "px-3 py-3"
           )}
         >
@@ -122,7 +122,7 @@ export function Sidebar() {
                 type="button"
                 onClick={() => setIsCollapsed(false)}
                 aria-label="Expand sidebar"
-                className="hidden h-6 w-6 items-center justify-center rounded-md text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 md:inline-flex"
+                className="hidden h-6 w-6 items-center justify-center rounded-md text-ink-400 dark:text-ink-600 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-700 dark:hover:text-ink-200 md:inline-flex"
               >
                 <ChevronRight className="h-3.5 w-3.5" />
               </button>
@@ -132,10 +132,10 @@ export function Sidebar() {
               <Link
                 href="/dashboard"
                 aria-label="tenderkhoj home"
-                className="min-w-0 flex-1 rounded-lg px-2 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+                className="min-w-0 flex-1 rounded-lg px-2 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
               >
                 <BrandWordmark height={28} />
-                <p className="mt-1 truncate text-xs font-medium text-ink-500 leading-tight" title={firmName}>
+                <p className="mt-1 truncate text-xs font-medium text-ink-500 dark:text-ink-400 leading-tight" title={firmName}>
                   {firmName}
                 </p>
               </Link>
@@ -144,7 +144,7 @@ export function Sidebar() {
                 type="button"
                 onClick={() => setIsCollapsed(true)}
                 aria-label="Collapse sidebar"
-                className="hidden h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 md:inline-flex"
+                className="hidden h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-400 dark:text-ink-600 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-700 dark:hover:text-ink-200 md:inline-flex"
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
               </button>
@@ -152,7 +152,7 @@ export function Sidebar() {
                 type="button"
                 onClick={() => setIsMobileOpen(false)}
                 aria-label="Close navigation"
-                className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 md:hidden"
+                className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-ink-400 dark:text-ink-600 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-700 dark:hover:text-ink-200 md:hidden"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -178,8 +178,8 @@ export function Sidebar() {
                       "group relative flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                       isCollapsed ? "justify-center" : "gap-3",
                       isActive
-                        ? "bg-navy-600 text-white shadow-sm"
-                        : "text-ink-600 hover:bg-ink-100 hover:text-ink-900"
+                        ? "bg-navy-600 dark:bg-navy-400 text-white shadow-sm"
+                        : "text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-900 dark:hover:text-ink-50"
                     )}
                     title={isCollapsed ? item.name : undefined}
                   >
@@ -187,7 +187,7 @@ export function Sidebar() {
                       <Icon
                         className={cn(
                           "h-4 w-4",
-                          isActive ? "text-white" : "text-ink-400 group-hover:text-ink-700"
+                          isActive ? "text-white" : "text-ink-400 dark:text-ink-600 group-hover:text-ink-700 dark:group-hover:text-ink-200"
                         )}
                         aria-hidden
                       />
@@ -207,7 +207,7 @@ export function Sidebar() {
                         )}
                         {!isOnboardingComplete && item.href !== "/dashboard" && item.href !== "/settings" && (
                           <Lock
-                            className="h-3 w-3 shrink-0 text-ink-300"
+                            className="h-3 w-3 shrink-0 text-ink-300 dark:text-ink-700"
                             aria-label={`${item.name} locked until onboarding is complete`}
                           />
                         )}
@@ -215,7 +215,7 @@ export function Sidebar() {
                     )}
                     {isCollapsed && !isOnboardingComplete && item.href !== "/dashboard" && item.href !== "/settings" && (
                       <Lock
-                        className="absolute right-1 top-1 h-2.5 w-2.5 text-ink-300"
+                        className="absolute right-1 top-1 h-2.5 w-2.5 text-ink-300 dark:text-ink-700"
                         aria-label={`${item.name} locked`}
                       />
                     )}
@@ -227,7 +227,7 @@ export function Sidebar() {
         </nav>
 
         {/* ── Footer — Upgrade callout ───────────────────────────────────────── */}
-        <div className="shrink-0 border-t border-ink-100">
+        <div className="shrink-0 border-t border-ink-100 dark:border-ink-900">
           {show_upgrade_cta && !invite_only && (
             <div className={cn("px-2 py-2", isCollapsed && "flex justify-center")}>
               <Link
@@ -235,7 +235,7 @@ export function Sidebar() {
                 onClick={() => setIsMobileOpen(false)}
                 title={isCollapsed ? "Upgrade plan" : undefined}
                 className={cn(
-                  "group flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-navy-600 to-navy-700 px-3 py-2.5 text-white transition-opacity hover:opacity-90",
+                  "group flex items-center gap-2.5 rounded-xl bg-gradient-to-r from-navy-600 dark:from-navy-400 to-navy-700 dark:to-navy-500 px-3 py-2.5 text-white transition-opacity hover:opacity-90",
                   isCollapsed ? "w-10 justify-center px-0" : "w-full"
                 )}
               >
@@ -243,7 +243,7 @@ export function Sidebar() {
                 {!isCollapsed && (
                   <div className="min-w-0">
                     <p className="text-xs font-semibold leading-tight">Upgrade plan</p>
-                    <p className="truncate text-[10px] text-navy-200">Unlock more features</p>
+                    <p className="truncate text-[10px] text-navy-200 dark:text-navy-700">Unlock more features</p>
                   </div>
                 )}
               </Link>
@@ -251,7 +251,7 @@ export function Sidebar() {
           )}
           {!isCollapsed && (
             <p
-              className="truncate px-4 pb-2.5 pt-1 text-[10px] leading-tight text-ink-300"
+              className="truncate px-4 pb-2.5 pt-1 text-[10px] leading-tight text-ink-300 dark:text-ink-700"
               title="TenderKhoj, operated by Vaibhav Paliwal"
             >
               TenderKhoj, operated by Vaibhav Paliwal

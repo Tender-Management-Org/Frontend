@@ -35,10 +35,10 @@ export function TenderSearch({
   isLoading = false,
 }: TenderSearchProps) {
   return (
-    <div className="rounded-2xl border border-ink-200 bg-white p-4 shadow-card">
+    <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" aria-hidden />
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400 dark:text-ink-600" aria-hidden />
           <Input
             value={value}
             onChange={(e) => onChange(e.target.value)}
@@ -53,7 +53,7 @@ export function TenderSearch({
               type="button"
               onClick={onReset}
               aria-label="Clear search"
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-700"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 dark:text-ink-600 hover:text-ink-700 dark:hover:text-ink-200"
             >
               <X className="h-4 w-4" />
             </button>
@@ -66,7 +66,7 @@ export function TenderSearch({
 
       {/* Mode selector */}
       <div className="mt-3 flex flex-wrap items-center gap-1.5">
-        <span className="text-xs font-medium text-ink-400">Mode:</span>
+        <span className="text-xs font-medium text-ink-400 dark:text-ink-600">Mode:</span>
         {(["hybrid", "semantic", "keyword"] as const).map((mode) => (
           <button
             key={mode}
@@ -74,16 +74,16 @@ export function TenderSearch({
             onClick={() => onSearchModeChange(mode)}
             title={modeDescriptions[mode]}
             className={cn(
-              "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500",
+              "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
               searchMode === mode
-                ? "border-navy-300 bg-navy-50 text-navy-700"
-                : "border-ink-200 bg-white text-ink-600 hover:bg-ink-50"
+                ? "border-navy-300 dark:border-navy-600 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+                : "border-ink-200 dark:border-ink-800 bg-surface text-ink-600 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-ink-950"
             )}
           >
             {modeLabels[mode]}
           </button>
         ))}
-        <span className="ml-1 hidden text-xs text-ink-400 sm:inline">{modeDescriptions[searchMode]}</span>
+        <span className="ml-1 hidden text-xs text-ink-400 dark:text-ink-600 sm:inline">{modeDescriptions[searchMode]}</span>
       </div>
     </div>
   );

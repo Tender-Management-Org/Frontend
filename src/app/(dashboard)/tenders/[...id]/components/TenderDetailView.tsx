@@ -86,25 +86,25 @@ async function downloadFromUrl(fileUrl: string): Promise<void> {
 function DetailRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="grid gap-1 py-3 sm:grid-cols-[minmax(0,200px)_1fr] sm:gap-4">
-      <dt className="text-xs font-semibold uppercase tracking-wide text-ink-400">{label}</dt>
-      <dd className="text-sm text-ink-800">{children}</dd>
+      <dt className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">{label}</dt>
+      <dd className="text-sm text-ink-800 dark:text-ink-100">{children}</dd>
     </div>
   );
 }
 
 function OrgChain({ value }: { value: string }) {
   const parts = value.split("||").map((s) => s.trim()).filter(Boolean);
-  if (parts.length === 0) return <span className="text-ink-400">—</span>;
+  if (parts.length === 0) return <span className="text-ink-400 dark:text-ink-600">—</span>;
   return (
     <ol className="flex flex-wrap items-center gap-x-1 gap-y-1">
       {parts.map((part, i) => (
         <li key={i} className="flex items-center gap-1">
-          {i > 0 && <span className="text-ink-300 select-none">›</span>}
+          {i > 0 && <span className="text-ink-300 dark:text-ink-700 select-none">›</span>}
           <span
             className={
               i === parts.length - 1
-                ? "rounded-md bg-navy-50 px-2 py-0.5 text-xs font-semibold text-navy-700"
-                : "text-xs text-ink-600"
+                ? "rounded-md bg-navy-50 dark:bg-navy-900 px-2 py-0.5 text-xs font-semibold text-navy-700 dark:text-navy-500"
+                : "text-xs text-ink-600 dark:text-ink-300"
             }
           >
             {part}
@@ -117,9 +117,9 @@ function OrgChain({ value }: { value: string }) {
 
 function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-      <h3 className="mb-1 text-sm font-bold uppercase tracking-wide text-ink-500">{title}</h3>
-      <dl className="divide-y divide-ink-100">{children}</dl>
+    <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
+      <h3 className="mb-1 text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">{title}</h3>
+      <dl className="divide-y divide-ink-100 dark:divide-ink-900">{children}</dl>
     </div>
   );
 }
@@ -155,18 +155,18 @@ function DocRow({
     <div
       className={cn(
         "flex flex-col gap-3 rounded-xl border p-3.5 sm:flex-row sm:items-center sm:justify-between",
-        isSelected ? "border-navy-300 bg-navy-50/40" : "border-ink-200"
+        isSelected ? "border-navy-300 dark:border-navy-600 bg-navy-50/40" : "border-ink-200 dark:border-ink-800"
       )}
     >
       <div className="min-w-0 flex-1">
-        <p className="flex items-center gap-2 text-sm font-semibold text-ink-900">
-          <FileText className="h-4 w-4 shrink-0 text-ink-400" aria-hidden />
+        <p className="flex items-center gap-2 text-sm font-semibold text-ink-900 dark:text-ink-50">
+          <FileText className="h-4 w-4 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
           <span className="truncate">{fv(doc.document_name)}</span>
           {docIntel?.status === "complete" && (
             <CheckCircle2 className="h-4 w-4 shrink-0 text-success-600" aria-label="Analysis complete" />
           )}
         </p>
-        <p className="mt-0.5 text-xs text-ink-400">
+        <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">
           {[doc.description?.trim(), formatSize(doc.document_size_kb)].filter((part) => part && part !== "—").join(" · ") || "—"}
         </p>
       </div>
@@ -175,7 +175,7 @@ function DocRow({
           type="button"
           onClick={onView}
           disabled={!hasUrl}
-          className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-ink-200 bg-white px-3 text-xs font-medium text-ink-700 transition-colors hover:bg-ink-50 disabled:opacity-40"
+          className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 text-xs font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 disabled:opacity-40"
         >
           <Eye className="h-3.5 w-3.5" aria-hidden />
           View
@@ -184,7 +184,7 @@ function DocRow({
           type="button"
           onClick={onDownload}
           disabled={!hasUrl}
-          className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-ink-200 bg-white px-3 text-xs font-medium text-ink-700 transition-colors hover:bg-ink-50 disabled:opacity-40"
+          className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 text-xs font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 disabled:opacity-40"
         >
           <Download className="h-3.5 w-3.5" aria-hidden />
           Download
@@ -196,7 +196,7 @@ function DocRow({
               filingWorkspace?.onRequestDocIntel(documentId!, doc.document_name ?? "Document")
             }
             disabled={docIntel?.status === "processing"}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-200 bg-navy-50 px-3 text-xs font-medium text-navy-700 transition-colors hover:bg-navy-100 disabled:opacity-60"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-200 dark:border-navy-700 bg-navy-50 dark:bg-navy-900 px-3 text-xs font-medium text-navy-700 dark:text-navy-500 transition-colors hover:bg-navy-100 dark:hover:bg-navy-800 disabled:opacity-60"
           >
             {docIntel?.status === "processing" ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
@@ -213,8 +213,8 @@ function DocRow({
             className={cn(
               "inline-flex h-8 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium transition-colors",
               isSelected
-                ? "border-navy-600 bg-navy-600 text-white"
-                : "border-navy-200 bg-white text-navy-700 hover:bg-navy-50"
+                ? "border-navy-600 dark:border-navy-400 bg-navy-600 dark:bg-navy-400 text-white"
+                : "border-navy-200 dark:border-navy-700 bg-surface text-navy-700 dark:text-navy-500 hover:bg-navy-50 dark:hover:bg-navy-900"
             )}
             aria-label="View analysis results"
           >
@@ -278,7 +278,7 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
     <div className="space-y-4">
       {/* Tab bar */}
       <div
-        className="flex overflow-x-auto rounded-xl border border-ink-200 bg-white p-1 shadow-card"
+        className="flex overflow-x-auto rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-1 shadow-card"
         role="tablist"
         aria-label="Tender detail sections"
       >
@@ -290,10 +290,10 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
             aria-selected={activeTab === tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={cn(
-              "flex-1 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500",
+              "flex-1 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
               activeTab === tab.id
-                ? "bg-ink-900 text-white shadow-sm"
-                : "text-ink-500 hover:bg-ink-100 hover:text-ink-800"
+                ? "bg-ink-900 dark:bg-ink-50 text-white dark:text-ink-900 shadow-sm"
+                : "text-ink-500 dark:text-ink-400 hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-800 dark:hover:text-ink-100"
             )}
           >
             {tab.label}
@@ -307,27 +307,27 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
 
           {/* Key metrics strip */}
           <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-            <div className="rounded-xl border border-ink-200 bg-white p-4 shadow-card">
-              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Tender value</p>
-              <p className="mt-1 text-xl font-bold text-ink-900">{formatInr(w.tender_value)}</p>
+            <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">Tender value</p>
+              <p className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">{formatInr(w.tender_value)}</p>
             </div>
-            <div className="rounded-xl border border-ink-200 bg-white p-4 shadow-card">
-              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Period of work</p>
-              <p className="mt-1 text-xl font-bold text-ink-900">{w.period_of_work_days} <span className="text-sm font-medium text-ink-500">days</span></p>
+            <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">Period of work</p>
+              <p className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">{w.period_of_work_days} <span className="text-sm font-medium text-ink-500 dark:text-ink-400">days</span></p>
             </div>
-            <div className="rounded-xl border border-ink-200 bg-white p-4 shadow-card">
-              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Bid validity</p>
-              <p className="mt-1 text-xl font-bold text-ink-900">{w.bid_validity_days} <span className="text-sm font-medium text-ink-500">days</span></p>
+            <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">Bid validity</p>
+              <p className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">{w.bid_validity_days} <span className="text-sm font-medium text-ink-500 dark:text-ink-400">days</span></p>
             </div>
-            <div className="rounded-xl border border-ink-200 bg-white p-4 shadow-card">
-              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">Submission closes</p>
-              <p className="mt-1 text-sm font-bold text-ink-900 leading-snug">{formatDateTime(cd.bid_submission_end_date)}</p>
+            <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
+              <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">Submission closes</p>
+              <p className="mt-1 text-sm font-bold text-ink-900 dark:text-ink-50 leading-snug">{formatDateTime(cd.bid_submission_end_date)}</p>
             </div>
           </div>
 
           {/* Quick facts row */}
-          <div className="rounded-2xl border border-ink-200 bg-white shadow-card">
-            <dl className="divide-y divide-ink-100">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface shadow-card">
+            <dl className="divide-y divide-ink-100 dark:divide-ink-900">
               {[
                 { icon: CircleDot, label: "Category", value: String(fv(b.tender_category)) },
                 { icon: CircleDot, label: "Sub-category", value: String(fv(w.product_category)) },
@@ -337,24 +337,24 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
                 { icon: Timer, label: "Bid opening place", value: String(fv(w.bid_opening_place)) },
               ].filter(f => f.value !== "—").map(({ icon: Icon, label, value }) => (
                 <div key={label} className="flex items-center gap-4 px-5 py-3">
-                  <Icon className="h-3.5 w-3.5 shrink-0 text-ink-400" aria-hidden />
-                  <dt className="w-36 shrink-0 text-xs font-semibold uppercase tracking-wide text-ink-400">{label}</dt>
-                  <dd className="text-sm font-medium text-ink-800">{value}</dd>
+                  <Icon className="h-3.5 w-3.5 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
+                  <dt className="w-36 shrink-0 text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">{label}</dt>
+                  <dd className="text-sm font-medium text-ink-800 dark:text-ink-100">{value}</dd>
                 </div>
               ))}
             </dl>
           </div>
 
           {/* Description — full width */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
             <div className="flex items-center gap-2 mb-4">
-              <ScrollText className="h-4 w-4 text-ink-400" aria-hidden />
-              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Work description</h3>
+              <ScrollText className="h-4 w-4 text-ink-400 dark:text-ink-600" aria-hidden />
+              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Work description</h3>
             </div>
             {fv(w.work_description) !== "—" ? (
-              <p className="text-sm text-ink-700 leading-relaxed whitespace-pre-line">{w.work_description}</p>
+              <p className="text-sm text-ink-700 dark:text-ink-200 leading-relaxed whitespace-pre-line">{w.work_description}</p>
             ) : (
-              <p className="text-sm text-ink-400 italic">No description provided.</p>
+              <p className="text-sm text-ink-400 dark:text-ink-600 italic">No description provided.</p>
             )}
             {fv(w.pre_qualification_details) !== "—" && (
               <div className="mt-4 rounded-lg bg-warning-50 border border-warning-200 px-4 py-3">
@@ -366,19 +366,19 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
 
           {/* Authority — full width */}
           {fv(auth.name) !== "—" && (
-            <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+            <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
               <div className="flex items-center gap-2 mb-4">
-                <Landmark className="h-4 w-4 text-ink-400" aria-hidden />
-                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Tendering authority</h3>
+                <Landmark className="h-4 w-4 text-ink-400 dark:text-ink-600" aria-hidden />
+                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Tendering authority</h3>
               </div>
               <ol className="flex flex-wrap items-center gap-x-2 gap-y-2">
                 {String(fv(auth.name)).split("||").map((part, i, arr) => (
                   <li key={i} className="flex items-center gap-2">
-                    {i > 0 && <span className="text-ink-300 select-none">›</span>}
+                    {i > 0 && <span className="text-ink-300 dark:text-ink-700 select-none">›</span>}
                     <span className={
                       i === arr.length - 1
-                        ? "rounded-lg bg-navy-50 border border-navy-200 px-3 py-1.5 text-sm font-semibold text-navy-800"
-                        : "text-sm text-ink-500"
+                        ? "rounded-lg bg-navy-50 dark:bg-navy-900 border border-navy-200 dark:border-navy-700 px-3 py-1.5 text-sm font-semibold text-navy-800 dark:text-navy-600"
+                        : "text-sm text-ink-500 dark:text-ink-400"
                     }>
                       {part.trim()}
                     </span>
@@ -386,7 +386,7 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
                 ))}
               </ol>
               {fv(auth.address) !== "—" && (
-                <p className="mt-3 text-xs text-ink-400 flex items-start gap-1.5">
+                <p className="mt-3 text-xs text-ink-400 dark:text-ink-600 flex items-start gap-1.5">
                   <MapPin className="h-3.5 w-3.5 mt-0.5 shrink-0" aria-hidden />
                   {auth.address}
                 </p>
@@ -395,10 +395,10 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
           )}
 
           {/* Key dates strip */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
             <div className="flex items-center gap-2 mb-4">
-              <CalendarDays className="h-4 w-4 text-ink-400" aria-hidden />
-              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Key dates</h3>
+              <CalendarDays className="h-4 w-4 text-ink-400 dark:text-ink-600" aria-hidden />
+              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Key dates</h3>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {[
@@ -408,8 +408,8 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
                 { label: "Submission closes", value: formatDateTime(cd.bid_submission_end_date) },
               ].map(({ label, value }) => (
                 <div key={label}>
-                  <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400">{label}</p>
-                  <p className="mt-1 text-sm font-semibold text-ink-800">{value}</p>
+                  <p className="text-2xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">{label}</p>
+                  <p className="mt-1 text-sm font-semibold text-ink-800 dark:text-ink-100">{value}</p>
                 </div>
               ))}
             </div>
@@ -448,27 +448,27 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
           </SectionCard>
 
           {/* Cover details */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-ink-500">Cover details</h3>
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Cover details</h3>
             {data.cover_details.length === 0 ? (
-              <p className="text-sm text-ink-400">No cover details listed.</p>
+              <p className="text-sm text-ink-400 dark:text-ink-600">No cover details listed.</p>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-ink-200">
+              <div className="overflow-x-auto rounded-xl border border-ink-200 dark:border-ink-800">
                 <table className="w-full min-w-[480px] text-left text-sm">
-                  <thead className="border-b border-ink-200 bg-ink-50">
+                  <thead className="border-b border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950">
                     <tr>
                       {["No.", "Cover", "Doc type", "Description"].map((h) => (
-                        <th key={h} className="px-3 py-2.5 text-xs font-semibold text-ink-500">{h}</th>
+                        <th key={h} className="px-3 py-2.5 text-xs font-semibold text-ink-500 dark:text-ink-400">{h}</th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-ink-100">
+                  <tbody className="divide-y divide-ink-100 dark:divide-ink-900">
                     {data.cover_details.map((c) => (
                       <tr key={c.cover_no} className="align-top">
-                        <td className="px-3 py-2.5 text-xs tabular-nums text-ink-600">{c.cover_no}</td>
-                        <td className="px-3 py-2.5 text-xs text-ink-800">{fv(c.cover)}</td>
-                        <td className="px-3 py-2.5 text-xs text-ink-800">{fv(c.document_type)}</td>
-                        <td className="px-3 py-2.5 text-xs text-ink-600">{fv(c.description)}</td>
+                        <td className="px-3 py-2.5 text-xs tabular-nums text-ink-600 dark:text-ink-300">{c.cover_no}</td>
+                        <td className="px-3 py-2.5 text-xs text-ink-800 dark:text-ink-100">{fv(c.cover)}</td>
+                        <td className="px-3 py-2.5 text-xs text-ink-800 dark:text-ink-100">{fv(c.document_type)}</td>
+                        <td className="px-3 py-2.5 text-xs text-ink-600 dark:text-ink-300">{fv(c.description)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -478,24 +478,24 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
           </div>
 
           {/* Payment instruments */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-ink-500">Payment instruments (offline)</h3>
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Payment instruments (offline)</h3>
             {!data.payment_instruments.offline?.length ? (
-              <p className="text-sm text-ink-400">No offline payment instruments listed.</p>
+              <p className="text-sm text-ink-400 dark:text-ink-600">No offline payment instruments listed.</p>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-ink-200">
+              <div className="overflow-x-auto rounded-xl border border-ink-200 dark:border-ink-800">
                 <table className="w-full text-left text-sm">
-                  <thead className="border-b border-ink-200 bg-ink-50">
+                  <thead className="border-b border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950">
                     <tr>
-                      <th className="px-3 py-2.5 text-xs font-semibold text-ink-500">S.No.</th>
-                      <th className="px-3 py-2.5 text-xs font-semibold text-ink-500">Instrument type</th>
+                      <th className="px-3 py-2.5 text-xs font-semibold text-ink-500 dark:text-ink-400">S.No.</th>
+                      <th className="px-3 py-2.5 text-xs font-semibold text-ink-500 dark:text-ink-400">Instrument type</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-ink-100">
+                  <tbody className="divide-y divide-ink-100 dark:divide-ink-900">
                     {data.payment_instruments.offline.map((row) => (
                       <tr key={row.s_no}>
-                        <td className="px-3 py-2.5 text-xs tabular-nums text-ink-600">{row.s_no}</td>
-                        <td className="px-3 py-2.5 text-xs text-ink-800">{row.instrument_type}</td>
+                        <td className="px-3 py-2.5 text-xs tabular-nums text-ink-600 dark:text-ink-300">{row.s_no}</td>
+                        <td className="px-3 py-2.5 text-xs text-ink-800 dark:text-ink-100">{row.instrument_type}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -520,7 +520,7 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
             { label: "Bid submission end", val: cd.bid_submission_end_date },
           ].map(({ label, val }) => (
             <DetailRow key={label} label={label}>
-              <span className={cn("tabular-nums", label.includes("end") && "font-semibold text-ink-900")}>
+              <span className={cn("tabular-nums", label.includes("end") && "font-semibold text-ink-900 dark:text-ink-50")}>
                 {formatDateTime(val)}
               </span>
             </DetailRow>
@@ -555,16 +555,16 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
         <div className="space-y-5">
           {data.tender_documents.nit_documents.length === 0 &&
             data.tender_documents.work_item_documents.length === 0 && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
-                <p className="text-sm text-ink-400">No documents listed.</p>
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
+                <p className="text-sm text-ink-400 dark:text-ink-600">No documents listed.</p>
               </div>
             )}
 
           {data.tender_documents.nit_documents.length > 0 && (
-            <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+            <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
               <div className="mb-4">
-                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">NIT documents</h3>
-                <p className="mt-0.5 text-xs text-ink-400">
+                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">NIT documents</h3>
+                <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">
                   {data.tender_documents.nit_documents.length} file(s)
                 </p>
               </div>
@@ -584,10 +584,10 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
           )}
 
           {data.tender_documents.work_item_documents.length > 0 && (
-            <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+            <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
               <div className="mb-4">
-                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Work item documents</h3>
-                <p className="mt-0.5 text-xs text-ink-400">
+                <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Work item documents</h3>
+                <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">
                   {data.tender_documents.work_item_documents.length} file(s)
                 </p>
               </div>
@@ -607,21 +607,21 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
           )}
 
           {/* Corrigendum */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
             <div className="mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500">Corrigendum</h3>
-              <p className="mt-0.5 text-xs text-ink-400">
+              <h3 className="text-sm font-bold uppercase tracking-wide text-ink-500 dark:text-ink-400">Corrigendum</h3>
+              <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">
                 {data.latest_corrigendum_list.length} amendment(s)
               </p>
             </div>
             {data.latest_corrigendum_list.length === 0 ? (
-              <p className="text-sm text-ink-400">No corrigendum entries.</p>
+              <p className="text-sm text-ink-400 dark:text-ink-600">No corrigendum entries.</p>
             ) : (
               <div className="space-y-2">
                 {data.latest_corrigendum_list.map((c) => (
                   <div key={c.s_no} className="rounded-xl border border-warning-200 bg-warning-50 p-3">
-                    <p className="text-sm font-semibold text-ink-900">{fv(c.corrigendum_title)}</p>
-                    <p className="mt-0.5 text-xs text-ink-500">{fv(c.corrigendum_type)}</p>
+                    <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">{fv(c.corrigendum_title)}</p>
+                    <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">{fv(c.corrigendum_type)}</p>
                   </div>
                 ))}
               </div>

@@ -72,8 +72,8 @@ function FieldGrid({ rows }: { rows: { label: string; value?: string }[] }) {
     <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
       {rows.map((row) => (
         <div key={row.label} className="space-y-1">
-          <dt className="text-xs font-semibold uppercase tracking-wide text-ink-400">{row.label}</dt>
-          <dd className="text-sm text-ink-800">{row.value ?? "—"}</dd>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">{row.label}</dt>
+          <dd className="text-sm text-ink-800 dark:text-ink-100">{row.value ?? "—"}</dd>
         </div>
       ))}
     </dl>
@@ -82,24 +82,24 @@ function FieldGrid({ rows }: { rows: { label: string; value?: string }[] }) {
 
 function EmptyState({ entity }: { entity: string }) {
   return (
-    <div className="flex flex-col items-center rounded-xl border border-dashed border-ink-200 bg-ink-50 px-4 py-10 text-center">
-      <p className="text-sm font-medium text-ink-500">No {entity} records yet</p>
-      <p className="mt-0.5 text-xs text-ink-400">Data will appear here once added to your profile.</p>
+    <div className="flex flex-col items-center rounded-xl border border-dashed border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-4 py-10 text-center">
+      <p className="text-sm font-medium text-ink-500 dark:text-ink-400">No {entity} records yet</p>
+      <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">Data will appear here once added to your profile.</p>
     </div>
   );
 }
 
 function SectionHeader({ title, onEdit, onAdd }: { title: string; onEdit: () => void; onAdd?: () => void }) {
   return (
-    <div className="mb-5 flex items-center justify-between gap-3 border-b border-ink-100 pb-4">
-      <h3 className="text-base font-semibold text-ink-900">{title}</h3>
+    <div className="mb-5 flex items-center justify-between gap-3 border-b border-ink-100 dark:border-ink-900 pb-4">
+      <h3 className="text-base font-semibold text-ink-900 dark:text-ink-50">{title}</h3>
       <div className="flex items-center gap-2">
         {onAdd && (
           <button
             type="button"
             onClick={onAdd}
             aria-label={`Add ${title}`}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-600 bg-navy-600 px-3 text-xs font-medium text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-600 dark:border-navy-400 bg-navy-600 dark:bg-navy-400 px-3 text-xs font-medium text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
           >
             <Plus className="h-3.5 w-3.5" aria-hidden />
             Add
@@ -109,7 +109,7 @@ function SectionHeader({ title, onEdit, onAdd }: { title: string; onEdit: () => 
           type="button"
           onClick={onEdit}
           aria-label={`Edit ${title}`}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-ink-200 text-ink-500 transition-colors hover:bg-ink-100 hover:text-ink-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-ink-200 dark:border-ink-800 text-ink-500 dark:text-ink-400 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-800 dark:hover:text-ink-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
         >
           <Pencil className="h-3.5 w-3.5" aria-hidden />
         </button>
@@ -127,12 +127,12 @@ function fmt(value: string | number | null | undefined): string | undefined {
 
 function SummaryCard({ title, value, icon: Icon }: { title: string; value: string; icon: typeof Building2 }) {
   return (
-    <div className="rounded-xl border border-ink-200 bg-white p-4 shadow-card">
-      <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-ink-100">
-        <Icon className="h-4 w-4 text-ink-600" aria-hidden />
+    <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-4 shadow-card">
+      <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-ink-100 dark:bg-ink-900">
+        <Icon className="h-4 w-4 text-ink-600 dark:text-ink-300" aria-hidden />
       </div>
-      <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">{title}</p>
-      <p className="mt-1 text-sm font-semibold text-ink-900">{value}</p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">{title}</p>
+      <p className="mt-1 text-sm font-semibold text-ink-900 dark:text-ink-50">{value}</p>
     </div>
   );
 }
@@ -149,17 +149,17 @@ function RecordCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-ink-200 bg-ink-50/50 p-4">
+    <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/50 p-4">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-ink-900">{title}</p>
-          {subtitle && <p className="text-xs text-ink-400">{subtitle}</p>}
+          <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">{title}</p>
+          {subtitle && <p className="text-xs text-ink-400 dark:text-ink-600">{subtitle}</p>}
         </div>
         <button
           type="button"
           onClick={onEdit}
           aria-label={`Edit ${title}`}
-          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-500 transition-colors hover:bg-ink-100"
+          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-ink-200 dark:border-ink-800 bg-surface text-ink-500 dark:text-ink-400 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900"
         >
           <Pencil className="h-3.5 w-3.5" aria-hidden />
         </button>
@@ -265,19 +265,19 @@ export function FirmWorkspace() {
   return (
     <div className="mx-auto max-w-7xl space-y-5">
       {/* Header */}
-      <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
-        <p className="text-xs font-semibold uppercase tracking-widest text-navy-600">Firm</p>
-        <h1 className="mt-1 text-xl font-bold text-ink-900">Profile workspace</h1>
-        <p className="mt-1 text-sm text-ink-500">
+      <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
+        <p className="text-xs font-semibold uppercase tracking-widest text-navy-600 dark:text-navy-400">Firm</p>
+        <h1 className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">Profile workspace</h1>
+        <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
           Legal profile, compliance identifiers, locations, financials, and bidding preferences.
         </p>
       </div>
 
       {isLoading && (
-        <div className="rounded-xl border border-ink-200 bg-white p-5 shadow-card">
+        <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
           <div className="flex items-center gap-3">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-600 border-t-transparent" aria-hidden />
-            <p className="text-sm text-ink-500">Loading firm workspace…</p>
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-600 dark:border-navy-400 border-t-transparent" aria-hidden />
+            <p className="text-sm text-ink-500 dark:text-ink-400">Loading firm workspace…</p>
           </div>
         </div>
       )}
@@ -316,7 +316,7 @@ export function FirmWorkspace() {
           {/* Sidebar nav */}
           <nav
             aria-label="Firm sections"
-            className="flex shrink-0 gap-1 overflow-x-auto rounded-2xl border border-ink-200 bg-white p-2 shadow-card xl:sticky xl:top-6 xl:w-56 xl:flex-col xl:overflow-visible"
+            className="flex shrink-0 gap-1 overflow-x-auto rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-2 shadow-card xl:sticky xl:top-6 xl:w-56 xl:flex-col xl:overflow-visible"
           >
             {tabs.map((tab) => (
               <button
@@ -324,10 +324,10 @@ export function FirmWorkspace() {
                 type="button"
                 onClick={() => setActive(tab.id)}
                 className={cn(
-                  "whitespace-nowrap rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500",
+                  "whitespace-nowrap rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
                   active === tab.id
-                    ? "bg-navy-600 text-white"
-                    : "text-ink-600 hover:bg-ink-100 hover:text-ink-900"
+                    ? "bg-navy-600 dark:bg-navy-400 text-white"
+                    : "text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-900 dark:hover:text-ink-50"
                 )}
               >
                 {tab.label}
@@ -378,7 +378,7 @@ export function FirmWorkspace() {
             />
 
             {active === "firm" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader title="Firm" onEdit={() => setEditSection("firm")} />
                 <FieldGrid
                   rows={[
@@ -396,7 +396,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "identity" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader title="Firm identity" onEdit={() => setEditSection("identity")} />
                 <FieldGrid
                   rows={[
@@ -415,7 +415,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "locations" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader title="Firm location" onEdit={() => setEditSection("locations")} />
                 {data.location ? (
                   <FieldGrid
@@ -434,13 +434,13 @@ export function FirmWorkspace() {
             )}
 
             {active === "financials" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader
                   title="Financials"
                   onEdit={() => { setData((prev) => ({ ...prev, financial: null })); setEditSection("financials"); }}
                   onAdd={() => { setData((prev) => ({ ...prev, financial: null })); setEditSection("financials"); }}
                 />
-                <p className="mb-4 text-sm text-ink-500">Per financial year: turnover and audit status.</p>
+                <p className="mb-4 text-sm text-ink-500 dark:text-ink-400">Per financial year: turnover and audit status.</p>
                 {data.financials.length > 0 ? (
                   <div className="space-y-3">
                     {data.financials.map((financial) => (
@@ -460,20 +460,20 @@ export function FirmWorkspace() {
                           const url = resolveDocumentUrl(financial.audit_document);
                           const label = resolveDocumentLabel(financial.audit_document);
                           return url ? (
-                            <div className="mt-3 border-t border-ink-100 pt-3">
-                              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-400">Audit document</p>
+                            <div className="mt-3 border-t border-ink-100 dark:border-ink-900 pt-3">
+                              <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">Audit document</p>
                               <a
                                 href={url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="inline-flex items-center gap-1.5 rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-xs font-medium text-ink-700 transition-colors hover:bg-ink-50"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 py-1.5 text-xs font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950"
                               >
                                 <Eye className="h-3.5 w-3.5" aria-hidden />
                                 {label ?? "View document"}
                               </a>
                             </div>
                           ) : (
-                            <p className="mt-2 text-xs text-ink-400">No audit document linked.</p>
+                            <p className="mt-2 text-xs text-ink-400 dark:text-ink-600">No audit document linked.</p>
                           );
                         })()}
                       </RecordCard>
@@ -486,7 +486,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "banking" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader
                   title="Banking & solvency"
                   onEdit={() => { setData((prev) => ({ ...prev, banking: null })); setEditSection("banking"); }}
@@ -517,7 +517,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "experience" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader
                   title="Experience"
                   onEdit={() => { setData((prev) => ({ ...prev, experience: null })); setEditSection("experience"); }}
@@ -550,7 +550,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "certifications" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader
                   title="Certifications"
                   onEdit={() => { setData((prev) => ({ ...prev, certification: null })); setEditSection("certifications"); }}
@@ -582,7 +582,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "exemptions" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader title="Exemptions" onEdit={() => setEditSection("exemptions")} />
                 <FieldGrid
                   rows={[
@@ -595,7 +595,7 @@ export function FirmWorkspace() {
             )}
 
             {active === "preferences" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
                 <SectionHeader title="Preferences" onEdit={() => setEditSection("preferences")} />
                 <FieldGrid
                   rows={[
@@ -610,32 +610,32 @@ export function FirmWorkspace() {
             )}
 
             {active === "documents" && (
-              <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card">
-                <div className="mb-5 border-b border-ink-100 pb-4">
-                  <h3 className="text-base font-semibold text-ink-900">Firm documents</h3>
-                  <p className="mt-0.5 text-sm text-ink-500">All uploaded files in your document vault.</p>
+              <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
+                <div className="mb-5 border-b border-ink-100 dark:border-ink-900 pb-4">
+                  <h3 className="text-base font-semibold text-ink-900 dark:text-ink-50">Firm documents</h3>
+                  <p className="mt-0.5 text-sm text-ink-500 dark:text-ink-400">All uploaded files in your document vault.</p>
                 </div>
                 {data.documents.length > 0 ? (
                   <div className="space-y-2">
                     {data.documents.map((document) => {
                       const fileName = document.file.split("/").pop() || document.id;
                       return (
-                        <div key={document.id} className="rounded-xl border border-ink-200 bg-ink-50/50 p-4">
+                        <div key={document.id} className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/50 p-4">
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                             <div className="min-w-0 space-y-0.5">
-                              <p className="truncate text-sm font-semibold text-ink-900">{document.title || fileName}</p>
-                              <p className="text-xs text-ink-400">Type: {resolveDocumentTypeLabel(document)}</p>
+                              <p className="truncate text-sm font-semibold text-ink-900 dark:text-ink-50">{document.title || fileName}</p>
+                              <p className="text-xs text-ink-400 dark:text-ink-600">Type: {resolveDocumentTypeLabel(document)}</p>
                             </div>
                             <a
                               href={document.file}
                               target="_blank"
                               rel="noreferrer"
-                              className="inline-flex w-fit shrink-0 items-center rounded-lg border border-ink-200 bg-white px-3 py-1.5 text-xs font-medium text-ink-700 transition-colors hover:bg-ink-50"
+                              className="inline-flex w-fit shrink-0 items-center rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 py-1.5 text-xs font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950"
                             >
                               Open file
                             </a>
                           </div>
-                          <p className="mt-2 text-xs text-ink-400">Created {formatDateTime(document.created_at)}</p>
+                          <p className="mt-2 text-xs text-ink-400 dark:text-ink-600">Created {formatDateTime(document.created_at)}</p>
                         </div>
                       );
                     })}

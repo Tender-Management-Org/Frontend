@@ -27,40 +27,40 @@ export function DocIntelConfirmDialog({
         if (e.target === e.currentTarget && !loading) onCancel();
       }}
     >
-      <div className="w-full max-w-md rounded-2xl border border-ink-200 bg-white shadow-dropdown">
-        <div className="flex items-start justify-between border-b border-ink-100 px-5 py-4">
+      <div className="w-full max-w-md rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface shadow-dropdown">
+        <div className="flex items-start justify-between border-b border-ink-100 dark:border-ink-900 px-5 py-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-50">
-              <Brain className="h-4 w-4 text-navy-600" aria-hidden />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-50 dark:bg-navy-900">
+              <Brain className="h-4 w-4 text-navy-600 dark:text-navy-400" aria-hidden />
             </div>
             <div>
-              <p className="text-sm font-bold text-ink-900">Run document intelligence</p>
-              <p className="mt-0.5 text-xs text-ink-500">Analyze this PDF with AI</p>
+              <p className="text-sm font-bold text-ink-900 dark:text-ink-50">Run document intelligence</p>
+              <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">Analyze this PDF with AI</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="rounded-lg p-1 text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 disabled:opacity-50"
+            className="rounded-lg p-1 text-ink-400 dark:text-ink-600 transition-colors hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-700 dark:hover:text-ink-200 disabled:opacity-50"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
         <div className="space-y-4 p-5">
-          <p className="text-sm text-ink-600">
+          <p className="text-sm text-ink-600 dark:text-ink-300">
             Extract eligibility criteria and required documents from{" "}
-            <span className="font-semibold text-ink-900">{documentName}</span>.
+            <span className="font-semibold text-ink-900 dark:text-ink-50">{documentName}</span>.
           </p>
 
-          <div className="rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-wide text-ink-500">Credit usage</p>
-            <p className="mt-1 text-sm text-ink-800">
+          <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">Credit usage</p>
+            <p className="mt-1 text-sm text-ink-800 dark:text-ink-100">
               1 credit will be deducted from your firm.
             </p>
-            <p className="mt-1 text-xs text-ink-500">
-              Remaining credits: <span className="font-semibold text-ink-800">{creditsRemaining}</span>
+            <p className="mt-1 text-xs text-ink-500 dark:text-ink-400">
+              Remaining credits: <span className="font-semibold text-ink-800 dark:text-ink-100">{creditsRemaining}</span>
             </p>
           </div>
 
@@ -71,7 +71,7 @@ export function DocIntelConfirmDialog({
           )}
         </div>
 
-        <div className="flex justify-end gap-2 border-t border-ink-100 px-5 py-4">
+        <div className="flex justify-end gap-2 border-t border-ink-100 dark:border-ink-900 px-5 py-4">
           <Button type="button" variant="secondary" onClick={onCancel} disabled={loading}>
             Cancel
           </Button>

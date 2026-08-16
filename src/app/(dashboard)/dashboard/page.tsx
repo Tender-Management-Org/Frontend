@@ -63,12 +63,12 @@ export default async function DashboardPage() {
   return (
     <section className="mx-auto w-full max-w-7xl space-y-6">
       {/* Welcome hero */}
-      <div className="rounded-2xl border border-ink-200 bg-white p-6 shadow-card sm:p-8">
+      <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card sm:p-8">
         <DashboardWelcome />
-        <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-ink-100 pt-5">
+        <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-ink-100 dark:border-ink-900 pt-5">
           <Link
             href="/recommendations"
-            className="inline-flex items-center gap-2 rounded-lg bg-navy-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2"
           >
             Review recommendations
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -76,7 +76,7 @@ export default async function DashboardPage() {
           {attentionCount > 0 && (
             <Link
               href="/dashboard#attention"
-              className="inline-flex items-center gap-2 rounded-lg border border-ink-200 bg-white px-4 py-2 text-sm font-semibold text-ink-700 transition-colors hover:bg-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2"
+              className="inline-flex items-center gap-2 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-4 py-2 text-sm font-semibold text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2"
             >
               Resolve {attentionCount} attention item{attentionCount !== 1 ? "s" : ""}
             </Link>

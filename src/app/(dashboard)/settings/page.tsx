@@ -62,8 +62,8 @@ function Toggle({
   return (
     <div className="flex items-center justify-between gap-4 py-3">
       <div className="min-w-0">
-        <p className="text-sm font-medium text-ink-900">{label}</p>
-        {description && <p className="mt-0.5 text-xs text-ink-400">{description}</p>}
+        <p className="text-sm font-medium text-ink-900 dark:text-ink-50">{label}</p>
+        {description && <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">{description}</p>}
       </div>
       <button
         type="button"
@@ -71,13 +71,13 @@ function Toggle({
         aria-checked={checked}
         onClick={() => onChange(!checked)}
         className={cn(
-          "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2",
-          checked ? "bg-navy-600" : "bg-ink-200"
+          "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2",
+          checked ? "bg-navy-600 dark:bg-navy-400" : "bg-ink-200 dark:bg-ink-800"
         )}
       >
         <span
           className={cn(
-            "pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow-sm ring-0 transition-transform",
+            "pointer-events-none inline-block h-4 w-4 rounded-full bg-surface shadow-sm ring-0 transition-transform",
             checked ? "translate-x-4" : "translate-x-0"
           )}
         />
@@ -90,9 +90,9 @@ function Toggle({
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-ink-100 bg-white p-5">
-      <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400">{title}</h3>
-      <div className="divide-y divide-ink-50">{children}</div>
+    <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-surface p-5">
+      <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-600">{title}</h3>
+      <div className="divide-y divide-ink-50 dark:divide-ink-950">{children}</div>
     </div>
   );
 }
@@ -135,7 +135,7 @@ function NotificationsTab() {
   if (loading) {
     return (
       <div className="flex justify-center py-16">
-        <Loader2 className="h-5 w-5 animate-spin text-ink-300" />
+        <Loader2 className="h-5 w-5 animate-spin text-ink-300 dark:text-ink-700" />
       </div>
     );
   }
@@ -253,7 +253,7 @@ function RecommendationsTab() {
   if (loading) {
     return (
       <div className="flex justify-center py-16">
-        <Loader2 className="h-5 w-5 animate-spin text-ink-300" />
+        <Loader2 className="h-5 w-5 animate-spin text-ink-300 dark:text-ink-700" />
       </div>
     );
   }
@@ -263,7 +263,7 @@ function RecommendationsTab() {
       {/* Strategy */}
       <Section title="Matching strategy">
         <div className="py-2">
-          <p className="mb-3 text-xs text-ink-400">
+          <p className="mb-3 text-xs text-ink-400 dark:text-ink-600">
             Controls how your firm profile and interested tenders are blended to find new matches.
           </p>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -288,14 +288,14 @@ function RecommendationsTab() {
                 className={cn(
                   "rounded-xl border-2 px-4 py-3 text-left transition-all",
                   strategy === opt.value
-                    ? "border-navy-600 bg-navy-50"
-                    : "border-ink-100 hover:border-ink-300"
+                    ? "border-navy-600 dark:border-navy-400 bg-navy-50 dark:bg-navy-900"
+                    : "border-ink-100 dark:border-ink-900 hover:border-ink-300 dark:hover:border-ink-700"
                 )}
               >
-                <p className={cn("text-sm font-semibold", strategy === opt.value ? "text-navy-700" : "text-ink-800")}>
+                <p className={cn("text-sm font-semibold", strategy === opt.value ? "text-navy-700 dark:text-navy-500" : "text-ink-800 dark:text-ink-100")}>
                   {opt.label}
                 </p>
-                <p className="mt-0.5 text-xs text-ink-400">{opt.sub}</p>
+                <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">{opt.sub}</p>
               </button>
             ))}
           </div>
@@ -306,7 +306,7 @@ function RecommendationsTab() {
       <Section title="Tender value range">
         <div className="grid grid-cols-2 gap-3 py-2">
           <div>
-            <label className="mb-1.5 block text-xs text-ink-500">Min value (₹)</label>
+            <label className="mb-1.5 block text-xs text-ink-500 dark:text-ink-400">Min value (₹)</label>
             <Input
               type="number"
               placeholder="e.g. 500000"
@@ -315,7 +315,7 @@ function RecommendationsTab() {
             />
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-ink-500">Max value (₹)</label>
+            <label className="mb-1.5 block text-xs text-ink-500 dark:text-ink-400">Max value (₹)</label>
             <Input
               type="number"
               placeholder="e.g. 10000000"
@@ -324,26 +324,26 @@ function RecommendationsTab() {
             />
           </div>
         </div>
-        <p className="pb-2 text-xs text-ink-400">Leave blank to include tenders of any value.</p>
+        <p className="pb-2 text-xs text-ink-400 dark:text-ink-600">Leave blank to include tenders of any value.</p>
       </Section>
 
       {/* Filters */}
       <Section title="Filters">
         <div className="space-y-4 py-2">
           <div>
-            <label className="mb-1.5 block text-xs text-ink-500">Preferred regions</label>
+            <label className="mb-1.5 block text-xs text-ink-500 dark:text-ink-400">Preferred regions</label>
             <TagInput value={regions} onChange={setRegions} placeholder="e.g. Rajasthan, Gujarat…" />
-            <p className="mt-1 text-xs text-ink-400">Only show tenders from these states or districts.</p>
+            <p className="mt-1 text-xs text-ink-400 dark:text-ink-600">Only show tenders from these states or districts.</p>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-ink-500">Target sectors</label>
+            <label className="mb-1.5 block text-xs text-ink-500 dark:text-ink-400">Target sectors</label>
             <TagInput value={sectors} onChange={setSectors} placeholder="e.g. Road construction, IT services…" />
-            <p className="mt-1 text-xs text-ink-400">Steer recommendations toward these sectors.</p>
+            <p className="mt-1 text-xs text-ink-400 dark:text-ink-600">Steer recommendations toward these sectors.</p>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs text-ink-500">Excluded departments</label>
+            <label className="mb-1.5 block text-xs text-ink-500 dark:text-ink-400">Excluded departments</label>
             <TagInput value={excluded} onChange={setExcluded} placeholder="e.g. Ministry of Defence…" />
-            <p className="mt-1 text-xs text-ink-400">Never recommend tenders from these organisations.</p>
+            <p className="mt-1 text-xs text-ink-400 dark:text-ink-600">Never recommend tenders from these organisations.</p>
           </div>
         </div>
       </Section>
@@ -368,9 +368,9 @@ const PLAN_ICONS: Record<string, React.ElementType> = {
 };
 
 const PLAN_COLORS: Record<string, string> = {
-  trial:      "bg-ink-50  text-ink-600  border-ink-200",
+  trial:      "bg-ink-50 dark:bg-ink-950  text-ink-600 dark:text-ink-300  border-ink-200 dark:border-ink-800",
   starter:    "bg-blue-50 text-blue-700  border-blue-200",
-  growth:     "bg-navy-50 text-navy-700  border-navy-200",
+  growth:     "bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500  border-navy-200 dark:border-navy-700",
   enterprise: "bg-yellow-50 text-yellow-700 border-yellow-200",
 };
 
@@ -378,7 +378,7 @@ const STATUS_COLORS: Record<string, string> = {
   trial:     "bg-blue-100 text-blue-700",
   active:    "bg-green-100 text-green-700",
   expired:   "bg-red-100   text-red-700",
-  cancelled: "bg-ink-100   text-ink-600",
+  cancelled: "bg-ink-100 dark:bg-ink-900   text-ink-600 dark:text-ink-300",
 };
 
 function AccountTab() {
@@ -387,7 +387,7 @@ function AccountTab() {
   if (loading) {
     return (
       <div className="flex justify-center py-16">
-        <Loader2 className="h-5 w-5 animate-spin text-ink-300" />
+        <Loader2 className="h-5 w-5 animate-spin text-ink-300 dark:text-ink-700" />
       </div>
     );
   }
@@ -439,8 +439,8 @@ function AccountTab() {
             { label: "Max firms",             value: plan.max_firms            === -1 ? "Unlimited" : plan.max_firms },
           ].map(({ label, value }) => (
             <div key={label} className="py-2">
-              <p className="text-xs text-ink-400">{label}</p>
-              <p className="mt-0.5 text-sm font-semibold text-ink-900">{value}</p>
+              <p className="text-xs text-ink-400 dark:text-ink-600">{label}</p>
+              <p className="mt-0.5 text-sm font-semibold text-ink-900 dark:text-ink-50">{value}</p>
             </div>
           ))}
         </div>
@@ -460,8 +460,8 @@ function AccountTab() {
           ].map(({ key, label }) => {
             const enabled = plan.features[key as keyof typeof plan.features] ?? false;
             return (
-              <div key={key} className={cn("flex items-center gap-2 py-1.5 text-sm", enabled ? "text-ink-800" : "text-ink-300 line-through")}>
-                <span className={cn("h-1.5 w-1.5 rounded-full shrink-0", enabled ? "bg-green-500" : "bg-ink-200")} />
+              <div key={key} className={cn("flex items-center gap-2 py-1.5 text-sm", enabled ? "text-ink-800 dark:text-ink-100" : "text-ink-300 dark:text-ink-700 line-through")}>
+                <span className={cn("h-1.5 w-1.5 rounded-full shrink-0", enabled ? "bg-green-500" : "bg-ink-200 dark:bg-ink-800")} />
                 {label}
               </div>
             );
@@ -492,9 +492,9 @@ function AccountTab() {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 rounded-lg px-2 py-2.5 text-sm text-ink-600 transition-colors hover:bg-ink-50 hover:text-ink-900"
+              className="flex items-center gap-2 rounded-lg px-2 py-2.5 text-sm text-ink-600 dark:text-ink-300 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 hover:text-ink-900 dark:hover:text-ink-50"
             >
-              <Icon className="h-3.5 w-3.5 shrink-0 text-ink-300" />
+              <Icon className="h-3.5 w-3.5 shrink-0 text-ink-300 dark:text-ink-700" />
               {label}
             </Link>
           ))}
@@ -550,16 +550,16 @@ function ScrapersTab() {
   }
 
   if (loading) {
-    return <div className="flex justify-center py-16"><Loader2 className="h-5 w-5 animate-spin text-ink-300" /></div>;
+    return <div className="flex justify-center py-16"><Loader2 className="h-5 w-5 animate-spin text-ink-300 dark:text-ink-700" /></div>;
   }
 
   return (
     <div className="space-y-4">
-      <div className="rounded-xl border border-ink-100 bg-white p-5">
+      <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-surface p-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h3 className="text-sm font-semibold text-ink-900">Request a scraper</h3>
-            <p className="mt-1 text-xs text-ink-400">
+            <h3 className="text-sm font-semibold text-ink-900 dark:text-ink-50">Request a scraper</h3>
+            <p className="mt-1 text-xs text-ink-400 dark:text-ink-600">
               Need tenders from a portal we don&apos;t cover yet? Submit a request and our team will build it for you.
             </p>
           </div>
@@ -571,21 +571,21 @@ function ScrapersTab() {
         </div>
 
         {showForm && (
-          <form onSubmit={handleSubmit} className="mt-5 space-y-4 border-t border-ink-100 pt-5">
+          <form onSubmit={handleSubmit} className="mt-5 space-y-4 border-t border-ink-100 dark:border-ink-900 pt-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-ink-600">Portal name *</label>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600 dark:text-ink-300">Portal name *</label>
                 <Input required placeholder="e.g. GeM Portal, CPPP" value={portalName} onChange={(e) => setPortalName(e.target.value)} />
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-ink-600">Portal URL *</label>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600 dark:text-ink-300">Portal URL *</label>
                 <Input required type="url" placeholder="https://..." value={portalUrl} onChange={(e) => setPortalUrl(e.target.value)} />
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-ink-600">Portal type *</label>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600 dark:text-ink-300">Portal type *</label>
                 <div className="flex gap-2">
                   {(["government", "corporate"] as ScraperRequestPortalType[]).map((t) => (
                     <button
@@ -593,7 +593,7 @@ function ScrapersTab() {
                       onClick={() => setPortalType(t)}
                       className={cn(
                         "flex-1 rounded-lg border px-3 py-2 text-xs font-medium transition-all capitalize",
-                        portalType === t ? "border-navy-600 bg-navy-50 text-navy-700" : "border-ink-200 text-ink-600 hover:border-ink-300"
+                        portalType === t ? "border-navy-600 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500" : "border-ink-200 dark:border-ink-800 text-ink-600 dark:text-ink-300 hover:border-ink-300 dark:hover:border-ink-700"
                       )}
                     >
                       {t}
@@ -602,7 +602,7 @@ function ScrapersTab() {
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block text-xs font-medium text-ink-600">Priority *</label>
+                <label className="mb-1.5 block text-xs font-medium text-ink-600 dark:text-ink-300">Priority *</label>
                 <div className="flex gap-2">
                   {([["low", "Nice to have"], ["medium", "Important"], ["high", "Urgent"]] as [ScraperRequestPriority, string][]).map(([val, label]) => (
                     <button
@@ -610,7 +610,7 @@ function ScrapersTab() {
                       onClick={() => setPriority(val)}
                       className={cn(
                         "flex-1 rounded-lg border px-2 py-2 text-xs font-medium transition-all",
-                        priority === val ? "border-navy-600 bg-navy-50 text-navy-700" : "border-ink-200 text-ink-600 hover:border-ink-300"
+                        priority === val ? "border-navy-600 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500" : "border-ink-200 dark:border-ink-800 text-ink-600 dark:text-ink-300 hover:border-ink-300 dark:hover:border-ink-700"
                       )}
                     >
                       {label}
@@ -621,13 +621,13 @@ function ScrapersTab() {
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-medium text-ink-600">Notes</label>
+              <label className="mb-1.5 block text-xs font-medium text-ink-600 dark:text-ink-300">Notes</label>
               <textarea
                 rows={3}
                 placeholder="What kind of tenders do you need from this portal? Any specific categories or requirements?"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm text-ink-800 placeholder:text-ink-300 focus:border-navy-400 focus:outline-none focus:ring-2 focus:ring-navy-100"
+                className="w-full rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 py-2 text-sm text-ink-800 dark:text-ink-100 placeholder:text-ink-300 dark:placeholder:text-ink-700 focus:border-navy-400 dark:focus:border-navy-500 focus:outline-none focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800"
               />
             </div>
 
@@ -643,17 +643,17 @@ function ScrapersTab() {
       </div>
 
       {requests.length > 0 && (
-        <div className="rounded-xl border border-ink-100 bg-white p-5">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400">Your requests</h3>
+        <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-surface p-5">
+          <h3 className="mb-4 text-xs font-semibold uppercase tracking-wider text-ink-400 dark:text-ink-600">Your requests</h3>
           <div className="space-y-3">
             {requests.map((r) => {
               const badge = STATUS_BADGE[r.status] ?? STATUS_BADGE.pending;
               return (
-                <div key={r.id} className="flex items-start justify-between gap-3 rounded-lg border border-ink-100 p-3">
+                <div key={r.id} className="flex items-start justify-between gap-3 rounded-lg border border-ink-100 dark:border-ink-900 p-3">
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-ink-900">{r.portal_name}</p>
-                    <p className="mt-0.5 truncate text-xs text-ink-400">{r.portal_url}</p>
-                    <p className="mt-1 text-xs text-ink-500 capitalize">{r.portal_type} · {r.priority === "low" ? "Nice to have" : r.priority === "medium" ? "Important" : "Urgent"}</p>
+                    <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">{r.portal_name}</p>
+                    <p className="mt-0.5 truncate text-xs text-ink-400 dark:text-ink-600">{r.portal_url}</p>
+                    <p className="mt-1 text-xs text-ink-500 dark:text-ink-400 capitalize">{r.portal_type} · {r.priority === "low" ? "Nice to have" : r.priority === "medium" ? "Important" : "Urgent"}</p>
                   </div>
                   <span className={cn("shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold", badge.style)}>
                     {badge.label}
@@ -666,7 +666,7 @@ function ScrapersTab() {
       )}
 
       {requests.length === 0 && !showForm && (
-        <p className="text-center text-sm text-ink-400 py-4">No scraper requests yet.</p>
+        <p className="text-center text-sm text-ink-400 dark:text-ink-600 py-4">No scraper requests yet.</p>
       )}
     </div>
   );
@@ -687,12 +687,12 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div>
-        <h2 className="text-lg font-semibold text-ink-900">Settings</h2>
-        <p className="mt-1 text-sm text-ink-500">Manage your notifications, recommendation preferences, and account.</p>
+        <h2 className="text-lg font-semibold text-ink-900 dark:text-ink-50">Settings</h2>
+        <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">Manage your notifications, recommendation preferences, and account.</p>
       </div>
 
       {/* Tab bar */}
-      <div className="flex gap-1 rounded-xl border border-ink-100 bg-ink-50 p-1">
+      <div className="flex gap-1 rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50 dark:bg-ink-950 p-1">
         {TABS.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
@@ -701,8 +701,8 @@ export default function SettingsPage() {
             className={cn(
               "flex flex-1 items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all",
               activeTab === id
-                ? "bg-white text-ink-900 shadow-sm"
-                : "text-ink-500 hover:text-ink-800"
+                ? "bg-surface text-ink-900 dark:text-ink-50 shadow-sm"
+                : "text-ink-500 dark:text-ink-400 hover:text-ink-800 dark:hover:text-ink-100"
             )}
           >
             <Icon className="h-3.5 w-3.5" />

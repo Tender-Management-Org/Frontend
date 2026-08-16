@@ -8,7 +8,7 @@ interface Step2IdentityProps {
 }
 
 function FieldHint({ text }: { text: string }) {
-  return <p className="text-xs text-slate-400">{text}</p>;
+  return <p className="text-xs text-slate-400 dark:text-ink-600">{text}</p>;
 }
 
 export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps) {
@@ -16,10 +16,10 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
     <div className="space-y-5">
       {/* Required identifiers */}
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Required</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-ink-600">Required</p>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">PAN Number *</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">PAN Number *</label>
             <Input
               value={formData.pan_number}
               onChange={(e) => onChange("pan_number", e.target.value.toUpperCase())}
@@ -31,7 +31,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">GSTIN *</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">GSTIN *</label>
             <Input
               value={formData.gstin}
               onChange={(e) => onChange("gstin", e.target.value.toUpperCase())}
@@ -46,10 +46,10 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
 
       {/* Optional identifiers */}
       <div>
-        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400">Optional</p>
+        <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-ink-600">Optional</p>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">CIN</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">CIN</label>
             <Input
               value={formData.cin}
               onChange={(e) => onChange("cin", e.target.value.toUpperCase())}
@@ -61,7 +61,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">Udyam Registration No.</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Udyam Registration No.</label>
             <Input
               value={formData.udyam_number}
               onChange={(e) => onChange("udyam_number", e.target.value.toUpperCase())}
@@ -72,7 +72,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">SAN / BRN</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">SAN / BRN</label>
             <Input
               value={formData.san_brn}
               onChange={(e) => onChange("san_brn", e.target.value)}
@@ -83,7 +83,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">ESI Number <span className="font-normal text-slate-400">(ESI Act 1948)</span></label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">ESI Number <span className="font-normal text-slate-400 dark:text-ink-600">(ESI Act 1948)</span></label>
             <Input
               value={formData.esi_number}
               onChange={(e) => onChange("esi_number", e.target.value.replace(/\D/g, ""))}
@@ -95,7 +95,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">PF Code <span className="font-normal text-slate-400">(EPF Act 1952)</span></label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">PF Code <span className="font-normal text-slate-400 dark:text-ink-600">(EPF Act 1952)</span></label>
             <Input
               value={formData.pf_code}
               onChange={(e) => onChange("pf_code", e.target.value.toUpperCase())}
@@ -107,7 +107,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-slate-700">Shop Act Reg. No.</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">Shop Act Reg. No.</label>
             <Input
               value={formData.shop_act_number}
               onChange={(e) => onChange("shop_act_number", e.target.value)}
@@ -119,7 +119,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
           </div>
 
           <div className="space-y-1.5 md:col-span-1">
-            <label className="text-sm font-medium text-slate-700">DSC Expiry Date</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-ink-200">DSC Expiry Date</label>
             <Input
               type="date"
               value={formData.dsc_expiry_date}

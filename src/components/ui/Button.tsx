@@ -10,9 +10,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: "bg-ink-900 text-white shadow-sm hover:bg-ink-800 active:bg-ink-950",
-  secondary: "border border-ink-200 bg-white text-ink-700 shadow-sm hover:bg-ink-50 hover:border-ink-300",
-  ghost: "text-ink-600 hover:bg-ink-100 hover:text-ink-900",
+  primary: "bg-ink-900 dark:bg-ink-50 text-white dark:text-ink-900 shadow-sm hover:bg-ink-800 dark:hover:bg-ink-100 active:bg-ink-950 dark:active:bg-ink-50",
+  secondary: "border border-ink-200 dark:border-ink-800 bg-surface text-ink-700 dark:text-ink-200 shadow-sm hover:bg-ink-50 dark:hover:bg-ink-950 hover:border-ink-300 dark:hover:border-ink-700",
+  ghost: "text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-900 dark:hover:text-ink-50",
   danger: "bg-danger-600 text-white shadow-sm hover:bg-danger-700",
 };
 
@@ -26,7 +26,7 @@ export function Button({ variant = "primary", size = "md", className, children, 
   return (
     <button
       className={cn(
-        "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center gap-1.5 rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         variantStyles[variant],
         sizeStyles[size],
         className

@@ -319,13 +319,13 @@ export function TenderDashboardExplorer() {
     Boolean(filters.location) || filters.status !== "active" || Boolean(filters.source);
 
   const sortSelect = mode === "default" && (
-    <label className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+    <label className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
       <span className="hidden xl:inline">Sort</span>
       <select
         aria-label="Sort by"
         value={sortBy}
         onChange={(e) => { setSortBy(e.target.value as SortValue); setPage(1); }}
-        className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+        className="h-8 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-2 text-xs text-ink-700 dark:text-ink-200 outline-none focus:ring-2 focus:ring-navy-500/30"
       >
         {SORT_OPTIONS.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -335,13 +335,13 @@ export function TenderDashboardExplorer() {
   );
 
   const pageSizeSelect = (
-    <label className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+    <label className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
       <span className="hidden xl:inline">Per page</span>
       <select
         aria-label="Results per page"
         value={pageSize}
         onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }}
-        className="h-8 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+        className="h-8 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-2 text-xs text-ink-700 dark:text-ink-200 outline-none focus:ring-2 focus:ring-navy-500/30"
       >
         {PAGE_SIZE_OPTIONS.map((s) => (
           <option key={s} value={s}>{s}</option>
@@ -361,33 +361,33 @@ export function TenderDashboardExplorer() {
            ────────────────────────────────────────────────────────────────── */
         <div className="sticky top-0 z-20 -mt-2 space-y-2 bg-ink-50/85 pb-2 pt-2 backdrop-blur">
           {/* Line 1 — identity, live counts, view switcher */}
-          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 rounded-xl border border-ink-200 bg-white px-3 py-2 shadow-card">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 rounded-xl border border-ink-200 dark:border-ink-800 bg-surface px-3 py-2 shadow-card">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <h1 className="text-sm font-bold text-ink-900">Tender explorer</h1>
-              <span className="hidden h-3.5 w-px bg-ink-200 sm:block" aria-hidden />
-              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
-                <Database className="h-3.5 w-3.5 text-ink-400" aria-hidden />
+              <h1 className="text-sm font-bold text-ink-900 dark:text-ink-50">Tender explorer</h1>
+              <span className="hidden h-3.5 w-px bg-ink-200 dark:bg-ink-800 sm:block" aria-hidden />
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
+                <Database className="h-3.5 w-3.5 text-ink-400 dark:text-ink-600" aria-hidden />
                 {isLoading ? (
-                  <Loader2 className="h-3.5 w-3.5 animate-spin text-ink-400" aria-hidden />
+                  <Loader2 className="h-3.5 w-3.5 animate-spin text-ink-400 dark:text-ink-600" aria-hidden />
                 ) : (
-                  <span className="font-semibold tabular-nums text-ink-900">
+                  <span className="font-semibold tabular-nums text-ink-900 dark:text-ink-50">
                     {totalCount.toLocaleString("en-IN")}
                   </span>
                 )}
                 records
               </span>
-              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
                 <CalendarDays className="h-3.5 w-3.5 text-warning-600" aria-hidden />
                 <span className="font-semibold tabular-nums text-warning-700">{closingSoonCount}</span>
                 closing soon
               </span>
-              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500">
+              <span className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
                 <Bookmark className="h-3.5 w-3.5 text-violet-600" aria-hidden />
                 <span className="font-semibold tabular-nums text-violet-700">{interestedOnPageCount}</span>
                 interested
               </span>
-              <span className="hidden h-3.5 w-px bg-ink-200 sm:block" aria-hidden />
-              <span className="text-xs tabular-nums text-ink-400">
+              <span className="hidden h-3.5 w-px bg-ink-200 dark:bg-ink-800 sm:block" aria-hidden />
+              <span className="text-xs tabular-nums text-ink-400 dark:text-ink-600">
                 Page {page} / {totalPages}
               </span>
             </div>
@@ -395,23 +395,23 @@ export function TenderDashboardExplorer() {
           </div>
 
           {/* Line 2 — search, filters and sorting on one wrapping row */}
-          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-ink-200 bg-white px-3 py-2 shadow-card">
+          <div className="flex flex-wrap items-center gap-2 rounded-xl border border-ink-200 dark:border-ink-800 bg-surface px-3 py-2 shadow-card">
             <div className="relative min-w-[13rem] flex-1">
-              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-400" aria-hidden />
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-ink-400 dark:text-ink-600" aria-hidden />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") handleSemanticSearch(); }}
                 placeholder="Describe the opportunity you're looking for…"
                 aria-label="Search tenders"
-                className="h-8 w-full rounded-lg border border-ink-200 bg-white pl-8 pr-7 text-xs text-ink-800 outline-none placeholder:text-ink-400 focus:ring-2 focus:ring-navy-500/30"
+                className="h-8 w-full rounded-lg border border-ink-200 dark:border-ink-800 bg-surface pl-8 pr-7 text-xs text-ink-800 dark:text-ink-100 outline-none placeholder:text-ink-400 dark:placeholder:text-ink-600 focus:ring-2 focus:ring-navy-500/30"
               />
               {query && (
                 <button
                   type="button"
                   onClick={handleResetSearch}
                   aria-label="Clear search"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 transition-colors hover:text-ink-700"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-ink-400 dark:text-ink-600 transition-colors hover:text-ink-700 dark:hover:text-ink-200"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
@@ -422,7 +422,7 @@ export function TenderDashboardExplorer() {
               aria-label="Search mode"
               value={searchMode}
               onChange={(e) => setSearchMode(e.target.value as "semantic" | "keyword" | "hybrid")}
-              className="h-8 shrink-0 rounded-lg border border-ink-200 bg-white px-2 text-xs text-ink-700 outline-none focus:ring-2 focus:ring-navy-500/30"
+              className="h-8 shrink-0 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-2 text-xs text-ink-700 dark:text-ink-200 outline-none focus:ring-2 focus:ring-navy-500/30"
             >
               <option value="hybrid">Hybrid</option>
               <option value="semantic">Semantic</option>
@@ -433,12 +433,12 @@ export function TenderDashboardExplorer() {
               type="button"
               onClick={handleSemanticSearch}
               disabled={isLoading}
-              className="h-8 shrink-0 rounded-lg bg-ink-900 px-3 text-xs font-semibold text-white transition-colors hover:bg-navy-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-8 shrink-0 rounded-lg bg-ink-900 dark:bg-ink-50 px-3 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? "Searching…" : "Search"}
             </button>
 
-            <span className="hidden h-5 w-px bg-ink-200 lg:block" aria-hidden />
+            <span className="hidden h-5 w-px bg-ink-200 dark:bg-ink-800 lg:block" aria-hidden />
 
             <TenderFilters
               variant="inline"
@@ -454,7 +454,7 @@ export function TenderDashboardExplorer() {
                 <button
                   type="button"
                   onClick={handleFilterReset}
-                  className="inline-flex h-8 items-center gap-1 rounded-lg px-2 text-xs font-medium text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-800"
+                  className="inline-flex h-8 items-center gap-1 rounded-lg px-2 text-xs font-medium text-ink-500 dark:text-ink-400 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 hover:text-ink-800 dark:hover:text-ink-100"
                 >
                   <FilterX className="h-3.5 w-3.5" aria-hidden />
                   Reset
@@ -466,20 +466,20 @@ export function TenderDashboardExplorer() {
       ) : (
         <>
           {/* ---------- Detailed: full stat cards ---------- */}
-          <div className="rounded-2xl border border-ink-200 bg-white p-5 shadow-card">
+          <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <h1 className="text-xl font-bold text-ink-900">Tender explorer</h1>
-                <p className="mt-0.5 text-sm text-ink-400">Search and filter active government tenders.</p>
+                <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">Tender explorer</h1>
+                <p className="mt-0.5 text-sm text-ink-400 dark:text-ink-600">Search and filter active government tenders.</p>
               </div>
               {viewSwitcher}
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
-              <div className="flex items-center gap-3 rounded-xl border border-ink-200 bg-ink-50 px-4 py-3">
-                <Database className="h-5 w-5 shrink-0 text-ink-400" aria-hidden />
+              <div className="flex items-center gap-3 rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-4 py-3">
+                <Database className="h-5 w-5 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">Total records</p>
-                  <p className="text-xl font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">Total records</p>
+                  <p className="text-xl font-bold tabular-nums text-ink-900 dark:text-ink-50">{totalCount.toLocaleString("en-IN")}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3">
@@ -523,19 +523,19 @@ export function TenderDashboardExplorer() {
 
         <div className={cn("space-y-3", !isMinimal && "col-span-12 space-y-4 lg:col-span-9")}>
           {!isMinimal && (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 bg-white px-4 py-3 shadow-card">
-              <p className="text-sm text-ink-600">
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ink-200 dark:border-ink-800 bg-surface px-4 py-3 shadow-card">
+              <p className="text-sm text-ink-600 dark:text-ink-300">
                 {isLoading ? (
                   <span className="inline-flex items-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Loading…
                   </span>
                 ) : (
                   <>
-                    <span className="font-bold tabular-nums text-ink-900">{totalCount.toLocaleString("en-IN")}</span>
+                    <span className="font-bold tabular-nums text-ink-900 dark:text-ink-50">{totalCount.toLocaleString("en-IN")}</span>
                     {" "}records · Page{" "}
-                    <span className="font-bold tabular-nums text-ink-900">{page}</span>
+                    <span className="font-bold tabular-nums text-ink-900 dark:text-ink-50">{page}</span>
                     {" "}of{" "}
-                    <span className="font-bold tabular-nums text-ink-900">{totalPages}</span>
+                    <span className="font-bold tabular-nums text-ink-900 dark:text-ink-50">{totalPages}</span>
                   </>
                 )}
               </p>
@@ -558,7 +558,7 @@ export function TenderDashboardExplorer() {
                 query.trim() !== activeSemanticQuery || searchMode !== activeSemanticMode
               }
               className={cn(
-                "rounded-lg border border-ink-200 bg-white px-3 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50",
+                "rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 py-2 text-sm font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950",
                 "disabled:cursor-not-allowed disabled:opacity-40"
               )}
             >
@@ -576,17 +576,17 @@ export function TenderDashboardExplorer() {
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page <= 1 || isLoading}
                 aria-label="Previous page"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-700 transition-colors hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 dark:border-ink-800 bg-surface text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
-              <span className="px-2 text-sm font-medium tabular-nums text-ink-600">{page} / {totalPages}</span>
+              <span className="px-2 text-sm font-medium tabular-nums text-ink-600 dark:text-ink-300">{page} / {totalPages}</span>
               <button
                 type="button"
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page >= totalPages || isLoading}
                 aria-label="Next page"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 bg-white text-ink-700 transition-colors hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-ink-200 dark:border-ink-800 bg-surface text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

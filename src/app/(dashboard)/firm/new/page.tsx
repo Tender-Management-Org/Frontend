@@ -42,7 +42,7 @@ const INITIAL: FormState = {
 
 function Label({ htmlFor, children, required }: { htmlFor: string; children: React.ReactNode; required?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="block text-sm font-medium text-ink-700">
+    <label htmlFor={htmlFor} className="block text-sm font-medium text-ink-700 dark:text-ink-200">
       {children}
       {required && <span className="ml-1 text-danger-500">*</span>}
     </label>
@@ -64,9 +64,9 @@ function Input({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={cn(
-          "w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 outline-none transition-colors",
-          "focus:border-navy-400 focus:ring-2 focus:ring-navy-100",
-          error ? "border-danger-400" : "border-ink-200"
+          "w-full rounded-xl border bg-surface px-3.5 py-2.5 text-sm text-ink-900 dark:text-ink-50 placeholder:text-ink-400 dark:placeholder:text-ink-600 outline-none transition-colors",
+          "focus:border-navy-400 dark:focus:border-navy-500 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800",
+          error ? "border-danger-400" : "border-ink-200 dark:border-ink-800"
         )}
       />
       {error && <p className="mt-1 text-xs text-danger-600">{error}</p>}
@@ -139,23 +139,23 @@ export default function NewFirmPage() {
       {/* Back link */}
       <Link
         href="/firm"
-        className="inline-flex items-center gap-1.5 text-sm text-ink-500 transition-colors hover:text-ink-800"
+        className="inline-flex items-center gap-1.5 text-sm text-ink-500 dark:text-ink-400 transition-colors hover:text-ink-800 dark:hover:text-ink-100"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         Back to firm workspace
       </Link>
 
       {/* Card */}
-      <div className="rounded-2xl border border-ink-200 bg-white shadow-card">
+      <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface shadow-card">
         {/* Header */}
-        <div className="border-b border-ink-100 px-6 py-5">
+        <div className="border-b border-ink-100 dark:border-ink-900 px-6 py-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50">
-              <Building2 className="h-5 w-5 text-navy-600" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 dark:bg-navy-900">
+              <Building2 className="h-5 w-5 text-navy-600 dark:text-navy-400" />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-ink-900">Add a new firm</h1>
-              <p className="text-sm text-ink-500">
+              <h1 className="text-lg font-bold text-ink-900 dark:text-ink-50">Add a new firm</h1>
+              <p className="text-sm text-ink-500 dark:text-ink-400">
                 Fill in the basics — you can complete the full profile from the workspace.
               </p>
             </div>
@@ -168,10 +168,10 @@ export default function NewFirmPage() {
 
             {/* Required fields */}
             <div className="space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">
                 Required
               </p>
-              <div className="rounded-xl border border-ink-100 bg-ink-50/40 p-4 space-y-4">
+              <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50/40 p-4 space-y-4">
 
                 <div className="space-y-1.5">
                   <Label htmlFor="legal_name" required>Legal name</Label>
@@ -202,10 +202,10 @@ export default function NewFirmPage() {
                     value={form.constitution}
                     onChange={(e) => set("constitution", e.target.value as Constitution)}
                     className={cn(
-                      "w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-ink-900 outline-none transition-colors",
-                      "focus:border-navy-400 focus:ring-2 focus:ring-navy-100",
-                      !form.constitution ? "text-ink-400" : "",
-                      errors.constitution ? "border-danger-400" : "border-ink-200"
+                      "w-full rounded-xl border bg-surface px-3.5 py-2.5 text-sm text-ink-900 dark:text-ink-50 outline-none transition-colors",
+                      "focus:border-navy-400 dark:focus:border-navy-500 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800",
+                      !form.constitution ? "text-ink-400 dark:text-ink-600" : "",
+                      errors.constitution ? "border-danger-400" : "border-ink-200 dark:border-ink-800"
                     )}
                   >
                     <option value="" disabled>Select constitution type</option>
@@ -222,10 +222,10 @@ export default function NewFirmPage() {
 
             {/* Optional fields */}
             <div className="space-y-1">
-              <p className="text-xs font-semibold uppercase tracking-wide text-ink-400">
+              <p className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">
                 Optional — you can fill these later
               </p>
-              <div className="rounded-xl border border-ink-100 bg-ink-50/40 p-4 space-y-4">
+              <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50/40 p-4 space-y-4">
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">
@@ -257,7 +257,7 @@ export default function NewFirmPage() {
                     onChange={(e) => set("scope_of_work", e.target.value)}
                     placeholder="Brief description of services/work the firm performs (used for tender matching)"
                     rows={3}
-                    className="w-full rounded-xl border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 outline-none transition-colors focus:border-navy-400 focus:ring-2 focus:ring-navy-100 resize-none"
+                    className="w-full rounded-xl border border-ink-200 dark:border-ink-800 bg-surface px-3.5 py-2.5 text-sm text-ink-900 dark:text-ink-50 placeholder:text-ink-400 dark:placeholder:text-ink-600 outline-none transition-colors focus:border-navy-400 dark:focus:border-navy-500 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800 resize-none"
                   />
                 </div>
               </div>
@@ -272,17 +272,17 @@ export default function NewFirmPage() {
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-end gap-3 border-t border-ink-100 px-6 py-4">
+          <div className="flex items-center justify-end gap-3 border-t border-ink-100 dark:border-ink-900 px-6 py-4">
             <Link
               href="/firm"
-              className="rounded-xl border border-ink-200 px-4 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-ink-50"
+              className="rounded-xl border border-ink-200 dark:border-ink-800 px-4 py-2 text-sm font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950"
             >
               Cancel
             </Link>
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex items-center gap-2 rounded-xl bg-navy-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-navy-600 dark:bg-navy-400 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {submitting ? "Creating firm…" : "Create firm"}
