@@ -77,8 +77,8 @@ export function TenderCard({ tender }: TenderCardProps) {
             <span
               className={cn(
                 "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold",
-                dl.tone === "danger" && "bg-danger-50 text-danger-700 border border-danger-200",
-                dl.tone === "warning" && "bg-warning-50 text-warning-700 border border-warning-200",
+                dl.tone === "danger" && "bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400 border border-danger-200 dark:border-danger-500/30",
+                dl.tone === "warning" && "bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400 border border-warning-200 dark:border-warning-500/30",
                 dl.tone === "neutral" && "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
               )}
             >

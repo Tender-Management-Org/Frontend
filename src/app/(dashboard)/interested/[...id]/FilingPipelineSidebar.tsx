@@ -106,7 +106,7 @@ export function FilingPipelineSidebar({
               >
                 <div className="flex items-start gap-2">
                   <CheckCircle2
-                    className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${item.mandatory ? "text-success-600" : "text-ink-300 dark:text-ink-700"}`}
+                    className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${item.mandatory ? "text-success-600 dark:text-success-400" : "text-ink-300 dark:text-ink-700"}`}
                     aria-hidden
                   />
                   <div className="min-w-0">
@@ -154,7 +154,7 @@ export function FilingPipelineSidebar({
                       </p>
                     </div>
                     {uploaded && (
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-success-600" aria-hidden />
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-success-600 dark:text-success-400" aria-hidden />
                     )}
                   </div>
                   <div className="mt-2">

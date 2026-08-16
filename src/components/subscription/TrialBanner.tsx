@@ -15,10 +15,10 @@ export function TrialBanner() {
   // ── Expired banner ────────────────────────────────────────────────────────
   if (isExpired) {
     return (
-      <div className="flex items-center justify-between gap-3 border-b border-danger-500/20 bg-danger-50 px-4 py-2.5 sm:px-6">
+      <div className="flex items-center justify-between gap-3 border-b border-danger-500/20 bg-danger-50 dark:bg-danger-500/10 px-4 py-2.5 sm:px-6">
         <div className="flex min-w-0 items-center gap-2">
-          <AlertTriangle className="h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-          <p className="truncate text-sm font-medium text-danger-700">
+          <AlertTriangle className="h-4 w-4 shrink-0 text-danger-600 dark:text-danger-400" aria-hidden />
+          <p className="truncate text-sm font-medium text-danger-700 dark:text-danger-400">
             Your free trial has ended. Upgrade to continue using TenderKhoj.
           </p>
         </div>
@@ -50,16 +50,16 @@ export function TrialBanner() {
       className={cn(
         "flex items-center justify-between gap-3 border-b px-4 py-2.5 sm:px-6",
         isUrgent
-          ? "border-warning-500/20 bg-warning-50"
+          ? "border-warning-500/20 bg-warning-50 dark:bg-warning-500/10"
           : "border-navy-200/40 bg-navy-50 dark:bg-navy-900"
       )}
     >
       <div className="flex min-w-0 items-center gap-2">
         <Zap
-          className={cn("h-4 w-4 shrink-0", isUrgent ? "text-warning-600" : "text-navy-600 dark:text-navy-400")}
+          className={cn("h-4 w-4 shrink-0", isUrgent ? "text-warning-600 dark:text-warning-400" : "text-navy-600 dark:text-navy-400")}
           aria-hidden
         />
-        <p className={cn("truncate text-sm font-medium", isUrgent ? "text-warning-700" : "text-navy-700 dark:text-navy-500")}>
+        <p className={cn("truncate text-sm font-medium", isUrgent ? "text-warning-700 dark:text-warning-400" : "text-navy-700 dark:text-navy-500")}>
           {label}
         </p>
       </div>

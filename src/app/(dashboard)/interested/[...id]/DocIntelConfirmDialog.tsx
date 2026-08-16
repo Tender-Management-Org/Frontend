@@ -65,7 +65,7 @@ export function DocIntelConfirmDialog({
           </div>
 
           {!hasCredits && (
-            <p className="text-sm text-danger-700">
+            <p className="text-sm text-danger-700 dark:text-danger-400">
               You have no doc intel credits left. Contact support or upgrade your plan.
             </p>
           )}

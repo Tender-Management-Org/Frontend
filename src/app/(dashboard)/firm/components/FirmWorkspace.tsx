@@ -283,7 +283,7 @@ export function FirmWorkspace() {
       )}
 
       {error && (
-        <div className="rounded-xl border border-danger-200 bg-danger-50 px-5 py-4 text-sm text-danger-700">
+        <div className="rounded-xl border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-5 py-4 text-sm text-danger-700 dark:text-danger-400">
           {error}
         </div>
       )}

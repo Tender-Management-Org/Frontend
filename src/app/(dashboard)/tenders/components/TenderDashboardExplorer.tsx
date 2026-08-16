@@ -377,8 +377,8 @@ export function TenderDashboardExplorer() {
                 records
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
-                <CalendarDays className="h-3.5 w-3.5 text-warning-600" aria-hidden />
-                <span className="font-semibold tabular-nums text-warning-700">{closingSoonCount}</span>
+                <CalendarDays className="h-3.5 w-3.5 text-warning-600 dark:text-warning-400" aria-hidden />
+                <span className="font-semibold tabular-nums text-warning-700 dark:text-warning-400">{closingSoonCount}</span>
                 closing soon
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
@@ -482,12 +482,12 @@ export function TenderDashboardExplorer() {
                   <p className="text-xl font-bold tabular-nums text-ink-900 dark:text-ink-50">{totalCount.toLocaleString("en-IN")}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 rounded-xl border border-warning-200 bg-warning-50 px-4 py-3">
-                <CalendarDays className="h-5 w-5 shrink-0 text-warning-600" aria-hidden />
+              <div className="flex items-center gap-3 rounded-xl border border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 px-4 py-3">
+                <CalendarDays className="h-5 w-5 shrink-0 text-warning-600 dark:text-warning-400" aria-hidden />
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-warning-700">Closing soon</p>
-                  <p className="text-xl font-bold tabular-nums text-warning-700">{closingSoonCount}</p>
-                  <p className="text-xs text-warning-600">on this page</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-warning-700 dark:text-warning-400">Closing soon</p>
+                  <p className="text-xl font-bold tabular-nums text-warning-700 dark:text-warning-400">{closingSoonCount}</p>
+                  <p className="text-xs text-warning-600 dark:text-warning-400">on this page</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3">

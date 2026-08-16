@@ -356,7 +356,7 @@ export function Navbar() {
                   <button
                     type="button"
                     role="menuitem"
-                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-danger-600 transition-colors hover:bg-danger-50"
+                    className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm text-danger-600 dark:text-danger-400 transition-colors hover:bg-danger-50 dark:hover:bg-danger-500/10"
                     onClick={handleLogout}
                   >
                     <LogOut className="h-4 w-4" />

@@ -137,31 +137,31 @@ export default async function TenderDetailPage({ params }: PageProps) {
           <div
             className={cn(
               "flex items-center gap-2.5 rounded-xl border px-4 py-3",
-              urgency === "danger" ? "border-danger-200 bg-danger-50" :
-              urgency === "warning" ? "border-warning-200 bg-warning-50" :
+              urgency === "danger" ? "border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10" :
+              urgency === "warning" ? "border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10" :
               "border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950"
             )}
           >
             <CalendarClock
               className={cn(
                 "h-4 w-4 shrink-0",
-                urgency === "danger" ? "text-danger-600" :
-                urgency === "warning" ? "text-warning-600" : "text-ink-400 dark:text-ink-600"
+                urgency === "danger" ? "text-danger-600 dark:text-danger-400" :
+                urgency === "warning" ? "text-warning-600 dark:text-warning-400" : "text-ink-400 dark:text-ink-600"
               )}
               aria-hidden
             />
             <div>
               <p className={cn(
                 "text-2xs font-semibold uppercase tracking-wide",
-                urgency === "danger" ? "text-danger-600" :
-                urgency === "warning" ? "text-warning-600" : "text-ink-400 dark:text-ink-600"
+                urgency === "danger" ? "text-danger-600 dark:text-danger-400" :
+                urgency === "warning" ? "text-warning-600 dark:text-warning-400" : "text-ink-400 dark:text-ink-600"
               )}>
                 Submission closes
               </p>
               <p className={cn(
                 "text-sm font-bold",
-                urgency === "danger" ? "text-danger-700" :
-                urgency === "warning" ? "text-warning-700" : "text-ink-900 dark:text-ink-50"
+                urgency === "danger" ? "text-danger-700 dark:text-danger-400" :
+                urgency === "warning" ? "text-warning-700 dark:text-warning-400" : "text-ink-900 dark:text-ink-50"
               )}>
                 {formattedDeadline}
               </p>

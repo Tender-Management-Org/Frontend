@@ -96,8 +96,8 @@ function UpgradeSuccessContent() {
         {state === "success" && (
           <>
             <div className="mb-4 flex justify-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-success-50">
-                <CheckCircle2 className="h-7 w-7 text-success-600" />
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-success-50 dark:bg-success-500/10">
+                <CheckCircle2 className="h-7 w-7 text-success-600 dark:text-success-400" />
               </span>
             </div>
             <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">You&apos;re all set!</h1>
@@ -121,8 +121,8 @@ function UpgradeSuccessContent() {
         {state === "timeout" && (
           <>
             <div className="mb-4 flex justify-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-warning-50">
-                <AlertCircle className="h-7 w-7 text-warning-600" />
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-warning-50 dark:bg-warning-500/10">
+                <AlertCircle className="h-7 w-7 text-warning-600 dark:text-warning-400" />
               </span>
             </div>
             <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">Taking longer than expected</h1>
@@ -153,8 +153,8 @@ function UpgradeSuccessContent() {
         {state === "error" && (
           <>
             <div className="mb-4 flex justify-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-danger-50">
-                <AlertCircle className="h-7 w-7 text-danger-600" />
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-danger-50 dark:bg-danger-500/10">
+                <AlertCircle className="h-7 w-7 text-danger-600 dark:text-danger-400" />
               </span>
             </div>
             <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">Something went wrong</h1>

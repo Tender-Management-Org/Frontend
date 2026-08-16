@@ -66,7 +66,7 @@ export function TenderMatchActionButton({
         <Icon className="h-4 w-4" aria-hidden />
         {isSubmitting ? loadingLabel : label}
       </Button>
-      {error && <p className="text-xs text-danger-600">{error}</p>}
+      {error && <p className="text-xs text-danger-600 dark:text-danger-400">{error}</p>}
     </div>
   );
 }

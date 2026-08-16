@@ -32,8 +32,8 @@ function toneForDays(daysLeft: number) {
 
 const CHIP_TONE = {
   closed: "border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 text-ink-400 dark:text-ink-600",
-  urgent: "border-danger-200 bg-danger-50 text-danger-700 hover:bg-danger-100",
-  soon: "border-warning-200 bg-warning-50 text-warning-700 hover:bg-warning-100",
+  urgent: "border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400 hover:bg-danger-100 dark:hover:bg-danger-500/15",
+  soon: "border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400 hover:bg-warning-100 dark:hover:bg-warning-500/15",
   normal: "border-navy-200 dark:border-navy-700 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500 hover:bg-navy-100 dark:hover:bg-navy-800",
 } as const;
 

@@ -29,8 +29,8 @@ const TONE_DOT = {
 } as const;
 
 const TONE_TEXT = {
-  danger: "text-danger-700",
-  warning: "text-warning-700",
+  danger: "text-danger-700 dark:text-danger-400",
+  warning: "text-warning-700 dark:text-warning-400",
   neutral: "text-ink-500 dark:text-ink-400",
 } as const;
 
@@ -326,15 +326,15 @@ function DetailPane({ tender }: { tender: TenderItem }) {
             <span
               className={cn(
                 "inline-flex items-center rounded-full px-2 py-0.5 text-2xs font-semibold",
-                dl.tone === "danger" && "border border-danger-200 bg-danger-50 text-danger-700",
-                dl.tone === "warning" && "border border-warning-200 bg-warning-50 text-warning-700",
+                dl.tone === "danger" && "border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400",
+                dl.tone === "warning" && "border border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400",
                 dl.tone === "neutral" && "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
               )}
             >
               {dl.hint}
             </span>
             {corrigenda.length > 0 && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-warning-200 bg-warning-50 px-2 py-0.5 text-2xs font-semibold text-warning-700">
+              <span className="inline-flex items-center gap-1 rounded-full border border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 px-2 py-0.5 text-2xs font-semibold text-warning-700 dark:text-warning-400">
                 <AlertTriangle className="h-3 w-3" aria-hidden />
                 {corrigenda.length} corrigend{corrigenda.length === 1 ? "um" : "a"}
               </span>
@@ -395,12 +395,12 @@ function DetailPane({ tender }: { tender: TenderItem }) {
             {(emd?.emd_exemption_allowed || fees?.tender_fee_exemption_allowed) && (
               <p className="mt-2.5 flex flex-wrap gap-1.5">
                 {emd?.emd_exemption_allowed && (
-                  <span className="rounded-full bg-success-50 px-2 py-0.5 text-2xs font-semibold text-success-700">
+                  <span className="rounded-full bg-success-50 dark:bg-success-500/10 px-2 py-0.5 text-2xs font-semibold text-success-700 dark:text-success-400">
                     EMD exemption allowed
                   </span>
                 )}
                 {fees?.tender_fee_exemption_allowed && (
-                  <span className="rounded-full bg-success-50 px-2 py-0.5 text-2xs font-semibold text-success-700">
+                  <span className="rounded-full bg-success-50 dark:bg-success-500/10 px-2 py-0.5 text-2xs font-semibold text-success-700 dark:text-success-400">
                     Tender fee exemption allowed
                   </span>
                 )}
@@ -483,7 +483,7 @@ function DetailPane({ tender }: { tender: TenderItem }) {
                         rel={doc.file_url ? "noopener noreferrer" : undefined}
                         className="group flex items-center gap-2 rounded-lg border border-ink-100 dark:border-ink-900 px-2.5 py-1.5 transition-colors hover:border-navy-200 dark:hover:border-navy-700 hover:bg-navy-50 dark:hover:bg-navy-900"
                       >
-                        <FileText className="h-3.5 w-3.5 shrink-0 text-danger-500" aria-hidden />
+                        <FileText className="h-3.5 w-3.5 shrink-0 text-danger-500 dark:text-danger-400" aria-hidden />
                         <span className="min-w-0 flex-1 truncate text-xs text-ink-700 dark:text-ink-200">
                           {doc.document_name}
                         </span>
@@ -518,7 +518,7 @@ function DetailPane({ tender }: { tender: TenderItem }) {
         </>
       )}
 
-      <footer className="sticky bottom-0 mt-auto flex items-center justify-between gap-3 border-t border-ink-100 dark:border-ink-900 bg-white/95 px-5 py-3 backdrop-blur">
+      <footer className="sticky bottom-0 mt-auto flex items-center justify-between gap-3 border-t border-ink-100 dark:border-ink-900 bg-white/95 dark:bg-ink-900/95 px-5 py-3 backdrop-blur">
         {tender.source ? (
           <span className="inline-flex items-center rounded-full border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-2.5 py-0.5 text-2xs font-medium text-ink-500 dark:text-ink-400">
             {formatSource(tender.source)}

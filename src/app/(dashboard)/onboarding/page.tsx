@@ -275,8 +275,8 @@ export default function OnboardingPage() {
         <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
           {isSubmitted ? (
             <div className="flex flex-col items-center py-8 text-center">
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success-50">
-                <CheckCircle2 className="h-8 w-8 text-success-600" />
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success-50 dark:bg-success-500/10">
+                <CheckCircle2 className="h-8 w-8 text-success-600 dark:text-success-400" />
               </div>
               <h2 className="text-xl font-bold text-ink-900 dark:text-ink-50">Onboarding complete!</h2>
               <p className="mt-2 max-w-xs text-sm text-ink-500 dark:text-ink-400">
@@ -312,9 +312,9 @@ export default function OnboardingPage() {
               {currentStep === 2 && <Step3Location formData={formData} errors={errors} onChange={onFieldChange} />}
 
               {submitError && (
-                <div className="flex items-start gap-2 rounded-xl border border-danger-200 bg-danger-50 px-4 py-3">
-                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-                  <p className="text-sm text-danger-700">{submitError}</p>
+                <div className="flex items-start gap-2 rounded-xl border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-4 py-3">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger-600 dark:text-danger-400" aria-hidden />
+                  <p className="text-sm text-danger-700 dark:text-danger-400">{submitError}</p>
                 </div>
               )}
 

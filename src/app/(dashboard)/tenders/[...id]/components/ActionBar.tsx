@@ -84,9 +84,9 @@ export function ActionBar({ tenderId }: ActionBarProps) {
       </div>
 
       {errorMessage && (
-        <div className="mt-3 flex items-start gap-2 rounded-lg border border-danger-200 bg-danger-50 px-3 py-2">
-          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-          <p className="text-xs text-danger-700">{errorMessage}</p>
+        <div className="mt-3 flex items-start gap-2 rounded-lg border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-3 py-2">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-danger-600 dark:text-danger-400" aria-hidden />
+          <p className="text-xs text-danger-700 dark:text-danger-400">{errorMessage}</p>
         </div>
       )}
 

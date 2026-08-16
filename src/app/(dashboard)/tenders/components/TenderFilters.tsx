@@ -31,9 +31,9 @@ function statusChipClass(status: TenderStatus, isSelected: boolean) {
     case "active":
       return "border-emerald-500 bg-emerald-50 text-emerald-700";
     case "closing_soon":
-      return "border-warning-500 bg-warning-50 text-warning-700";
+      return "border-warning-500 dark:border-warning-500/50 bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400";
     case "closed":
-      return "border-danger-400 bg-danger-50 text-danger-700";
+      return "border-danger-400 dark:border-danger-500/45 bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400";
     default:
       return "border-navy-500 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500";
   }

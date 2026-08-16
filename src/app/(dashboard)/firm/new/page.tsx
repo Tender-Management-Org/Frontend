@@ -44,7 +44,7 @@ function Label({ htmlFor, children, required }: { htmlFor: string; children: Rea
   return (
     <label htmlFor={htmlFor} className="block text-sm font-medium text-ink-700 dark:text-ink-200">
       {children}
-      {required && <span className="ml-1 text-danger-500">*</span>}
+      {required && <span className="ml-1 text-danger-500 dark:text-danger-400">*</span>}
     </label>
   );
 }
@@ -66,10 +66,10 @@ function Input({
         className={cn(
           "w-full rounded-xl border bg-surface px-3.5 py-2.5 text-sm text-ink-900 dark:text-ink-50 placeholder:text-ink-400 dark:placeholder:text-ink-600 outline-none transition-colors",
           "focus:border-navy-400 dark:focus:border-navy-500 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800",
-          error ? "border-danger-400" : "border-ink-200 dark:border-ink-800"
+          error ? "border-danger-400 dark:border-danger-500/45" : "border-ink-200 dark:border-ink-800"
         )}
       />
-      {error && <p className="mt-1 text-xs text-danger-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-danger-600 dark:text-danger-400">{error}</p>}
     </div>
   );
 }
@@ -205,7 +205,7 @@ export default function NewFirmPage() {
                       "w-full rounded-xl border bg-surface px-3.5 py-2.5 text-sm text-ink-900 dark:text-ink-50 outline-none transition-colors",
                       "focus:border-navy-400 dark:focus:border-navy-500 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800",
                       !form.constitution ? "text-ink-400 dark:text-ink-600" : "",
-                      errors.constitution ? "border-danger-400" : "border-ink-200 dark:border-ink-800"
+                      errors.constitution ? "border-danger-400 dark:border-danger-500/45" : "border-ink-200 dark:border-ink-800"
                     )}
                   >
                     <option value="" disabled>Select constitution type</option>
@@ -214,7 +214,7 @@ export default function NewFirmPage() {
                     ))}
                   </select>
                   {errors.constitution && (
-                    <p className="mt-1 text-xs text-danger-600">{errors.constitution}</p>
+                    <p className="mt-1 text-xs text-danger-600 dark:text-danger-400">{errors.constitution}</p>
                   )}
                 </div>
               </div>
@@ -265,7 +265,7 @@ export default function NewFirmPage() {
 
             {/* Server error */}
             {serverError && (
-              <p className="rounded-xl border border-danger-200 bg-danger-50 px-4 py-3 text-sm text-danger-700">
+              <p className="rounded-xl border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-4 py-3 text-sm text-danger-700 dark:text-danger-400">
                 {serverError}
               </p>
             )}

@@ -11,11 +11,11 @@ const toastConfig: Record<
   { className: string; Icon: typeof CheckCircle2 }
 > = {
   success: {
-    className: "border-success-200 bg-success-50 text-success-900",
+    className: "border-success-200 dark:border-success-500/30 bg-success-50 dark:bg-success-500/10 text-success-900 dark:text-success-300",
     Icon: CheckCircle2,
   },
   error: {
-    className: "border-danger-200 bg-danger-50 text-danger-900",
+    className: "border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 text-danger-900 dark:text-danger-300",
     Icon: AlertCircle,
   },
   info: {

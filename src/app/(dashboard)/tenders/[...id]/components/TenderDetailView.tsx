@@ -155,7 +155,7 @@ function DocRow({
     <div
       className={cn(
         "flex flex-col gap-3 rounded-xl border p-3.5 sm:flex-row sm:items-center sm:justify-between",
-        isSelected ? "border-navy-300 dark:border-navy-600 bg-navy-50/40" : "border-ink-200 dark:border-ink-800"
+        isSelected ? "border-navy-300 dark:border-navy-600 bg-navy-50/40 dark:bg-navy-900/40" : "border-ink-200 dark:border-ink-800"
       )}
     >
       <div className="min-w-0 flex-1">
@@ -163,7 +163,7 @@ function DocRow({
           <FileText className="h-4 w-4 shrink-0 text-ink-400 dark:text-ink-600" aria-hidden />
           <span className="truncate">{fv(doc.document_name)}</span>
           {docIntel?.status === "complete" && (
-            <CheckCircle2 className="h-4 w-4 shrink-0 text-success-600" aria-label="Analysis complete" />
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-success-600 dark:text-success-400" aria-label="Analysis complete" />
           )}
         </p>
         <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">
@@ -357,9 +357,9 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
               <p className="text-sm text-ink-400 dark:text-ink-600 italic">No description provided.</p>
             )}
             {fv(w.pre_qualification_details) !== "—" && (
-              <div className="mt-4 rounded-lg bg-warning-50 border border-warning-200 px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-wide text-warning-700 mb-1">Pre-qualification</p>
-                <p className="text-sm text-warning-900 leading-relaxed">{w.pre_qualification_details}</p>
+              <div className="mt-4 rounded-lg bg-warning-50 dark:bg-warning-500/10 border border-warning-200 dark:border-warning-500/30 px-4 py-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-warning-700 dark:text-warning-400 mb-1">Pre-qualification</p>
+                <p className="text-sm text-warning-900 dark:text-warning-300 leading-relaxed">{w.pre_qualification_details}</p>
               </div>
             )}
           </div>
@@ -619,7 +619,7 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
             ) : (
               <div className="space-y-2">
                 {data.latest_corrigendum_list.map((c) => (
-                  <div key={c.s_no} className="rounded-xl border border-warning-200 bg-warning-50 p-3">
+                  <div key={c.s_no} className="rounded-xl border border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 p-3">
                     <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">{fv(c.corrigendum_title)}</p>
                     <p className="mt-0.5 text-xs text-ink-500 dark:text-ink-400">{fv(c.corrigendum_type)}</p>
                   </div>

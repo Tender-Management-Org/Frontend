@@ -113,7 +113,7 @@ function PhoneModal({
 
           <div className="space-y-1.5">
             <label htmlFor="phone" className="block text-sm font-medium text-ink-700 dark:text-ink-200">
-              Mobile number <span className="text-danger-500">*</span>
+              Mobile number <span className="text-danger-500 dark:text-danger-400">*</span>
             </label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400 dark:text-ink-600" />
@@ -132,12 +132,12 @@ function PhoneModal({
                 className={cn(
                   "w-full rounded-xl border py-2.5 pl-9 pr-3 text-sm text-ink-900 dark:text-ink-50 placeholder:text-ink-400 dark:placeholder:text-ink-600 outline-none transition-colors",
                   "focus:border-navy-400 dark:focus:border-navy-500 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-800",
-                  error ? "border-danger-400" : "border-ink-200 dark:border-ink-800"
+                  error ? "border-danger-400 dark:border-danger-500/45" : "border-ink-200 dark:border-ink-800"
                 )}
               />
             </div>
             {error && (
-              <p className="flex items-center gap-1.5 text-xs text-danger-600">
+              <p className="flex items-center gap-1.5 text-xs text-danger-600 dark:text-danger-400">
                 <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                 {error}
               </p>
@@ -209,7 +209,7 @@ function PlanCard({
           {price > 0 && <span className="text-sm text-ink-400 dark:text-ink-600">{priceSuffix}</span>}
         </div>
         {billingCycle === "annual" && plan.price_yearly > 0 && (
-          <p className="mt-0.5 text-xs text-success-600">
+          <p className="mt-0.5 text-xs text-success-600 dark:text-success-400">
             Save {Math.round(100 - (plan.price_yearly / (plan.price_monthly * 12)) * 100)}% vs monthly
           </p>
         )}
@@ -240,7 +240,7 @@ function PlanCard({
               <span
                 className={cn(
                   "flex h-4 w-4 shrink-0 items-center justify-center rounded-full",
-                  enabled ? "bg-success-50 text-success-600" : "bg-ink-100 dark:bg-ink-900 text-ink-300 dark:text-ink-700"
+                  enabled ? "bg-success-50 dark:bg-success-500/10 text-success-600 dark:text-success-400" : "bg-ink-100 dark:bg-ink-900 text-ink-300 dark:text-ink-700"
                 )}
               >
                 {enabled
@@ -324,7 +324,7 @@ function CurrentPlanCard({ onCancelled }: { onCancelled: () => void }) {
               </span>
             )}
             {status === "pending" && (
-              <span className="ml-2 rounded-full bg-warning-50 px-2 py-0.5 text-xs font-medium text-warning-700">
+              <span className="ml-2 rounded-full bg-warning-50 dark:bg-warning-500/10 px-2 py-0.5 text-xs font-medium text-warning-700 dark:text-warning-400">
                 Pending mandate
               </span>
             )}
@@ -340,7 +340,7 @@ function CurrentPlanCard({ onCancelled }: { onCancelled: () => void }) {
           )}
 
           {cancel_at_period_end && (
-            <p className="text-xs font-medium text-warning-700">
+            <p className="text-xs font-medium text-warning-700 dark:text-warning-400">
               ⚠ Cancellation scheduled — no further charges after this period.
             </p>
           )}
@@ -353,7 +353,7 @@ function CurrentPlanCard({ onCancelled }: { onCancelled: () => void }) {
               <button
                 type="button"
                 onClick={() => setShowConfirm(true)}
-                className="rounded-xl border border-danger-200 px-4 py-2 text-xs font-semibold text-danger-600 transition-colors hover:bg-danger-50"
+                className="rounded-xl border border-danger-200 dark:border-danger-500/30 px-4 py-2 text-xs font-semibold text-danger-600 dark:text-danger-400 transition-colors hover:bg-danger-50 dark:hover:bg-danger-500/10"
               >
                 Cancel subscription
               </button>
@@ -379,7 +379,7 @@ function CurrentPlanCard({ onCancelled }: { onCancelled: () => void }) {
               </div>
             )}
             {cancelError && (
-              <p className="mt-1.5 text-xs text-danger-600">{cancelError}</p>
+              <p className="mt-1.5 text-xs text-danger-600 dark:text-danger-400">{cancelError}</p>
             )}
           </div>
         )}
@@ -481,7 +481,7 @@ export default function UpgradePage() {
             >
               Annual
               {annualSavings && (
-                <span className="rounded-full bg-success-100 px-1.5 py-0.5 text-[10px] font-bold text-success-700">
+                <span className="rounded-full bg-success-100 dark:bg-success-500/15 px-1.5 py-0.5 text-[10px] font-bold text-success-700 dark:text-success-400">
                   Save {annualSavings}%
                 </span>
               )}
@@ -491,7 +491,7 @@ export default function UpgradePage() {
 
         {/* Cancellation notice */}
         {cancelledMsg && (
-          <div className="flex items-center gap-3 rounded-xl border border-success-200 bg-success-50 px-4 py-3 text-sm text-success-700">
+          <div className="flex items-center gap-3 rounded-xl border border-success-200 dark:border-success-500/30 bg-success-50 dark:bg-success-500/10 px-4 py-3 text-sm text-success-700 dark:text-success-400">
             <Check className="h-4 w-4 shrink-0" />
             Subscription cancelled. You retain access until the end of your current billing period.
           </div>
@@ -504,14 +504,14 @@ export default function UpgradePage() {
         {subscription && !loadingSub && (
           <>
             {subscription.status === "trial" && subscription.days_remaining !== null && (
-              <div className="rounded-xl border border-warning-200 bg-warning-50 px-4 py-3 text-sm text-warning-700">
+              <div className="rounded-xl border border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 px-4 py-3 text-sm text-warning-700 dark:text-warning-400">
                 You&apos;re on the <span className="font-semibold">Free Trial</span> —{" "}
                 {subscription.days_remaining} day{subscription.days_remaining !== 1 ? "s" : ""} remaining.
                 Subscribe below to keep uninterrupted access.
               </div>
             )}
             {subscription.status === "expired" && (
-              <div className="rounded-xl border border-danger-200 bg-danger-50 px-4 py-3 text-sm text-danger-700">
+              <div className="rounded-xl border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-4 py-3 text-sm text-danger-700 dark:text-danger-400">
                 Your plan has expired. Subscribe below to restore access.
               </div>
             )}

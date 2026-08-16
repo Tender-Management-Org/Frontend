@@ -401,7 +401,7 @@ function AccountTab() {
       {/* Current plan card */}
       <div className={cn("rounded-xl border-2 p-5", PLAN_COLORS[plan.tier] ?? PLAN_COLORS.trial)}>
         <div className="flex items-start gap-3">
-          <span className="mt-0.5 rounded-lg bg-white/60 p-2">
+          <span className="mt-0.5 rounded-lg bg-white/60 dark:bg-ink-900/60 p-2">
             <PlanIcon className="h-5 w-5" />
           </span>
           <div className="flex-1 min-w-0">

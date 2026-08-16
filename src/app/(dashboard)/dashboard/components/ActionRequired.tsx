@@ -45,7 +45,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
   return (
     <Card id="attention" className="scroll-mt-24 space-y-4">
       <div className="flex items-center gap-2">
-        <AlertTriangle className="h-4 w-4 text-danger-500" aria-hidden />
+        <AlertTriangle className="h-4 w-4 text-danger-500 dark:text-danger-400" aria-hidden />
         <h2 className="text-base font-semibold text-ink-900 dark:text-ink-50">Needs attention</h2>
         {items.length > 0 && (
           <span className="ml-auto flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-danger-500 px-1.5 text-xs font-bold text-white">
@@ -55,10 +55,10 @@ export function ActionRequired({ items }: ActionRequiredProps) {
       </div>
 
       {items.length === 0 ? (
-        <div className="flex flex-col items-center rounded-xl border border-dashed border-success-300 bg-success-50 px-4 py-8 text-center">
-          <CheckCircle2 className="mb-2 h-8 w-8 text-success-500" />
-          <p className="text-sm font-semibold text-success-800">All caught up!</p>
-          <p className="mt-0.5 text-xs text-success-700">No urgent deadlines right now.</p>
+        <div className="flex flex-col items-center rounded-xl border border-dashed border-success-300 dark:border-success-500/35 bg-success-50 dark:bg-success-500/10 px-4 py-8 text-center">
+          <CheckCircle2 className="mb-2 h-8 w-8 text-success-500 dark:text-success-400" />
+          <p className="text-sm font-semibold text-success-800 dark:text-success-300">All caught up!</p>
+          <p className="mt-0.5 text-xs text-success-700 dark:text-success-400">No urgent deadlines right now.</p>
         </div>
       ) : (
         <ul className="max-h-[420px] space-y-2.5 overflow-y-auto pr-1">
@@ -73,7 +73,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
                 <div
                   className={cn(
                     "rounded-xl border p-3.5",
-                    isCritical ? "border-danger-200 bg-danger-50" : "border-ink-200 dark:border-ink-800 bg-surface"
+                    isCritical ? "border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10" : "border-ink-200 dark:border-ink-800 bg-surface"
                   )}
                 >
                   <p className="line-clamp-2 text-sm font-semibold leading-snug text-ink-900 dark:text-ink-50">{item.title}</p>
@@ -86,7 +86,7 @@ export function ActionRequired({ items }: ActionRequiredProps) {
                       <span
                         className={cn(
                           "rounded-full px-2 py-0.5 text-xs font-semibold",
-                          isCritical ? "bg-danger-100 text-danger-700" : "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
+                          isCritical ? "bg-danger-100 dark:bg-danger-500/15 text-danger-700 dark:text-danger-400" : "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
                         )}
                       >
                         {hint}

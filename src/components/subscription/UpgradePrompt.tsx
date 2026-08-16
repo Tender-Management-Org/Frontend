@@ -51,7 +51,7 @@ export function UpgradePrompt({
     return (
       <div
         className={cn(
-          "absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-white/80 backdrop-blur-sm",
+          "absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-white/80 dark:bg-ink-900/80 backdrop-blur-sm",
           className
         )}
       >

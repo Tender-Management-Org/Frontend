@@ -61,17 +61,17 @@ function formatSource(slug: string): string {
 
 function fitBand(score: number | null) {
   if (score == null) return { label: "—", color: "text-ink-400 dark:text-ink-600", bar: "bg-ink-200 dark:bg-ink-800" };
-  if (score >= 80) return { label: `${score} · High`, color: "text-success-700", bar: "bg-success-500" };
-  if (score >= 60) return { label: `${score} · Medium`, color: "text-warning-700", bar: "bg-warning-500" };
-  return { label: `${score} · Low`, color: "text-danger-600", bar: "bg-danger-500" };
+  if (score >= 80) return { label: `${score} · High`, color: "text-success-700 dark:text-success-400", bar: "bg-success-500" };
+  if (score >= 60) return { label: `${score} · Medium`, color: "text-warning-700 dark:text-warning-400", bar: "bg-warning-500" };
+  return { label: `${score} · Low`, color: "text-danger-600 dark:text-danger-400", bar: "bg-danger-500" };
 }
 
 const statusBadge: Record<string, string> = {
   matched: "bg-blue-50 text-blue-700 border border-blue-200",
   interested: "bg-violet-50 text-violet-700 border border-violet-200",
-  applied: "bg-warning-50 text-warning-700 border border-warning-200",
-  won: "bg-success-50 text-success-700 border border-success-200",
-  lost: "bg-danger-50 text-danger-700 border border-danger-200",
+  applied: "bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400 border border-warning-200 dark:border-warning-500/30",
+  won: "bg-success-50 dark:bg-success-500/10 text-success-700 dark:text-success-400 border border-success-200 dark:border-success-500/30",
+  lost: "bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400 border border-danger-200 dark:border-danger-500/30",
   ignored: "bg-ink-100 dark:bg-ink-900 text-ink-500 dark:text-ink-400 border border-ink-200 dark:border-ink-800",
 };
 
@@ -154,8 +154,8 @@ export function RecommendationCard({ item, firmId }: Props) {
           <span
             className={cn(
               "rounded-full px-2.5 py-0.5 text-xs font-semibold",
-              dl.tone === "danger" && "bg-danger-50 text-danger-700 border border-danger-200",
-              dl.tone === "warning" && "bg-warning-50 text-warning-700 border border-warning-200",
+              dl.tone === "danger" && "bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400 border border-danger-200 dark:border-danger-500/30",
+              dl.tone === "warning" && "bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400 border border-warning-200 dark:border-warning-500/30",
               dl.tone === "neutral" && "bg-ink-100 dark:bg-ink-900 text-ink-600 dark:text-ink-300"
             )}
           >

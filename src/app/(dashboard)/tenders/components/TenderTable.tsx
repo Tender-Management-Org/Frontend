@@ -20,8 +20,8 @@ const toneDot: Record<"danger" | "warning" | "neutral", string> = {
 };
 
 const toneText: Record<"danger" | "warning" | "neutral", string> = {
-  danger: "text-danger-700",
-  warning: "text-warning-700",
+  danger: "text-danger-700 dark:text-danger-400",
+  warning: "text-warning-700 dark:text-warning-400",
   neutral: "text-ink-500 dark:text-ink-400",
 };
 
@@ -84,7 +84,7 @@ export function TenderTable({ tenders, density = "comfortable" }: TenderTablePro
                 key={tender.id}
                 onClick={(e) => handleRowActivate(e, tender.id)}
                 className={cn(
-                  "group cursor-pointer transition-colors hover:bg-navy-50/40",
+                  "group cursor-pointer transition-colors hover:bg-navy-50/40 dark:bg-navy-900/40",
                   isCompact && "[&>td]:py-1"
                 )}
               >
