@@ -1,6 +1,6 @@
 "use client";
 
-import { Bell, ChevronDown, LogOut, User, Check, CheckCheck } from "lucide-react";
+import { Bell, ChevronDown, LogOut, User, Check, CheckCheck, Sparkles, Clock, ClipboardList, Info, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -65,12 +65,13 @@ function timeAgo(iso: string): string {
   return `${days}d ago`;
 }
 
-const typeIcon: Record<string, string> = {
-  new_recommendation:   "🔔",
-  deadline_approaching: "⏰",
-  tender_updated:       "📋",
-  system:               "ℹ️",
+const notificationTone: Record<string, { icon: LucideIcon; classes: string }> = {
+  new_recommendation:   { icon: Sparkles,      classes: "bg-violet-50 text-violet-600 dark:bg-accent-purple-bg dark:text-accent-purple" },
+  deadline_approaching: { icon: Clock,         classes: "bg-warning-50 text-warning-600 dark:bg-accent-orange-bg dark:text-accent-orange" },
+  tender_updated:       { icon: ClipboardList, classes: "bg-navy-50 text-navy-600 dark:bg-accent-blue-bg dark:text-accent-blue" },
+  system:                { icon: Info,          classes: "bg-ink-100 text-ink-500 dark:bg-ink-900 dark:text-ink-400" },
 };
+const defaultNotificationTone = { icon: Bell, classes: "bg-ink-100 text-ink-500 dark:bg-ink-900 dark:text-ink-400" };
 
 // ─── component ────────────────────────────────────────────────────────────────
 
@@ -171,7 +172,7 @@ export function Navbar() {
   // ─── render ──────────────────────────────────────────────────────────────────
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 dark:border-ink-900 bg-surface px-4 sm:px-6">
+    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 dark:border-ink-900 bg-surface dark:bg-chrome px-4 sm:px-6">
       {/* Left: breadcrumb */}
       <div className="flex min-w-0 items-center gap-2">
         <span className="hidden text-xs font-medium text-ink-400 dark:text-ink-600 sm:inline">{section}</span>
@@ -203,7 +204,7 @@ export function Navbar() {
           >
             <Bell className="h-4 w-4" />
             {unreadCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-0.5 text-[9px] font-bold leading-none text-white">
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 dark:bg-accent-red px-0.5 text-[9px] font-bold leading-none text-white">
                 {unreadCount > 99 ? "99+" : unreadCount}
               </span>
             )}
@@ -220,7 +221,7 @@ export function Navbar() {
                 <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">
                   Notifications
                   {unreadCount > 0 && (
-                    <span className="ml-2 rounded-full bg-red-100 px-1.5 py-0.5 text-[10px] font-bold text-red-600">
+                    <span className="ml-2 rounded-full bg-red-100 dark:bg-accent-red-bg px-1.5 py-0.5 text-[10px] font-bold text-red-600 dark:text-accent-red">
                       {unreadCount}
                     </span>
                   )}
@@ -259,12 +260,18 @@ export function Navbar() {
                         key={n.id}
                         className={cn(
                           "flex items-start gap-3 border-b border-ink-50 dark:border-ink-950 px-4 py-3 last:border-0",
-                          !n.is_read && "bg-blue-50/40"
+                          !n.is_read && "bg-blue-50/40 dark:bg-accent-blue-bg/40"
                         )}
                       >
-                        <span className="mt-0.5 shrink-0 text-base leading-none">
-                          {typeIcon[n.notification_type] ?? "🔔"}
-                        </span>
+                        {(() => {
+                          const tone = notificationTone[n.notification_type] ?? defaultNotificationTone;
+                          const Icon = tone.icon;
+                          return (
+                            <span className={cn("mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full", tone.classes)}>
+                              <Icon className="h-3.5 w-3.5" />
+                            </span>
+                          );
+                        })()}
                         <div className="min-w-0 flex-1">
                           <p
                             className={cn(

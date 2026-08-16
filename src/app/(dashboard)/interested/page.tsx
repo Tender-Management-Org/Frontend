@@ -71,9 +71,9 @@ export default async function InterestedPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <Bookmark className="h-5 w-5 text-violet-600" aria-hidden />
+              <Bookmark className="h-5 w-5 text-violet-600 dark:text-accent-purple" aria-hidden />
               <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">Interested tenders</h1>
-              <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-violet-600 px-1.5 text-xs font-bold text-white">
+              <span className="flex h-6 min-w-[1.5rem] items-center justify-center rounded-full bg-violet-600 dark:bg-accent-purple px-1.5 text-xs font-bold text-white">
                 {items.length}
               </span>
             </div>
@@ -94,8 +94,8 @@ export default async function InterestedPage() {
       {/* Empty state */}
       {items.length === 0 ? (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-ink-200 dark:border-ink-800 bg-surface py-20 text-center shadow-card">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50">
-            <Bookmark className="h-8 w-8 text-violet-400" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-50 dark:bg-accent-purple-bg">
+            <Bookmark className="h-8 w-8 text-violet-400 dark:text-accent-purple" />
           </div>
           <h3 className="text-base font-semibold text-ink-800 dark:text-ink-100">No shortlisted tenders yet</h3>
           <p className="mt-1 max-w-xs text-sm text-ink-400 dark:text-ink-600">
@@ -130,7 +130,7 @@ export default async function InterestedPage() {
                     </p>
                   </div>
                   <div className="flex shrink-0 flex-col items-end gap-1.5">
-                    <span className="rounded-full border border-violet-200 bg-violet-50 px-2.5 py-0.5 text-xs font-semibold text-violet-700">
+                    <span className="rounded-full border border-violet-200 dark:border-accent-purple-bg bg-violet-50 dark:bg-accent-purple-bg px-2.5 py-0.5 text-xs font-semibold text-violet-700 dark:text-accent-purple">
                       Interested
                     </span>
                     <span
@@ -198,7 +198,7 @@ export default async function InterestedPage() {
                   </div>
                   <Link
                     href={interestedWorkspaceHref(item.tender_id)}
-                    className="inline-flex items-center gap-2 rounded-lg bg-violet-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500"
+                    className="inline-flex items-center gap-2 rounded-lg bg-violet-600 dark:bg-accent-purple px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-violet-700 dark:hover:bg-accent-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 dark:focus-visible:ring-accent-purple/50"
                   >
                     <FolderOpen className="h-4 w-4" aria-hidden />
                     Open Filing Workspace

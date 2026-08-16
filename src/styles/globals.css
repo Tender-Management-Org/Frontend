@@ -11,10 +11,10 @@
   }
 
   .dark {
-    --color-border: 51 65 85;         /* ink-700 */
-    --color-muted: 148 163 184;       /* ink-400 */
-    --color-background: 15 23 42;     /* ink-900 */
-    --color-surface: 30 41 59;        /* ink-800 */
+    --color-border: 48 57 70;         /* #303946 */
+    --color-muted: 145 153 165;       /* #9199A5 */
+    --color-background: 7 11 18;      /* #070B12 */
+    --color-surface: 28 36 48;        /* #1C2430 */
     color-scheme: dark;
   }
 

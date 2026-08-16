@@ -12,7 +12,7 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   return (
     <SiteConfigProvider value={siteConfig}>
       <FirmProvider>
-        <div className="flex h-screen overflow-hidden bg-ink-50 dark:bg-ink-950">
+        <div className="flex h-screen overflow-hidden bg-background">
           <Sidebar />
           <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
             <Navbar />

@@ -38,14 +38,14 @@ export default async function InterestedTenderWorkspacePage({ params }: PageProp
         Back to interested tenders
       </Link>
 
-      <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-white p-6 shadow-card">
+      <div className="rounded-2xl border border-violet-200 dark:border-accent-purple-bg bg-gradient-to-br from-violet-50 dark:from-accent-purple to-white p-6 shadow-card">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-widest text-violet-500">Filing workspace</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-violet-500 dark:text-accent-purple">Filing workspace</p>
             <h1 className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">{tender.work_items.title}</h1>
             <p className="mt-0.5 text-sm text-ink-500 dark:text-ink-400">{tender.basic_details.organisation_chain}</p>
           </div>
-          <span className="shrink-0 rounded-full border border-violet-200 bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700">
+          <span className="shrink-0 rounded-full border border-violet-200 dark:border-accent-purple-bg bg-violet-100 dark:bg-accent-purple-bg px-3 py-1 text-xs font-semibold text-violet-700 dark:text-accent-purple">
             Interested
           </span>
         </div>

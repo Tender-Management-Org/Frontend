@@ -9,19 +9,19 @@ interface StatusBadgeProps {
 const statusConfig: Record<RequirementStatus, { label: string; className: string }> = {
   ready: {
     label: "Ready",
-    className: "bg-emerald-100 text-emerald-700"
+    className: "bg-emerald-100 dark:bg-accent-green-bg text-emerald-700 dark:text-accent-green"
   },
   missing: {
     label: "Missing",
-    className: "bg-rose-100 text-rose-700"
+    className: "bg-rose-100 dark:bg-accent-red-bg text-rose-700 dark:text-accent-red"
   },
   needs_verification: {
     label: "Needs Verification",
-    className: "bg-amber-100 text-amber-700"
+    className: "bg-amber-100 dark:bg-accent-orange-bg text-amber-700 dark:text-accent-orange"
   },
   template_available: {
     label: "Template Available",
-    className: "bg-blue-100 text-blue-700"
+    className: "bg-blue-100 dark:bg-accent-blue-bg text-blue-700 dark:text-accent-blue"
   }
 };
 

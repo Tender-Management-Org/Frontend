@@ -382,8 +382,8 @@ export function TenderDashboardExplorer() {
                 closing soon
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
-                <Bookmark className="h-3.5 w-3.5 text-violet-600" aria-hidden />
-                <span className="font-semibold tabular-nums text-violet-700">{interestedOnPageCount}</span>
+                <Bookmark className="h-3.5 w-3.5 text-violet-600 dark:text-accent-purple" aria-hidden />
+                <span className="font-semibold tabular-nums text-violet-700 dark:text-accent-purple">{interestedOnPageCount}</span>
                 interested
               </span>
               <span className="hidden h-3.5 w-px bg-ink-200 dark:bg-ink-800 sm:block" aria-hidden />
@@ -490,12 +490,12 @@ export function TenderDashboardExplorer() {
                   <p className="text-xs text-warning-600 dark:text-warning-400">on this page</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 rounded-xl border border-violet-200 bg-violet-50 px-4 py-3">
-                <Bookmark className="h-5 w-5 shrink-0 text-violet-600" aria-hidden />
+              <div className="flex items-center gap-3 rounded-xl border border-violet-200 dark:border-accent-purple-bg bg-violet-50 dark:bg-accent-purple-bg px-4 py-3">
+                <Bookmark className="h-5 w-5 shrink-0 text-violet-600 dark:text-accent-purple" aria-hidden />
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-violet-700">Interested</p>
-                  <p className="text-xl font-bold tabular-nums text-violet-700">{interestedOnPageCount}</p>
-                  <p className="text-xs text-violet-600">on this page</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-violet-700 dark:text-accent-purple">Interested</p>
+                  <p className="text-xl font-bold tabular-nums text-violet-700 dark:text-accent-purple">{interestedOnPageCount}</p>
+                  <p className="text-xs text-violet-600 dark:text-accent-purple">on this page</p>
                 </div>
               </div>
             </div>

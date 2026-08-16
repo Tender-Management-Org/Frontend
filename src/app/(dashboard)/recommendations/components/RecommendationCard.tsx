@@ -67,8 +67,8 @@ function fitBand(score: number | null) {
 }
 
 const statusBadge: Record<string, string> = {
-  matched: "bg-blue-50 text-blue-700 border border-blue-200",
-  interested: "bg-violet-50 text-violet-700 border border-violet-200",
+  matched: "bg-blue-50 dark:bg-accent-blue-bg text-blue-700 dark:text-accent-blue border border-blue-200 dark:border-accent-blue-bg",
+  interested: "bg-violet-50 dark:bg-accent-purple-bg text-violet-700 dark:text-accent-purple border border-violet-200 dark:border-accent-purple-bg",
   applied: "bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400 border border-warning-200 dark:border-warning-500/30",
   won: "bg-success-50 dark:bg-success-500/10 text-success-700 dark:text-success-400 border border-success-200 dark:border-success-500/30",
   lost: "bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400 border border-danger-200 dark:border-danger-500/30",

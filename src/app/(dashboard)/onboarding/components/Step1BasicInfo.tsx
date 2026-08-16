@@ -19,7 +19,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
             onChange={(event) => onChange("legal_name", event.target.value)}
             placeholder="Enter legal firm name"
           />
-          {errors.legal_name && <p className="text-xs text-red-600">{errors.legal_name}</p>}
+          {errors.legal_name && <p className="text-xs text-red-600 dark:text-accent-red">{errors.legal_name}</p>}
         </div>
 
         <div className="space-y-2">
@@ -29,7 +29,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
             onChange={(event) => onChange("business_name", event.target.value)}
             placeholder="Enter business name"
           />
-          {errors.business_name && <p className="text-xs text-red-600">{errors.business_name}</p>}
+          {errors.business_name && <p className="text-xs text-red-600 dark:text-accent-red">{errors.business_name}</p>}
         </div>
 
         <div className="space-y-2">
@@ -46,7 +46,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
             <option value="private_limited">Private Limited</option>
             <option value="public_limited">Public Limited</option>
           </select>
-          {errors.constitution && <p className="text-xs text-red-600">{errors.constitution}</p>}
+          {errors.constitution && <p className="text-xs text-red-600 dark:text-accent-red">{errors.constitution}</p>}
         </div>
 
         <div className="space-y-2">
@@ -56,7 +56,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
             onChange={(event) => onChange("industry_type", event.target.value)}
             placeholder="e.g. Infrastructure"
           />
-          {errors.industry_type && <p className="text-xs text-red-600">{errors.industry_type}</p>}
+          {errors.industry_type && <p className="text-xs text-red-600 dark:text-accent-red">{errors.industry_type}</p>}
         </div>
       </div>
 
@@ -67,7 +67,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
           value={formData.incorporation_date}
           onChange={(event) => onChange("incorporation_date", event.target.value)}
         />
-        {errors.incorporation_date && <p className="text-xs text-red-600">{errors.incorporation_date}</p>}
+        {errors.incorporation_date && <p className="text-xs text-red-600 dark:text-accent-red">{errors.incorporation_date}</p>}
       </div>
 
       <div className="space-y-2">
@@ -77,7 +77,7 @@ export function Step1BasicInfo({ formData, errors, onChange }: Step1BasicInfoPro
           onChange={(val) => onChange("scope_of_work", val)}
           placeholder="Type a category and press Enter — e.g. Civil Construction"
         />
-        {errors.scope_of_work && <p className="text-xs text-red-600">{errors.scope_of_work}</p>}
+        {errors.scope_of_work && <p className="text-xs text-red-600 dark:text-accent-red">{errors.scope_of_work}</p>}
       </div>
     </div>
   );

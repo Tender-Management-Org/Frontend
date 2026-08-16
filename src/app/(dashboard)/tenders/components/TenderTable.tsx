@@ -104,7 +104,7 @@ export function TenderTable({ tenders, density = "comfortable" }: TenderTablePro
                     </Link>
                     {tender.isInterested && (
                       <Bookmark
-                        className="h-3.5 w-3.5 shrink-0 fill-violet-500 text-violet-500"
+                        className="h-3.5 w-3.5 shrink-0 fill-violet-500 dark:fill-accent-purple text-violet-500 dark:text-accent-purple"
                         aria-label="Interested"
                       />
                     )}
@@ -178,7 +178,7 @@ export function TenderTable({ tenders, density = "comfortable" }: TenderTablePro
                   </span>
                   {tender.isInterested && (
                     <Bookmark
-                      className="h-3.5 w-3.5 shrink-0 fill-violet-500 text-violet-500"
+                      className="h-3.5 w-3.5 shrink-0 fill-violet-500 dark:fill-accent-purple text-violet-500 dark:text-accent-purple"
                       aria-label="Interested"
                     />
                   )}

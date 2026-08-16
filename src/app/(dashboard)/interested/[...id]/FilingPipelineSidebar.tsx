@@ -82,8 +82,8 @@ export function FilingPipelineSidebar({
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl border border-violet-200 bg-violet-50 px-4 py-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-violet-600">Active document</p>
+      <div className="rounded-2xl border border-violet-200 dark:border-accent-purple-bg bg-violet-50 dark:bg-accent-purple-bg px-4 py-3">
+        <p className="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-accent-purple">Active document</p>
         <p className="mt-0.5 truncate text-sm font-semibold text-ink-900 dark:text-ink-50">{selectedDocumentName}</p>
       </div>
 

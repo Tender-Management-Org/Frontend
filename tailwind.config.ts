@@ -14,6 +14,24 @@ const config: Config = {
         muted: "rgb(var(--color-muted) / <alpha-value>)",
         background: "rgb(var(--color-background) / <alpha-value>)",
         surface: "rgb(var(--color-surface) / <alpha-value>)",
+        // ── Dark-theme-only chrome layers (no light-mode equivalent; used with dark: prefix) ──
+        chrome: "#121722",     // sidebar / top nav background — sits between page bg and card bg
+        control: "#303946",    // input / filter-pill background
+        navActive: "#0B2B42",  // active sidebar item background
+        accent: {
+          cyan: "#1BB4F3",
+          "cyan-bg": "#152D3F",
+          blue: "#5199F4",
+          "blue-bg": "#1C2847",
+          green: "#1CDA7B",
+          "green-bg": "#152F2E",
+          purple: "#BE76F6",
+          "purple-bg": "#2C2046",
+          orange: "#FF8840",
+          "orange-bg": "#372528",
+          red: "#FE6668",
+          "red-bg": "#38212A",
+        },
         // Design system
         navy: {
           50: "#F0F4FF",

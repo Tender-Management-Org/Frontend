@@ -7,7 +7,7 @@ interface FunnelChartProps {
 
 const stageConfig = [
   { bar: "bg-navy-600 dark:bg-navy-400", dot: "bg-navy-600 dark:bg-navy-400" },
-  { bar: "bg-violet-500", dot: "bg-violet-500" },
+  { bar: "bg-violet-500 dark:bg-accent-purple", dot: "bg-violet-500 dark:bg-accent-purple" },
   { bar: "bg-warning-500", dot: "bg-warning-500" },
   { bar: "bg-success-500", dot: "bg-success-500" },
 ];

@@ -173,7 +173,7 @@ export function TenderSplitView({ tenders }: { tenders: TenderItem[] }) {
                     <span className={cn("block text-2xs font-medium", TONE_TEXT[dl.tone])}>{dl.hint}</span>
                     {tender.isInterested && (
                       <Bookmark
-                        className="ml-auto mt-0.5 h-3 w-3 fill-violet-500 text-violet-500"
+                        className="ml-auto mt-0.5 h-3 w-3 fill-violet-500 dark:fill-accent-purple text-violet-500 dark:text-accent-purple"
                         aria-label="Interested"
                       />
                     )}
@@ -319,7 +319,7 @@ function DetailPane({ tender }: { tender: TenderItem }) {
               </span>
             )}
             {tender.isInterested && (
-              <span className="inline-flex items-center rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-2xs font-semibold text-violet-700">
+              <span className="inline-flex items-center rounded-full border border-violet-200 dark:border-accent-purple-bg bg-violet-50 dark:bg-accent-purple-bg px-2 py-0.5 text-2xs font-semibold text-violet-700 dark:text-accent-purple">
                 Interested
               </span>
             )}

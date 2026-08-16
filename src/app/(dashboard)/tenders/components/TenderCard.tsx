@@ -70,7 +70,7 @@ export function TenderCard({ tender }: TenderCardProps) {
               </span>
             )}
             {tender.isInterested && (
-              <span className="inline-flex items-center rounded-full bg-violet-50 px-2 py-0.5 text-xs font-semibold text-violet-700 border border-violet-200">
+              <span className="inline-flex items-center rounded-full bg-violet-50 dark:bg-accent-purple-bg px-2 py-0.5 text-xs font-semibold text-violet-700 dark:text-accent-purple border border-violet-200 dark:border-accent-purple-bg">
                 Interested
               </span>
             )}

@@ -29,7 +29,7 @@ function statusChipClass(status: TenderStatus, isSelected: boolean) {
   }
   switch (status) {
     case "active":
-      return "border-emerald-500 bg-emerald-50 text-emerald-700";
+      return "border-emerald-500 dark:border-accent-green/50 bg-emerald-50 dark:bg-accent-green-bg text-emerald-700 dark:text-accent-green";
     case "closing_soon":
       return "border-warning-500 dark:border-warning-500/50 bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400";
     case "closed":

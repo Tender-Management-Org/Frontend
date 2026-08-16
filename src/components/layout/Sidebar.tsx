@@ -104,7 +104,7 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col bg-surface shadow-sidebar transition-all duration-300 md:static md:z-auto",
+          "fixed inset-y-0 left-0 z-50 flex h-screen flex-col bg-surface dark:bg-chrome shadow-sidebar transition-all duration-300 md:static md:z-auto",
           isCollapsed ? "w-[68px]" : "w-60",
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
@@ -181,7 +181,7 @@ export function Sidebar() {
                       "group relative flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
                       isCollapsed ? "justify-center" : "gap-3",
                       isActive
-                        ? "bg-navy-600 dark:bg-navy-400 text-white shadow-sm"
+                        ? "bg-navy-600 text-white dark:bg-navActive dark:text-accent-cyan shadow-sm"
                         : "text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-900 dark:hover:text-ink-50"
                     )}
                     title={isCollapsed ? item.name : undefined}
@@ -190,12 +190,12 @@ export function Sidebar() {
                       <Icon
                         className={cn(
                           "h-4 w-4",
-                          isActive ? "text-white" : "text-ink-400 dark:text-ink-600 group-hover:text-ink-700 dark:group-hover:text-ink-200"
+                          isActive ? "text-white dark:text-accent-cyan" : "text-ink-400 dark:text-ink-600 group-hover:text-ink-700 dark:group-hover:text-ink-200"
                         )}
                         aria-hidden
                       />
                       {isCollapsed && item.href === "/recommendations" && unreadCount > 0 && (
-                        <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white leading-none">
+                        <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 dark:bg-accent-red text-[8px] font-bold text-white leading-none">
                           {unreadCount > 9 ? "9+" : unreadCount}
                         </span>
                       )}
@@ -204,7 +204,7 @@ export function Sidebar() {
                       <>
                         <span className="flex-1 truncate">{item.name}</span>
                         {item.href === "/recommendations" && unreadCount > 0 && (
-                          <span className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white leading-none">
+                          <span className="flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-red-500 dark:bg-accent-red px-1 text-[10px] font-bold text-white leading-none">
                             {unreadCount > 99 ? "99+" : unreadCount}
                           </span>
                         )}
@@ -242,7 +242,7 @@ export function Sidebar() {
                   isCollapsed ? "w-10 justify-center px-0" : "w-full"
                 )}
               >
-                <Zap className="h-4 w-4 shrink-0 text-yellow-300" aria-hidden />
+                <Zap className="h-4 w-4 shrink-0 text-yellow-300 dark:text-accent-orange" aria-hidden />
                 {!isCollapsed && (
                   <div className="min-w-0">
                     <p className="text-xs font-semibold leading-tight">Upgrade plan</p>

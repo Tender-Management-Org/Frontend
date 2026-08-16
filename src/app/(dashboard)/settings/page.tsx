@@ -369,15 +369,15 @@ const PLAN_ICONS: Record<string, React.ElementType> = {
 
 const PLAN_COLORS: Record<string, string> = {
   trial:      "bg-ink-50 dark:bg-ink-950  text-ink-600 dark:text-ink-300  border-ink-200 dark:border-ink-800",
-  starter:    "bg-blue-50 text-blue-700  border-blue-200",
+  starter:    "bg-blue-50 dark:bg-accent-blue-bg text-blue-700 dark:text-accent-blue  border-blue-200 dark:border-accent-blue-bg",
   growth:     "bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500  border-navy-200 dark:border-navy-700",
-  enterprise: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  enterprise: "bg-yellow-50 dark:bg-accent-orange-bg text-yellow-700 dark:text-accent-orange border-yellow-200 dark:border-accent-orange-bg",
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  trial:     "bg-blue-100 text-blue-700",
-  active:    "bg-green-100 text-green-700",
-  expired:   "bg-red-100   text-red-700",
+  trial:     "bg-blue-100 dark:bg-accent-blue-bg text-blue-700 dark:text-accent-blue",
+  active:    "bg-green-100 dark:bg-accent-green-bg text-green-700 dark:text-accent-green",
+  expired:   "bg-red-100 dark:bg-accent-red-bg   text-red-700 dark:text-accent-red",
   cancelled: "bg-ink-100 dark:bg-ink-900   text-ink-600 dark:text-ink-300",
 };
 
@@ -461,7 +461,7 @@ function AccountTab() {
             const enabled = plan.features[key as keyof typeof plan.features] ?? false;
             return (
               <div key={key} className={cn("flex items-center gap-2 py-1.5 text-sm", enabled ? "text-ink-800 dark:text-ink-100" : "text-ink-300 dark:text-ink-700 line-through")}>
-                <span className={cn("h-1.5 w-1.5 rounded-full shrink-0", enabled ? "bg-green-500" : "bg-ink-200 dark:bg-ink-800")} />
+                <span className={cn("h-1.5 w-1.5 rounded-full shrink-0", enabled ? "bg-green-500 dark:bg-accent-green" : "bg-ink-200 dark:bg-ink-800")} />
                 {label}
               </div>
             );
@@ -507,10 +507,10 @@ function AccountTab() {
 // ─── Scrapers tab ─────────────────────────────────────────────────────────────
 
 const STATUS_BADGE: Record<string, { label: string; style: string }> = {
-  pending:     { label: "Pending",     style: "bg-yellow-100 text-yellow-700" },
-  in_progress: { label: "In Progress", style: "bg-blue-100 text-blue-700"    },
-  live:        { label: "Live",        style: "bg-green-100 text-green-700"  },
-  rejected:    { label: "Rejected",    style: "bg-red-100 text-red-700"      },
+  pending:     { label: "Pending",     style: "bg-yellow-100 dark:bg-accent-orange-bg text-yellow-700 dark:text-accent-orange" },
+  in_progress: { label: "In Progress", style: "bg-blue-100 dark:bg-accent-blue-bg text-blue-700 dark:text-accent-blue"    },
+  live:        { label: "Live",        style: "bg-green-100 dark:bg-accent-green-bg text-green-700 dark:text-accent-green"  },
+  rejected:    { label: "Rejected",    style: "bg-red-100 dark:bg-accent-red-bg text-red-700 dark:text-accent-red"      },
 };
 
 function ScrapersTab() {

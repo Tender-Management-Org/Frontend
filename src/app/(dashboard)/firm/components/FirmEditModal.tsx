@@ -384,7 +384,7 @@ export function FirmEditModal({ section, onClose, firmId, data, onSaved }: FirmE
           {section === "preferences" && <PreferencesFormFields preferences={data.preferences} />}
 
           {error && (
-            <div className="rounded-md border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
+            <div className="rounded-md border border-rose-200 dark:border-accent-red-bg bg-rose-50 dark:bg-accent-red-bg p-3 text-sm text-rose-700 dark:text-accent-red">
               {error}
             </div>
           )}
@@ -407,7 +407,7 @@ function Field({ label, hint, required, children }: { label: string; hint?: stri
   return (
     <div className="space-y-1.5">
       <label className="text-sm font-medium text-slate-700 dark:text-ink-200">
-        {label}{required && <span className="ml-0.5 text-red-500">*</span>}
+        {label}{required && <span className="ml-0.5 text-red-500 dark:text-accent-red">*</span>}
       </label>
       {children}
       {hint && <p className="text-xs text-slate-400 dark:text-ink-600">{hint}</p>}

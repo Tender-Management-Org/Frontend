@@ -27,7 +27,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               maxLength={10}
             />
             <FieldHint text="Format: 5 letters · 4 digits · 1 letter (e.g. AABCS1429B)" />
-            {errors.pan_number && <p className="text-xs text-red-600">{errors.pan_number}</p>}
+            {errors.pan_number && <p className="text-xs text-red-600 dark:text-accent-red">{errors.pan_number}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -39,7 +39,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               maxLength={15}
             />
             <FieldHint text="15-character GST Identification Number" />
-            {errors.gstin && <p className="text-xs text-red-600">{errors.gstin}</p>}
+            {errors.gstin && <p className="text-xs text-red-600 dark:text-accent-red">{errors.gstin}</p>}
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               maxLength={21}
             />
             <FieldHint text="21-character Corporate Identity Number (companies only)" />
-            {errors.cin && <p className="text-xs text-red-600">{errors.cin}</p>}
+            {errors.cin && <p className="text-xs text-red-600 dark:text-accent-red">{errors.cin}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -68,7 +68,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               placeholder="UDYAM-RJ-06-0012345"
             />
             <FieldHint text="Format: UDYAM-[State]-[District]-[7 digits]" />
-            {errors.udyam_number && <p className="text-xs text-red-600">{errors.udyam_number}</p>}
+            {errors.udyam_number && <p className="text-xs text-red-600 dark:text-accent-red">{errors.udyam_number}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -79,7 +79,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               placeholder="e.g. RJ-BRN-2018-00412"
             />
             <FieldHint text="Shop Act Number or Business Registration Number (state-issued)" />
-            {errors.san_brn && <p className="text-xs text-red-600">{errors.san_brn}</p>}
+            {errors.san_brn && <p className="text-xs text-red-600 dark:text-accent-red">{errors.san_brn}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -91,7 +91,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               maxLength={17}
             />
             <FieldHint text="17-digit Employees' State Insurance number" />
-            {errors.esi_number && <p className="text-xs text-red-600">{errors.esi_number}</p>}
+            {errors.esi_number && <p className="text-xs text-red-600 dark:text-accent-red">{errors.esi_number}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -103,7 +103,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               maxLength={22}
             />
             <FieldHint text="Provident Fund establishment code" />
-            {errors.pf_code && <p className="text-xs text-red-600">{errors.pf_code}</p>}
+            {errors.pf_code && <p className="text-xs text-red-600 dark:text-accent-red">{errors.pf_code}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -115,7 +115,7 @@ export function Step2Identity({ formData, errors, onChange }: Step2IdentityProps
               maxLength={30}
             />
             <FieldHint text="Shops & Commercial Establishments Act registration" />
-            {errors.shop_act_number && <p className="text-xs text-red-600">{errors.shop_act_number}</p>}
+            {errors.shop_act_number && <p className="text-xs text-red-600 dark:text-accent-red">{errors.shop_act_number}</p>}
           </div>
 
           <div className="space-y-1.5 md:col-span-1">

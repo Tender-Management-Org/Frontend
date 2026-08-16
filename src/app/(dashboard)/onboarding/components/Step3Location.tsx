@@ -19,7 +19,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
           placeholder="Enter firm address"
           className="w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm outline-none placeholder:text-slate-400 dark:placeholder:text-ink-600 focus:ring-2 focus:ring-slate-300 dark:focus:ring-ink-700"
         />
-        {errors.address_line && <p className="text-xs text-red-600">{errors.address_line}</p>}
+        {errors.address_line && <p className="text-xs text-red-600 dark:text-accent-red">{errors.address_line}</p>}
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
@@ -30,7 +30,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
             onChange={(event) => onChange("city", event.target.value)}
             placeholder="City"
           />
-          {errors.city && <p className="text-xs text-red-600">{errors.city}</p>}
+          {errors.city && <p className="text-xs text-red-600 dark:text-accent-red">{errors.city}</p>}
         </div>
 
         <div className="space-y-2">
@@ -40,7 +40,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
             onChange={(event) => onChange("state", event.target.value)}
             placeholder="State"
           />
-          {errors.state && <p className="text-xs text-red-600">{errors.state}</p>}
+          {errors.state && <p className="text-xs text-red-600 dark:text-accent-red">{errors.state}</p>}
         </div>
 
         <div className="space-y-2">
@@ -51,7 +51,7 @@ export function Step3Location({ formData, errors, onChange }: Step3LocationProps
             placeholder="6-digit pincode"
             maxLength={6}
           />
-          {errors.pincode && <p className="text-xs text-red-600">{errors.pincode}</p>}
+          {errors.pincode && <p className="text-xs text-red-600 dark:text-accent-red">{errors.pincode}</p>}
         </div>
       </div>
     </div>

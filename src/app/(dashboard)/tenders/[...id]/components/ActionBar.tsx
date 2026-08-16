@@ -91,10 +91,10 @@ export function ActionBar({ tenderId }: ActionBarProps) {
       )}
 
       {isInterested && (
-        <div className="mt-3 rounded-lg border border-violet-200 bg-violet-50 px-3 py-2">
-          <p className="text-xs font-medium text-violet-700">
+        <div className="mt-3 rounded-lg border border-violet-200 dark:border-accent-purple-bg bg-violet-50 dark:bg-accent-purple-bg px-3 py-2">
+          <p className="text-xs font-medium text-violet-700 dark:text-accent-purple">
             Added to your pipeline. View in{" "}
-            <a href="/interested" className="underline underline-offset-2 hover:text-violet-900">
+            <a href="/interested" className="underline underline-offset-2 hover:text-violet-900 dark:hover:text-accent-purple">
               Interested tenders
             </a>
             .
