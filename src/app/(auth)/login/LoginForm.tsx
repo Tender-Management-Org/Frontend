@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { ApiError, getOnboardingStatus, loginWithPassword, setOnboardingComplete } from "@/lib/api/client";
 import { BrandHomeLink } from "@/components/brand/BrandLogo";
+import { useTheme } from "@/context/ThemeContext";
 import { emitToast } from "@/lib/toast";
 import { Lock } from "lucide-react";
 import Link from "next/link";
@@ -14,6 +15,8 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { theme } = useTheme();
+  const mobileBrandVariant = theme === "dark" ? "onDark" : "onLight";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,7 +45,7 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-ink-50">
+    <div className="flex min-h-screen bg-background">
       {/* Left decorative panel */}
       <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 p-12">
         <BrandHomeLink variant="onDark" wordmarkHeight={36} priority />
@@ -73,16 +76,16 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
           {/* Mobile brand */}
-          <BrandHomeLink wordmarkHeight={32} className="mb-8 lg:hidden" priority />
+          <BrandHomeLink variant={mobileBrandVariant} wordmarkHeight={32} className="mb-8 lg:hidden" priority />
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-ink-900">Welcome back</h1>
-            <p className="mt-1 text-sm text-ink-500">Sign in to your account to continue.</p>
+            <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">Welcome back</h1>
+            <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">Sign in to your account to continue.</p>
           </div>
 
           <form className="space-y-4" onSubmit={onSubmit} noValidate>
             <div className="space-y-1.5">
-              <label htmlFor="username" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+              <label htmlFor="username" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
                 Username
               </label>
               <Input
@@ -96,12 +99,12 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between gap-2">
-                <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+                <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
                   Password
                 </label>
                 <Link
                   href="/forgot-password"
-                  className="text-xs font-medium text-navy-600 hover:underline underline-offset-2"
+                  className="text-xs font-medium text-navy-600 dark:text-accent-blue hover:underline underline-offset-2"
                 >
                   Forgot password?
                 </Link>
@@ -118,9 +121,9 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
             </div>
 
             {error && (
-              <div className="flex items-start gap-2 rounded-lg border border-danger-200 bg-danger-50 px-3 py-2.5">
-                <Lock className="mt-0.5 h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-                <p className="text-sm text-danger-700">{error}</p>
+              <div className="flex items-start gap-2 rounded-lg border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-3 py-2.5">
+                <Lock className="mt-0.5 h-4 w-4 shrink-0 text-danger-600 dark:text-danger-400" aria-hidden />
+                <p className="text-sm text-danger-700 dark:text-danger-400">{error}</p>
               </div>
             )}
 
@@ -130,25 +133,25 @@ export function LoginForm({ inviteOnly = false }: { inviteOnly?: boolean }) {
           </form>
 
           {!inviteOnly && (
-            <p className="mt-6 text-center text-sm text-ink-500">
+            <p className="mt-6 text-center text-sm text-ink-500 dark:text-ink-400">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="font-semibold text-navy-600 underline-offset-4 hover:underline"
+                className="font-semibold text-navy-600 dark:text-accent-blue underline-offset-4 hover:underline"
               >
                 Create account
               </Link>
             </p>
           )}
 
-          <div className="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400">
-            <Link href="/terms" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Terms</Link>
+          <div className="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400 dark:text-ink-600">
+            <Link href="/terms" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Terms</Link>
             <span>·</span>
-            <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Privacy</Link>
+            <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Privacy</Link>
             <span>·</span>
-            <Link href="/refund" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Refunds</Link>
+            <Link href="/refund" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Refunds</Link>
             <span>·</span>
-            <Link href="/contact" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Contact</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Contact</Link>
           </div>
         </div>
       </div>

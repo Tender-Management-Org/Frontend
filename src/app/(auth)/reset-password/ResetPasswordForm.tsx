@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AlertCircle, ArrowLeft, Eye, EyeOff, Lock } from "lucide-react";
 import { BrandHomeLink } from "@/components/brand/BrandLogo";
+import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ApiError, confirmPasswordReset } from "@/lib/api/client";
@@ -31,6 +32,8 @@ function ResetPasswordFormInner() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { theme } = useTheme();
+  const mobileBrandVariant = theme === "dark" ? "onDark" : "onLight";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -76,35 +79,35 @@ function ResetPasswordFormInner() {
   }
 
   return (
-    <div className="flex min-h-screen bg-ink-50">
-      <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 p-12">
+    <div className="flex min-h-screen bg-background">
+      <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 dark:bg-ink-50 p-12">
         <BrandHomeLink variant="onDark" wordmarkHeight={36} priority />
         <div className="space-y-3">
           <p className="text-2xl font-semibold leading-snug text-white">
             Choose a new password.
           </p>
-          <p className="text-sm text-ink-400">
+          <p className="text-sm text-ink-400 dark:text-ink-600">
             After resetting, you&apos;ll be signed out of other sessions for security.
           </p>
         </div>
-        <p className="text-xs text-ink-600">&copy; 2026 TenderKhoj. All rights reserved.</p>
+        <p className="text-xs text-ink-600 dark:text-ink-300">&copy; 2026 TenderKhoj. All rights reserved.</p>
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
-          <BrandHomeLink wordmarkHeight={32} className="mb-8 lg:hidden" priority />
+          <BrandHomeLink variant={mobileBrandVariant} wordmarkHeight={32} className="mb-8 lg:hidden" priority />
 
           {linkMissing ? (
-            <div className="rounded-xl border border-danger-200 bg-danger-50 p-6 text-center">
-              <AlertCircle className="mx-auto h-8 w-8 text-danger-600" />
-              <h1 className="mt-3 text-xl font-bold text-ink-900">Invalid reset link</h1>
-              <p className="mt-2 text-sm text-ink-600">
+            <div className="rounded-xl border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 p-6 text-center">
+              <AlertCircle className="mx-auto h-8 w-8 text-danger-600 dark:text-danger-400" />
+              <h1 className="mt-3 text-xl font-bold text-ink-900 dark:text-ink-50">Invalid reset link</h1>
+              <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
                 This password reset link is missing or incomplete. Request a new one from the
                 forgot password page.
               </p>
               <Link
                 href="/forgot-password"
-                className="mt-6 inline-flex text-sm font-semibold text-navy-600 hover:underline"
+                className="mt-6 inline-flex text-sm font-semibold text-navy-600 dark:text-accent-blue hover:underline"
               >
                 Request a new link
               </Link>
@@ -112,15 +115,15 @@ function ResetPasswordFormInner() {
           ) : (
             <>
               <div className="mb-8">
-                <h1 className="text-2xl font-bold text-ink-900">Set new password</h1>
-                <p className="mt-1 text-sm text-ink-500">
+                <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">Set new password</h1>
+                <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
                   Enter a new password for your TenderKhoj account.
                 </p>
               </div>
 
               <form className="space-y-4" onSubmit={onSubmit} noValidate>
                 <div className="space-y-1.5">
-                  <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+                  <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
                     New password
                   </label>
                   <div className="relative">
@@ -137,7 +140,7 @@ function ResetPasswordFormInner() {
                     <button
                       type="button"
                       onClick={() => setShowPassword((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-600"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 dark:text-ink-600 hover:text-ink-600 dark:hover:text-ink-300"
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -146,7 +149,7 @@ function ResetPasswordFormInner() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="confirm" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+                  <label htmlFor="confirm" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
                     Confirm password
                   </label>
                   <Input
@@ -161,9 +164,9 @@ function ResetPasswordFormInner() {
                 </div>
 
                 {error && (
-                  <div className="flex items-start gap-2 rounded-lg border border-danger-200 bg-danger-50 px-3 py-2.5">
-                    <Lock className="mt-0.5 h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-                    <p className="text-sm text-danger-700">{error}</p>
+                  <div className="flex items-start gap-2 rounded-lg border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-3 py-2.5">
+                    <Lock className="mt-0.5 h-4 w-4 shrink-0 text-danger-600 dark:text-danger-400" aria-hidden />
+                    <p className="text-sm text-danger-700 dark:text-danger-400">{error}</p>
                   </div>
                 )}
 
@@ -172,8 +175,8 @@ function ResetPasswordFormInner() {
                 </Button>
               </form>
 
-              <p className="mt-6 text-center text-sm text-ink-500">
-                <Link href="/login" className="inline-flex items-center gap-1.5 font-semibold text-navy-600 hover:underline">
+              <p className="mt-6 text-center text-sm text-ink-500 dark:text-ink-400">
+                <Link href="/login" className="inline-flex items-center gap-1.5 font-semibold text-navy-600 dark:text-accent-blue hover:underline">
                   <ArrowLeft className="h-4 w-4" />
                   Back to sign in
                 </Link>
@@ -190,7 +193,7 @@ export function ResetPasswordForm() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-ink-50 text-sm text-ink-500">
+        <div className="flex min-h-screen items-center justify-center bg-background text-sm text-ink-500 dark:text-ink-400">
           Loading…
         </div>
       }

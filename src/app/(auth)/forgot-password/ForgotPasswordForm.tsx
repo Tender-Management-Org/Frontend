@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Mail } from "lucide-react";
 import { BrandHomeLink } from "@/components/brand/BrandLogo";
+import { useTheme } from "@/context/ThemeContext";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ApiError, requestPasswordReset } from "@/lib/api/client";
@@ -14,6 +15,8 @@ export function ForgotPasswordForm() {
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
+  const { theme } = useTheme();
+  const mobileBrandVariant = theme === "dark" ? "onDark" : "onLight";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,35 +43,35 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <div className="flex min-h-screen bg-ink-50">
-      <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 p-12">
+    <div className="flex min-h-screen bg-background">
+      <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 dark:bg-ink-50 p-12">
         <BrandHomeLink variant="onDark" wordmarkHeight={36} priority />
         <div className="space-y-3">
           <p className="text-2xl font-semibold leading-snug text-white">
             Reset your password securely.
           </p>
-          <p className="text-sm text-ink-400">
+          <p className="text-sm text-ink-400 dark:text-ink-600">
             We&apos;ll email you a one-time link if an account exists for that address.
           </p>
         </div>
-        <p className="text-xs text-ink-600">&copy; 2026 TenderKhoj. All rights reserved.</p>
+        <p className="text-xs text-ink-600 dark:text-ink-300">&copy; 2026 TenderKhoj. All rights reserved.</p>
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
-          <BrandHomeLink wordmarkHeight={32} className="mb-8 lg:hidden" priority />
+          <BrandHomeLink variant={mobileBrandVariant} wordmarkHeight={32} className="mb-8 lg:hidden" priority />
 
           {sent ? (
             <div className="rounded-xl border border-green-200 bg-green-50 p-6 text-center">
               <CheckCircle2 className="mx-auto h-8 w-8 text-green-600" />
-              <h1 className="mt-3 text-xl font-bold text-ink-900">Check your email</h1>
-              <p className="mt-2 text-sm text-ink-600">
+              <h1 className="mt-3 text-xl font-bold text-ink-900 dark:text-ink-50">Check your email</h1>
+              <p className="mt-2 text-sm text-ink-600 dark:text-ink-300">
                 If an account exists for <strong>{email.trim()}</strong>, we sent password reset
                 instructions. The link expires after a short time.
               </p>
               <Link
                 href="/login"
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-navy-600 hover:underline"
+                className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-navy-600 dark:text-accent-blue hover:underline"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to sign in
@@ -77,15 +80,15 @@ export function ForgotPasswordForm() {
           ) : (
             <>
               <div className="mb-8">
-                <h1 className="text-2xl font-bold text-ink-900">Forgot password?</h1>
-                <p className="mt-1 text-sm text-ink-500">
+                <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">Forgot password?</h1>
+                <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
                   Enter the email on your account and we&apos;ll send a reset link.
                 </p>
               </div>
 
               <form className="space-y-4" onSubmit={onSubmit} noValidate>
                 <div className="space-y-1.5">
-                  <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
+                  <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
                     Email
                   </label>
                   <Input
@@ -100,9 +103,9 @@ export function ForgotPasswordForm() {
                 </div>
 
                 {error && (
-                  <div className="flex items-start gap-2 rounded-lg border border-danger-200 bg-danger-50 px-3 py-2.5">
-                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-danger-600" aria-hidden />
-                    <p className="text-sm text-danger-700">{error}</p>
+                  <div className="flex items-start gap-2 rounded-lg border border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 px-3 py-2.5">
+                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-danger-600 dark:text-danger-400" aria-hidden />
+                    <p className="text-sm text-danger-700 dark:text-danger-400">{error}</p>
                   </div>
                 )}
 
@@ -111,8 +114,8 @@ export function ForgotPasswordForm() {
                 </Button>
               </form>
 
-              <p className="mt-6 text-center text-sm text-ink-500">
-                <Link href="/login" className="inline-flex items-center gap-1.5 font-semibold text-navy-600 hover:underline">
+              <p className="mt-6 text-center text-sm text-ink-500 dark:text-ink-400">
+                <Link href="/login" className="inline-flex items-center gap-1.5 font-semibold text-navy-600 dark:text-accent-blue hover:underline">
                   <ArrowLeft className="h-4 w-4" />
                   Back to sign in
                 </Link>

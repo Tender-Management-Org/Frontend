@@ -7,6 +7,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ApiError, registerWithPassword } from "@/lib/api/client";
 import { BrandHomeLink } from "@/components/brand/BrandLogo";
+import { useTheme } from "@/context/ThemeContext";
 import { emitToast } from "@/lib/toast";
 import { AlertCircle, Eye, EyeOff } from "lucide-react";
 
@@ -63,6 +64,8 @@ export function RegisterForm() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { theme } = useTheme();
+  const mobileBrandVariant = theme === "dark" ? "onDark" : "onLight";
 
   function clearFieldError(field: keyof FieldErrors) {
     setFieldErrors((prev) => ({ ...prev, [field]: undefined }));
@@ -106,7 +109,7 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="flex min-h-screen bg-ink-50">
+    <div className="flex min-h-screen bg-background">
       {/* Left decorative panel */}
       <div className="hidden lg:flex lg:w-[45%] lg:flex-col lg:justify-between bg-ink-900 p-12">
         <BrandHomeLink variant="onDark" wordmarkHeight={36} priority />
@@ -136,18 +139,18 @@ export function RegisterForm() {
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
         <div className="w-full max-w-sm">
           {/* Mobile brand */}
-          <BrandHomeLink wordmarkHeight={32} className="mb-8 lg:hidden" priority />
+          <BrandHomeLink variant={mobileBrandVariant} wordmarkHeight={32} className="mb-8 lg:hidden" priority />
 
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-ink-900">Create your account</h1>
-            <p className="mt-1 text-sm text-ink-500">Start discovering tenders matched to your firm.</p>
+            <h1 className="text-2xl font-bold text-ink-900 dark:text-ink-50">Create your account</h1>
+            <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">Start discovering tenders matched to your firm.</p>
           </div>
 
           <form className="space-y-4" onSubmit={onSubmit} noValidate>
             {/* Username */}
             <div className="space-y-1.5">
-              <label htmlFor="username" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
-                Username <span className="text-danger-500">*</span>
+              <label htmlFor="username" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
+                Username <span className="text-danger-500 dark:text-danger-400">*</span>
               </label>
               <Input
                 id="username"
@@ -158,18 +161,18 @@ export function RegisterForm() {
                 aria-invalid={!!fieldErrors.username}
               />
               {fieldErrors.username && (
-                <p className="flex items-center gap-1 text-xs text-danger-600">
+                <p className="flex items-center gap-1 text-xs text-danger-600 dark:text-danger-400">
                   <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
                   {fieldErrors.username}
                 </p>
               )}
-              <p className="text-xs text-ink-400">Letters, numbers, underscores, dots, hyphens. No spaces.</p>
+              <p className="text-xs text-ink-400 dark:text-ink-600">Letters, numbers, underscores, dots, hyphens. No spaces.</p>
             </div>
 
             {/* Email */}
             <div className="space-y-1.5">
-              <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
-                Email <span className="text-ink-400 font-normal normal-case tracking-normal">(optional)</span>
+              <label htmlFor="email" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
+                Email <span className="text-ink-400 dark:text-ink-600 font-normal normal-case tracking-normal">(optional)</span>
               </label>
               <Input
                 id="email"
@@ -181,7 +184,7 @@ export function RegisterForm() {
                 aria-invalid={!!fieldErrors.email}
               />
               {fieldErrors.email && (
-                <p className="flex items-center gap-1 text-xs text-danger-600">
+                <p className="flex items-center gap-1 text-xs text-danger-600 dark:text-danger-400">
                   <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
                   {fieldErrors.email}
                 </p>
@@ -190,8 +193,8 @@ export function RegisterForm() {
 
             {/* Password */}
             <div className="space-y-1.5">
-              <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
-                Password <span className="text-danger-500">*</span>
+              <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
+                Password <span className="text-danger-500 dark:text-danger-400">*</span>
               </label>
               <div className="relative">
                 <Input
@@ -207,7 +210,7 @@ export function RegisterForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
-                  className="absolute inset-y-0 right-3 flex items-center text-ink-400 hover:text-ink-600"
+                  className="absolute inset-y-0 right-3 flex items-center text-ink-400 dark:text-ink-600 hover:text-ink-600 dark:hover:text-ink-300"
                   tabIndex={-1}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
@@ -215,19 +218,19 @@ export function RegisterForm() {
                 </button>
               </div>
               {fieldErrors.password ? (
-                <p className="flex items-center gap-1 text-xs text-danger-600">
+                <p className="flex items-center gap-1 text-xs text-danger-600 dark:text-danger-400">
                   <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
                   {fieldErrors.password}
                 </p>
               ) : (
-                <p className="text-xs text-ink-400">At least 8 characters. Cannot be entirely numeric.</p>
+                <p className="text-xs text-ink-400 dark:text-ink-600">At least 8 characters. Cannot be entirely numeric.</p>
               )}
             </div>
 
             {/* Confirm password */}
             <div className="space-y-1.5">
-              <label htmlFor="confirmPassword" className="block text-xs font-semibold uppercase tracking-wide text-ink-500">
-                Confirm password <span className="text-danger-500">*</span>
+              <label htmlFor="confirmPassword" className="block text-xs font-semibold uppercase tracking-wide text-ink-500 dark:text-ink-400">
+                Confirm password <span className="text-danger-500 dark:text-danger-400">*</span>
               </label>
               <div className="relative">
                 <Input
@@ -243,7 +246,7 @@ export function RegisterForm() {
                 <button
                   type="button"
                   onClick={() => setShowConfirm((v) => !v)}
-                  className="absolute inset-y-0 right-3 flex items-center text-ink-400 hover:text-ink-600"
+                  className="absolute inset-y-0 right-3 flex items-center text-ink-400 dark:text-ink-600 hover:text-ink-600 dark:hover:text-ink-300"
                   tabIndex={-1}
                   aria-label={showConfirm ? "Hide password" : "Show password"}
                 >
@@ -251,7 +254,7 @@ export function RegisterForm() {
                 </button>
               </div>
               {fieldErrors.confirmPassword && (
-                <p className="flex items-center gap-1 text-xs text-danger-600">
+                <p className="flex items-center gap-1 text-xs text-danger-600 dark:text-danger-400">
                   <AlertCircle className="h-3 w-3 shrink-0" aria-hidden />
                   {fieldErrors.confirmPassword}
                 </p>
@@ -263,21 +266,21 @@ export function RegisterForm() {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-ink-500">
+          <p className="mt-6 text-center text-sm text-ink-500 dark:text-ink-400">
             Already have an account?{" "}
-            <Link href="/login" className="font-semibold text-navy-600 underline-offset-4 hover:underline">
+            <Link href="/login" className="font-semibold text-navy-600 dark:text-accent-blue underline-offset-4 hover:underline">
               Sign in
             </Link>
           </p>
 
-          <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400">
-            <Link href="/terms" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Terms</Link>
+          <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-ink-400 dark:text-ink-600">
+            <Link href="/terms" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Terms</Link>
             <span>·</span>
-            <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Privacy</Link>
+            <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Privacy</Link>
             <span>·</span>
-            <Link href="/refund" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Refunds</Link>
+            <Link href="/refund" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Refunds</Link>
             <span>·</span>
-            <Link href="/contact" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 transition-colors">Contact</Link>
+            <Link href="/contact" target="_blank" rel="noopener noreferrer" className="hover:text-ink-600 dark:hover:text-ink-300 transition-colors">Contact</Link>
           </div>
         </div>
       </div>
