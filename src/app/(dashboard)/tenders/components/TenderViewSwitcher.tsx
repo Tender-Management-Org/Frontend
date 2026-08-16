@@ -79,7 +79,7 @@ export function TenderViewSwitcher({ value, onChange, className }: TenderViewSwi
         className={cn(
           "inline-flex h-9 items-center gap-2 rounded-lg border border-ink-200 dark:border-ink-800 bg-surface px-3 text-sm font-medium text-ink-700 dark:text-ink-200 shadow-card transition-colors",
           "hover:bg-ink-50 dark:hover:bg-ink-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500/40",
-          isOpen && "border-navy-300 dark:border-navy-600 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+          isOpen && "border-navy-300 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue"
         )}
       >
         <ActiveIcon className="h-4 w-4 text-ink-400 dark:text-ink-600" aria-hidden />
@@ -113,18 +113,18 @@ export function TenderViewSwitcher({ value, onChange, className }: TenderViewSwi
                 className={cn(
                   "flex w-full items-start gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500/40",
-                  isSelected ? "bg-navy-50 dark:bg-navy-900" : "hover:bg-ink-50 dark:hover:bg-ink-950"
+                  isSelected ? "bg-navy-50 dark:bg-accent-blue-bg" : "hover:bg-ink-50 dark:hover:bg-ink-950"
                 )}
               >
                 <OptionIcon
-                  className={cn("mt-0.5 h-4 w-4 shrink-0", isSelected ? "text-navy-600 dark:text-navy-400" : "text-ink-400 dark:text-ink-600")}
+                  className={cn("mt-0.5 h-4 w-4 shrink-0", isSelected ? "text-navy-600 dark:text-accent-blue" : "text-ink-400 dark:text-ink-600")}
                   aria-hidden
                 />
                 <span className="min-w-0 flex-1">
                   <span
                     className={cn(
                       "block text-sm font-semibold",
-                      isSelected ? "text-navy-700 dark:text-navy-500" : "text-ink-800 dark:text-ink-100"
+                      isSelected ? "text-navy-700 dark:text-accent-blue" : "text-ink-800 dark:text-ink-100"
                     )}
                   >
                     {option.label}
@@ -133,7 +133,7 @@ export function TenderViewSwitcher({ value, onChange, className }: TenderViewSwi
                     {option.description}
                   </span>
                 </span>
-                {isSelected && <Check className="mt-0.5 h-4 w-4 shrink-0 text-navy-600 dark:text-navy-400" aria-hidden />}
+                {isSelected && <Check className="mt-0.5 h-4 w-4 shrink-0 text-navy-600 dark:text-accent-blue" aria-hidden />}
               </button>
             );
           })}

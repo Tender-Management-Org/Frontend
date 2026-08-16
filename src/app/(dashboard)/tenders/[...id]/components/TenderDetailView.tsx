@@ -103,7 +103,7 @@ function OrgChain({ value }: { value: string }) {
           <span
             className={
               i === parts.length - 1
-                ? "rounded-md bg-navy-50 dark:bg-navy-900 px-2 py-0.5 text-xs font-semibold text-navy-700 dark:text-navy-500"
+                ? "rounded-md bg-navy-50 dark:bg-accent-blue-bg px-2 py-0.5 text-xs font-semibold text-navy-700 dark:text-accent-blue"
                 : "text-xs text-ink-600 dark:text-ink-300"
             }
           >
@@ -155,7 +155,7 @@ function DocRow({
     <div
       className={cn(
         "flex flex-col gap-3 rounded-xl border p-3.5 sm:flex-row sm:items-center sm:justify-between",
-        isSelected ? "border-navy-300 dark:border-navy-600 bg-navy-50/40 dark:bg-navy-900/40" : "border-ink-200 dark:border-ink-800"
+        isSelected ? "border-navy-300 dark:border-accent-blue-bg bg-navy-50/40 dark:bg-accent-blue-bg/40" : "border-ink-200 dark:border-ink-800"
       )}
     >
       <div className="min-w-0 flex-1">
@@ -196,7 +196,7 @@ function DocRow({
               filingWorkspace?.onRequestDocIntel(documentId!, doc.document_name ?? "Document")
             }
             disabled={docIntel?.status === "processing"}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-200 dark:border-navy-700 bg-navy-50 dark:bg-navy-900 px-3 text-xs font-medium text-navy-700 dark:text-navy-500 transition-colors hover:bg-navy-100 dark:hover:bg-navy-800 disabled:opacity-60"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-200 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg px-3 text-xs font-medium text-navy-700 dark:text-accent-blue transition-colors hover:bg-navy-100 dark:hover:bg-accent-blue-bg/70 disabled:opacity-60"
           >
             {docIntel?.status === "processing" ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
@@ -213,8 +213,8 @@ function DocRow({
             className={cn(
               "inline-flex h-8 items-center gap-1 rounded-lg border px-2.5 text-xs font-medium transition-colors",
               isSelected
-                ? "border-navy-600 dark:border-navy-400 bg-navy-600 dark:bg-navy-400 text-white"
-                : "border-navy-200 dark:border-navy-700 bg-surface text-navy-700 dark:text-navy-500 hover:bg-navy-50 dark:hover:bg-navy-900"
+                ? "border-navy-600 dark:border-primary bg-navy-600 dark:bg-primary text-white"
+                : "border-navy-200 dark:border-accent-blue-bg bg-surface text-navy-700 dark:text-accent-blue hover:bg-navy-50 dark:hover:bg-navy-900"
             )}
             aria-label="View analysis results"
           >
@@ -377,7 +377,7 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
                     {i > 0 && <span className="text-ink-300 dark:text-ink-700 select-none">›</span>}
                     <span className={
                       i === arr.length - 1
-                        ? "rounded-lg bg-navy-50 dark:bg-navy-900 border border-navy-200 dark:border-navy-700 px-3 py-1.5 text-sm font-semibold text-navy-800 dark:text-navy-600"
+                        ? "rounded-lg bg-navy-50 dark:bg-accent-blue-bg border border-navy-200 dark:border-accent-blue-bg px-3 py-1.5 text-sm font-semibold text-navy-800 dark:text-accent-blue"
                         : "text-sm text-ink-500 dark:text-ink-400"
                     }>
                       {part.trim()}

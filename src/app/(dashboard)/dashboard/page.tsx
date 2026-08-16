@@ -68,7 +68,7 @@ export default async function DashboardPage() {
         <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-ink-100 dark:border-ink-900 pt-5">
           <Link
             href="/recommendations"
-            className="inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2"
+            className="inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2"
           >
             Review recommendations
             <ArrowRight className="h-4 w-4" aria-hidden />

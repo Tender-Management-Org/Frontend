@@ -318,7 +318,7 @@ export function Navbar() {
               "flex h-9 items-center gap-1.5 rounded-lg border border-ink-200 dark:border-ink-800 px-2.5 text-sm font-medium text-ink-700 dark:text-ink-200 transition-colors hover:bg-ink-50 dark:hover:bg-ink-950",
             )}
           >
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-navy-600 dark:bg-navy-400 text-white">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-navy-600 dark:bg-primary text-white">
               <User className="h-3.5 w-3.5" />
             </div>
             <ChevronDown className="h-3.5 w-3.5 text-ink-400 dark:text-ink-600" />

@@ -40,11 +40,11 @@ function StepHeader({
 }) {
   return (
     <div className="mb-3 flex items-center gap-2">
-      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-navy-600 dark:bg-navy-400 text-xs font-bold text-white">
+      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-navy-600 dark:bg-primary text-xs font-bold text-white">
         {step}
       </div>
       <div className="flex min-w-0 flex-1 items-center gap-2">
-        <Icon className="h-4 w-4 shrink-0 text-navy-600 dark:text-navy-400" aria-hidden />
+        <Icon className="h-4 w-4 shrink-0 text-navy-600 dark:text-accent-blue" aria-hidden />
         <div className="min-w-0">
           <h3 className="text-sm font-semibold text-ink-900 dark:text-ink-50">{title}</h3>
           <p className="text-xs text-ink-400 dark:text-ink-600">{subtitle}</p>

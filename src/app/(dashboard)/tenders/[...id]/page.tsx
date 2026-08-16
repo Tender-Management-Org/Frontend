@@ -91,7 +91,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
               href={sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 rounded-full border border-navy-200 dark:border-navy-700 bg-navy-50 dark:bg-navy-900 px-2.5 py-1 text-xs font-semibold text-navy-600 dark:text-navy-400 transition-colors hover:bg-navy-100 dark:hover:bg-navy-800 hover:text-navy-800 dark:hover:text-navy-600"
+              className="inline-flex items-center gap-1 rounded-full border border-navy-200 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg px-2.5 py-1 text-xs font-semibold text-navy-600 dark:text-accent-blue transition-colors hover:bg-navy-100 dark:hover:bg-accent-blue-bg/70 hover:text-navy-800 dark:hover:text-accent-blue"
             >
               <ExternalLink className="h-3 w-3" aria-hidden />
               View on source

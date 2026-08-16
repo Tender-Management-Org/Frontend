@@ -31,8 +31,8 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               <span
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full border-2 text-sm font-bold transition-all",
-                  isComplete && "border-navy-600 dark:border-navy-400 bg-navy-600 dark:bg-navy-400 text-white",
-                  isActive && "border-navy-600 dark:border-navy-400 bg-surface text-navy-700 dark:text-navy-500 shadow-sm",
+                  isComplete && "border-navy-600 dark:border-primary bg-navy-600 dark:bg-primary text-white",
+                  isActive && "border-navy-600 dark:border-primary bg-surface text-navy-700 dark:text-accent-blue shadow-sm",
                   !isComplete && !isActive && "border-ink-200 dark:border-ink-800 bg-surface text-ink-400 dark:text-ink-600"
                 )}
               >
@@ -42,7 +42,7 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               <span
                 className={cn(
                   "hidden text-xs font-medium sm:block",
-                  isActive && "text-navy-700 dark:text-navy-500",
+                  isActive && "text-navy-700 dark:text-accent-blue",
                   isComplete && "text-ink-600 dark:text-ink-300",
                   !isComplete && !isActive && "text-ink-400 dark:text-ink-600"
                 )}
@@ -56,7 +56,7 @@ export function Stepper({ steps, currentStep, onStepClick }: StepperProps) {
               <div
                 className={cn(
                   "h-0.5 flex-1 transition-colors",
-                  index < currentStep ? "bg-navy-600 dark:bg-navy-400" : "bg-ink-200 dark:bg-ink-800"
+                  index < currentStep ? "bg-navy-600 dark:bg-primary" : "bg-ink-200 dark:bg-ink-800"
                 )}
                 aria-hidden
               />

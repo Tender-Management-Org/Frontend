@@ -35,7 +35,7 @@ function statusChipClass(status: TenderStatus, isSelected: boolean) {
     case "closed":
       return "border-danger-400 dark:border-danger-500/45 bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400";
     default:
-      return "border-navy-500 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500";
+      return "border-navy-500 dark:border-primary bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue";
   }
 }
 
@@ -190,7 +190,7 @@ export function TenderFilters({ values, onChange, onReset, variant = "sidebar" }
           <SlidersHorizontal className="h-4 w-4 text-ink-400 dark:text-ink-600" aria-hidden />
           Filters
           {hasActive && (
-            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-navy-600 dark:bg-navy-400 text-2xs font-bold text-white">
+            <span className="flex h-4 w-4 items-center justify-center rounded-full bg-navy-600 dark:bg-primary text-2xs font-bold text-white">
               !
             </span>
           )}
@@ -243,7 +243,7 @@ export function TenderFilters({ values, onChange, onReset, variant = "sidebar" }
               className={cn(
                 "rounded-full border px-3 py-1 text-xs font-semibold transition-colors",
                 !values.source
-                  ? "border-navy-500 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+                  ? "border-navy-500 dark:border-primary bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue"
                   : "border-ink-200 dark:border-ink-800 bg-surface text-ink-500 dark:text-ink-400 hover:border-ink-300 dark:hover:border-ink-700 hover:text-ink-700 dark:hover:text-ink-200"
               )}
             >
@@ -257,7 +257,7 @@ export function TenderFilters({ values, onChange, onReset, variant = "sidebar" }
                 className={cn(
                   "rounded-full border px-3 py-1 text-xs font-semibold transition-colors",
                   values.source === s.slug
-                    ? "border-navy-500 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+                    ? "border-navy-500 dark:border-primary bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue"
                     : "border-ink-200 dark:border-ink-800 bg-surface text-ink-500 dark:text-ink-400 hover:border-ink-300 dark:hover:border-ink-700 hover:text-ink-700 dark:hover:text-ink-200"
                 )}
               >

@@ -359,7 +359,7 @@ export function TenderDashboardExplorer() {
            cost ~420px of chrome before the first row — half the viewport on a
            laptop — which defeats the point of a dense view.
            ────────────────────────────────────────────────────────────────── */
-        <div className="sticky top-0 z-20 -mt-2 space-y-2 bg-ink-50/85 dark:bg-ink-900/85 pb-2 pt-2 backdrop-blur">
+        <div className="sticky top-0 z-20 -mt-2 space-y-2 bg-background/90 pb-2 pt-2 backdrop-blur">
           {/* Line 1 — identity, live counts, view switcher */}
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 rounded-xl border border-ink-200 dark:border-ink-800 bg-surface px-3 py-2 shadow-card">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -433,7 +433,7 @@ export function TenderDashboardExplorer() {
               type="button"
               onClick={handleSemanticSearch}
               disabled={isLoading}
-              className="h-8 shrink-0 rounded-lg bg-ink-900 dark:bg-ink-50 px-3 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-8 shrink-0 rounded-lg bg-ink-900 dark:bg-ink-50 px-3 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? "Searching…" : "Search"}
             </button>

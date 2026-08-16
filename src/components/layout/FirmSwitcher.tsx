@@ -54,11 +54,11 @@ export function FirmSwitcher() {
         className={cn(
           "flex h-8 max-w-[180px] items-center gap-1.5 rounded-lg border px-2.5 text-xs font-medium transition-colors",
           open
-            ? "border-navy-300 dark:border-navy-600 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+            ? "border-navy-300 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue"
             : "border-ink-200 dark:border-ink-800 bg-surface text-ink-700 dark:text-ink-200 hover:bg-ink-50 dark:hover:bg-ink-950"
         )}
       >
-        <Building2 className="h-3.5 w-3.5 shrink-0 text-navy-500 dark:text-navy-400" aria-hidden />
+        <Building2 className="h-3.5 w-3.5 shrink-0 text-navy-500 dark:text-accent-blue" aria-hidden />
         <span className="truncate">{displayName}</span>
         {allFirms.length > 1 && (
           <ChevronDown
@@ -97,20 +97,20 @@ export function FirmSwitcher() {
                 className={cn(
                   "flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors",
                   isActive
-                    ? "bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+                    ? "bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue"
                     : "text-ink-700 dark:text-ink-200 hover:bg-ink-50 dark:hover:bg-ink-950"
                 )}
               >
                 <div
                   className={cn(
                     "flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold uppercase",
-                    isActive ? "bg-navy-600 dark:bg-navy-400 text-white" : "bg-ink-100 dark:bg-ink-900 text-ink-500 dark:text-ink-400"
+                    isActive ? "bg-navy-600 dark:bg-primary text-white" : "bg-ink-100 dark:bg-ink-900 text-ink-500 dark:text-ink-400"
                   )}
                 >
                   {name.charAt(0)}
                 </div>
                 <span className="flex-1 truncate text-xs font-medium">{name}</span>
-                {isActive && <Check className="h-3.5 w-3.5 shrink-0 text-navy-600 dark:text-navy-400" aria-hidden />}
+                {isActive && <Check className="h-3.5 w-3.5 shrink-0 text-navy-600 dark:text-accent-blue" aria-hidden />}
               </button>
             );
           })}
@@ -121,10 +121,10 @@ export function FirmSwitcher() {
             <Link
               href="/firm/new"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-navy-600 dark:text-navy-400 transition-colors hover:bg-navy-50 dark:hover:bg-navy-900"
+              className="flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-navy-600 dark:text-accent-blue transition-colors hover:bg-navy-50 dark:hover:bg-navy-900"
             >
-              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-navy-50 dark:bg-navy-900">
-                <Plus className="h-3.5 w-3.5 text-navy-600 dark:text-navy-400" aria-hidden />
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-navy-50 dark:bg-accent-blue-bg">
+                <Plus className="h-3.5 w-3.5 text-navy-600 dark:text-accent-blue" aria-hidden />
               </div>
               Add firm
             </Link>
@@ -139,7 +139,7 @@ export function FirmSwitcher() {
               </div>
               <span>
                 Add firm{" "}
-                <span className="text-navy-500 dark:text-navy-400">(upgrade to add more)</span>
+                <span className="text-navy-500 dark:text-accent-blue">(upgrade to add more)</span>
               </span>
             </Link>
           )}

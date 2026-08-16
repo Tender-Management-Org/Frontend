@@ -147,7 +147,7 @@ export function TenderSplitView({ tenders }: { tenders: TenderItem[] }) {
                   onClick={() => setSelectedId(tender.id)}
                   className={cn(
                     "flex w-full items-start gap-2 px-3 py-2.5 text-left transition-colors",
-                    isSelected ? "bg-navy-50 dark:bg-navy-900" : "hover:bg-ink-50 dark:hover:bg-ink-950"
+                    isSelected ? "bg-navy-50 dark:bg-accent-blue-bg" : "hover:bg-ink-50 dark:hover:bg-ink-950"
                   )}
                 >
                   <span
@@ -158,7 +158,7 @@ export function TenderSplitView({ tenders }: { tenders: TenderItem[] }) {
                     <span
                       className={cn(
                         "block truncate text-xs font-medium",
-                        isSelected ? "text-navy-800 dark:text-navy-600" : "text-ink-800 dark:text-ink-100"
+                        isSelected ? "text-navy-800 dark:text-accent-blue" : "text-ink-800 dark:text-ink-100"
                       )}
                     >
                       {tender.title}
@@ -313,7 +313,7 @@ function DetailPane({ tender }: { tender: TenderItem }) {
 
           <div className="flex shrink-0 flex-col items-end gap-1.5">
             {typeof tender.similarityScore === "number" && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-navy-200 dark:border-navy-700 bg-navy-50 dark:bg-navy-900 px-2 py-0.5 text-2xs font-bold tabular-nums text-navy-700 dark:text-navy-500">
+              <span className="inline-flex items-center gap-1 rounded-full border border-navy-200 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg px-2 py-0.5 text-2xs font-bold tabular-nums text-navy-700 dark:text-accent-blue">
                 <Sparkles className="h-3 w-3" aria-hidden />
                 {Math.round(tender.similarityScore * 100)}% match
               </span>
@@ -429,7 +429,7 @@ function DetailPane({ tender }: { tender: TenderItem }) {
                 ))}
             </dl>
             {work?.pre_bid_meeting_date && (
-              <p className="mt-2.5 rounded-lg bg-navy-50 dark:bg-navy-900 px-2.5 py-1.5 text-2xs text-navy-700 dark:text-navy-500">
+              <p className="mt-2.5 rounded-lg bg-navy-50 dark:bg-accent-blue-bg px-2.5 py-1.5 text-2xs text-navy-700 dark:text-accent-blue">
                 Pre-bid meeting {fmtDateTime(work.pre_bid_meeting_date)}
                 {work.pre_bid_meeting_place ? ` · ${work.pre_bid_meeting_place}` : ""}
               </p>
@@ -528,7 +528,7 @@ function DetailPane({ tender }: { tender: TenderItem }) {
         )}
         <Link
           href={tenderDetailHref(tender.id)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
         >
           Open full tender
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />

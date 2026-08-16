@@ -77,8 +77,8 @@ function UpgradeSuccessContent() {
         {state === "polling" && (
           <>
             <div className="mb-4 flex justify-center">
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-50 dark:bg-navy-900">
-                <Loader2 className="h-7 w-7 animate-spin text-navy-600 dark:text-navy-400" />
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-navy-50 dark:bg-accent-blue-bg">
+                <Loader2 className="h-7 w-7 animate-spin text-navy-600 dark:text-accent-blue" />
               </span>
             </div>
             <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">Activating your subscription…</h1>
@@ -110,7 +110,7 @@ function UpgradeSuccessContent() {
             <button
               type="button"
               onClick={() => router.push("/recommendations")}
-              className="mt-6 w-full rounded-xl bg-navy-600 dark:bg-navy-400 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+              className="mt-6 w-full rounded-xl bg-navy-600 dark:bg-primary py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
             >
               Go to dashboard
             </button>
@@ -141,7 +141,7 @@ function UpgradeSuccessContent() {
               <button
                 type="button"
                 onClick={() => router.push("/upgrade")}
-                className="flex-1 rounded-xl bg-navy-600 dark:bg-navy-400 py-2.5 text-sm font-semibold text-white hover:bg-navy-700 dark:hover:bg-navy-500"
+                className="flex-1 rounded-xl bg-navy-600 dark:bg-primary py-2.5 text-sm font-semibold text-white hover:bg-navy-700 dark:hover:bg-primary/90"
               >
                 Back to plans
               </button>
@@ -162,7 +162,7 @@ function UpgradeSuccessContent() {
             <button
               type="button"
               onClick={() => router.push("/upgrade")}
-              className="mt-6 w-full rounded-xl bg-navy-600 dark:bg-navy-400 py-2.5 text-sm font-semibold text-white hover:bg-navy-700 dark:hover:bg-navy-500"
+              className="mt-6 w-full rounded-xl bg-navy-600 dark:bg-primary py-2.5 text-sm font-semibold text-white hover:bg-navy-700 dark:hover:bg-primary/90"
             >
               Back to plans
             </button>
@@ -178,7 +178,7 @@ export default function UpgradeSuccessPage() {
     <Suspense
       fallback={
         <div className="flex min-h-[60vh] items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-navy-600 dark:text-navy-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-navy-600 dark:text-accent-blue" />
         </div>
       }
     >

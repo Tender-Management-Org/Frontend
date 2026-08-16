@@ -76,7 +76,7 @@ export function TenderSearch({
             className={cn(
               "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
               searchMode === mode
-                ? "border-navy-300 dark:border-navy-600 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500"
+                ? "border-navy-300 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue"
                 : "border-ink-200 dark:border-ink-800 bg-surface text-ink-600 dark:text-ink-300 hover:bg-ink-50 dark:hover:bg-ink-950"
             )}
           >

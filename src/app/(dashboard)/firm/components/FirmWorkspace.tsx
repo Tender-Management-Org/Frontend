@@ -99,7 +99,7 @@ function SectionHeader({ title, onEdit, onAdd }: { title: string; onEdit: () => 
             type="button"
             onClick={onAdd}
             aria-label={`Add ${title}`}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-600 dark:border-navy-400 bg-navy-600 dark:bg-navy-400 px-3 text-xs font-medium text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-navy-600 dark:border-primary bg-navy-600 dark:bg-primary px-3 text-xs font-medium text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
           >
             <Plus className="h-3.5 w-3.5" aria-hidden />
             Add
@@ -266,7 +266,7 @@ export function FirmWorkspace() {
     <div className="mx-auto max-w-7xl space-y-5">
       {/* Header */}
       <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
-        <p className="text-xs font-semibold uppercase tracking-widest text-navy-600 dark:text-navy-400">Firm</p>
+        <p className="text-xs font-semibold uppercase tracking-widest text-navy-600 dark:text-accent-blue">Firm</p>
         <h1 className="mt-1 text-xl font-bold text-ink-900 dark:text-ink-50">Profile workspace</h1>
         <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
           Legal profile, compliance identifiers, locations, financials, and bidding preferences.
@@ -276,7 +276,7 @@ export function FirmWorkspace() {
       {isLoading && (
         <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-surface p-5 shadow-card">
           <div className="flex items-center gap-3">
-            <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-600 dark:border-navy-400 border-t-transparent" aria-hidden />
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-navy-600 dark:border-primary border-t-transparent" aria-hidden />
             <p className="text-sm text-ink-500 dark:text-ink-400">Loading firm workspace…</p>
           </div>
         </div>
@@ -326,7 +326,7 @@ export function FirmWorkspace() {
                 className={cn(
                   "whitespace-nowrap rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
                   active === tab.id
-                    ? "bg-navy-600 dark:bg-navy-400 text-white"
+                    ? "bg-navy-600 dark:bg-primary text-white"
                     : "text-ink-600 dark:text-ink-300 hover:bg-ink-100 dark:hover:bg-ink-900 hover:text-ink-900 dark:hover:text-ink-50"
                 )}
               >

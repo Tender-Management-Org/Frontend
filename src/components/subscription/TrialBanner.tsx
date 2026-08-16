@@ -51,15 +51,15 @@ export function TrialBanner() {
         "flex items-center justify-between gap-3 border-b px-4 py-2.5 sm:px-6",
         isUrgent
           ? "border-warning-500/20 bg-warning-50 dark:bg-warning-500/10"
-          : "border-navy-200/40 bg-navy-50 dark:bg-navy-900"
+          : "border-navy-200/40 bg-navy-50 dark:bg-accent-blue-bg"
       )}
     >
       <div className="flex min-w-0 items-center gap-2">
         <Zap
-          className={cn("h-4 w-4 shrink-0", isUrgent ? "text-warning-600 dark:text-warning-400" : "text-navy-600 dark:text-navy-400")}
+          className={cn("h-4 w-4 shrink-0", isUrgent ? "text-warning-600 dark:text-warning-400" : "text-navy-600 dark:text-accent-blue")}
           aria-hidden
         />
-        <p className={cn("truncate text-sm font-medium", isUrgent ? "text-warning-700 dark:text-warning-400" : "text-navy-700 dark:text-navy-500")}>
+        <p className={cn("truncate text-sm font-medium", isUrgent ? "text-warning-700 dark:text-warning-400" : "text-navy-700 dark:text-accent-blue")}>
           {label}
         </p>
       </div>
@@ -69,7 +69,7 @@ export function TrialBanner() {
           href="/upgrade"
           className={cn(
             "rounded-lg px-3 py-1.5 text-xs font-semibold text-white transition-colors",
-            isUrgent ? "bg-warning-600 hover:bg-warning-700" : "bg-navy-600 dark:bg-navy-400 hover:bg-navy-700 dark:hover:bg-navy-500"
+            isUrgent ? "bg-warning-600 hover:bg-warning-700" : "bg-navy-600 dark:bg-primary hover:bg-navy-700 dark:hover:bg-primary/90"
           )}
         >
           Upgrade

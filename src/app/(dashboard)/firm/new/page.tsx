@@ -150,8 +150,8 @@ export default function NewFirmPage() {
         {/* Header */}
         <div className="border-b border-ink-100 dark:border-ink-900 px-6 py-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 dark:bg-navy-900">
-              <Building2 className="h-5 w-5 text-navy-600 dark:text-navy-400" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 dark:bg-accent-blue-bg">
+              <Building2 className="h-5 w-5 text-navy-600 dark:text-accent-blue" />
             </div>
             <div>
               <h1 className="text-lg font-bold text-ink-900 dark:text-ink-50">Add a new firm</h1>
@@ -282,7 +282,7 @@ export default function NewFirmPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex items-center gap-2 rounded-xl bg-navy-600 dark:bg-navy-400 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex items-center gap-2 rounded-xl bg-navy-600 dark:bg-primary px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
               {submitting ? "Creating firm…" : "Create firm"}

@@ -30,8 +30,8 @@ export function DocIntelConfirmDialog({
       <div className="w-full max-w-md rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface shadow-dropdown">
         <div className="flex items-start justify-between border-b border-ink-100 dark:border-ink-900 px-5 py-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-50 dark:bg-navy-900">
-              <Brain className="h-4 w-4 text-navy-600 dark:text-navy-400" aria-hidden />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-navy-50 dark:bg-accent-blue-bg">
+              <Brain className="h-4 w-4 text-navy-600 dark:text-accent-blue" aria-hidden />
             </div>
             <div>
               <p className="text-sm font-bold text-ink-900 dark:text-ink-50">Run document intelligence</p>

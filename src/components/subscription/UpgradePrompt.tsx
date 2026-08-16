@@ -55,8 +55,8 @@ export function UpgradePrompt({
           className
         )}
       >
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-50 dark:bg-navy-900 ring-1 ring-navy-200 dark:ring-navy-700">
-          <Lock className="h-5 w-5 text-navy-600 dark:text-navy-400" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy-50 dark:bg-accent-blue-bg ring-1 ring-navy-200 dark:ring-accent-blue-bg">
+          <Lock className="h-5 w-5 text-navy-600 dark:text-accent-blue" />
         </div>
         <div className="text-center">
           <p className="text-sm font-semibold text-ink-800 dark:text-ink-100">{feature}</p>
@@ -66,7 +66,7 @@ export function UpgradePrompt({
         </div>
         <Link
           href="/upgrade"
-          className="rounded-lg bg-navy-600 dark:bg-navy-400 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+          className="rounded-lg bg-navy-600 dark:bg-primary px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
         >
           Upgrade plan
         </Link>
@@ -78,13 +78,13 @@ export function UpgradePrompt({
   return (
     <div
       className={cn(
-        "flex items-center justify-between gap-4 rounded-xl border border-navy-200/60 bg-navy-50 dark:bg-navy-900 px-4 py-3",
+        "flex items-center justify-between gap-4 rounded-xl border border-navy-200/60 bg-navy-50 dark:bg-accent-blue-bg px-4 py-3",
         className
       )}
     >
       <div className="flex items-center gap-3">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-navy-100 dark:bg-navy-800">
-          <Lock className="h-4 w-4 text-navy-600 dark:text-navy-400" />
+          <Lock className="h-4 w-4 text-navy-600 dark:text-accent-blue" />
         </div>
         <div>
           <p className="text-sm font-medium text-ink-800 dark:text-ink-100">{feature}</p>
@@ -95,7 +95,7 @@ export function UpgradePrompt({
       </div>
       <Link
         href="/upgrade"
-        className="shrink-0 rounded-lg bg-navy-600 dark:bg-navy-400 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+        className="shrink-0 rounded-lg bg-navy-600 dark:bg-primary px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
       >
         Upgrade
       </Link>

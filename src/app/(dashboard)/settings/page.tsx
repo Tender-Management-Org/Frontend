@@ -72,7 +72,7 @@ function Toggle({
         onClick={() => onChange(!checked)}
         className={cn(
           "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400 focus-visible:ring-offset-2",
-          checked ? "bg-navy-600 dark:bg-navy-400" : "bg-ink-200 dark:bg-ink-800"
+          checked ? "bg-navy-600 dark:bg-primary" : "bg-ink-200 dark:bg-ink-800"
         )}
       >
         <span
@@ -288,11 +288,11 @@ function RecommendationsTab() {
                 className={cn(
                   "rounded-xl border-2 px-4 py-3 text-left transition-all",
                   strategy === opt.value
-                    ? "border-navy-600 dark:border-navy-400 bg-navy-50 dark:bg-navy-900"
+                    ? "border-navy-600 dark:border-primary bg-navy-50 dark:bg-accent-blue-bg"
                     : "border-ink-100 dark:border-ink-900 hover:border-ink-300 dark:hover:border-ink-700"
                 )}
               >
-                <p className={cn("text-sm font-semibold", strategy === opt.value ? "text-navy-700 dark:text-navy-500" : "text-ink-800 dark:text-ink-100")}>
+                <p className={cn("text-sm font-semibold", strategy === opt.value ? "text-navy-700 dark:text-accent-blue" : "text-ink-800 dark:text-ink-100")}>
                   {opt.label}
                 </p>
                 <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">{opt.sub}</p>
@@ -370,7 +370,7 @@ const PLAN_ICONS: Record<string, React.ElementType> = {
 const PLAN_COLORS: Record<string, string> = {
   trial:      "bg-ink-50 dark:bg-ink-950  text-ink-600 dark:text-ink-300  border-ink-200 dark:border-ink-800",
   starter:    "bg-blue-50 dark:bg-accent-blue-bg text-blue-700 dark:text-accent-blue  border-blue-200 dark:border-accent-blue-bg",
-  growth:     "bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500  border-navy-200 dark:border-navy-700",
+  growth:     "bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue  border-navy-200 dark:border-accent-blue-bg",
   enterprise: "bg-yellow-50 dark:bg-accent-orange-bg text-yellow-700 dark:text-accent-orange border-yellow-200 dark:border-accent-orange-bg",
 };
 
@@ -593,7 +593,7 @@ function ScrapersTab() {
                       onClick={() => setPortalType(t)}
                       className={cn(
                         "flex-1 rounded-lg border px-3 py-2 text-xs font-medium transition-all capitalize",
-                        portalType === t ? "border-navy-600 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500" : "border-ink-200 dark:border-ink-800 text-ink-600 dark:text-ink-300 hover:border-ink-300 dark:hover:border-ink-700"
+                        portalType === t ? "border-navy-600 dark:border-primary bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue" : "border-ink-200 dark:border-ink-800 text-ink-600 dark:text-ink-300 hover:border-ink-300 dark:hover:border-ink-700"
                       )}
                     >
                       {t}
@@ -610,7 +610,7 @@ function ScrapersTab() {
                       onClick={() => setPriority(val)}
                       className={cn(
                         "flex-1 rounded-lg border px-2 py-2 text-xs font-medium transition-all",
-                        priority === val ? "border-navy-600 dark:border-navy-400 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500" : "border-ink-200 dark:border-ink-800 text-ink-600 dark:text-ink-300 hover:border-ink-300 dark:hover:border-ink-700"
+                        priority === val ? "border-navy-600 dark:border-primary bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue" : "border-ink-200 dark:border-ink-800 text-ink-600 dark:text-ink-300 hover:border-ink-300 dark:hover:border-ink-700"
                       )}
                     >
                       {label}

@@ -60,8 +60,8 @@ export default async function RecommendationsPage() {
       {/* Header */}
       <div className="rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface p-6 shadow-card">
         <div className="flex items-start gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 dark:bg-navy-900 shrink-0">
-            <Sparkles className="h-5 w-5 text-navy-600 dark:text-navy-400" aria-hidden />
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-50 dark:bg-accent-blue-bg shrink-0">
+            <Sparkles className="h-5 w-5 text-navy-600 dark:text-accent-blue" aria-hidden />
           </div>
           <div>
             <h1 className="text-xl font-bold text-ink-900 dark:text-ink-50">Recommendations</h1>
@@ -86,7 +86,7 @@ export default async function RecommendationsPage() {
           </p>
           <Link
             href="/firm"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
           >
             Set up firm profile
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -97,8 +97,8 @@ export default async function RecommendationsPage() {
       {/* Embedding not ready */}
       {firmId && embeddingMissing && (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-ink-200 dark:border-ink-800 bg-surface py-20 text-center shadow-card">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-50 dark:bg-navy-900">
-            <Sparkles className="h-8 w-8 text-navy-300 dark:text-navy-600" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-50 dark:bg-accent-blue-bg">
+            <Sparkles className="h-8 w-8 text-navy-300 dark:text-accent-blue" />
           </div>
           <h3 className="text-base font-semibold text-ink-800 dark:text-ink-100">Profile not ready yet</h3>
           <p className="mt-1 max-w-sm text-sm text-ink-400 dark:text-ink-600">
@@ -107,7 +107,7 @@ export default async function RecommendationsPage() {
           </p>
           <Link
             href="/firm"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
           >
             Complete firm profile
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -118,8 +118,8 @@ export default async function RecommendationsPage() {
       {/* Empty state */}
       {firmId && !embeddingMissing && items.length === 0 && (
         <div className="flex flex-col items-center rounded-2xl border border-dashed border-ink-200 dark:border-ink-800 bg-surface py-20 text-center shadow-card">
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-50 dark:bg-navy-900">
-            <Sparkles className="h-8 w-8 text-navy-400 dark:text-navy-500" />
+          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-navy-50 dark:bg-accent-blue-bg">
+            <Sparkles className="h-8 w-8 text-navy-400 dark:text-accent-blue" />
           </div>
           <h3 className="text-base font-semibold text-ink-800 dark:text-ink-100">No recommendations yet</h3>
           <p className="mt-1 max-w-sm text-sm text-ink-400 dark:text-ink-600">
@@ -127,7 +127,7 @@ export default async function RecommendationsPage() {
           </p>
           <Link
             href="/tenders"
-            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+            className="mt-6 inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
           >
             Browse all tenders
             <ArrowRight className="h-4 w-4" aria-hidden />
@@ -147,7 +147,7 @@ export default async function RecommendationsPage() {
       {/* Browse more */}
       <p className="text-center text-xs text-ink-400 dark:text-ink-600">
         These are today&apos;s top {items.length} matches.{" "}
-        <Link href="/tenders" className="font-semibold text-navy-600 dark:text-navy-400 hover:underline">
+        <Link href="/tenders" className="font-semibold text-navy-600 dark:text-accent-blue hover:underline">
           Browse all tenders
         </Link>
       </p>

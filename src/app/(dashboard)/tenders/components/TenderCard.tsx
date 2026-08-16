@@ -65,7 +65,7 @@ export function TenderCard({ tender }: TenderCardProps) {
           {/* Badges */}
           <div className="flex shrink-0 flex-col items-end gap-1.5">
             {typeof tender.similarityScore === "number" && (
-              <span className="inline-flex items-center rounded-full bg-navy-50 dark:bg-navy-900 px-2 py-0.5 text-xs font-semibold text-navy-700 dark:text-navy-500 border border-navy-200 dark:border-navy-700">
+              <span className="inline-flex items-center rounded-full bg-navy-50 dark:bg-accent-blue-bg px-2 py-0.5 text-xs font-semibold text-navy-700 dark:text-accent-blue border border-navy-200 dark:border-accent-blue-bg">
                 {Math.round(tender.similarityScore * 100)}% match
               </span>
             )}
@@ -132,7 +132,7 @@ export function TenderCard({ tender }: TenderCardProps) {
         )}
         <Link
           href={tenderDetailHref(tender.id)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
         >
           View details
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />

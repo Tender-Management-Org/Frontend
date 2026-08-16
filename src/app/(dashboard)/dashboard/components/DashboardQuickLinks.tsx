@@ -26,7 +26,7 @@ const links = [
 ] as const;
 
 const accentClasses = {
-  navy: "bg-navy-600 dark:bg-navy-400 text-white group-hover:bg-navy-700 dark:group-hover:bg-navy-500",
+  navy: "bg-navy-600 dark:bg-primary text-white group-hover:bg-navy-700 dark:group-hover:bg-primary/90",
   slate: "bg-ink-800 dark:bg-ink-100 text-white dark:text-ink-900 group-hover:bg-ink-900 dark:group-hover:bg-ink-50",
   violet: "bg-violet-600 dark:bg-accent-purple text-white group-hover:bg-violet-700 dark:group-hover:bg-accent-purple",
 };

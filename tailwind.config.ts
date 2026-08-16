@@ -18,6 +18,7 @@ const config: Config = {
         chrome: "#121722",     // sidebar / top nav background — sits between page bg and card bg
         control: "#303946",    // input / filter-pill background
         navActive: "#0B2B42",  // active sidebar item background
+        primary: "#009AE1",     // brand primary blue button (dark theme)
         accent: {
           cyan: "#1BB4F3",
           "cyan-bg": "#152D3F",

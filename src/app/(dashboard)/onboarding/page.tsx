@@ -250,7 +250,7 @@ export default function OnboardingPage() {
       <section className="w-full max-w-3xl space-y-6">
         {/* Header */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-navy-600 dark:text-navy-400">Setup</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-navy-600 dark:text-accent-blue">Setup</p>
           <h1 className="mt-1 text-2xl font-bold text-ink-900 dark:text-ink-50">Firm profile onboarding</h1>
           {!isSubmitted && (
             <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">{stepDescription}</p>
@@ -285,7 +285,7 @@ export default function OnboardingPage() {
               <div className="mt-6 flex flex-col items-center gap-3">
                 <Link
                   href="/firm"
-                  className="inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-navy-400 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-navy-500"
+                  className="inline-flex items-center gap-2 rounded-lg bg-navy-600 dark:bg-primary px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-navy-700 dark:hover:bg-primary/90"
                 >
                   Go to firm workspace
                   <ArrowRight className="h-4 w-4" aria-hidden />

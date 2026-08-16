@@ -34,7 +34,7 @@ const CHIP_TONE = {
   closed: "border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 text-ink-400 dark:text-ink-600",
   urgent: "border-danger-200 dark:border-danger-500/30 bg-danger-50 dark:bg-danger-500/10 text-danger-700 dark:text-danger-400 hover:bg-danger-100 dark:hover:bg-danger-500/15",
   soon: "border-warning-200 dark:border-warning-500/30 bg-warning-50 dark:bg-warning-500/10 text-warning-700 dark:text-warning-400 hover:bg-warning-100 dark:hover:bg-warning-500/15",
-  normal: "border-navy-200 dark:border-navy-700 bg-navy-50 dark:bg-navy-900 text-navy-700 dark:text-navy-500 hover:bg-navy-100 dark:hover:bg-navy-800",
+  normal: "border-navy-200 dark:border-accent-blue-bg bg-navy-50 dark:bg-accent-blue-bg text-navy-700 dark:text-accent-blue hover:bg-navy-100 dark:hover:bg-accent-blue-bg/70",
 } as const;
 
 export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
@@ -188,7 +188,7 @@ export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
                 <span
                   className={cn(
                     "inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-2xs font-semibold tabular-nums",
-                    isToday ? "bg-navy-600 dark:bg-navy-400 text-white" : "text-ink-400 dark:text-ink-600"
+                    isToday ? "bg-navy-600 dark:bg-primary text-white" : "text-ink-400 dark:text-ink-600"
                   )}
                 >
                   {i + 1}
@@ -239,7 +239,7 @@ export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
         {[
           ["Closing in 3 days or less", "bg-danger-500"],
           ["Closing this week", "bg-warning-500"],
-          ["Later", "bg-navy-500 dark:bg-navy-400"],
+          ["Later", "bg-navy-500 dark:bg-primary"],
           ["Closed", "bg-ink-300 dark:bg-ink-700"],
         ].map(([label, dot]) => (
           <span key={label} className="inline-flex items-center gap-1.5">

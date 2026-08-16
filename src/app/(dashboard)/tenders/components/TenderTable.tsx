@@ -84,7 +84,7 @@ export function TenderTable({ tenders, density = "comfortable" }: TenderTablePro
                 key={tender.id}
                 onClick={(e) => handleRowActivate(e, tender.id)}
                 className={cn(
-                  "group cursor-pointer transition-colors hover:bg-navy-50/40 dark:hover:bg-navy-900/40",
+                  "group cursor-pointer transition-colors hover:bg-navy-50/40 dark:hover:bg-navActive/60",
                   isCompact && "[&>td]:py-1"
                 )}
               >
@@ -109,7 +109,7 @@ export function TenderTable({ tenders, density = "comfortable" }: TenderTablePro
                       />
                     )}
                     {typeof tender.similarityScore === "number" && (
-                      <span className="shrink-0 rounded bg-navy-50 dark:bg-navy-900 px-1.5 py-0.5 text-2xs font-semibold tabular-nums text-navy-700 dark:text-navy-500">
+                      <span className="shrink-0 rounded bg-navy-50 dark:bg-accent-blue-bg px-1.5 py-0.5 text-2xs font-semibold tabular-nums text-navy-700 dark:text-accent-blue">
                         {Math.round(tender.similarityScore * 100)}%
                       </span>
                     )}

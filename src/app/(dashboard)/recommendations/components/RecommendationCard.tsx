@@ -127,7 +127,7 @@ export function RecommendationCard({ item, firmId }: Props) {
     >
       {/* Unread dot */}
       {!isRead && (
-        <span className="absolute right-4 top-4 flex h-2 w-2 rounded-full bg-navy-500 dark:bg-navy-400" aria-label="Unread" />
+        <span className="absolute right-4 top-4 flex h-2 w-2 rounded-full bg-navy-500 dark:bg-primary" aria-label="Unread" />
       )}
 
       {/* Top row */}
@@ -242,7 +242,7 @@ export function RecommendationCard({ item, firmId }: Props) {
         <button
           type="button"
           onClick={handleViewDetails}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-navy-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-ink-900 dark:bg-ink-50 px-3.5 py-2 text-xs font-semibold text-white dark:text-ink-900 transition-colors hover:bg-navy-700 dark:hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400"
         >
           View details
           <ArrowRight className="h-3.5 w-3.5" aria-hidden />
