@@ -8,6 +8,7 @@
     --color-muted: 100 116 139;       /* ink-500 */
     --color-background: 248 250 252;  /* ink-50 */
     --color-surface: 255 255 255;     /* white */
+    --shadow-color: 15 23 42;         /* ink-900 — dark shadow under a light card */
   }
 
   .dark {
@@ -15,6 +16,7 @@
     --color-muted: 145 153 165;       /* #9199A5 */
     --color-background: 7 11 18;      /* #070B12 */
     --color-surface: 28 36 48;        /* #1C2430 */
+    --shadow-color: 0 0 0;            /* pure black — anything lighter reads as a halo on this bg */
     color-scheme: dark;
   }
 

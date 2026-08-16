@@ -149,7 +149,7 @@ function RecordCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/50 p-4">
+    <div className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/50 dark:bg-ink-900/50 p-4">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-ink-900 dark:text-ink-50">{title}</p>
@@ -620,7 +620,7 @@ export function FirmWorkspace() {
                     {data.documents.map((document) => {
                       const fileName = document.file.split("/").pop() || document.id;
                       return (
-                        <div key={document.id} className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/50 p-4">
+                        <div key={document.id} className="rounded-xl border border-ink-200 dark:border-ink-800 bg-ink-50/50 dark:bg-ink-900/50 p-4">
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                             <div className="min-w-0 space-y-0.5">
                               <p className="truncate text-sm font-semibold text-ink-900 dark:text-ink-50">{document.title || fileName}</p>

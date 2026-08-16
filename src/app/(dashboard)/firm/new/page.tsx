@@ -171,7 +171,7 @@ export default function NewFirmPage() {
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">
                 Required
               </p>
-              <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50/40 p-4 space-y-4">
+              <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50/40 dark:bg-ink-900/40 p-4 space-y-4">
 
                 <div className="space-y-1.5">
                   <Label htmlFor="legal_name" required>Legal name</Label>
@@ -225,7 +225,7 @@ export default function NewFirmPage() {
               <p className="text-xs font-semibold uppercase tracking-wide text-ink-400 dark:text-ink-600">
                 Optional — you can fill these later
               </p>
-              <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50/40 p-4 space-y-4">
+              <div className="rounded-xl border border-ink-100 dark:border-ink-900 bg-ink-50/40 dark:bg-ink-900/40 p-4 space-y-4">
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-1.5">

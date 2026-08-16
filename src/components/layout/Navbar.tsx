@@ -172,7 +172,7 @@ export function Navbar() {
   // ─── render ──────────────────────────────────────────────────────────────────
 
   return (
-    <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 dark:border-ink-900 bg-surface dark:bg-chrome px-4 sm:px-6">
+    <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center justify-between border-b border-ink-100 dark:border-ink-900 bg-surface dark:bg-chrome px-4 sm:px-6">
       {/* Left: breadcrumb */}
       <div className="flex min-w-0 items-center gap-2">
         <span className="hidden text-xs font-medium text-ink-400 dark:text-ink-600 sm:inline">{section}</span>

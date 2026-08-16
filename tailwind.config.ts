@@ -111,10 +111,10 @@ const config: Config = {
         "2xs": ["0.625rem", { lineHeight: "0.875rem" }],
       },
       boxShadow: {
-        "card": "0 1px 3px 0 rgb(15 23 42 / 0.06), 0 1px 2px -1px rgb(15 23 42 / 0.04)",
-        "card-hover": "0 4px 6px -1px rgb(15 23 42 / 0.08), 0 2px 4px -2px rgb(15 23 42 / 0.04)",
-        "dropdown": "0 10px 15px -3px rgb(15 23 42 / 0.1), 0 4px 6px -4px rgb(15 23 42 / 0.05)",
-        "sidebar": "1px 0 0 0 #E2E8F0",
+        "card": "0 1px 3px 0 rgb(var(--shadow-color) / 0.06), 0 1px 2px -1px rgb(var(--shadow-color) / 0.04)",
+        "card-hover": "0 4px 6px -1px rgb(var(--shadow-color) / 0.08), 0 2px 4px -2px rgb(var(--shadow-color) / 0.04)",
+        "dropdown": "0 10px 15px -3px rgb(var(--shadow-color) / 0.1), 0 4px 6px -4px rgb(var(--shadow-color) / 0.05)",
+        "sidebar": "1px 0 0 0 rgb(var(--color-border))",
         // Landing page 2
         "lift": "0 24px 48px -20px rgb(10 11 18 / 0.18), 0 8px 16px -12px rgb(10 11 18 / 0.12)",
         "lift-lg": "0 48px 96px -32px rgb(10 11 18 / 0.28), 0 16px 32px -20px rgb(10 11 18 / 0.14)",

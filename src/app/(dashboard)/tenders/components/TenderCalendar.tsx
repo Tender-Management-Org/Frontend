@@ -104,7 +104,7 @@ export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-ink-200 dark:border-ink-800 bg-surface shadow-card">
       {/* Month bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink-200 dark:border-ink-800 bg-ink-50/70 px-4 py-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink-200 dark:border-ink-800 bg-ink-50/70 dark:bg-ink-900/70 px-4 py-2.5">
         <div className="flex items-center gap-2">
           <CalendarDays className="h-4 w-4 text-ink-400 dark:text-ink-600" aria-hidden />
           <h2 className="text-sm font-semibold text-ink-900 dark:text-ink-50">
@@ -163,7 +163,7 @@ export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
       {/* Day grid */}
       <div className="grid grid-cols-7 gap-px bg-ink-100 dark:bg-ink-900">
         {Array.from({ length: blanks }).map((_, i) => (
-          <div key={`blank-${i}`} className="min-h-[6.5rem] bg-ink-50/40" aria-hidden />
+          <div key={`blank-${i}`} className="min-h-[6.5rem] bg-ink-50/40 dark:bg-ink-900/40" aria-hidden />
         ))}
 
         {Array.from({ length: daysInMonth }).map((_, i) => {
@@ -180,7 +180,7 @@ export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
               key={key}
               className={cn(
                 "min-h-[6.5rem] bg-surface p-1.5 transition-colors",
-                isWeekend && "bg-ink-50/50",
+                isWeekend && "bg-ink-50/50 dark:bg-ink-900/50",
                 items.length > 0 && "bg-surface"
               )}
             >
@@ -235,7 +235,7 @@ export function TenderCalendar({ tenders }: { tenders: TenderItem[] }) {
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink-200 dark:border-ink-800 bg-ink-50/70 px-4 py-2 text-2xs text-ink-500 dark:text-ink-400">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-ink-200 dark:border-ink-800 bg-ink-50/70 dark:bg-ink-900/70 px-4 py-2 text-2xs text-ink-500 dark:text-ink-400">
         {[
           ["Closing in 3 days or less", "bg-danger-500"],
           ["Closing this week", "bg-warning-500"],
