@@ -8,6 +8,7 @@ export const SAMPLE_TENDER_DETAIL: TenderDetail = {
     tender_id: "2026_CEPWD_550252_1",
     withdrawal_allowed: true,
     tender_type: "Open Tender",
+    status: "ongoing",
     form_of_contract: "Percentage",
     tender_category: "Works",
     no_of_covers: 2,

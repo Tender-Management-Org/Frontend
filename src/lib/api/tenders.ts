@@ -7,11 +7,12 @@ export interface TenderListItemApi {
   tender_reference_number: string;
   title: string;
   organisation_chain: string;
-  location: string;
-  tender_value: string;
+  location: string | null;
+  tender_value: string | null;
   product_category: string;
-  sub_category: string;
-  bid_submission_end_date: string;
+  sub_category: string | null;
+  bid_submission_end_date: string | null;
+  status: "ongoing" | "allotted";
   is_active: boolean;
   source: string;
   created_at: string;
@@ -78,12 +79,13 @@ export interface TenderDetailApi {
   tender_value: number | string;
   product_category: string;
   sub_category: string | null;
-  location: string;
-  pincode: string;
+  location: string | null;
+  pincode: string | null;
   publish_date: string | null;
   bid_submission_start_date: string | null;
   bid_submission_end_date: string | null;
   bid_opening_date: string | null;
+  status: "ongoing" | "allotted";
   is_active: boolean;
   source: string;
   source_url: string | null;
@@ -107,6 +109,7 @@ export type TendersQuery = {
   bid_submission_end_date_from?: string;
   bid_submission_end_date_to?: string;
   is_active?: boolean;
+  status?: "ongoing" | "allotted";
   ordering?: string;
 };
 
@@ -132,9 +135,10 @@ export interface TenderSemanticSearchResultApi {
   product_category: string;
   sub_category: string | null;
   organisation_chain: string;
-  location: string;
+  location: string | null;
   publish_date: string | null;
   bid_submission_end_date: string | null;
+  status: "ongoing" | "allotted";
   is_active: boolean;
   similarity_score: number;
 }
@@ -157,9 +161,9 @@ export interface InterestedTenderApi {
   tender_id: string;
   title: string;
   organisation_chain: string;
-  location: string;
-  tender_value: string;
-  bid_submission_end_date: string;
+  location: string | null;
+  tender_value: string | null;
+  bid_submission_end_date: string | null;
   fit_score: number;
   status: "interested";
   match_reason: string;
@@ -177,7 +181,7 @@ export interface TenderRecommendationApi {
   organisation_chain: string;
   product_category: string;
   sub_category: string | null;
-  location: string;
+  location: string | null;
   tender_value: string | null;
   publish_date: string | null;
   bid_submission_end_date: string | null;
@@ -215,6 +219,7 @@ export async function getTenders(params: TendersQuery = {}) {
     query.set("bid_submission_end_date_to", params.bid_submission_end_date_to);
   }
   if (params.is_active !== undefined) query.set("is_active", String(params.is_active));
+  if (params.status) query.set("status", params.status);
   if (params.ordering) query.set("ordering", params.ordering);
   if (params.source) query.set("source", params.source);
 

@@ -4,6 +4,7 @@ export interface TenderBasicDetails {
   tender_id: string;
   withdrawal_allowed: boolean;
   tender_type: string;
+  status: "ongoing" | "allotted";
   form_of_contract: string;
   tender_category: string;
   no_of_covers: number;
@@ -59,8 +60,8 @@ export interface WorkItems {
   contract_type: string;
   bid_validity_days: number;
   period_of_work_days: number;
-  location: string;
-  pincode: string;
+  location: string | null;
+  pincode: string | null;
   pre_bid_meeting_place: string | null;
   pre_bid_meeting_address: string | null;
   pre_bid_meeting_date: string | null;

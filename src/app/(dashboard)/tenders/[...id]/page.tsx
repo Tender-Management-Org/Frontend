@@ -84,6 +84,16 @@ export default async function TenderDetailPage({ params }: PageProps) {
             <span className="rounded-full border border-ink-200 dark:border-ink-800 bg-ink-50 dark:bg-ink-950 px-2.5 py-1 text-xs font-semibold text-ink-600 dark:text-ink-300">
               {tender.basic_details.tender_category || "Works"}
             </span>
+            <span
+              className={cn(
+                "rounded-full px-2.5 py-1 text-xs font-semibold capitalize",
+                tender.basic_details.status === "allotted"
+                  ? "border border-warning-500/30 bg-warning-50 text-warning-700 dark:bg-warning-500/10 dark:text-warning-500"
+                  : "border border-success-500/30 bg-success-50 text-success-700 dark:bg-success-500/10 dark:text-success-500",
+              )}
+            >
+              {tender.basic_details.status}
+            </span>
             <span className="text-xs font-mono text-ink-400 dark:text-ink-600">#{tender.basic_details.tender_id}</span>
           </div>
           {sourceUrl && (

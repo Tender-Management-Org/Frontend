@@ -105,6 +105,7 @@ export function mapTenderDetailToLegacyShape(api: TenderDetailApi): TenderDetail
       tender_reference_number: api.tender_reference_number,
       tender_id: api.tender_id,
       tender_type: api.tender_type,
+      status: api.status ?? "ongoing",
     },
     work_items: {
       ...base.work_items,

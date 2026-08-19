@@ -24,7 +24,10 @@ interface TenderCardProps {
   tender: TenderItem;
 }
 
-export function deadlineMeta(deadline: string) {
+export function deadlineMeta(deadline: string | null | undefined) {
+  if (!deadline) {
+    return { label: "—", hint: "Date unavailable", tone: "neutral" as const };
+  }
   const date = new Date(deadline);
   if (Number.isNaN(date.getTime())) {
     return { label: deadline, hint: "Date unavailable", tone: "neutral" as const };
