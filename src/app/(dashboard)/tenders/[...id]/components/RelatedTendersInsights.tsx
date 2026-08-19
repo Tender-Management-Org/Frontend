@@ -217,7 +217,7 @@ export function RelatedTendersInsights({ tenderId }: RelatedTendersInsightsProps
           Related Tenders
         </h3>
         <p className="mt-0.5 text-xs text-ink-400 dark:text-ink-600">
-          Top 10 similar tenders. Analyse one to inspect its bid results without leaving this page.
+          Similar tenders ranked by relevance. Analyse one to inspect its bid results without leaving this page.
         </p>
       </div>
 
