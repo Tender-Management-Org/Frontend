@@ -6,8 +6,7 @@ import type { TenderDetail } from "@/types/tenderDetail";
 import { ArrowLeft, CalendarClock, Clock4, ExternalLink, IndianRupee, Tag } from "lucide-react";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ActionBar } from "./components/ActionBar";
-import { TenderDetailView } from "./components/TenderDetailView";
+import { TenderDetailWorkspace } from "./components/TenderDetailWorkspace";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -180,17 +179,7 @@ export default async function TenderDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      {/* Content + Action sidebar */}
-      <div className="grid grid-cols-12 gap-5">
-        <div className="col-span-12 lg:col-span-8">
-          <TenderDetailView data={tender} />
-        </div>
-        <div className="col-span-12 lg:col-span-4">
-          <div className="space-y-5 lg:sticky lg:top-6">
-            <ActionBar tenderId={id} />
-          </div>
-        </div>
-      </div>
+      <TenderDetailWorkspace tender={tender} tenderId={id} />
     </section>
   );
 }

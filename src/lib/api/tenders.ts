@@ -313,6 +313,51 @@ export async function getDashboardStats(firmId: string) {
   return apiRequest<DashboardStatsApi>(`/firms/${firmId}/dashboard/`);
 }
 
+export interface TenderRelatedApi {
+  tender_id: string;
+  tender_reference_number: string;
+  title: string;
+  organisation_chain: string;
+  location: string | null;
+  product_category: string;
+  sub_category: string | null;
+  tender_value: string | null;
+  status: "ongoing" | "allotted";
+  publish_date: string | null;
+  bid_submission_end_date: string | null;
+  similarity_score: number;
+  has_bid_result: boolean;
+}
+
+export interface TenderBidResultApi {
+  id: number;
+  tender_id: string | null;
+  bid_id: string;
+  bid_number: string;
+  title: string;
+  ministry: string;
+  department: string;
+  start_date: string | null;
+  end_date: string | null;
+  eval_type: string;
+  buyer_status: string;
+  result_url: string | null;
+  award_status: "awarded" | "cancelled" | "not_awarded" | "unknown" | string;
+  awarded_to: Record<string, unknown>[];
+  financial_bids: Record<string, unknown>[];
+  technical_evaluation: Record<string, unknown>[];
+  created_at: string;
+  updated_at: string;
+}
+
+export async function getRelatedTenders(tenderId: string) {
+  return apiRequest<TenderRelatedApi[]>(`/tenders/${encodeTenderIdPath(tenderId)}/related/`);
+}
+
+export async function getTenderBidResult(tenderId: string) {
+  return apiRequest<TenderBidResultApi>(`/tenders/${encodeTenderIdPath(tenderId)}/bid-result/`);
+}
+
 // ─── Scraper Requests ─────────────────────────────────────────────────────────
 
 export type ScraperRequestPortalType = "government" | "corporate";

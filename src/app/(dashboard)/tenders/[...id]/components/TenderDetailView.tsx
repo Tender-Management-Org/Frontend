@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import type { TenderDetail } from "@/types/tenderDetail";
+import { RelatedTendersInsights } from "./RelatedTendersInsights";
 import {
   Brain,
   CalendarDays,
@@ -373,13 +374,14 @@ function DocumentGroup({
 
 // ── Tab IDs ───────────────────────────────────────────────────────────────────
 
-type TabId = "overview" | "dates" | "fee" | "documents";
+type TabId = "overview" | "dates" | "fee" | "documents" | "insights";
 
 const TABS: { id: TabId; label: string }[] = [
   { id: "overview", label: "Overview" },
   { id: "dates", label: "Dates" },
   { id: "fee", label: "Fee & EMD" },
   { id: "documents", label: "Documents" },
+  { id: "insights", label: "Insights" },
 ];
 
 function isTabId(value: string): value is TabId {
@@ -402,9 +404,15 @@ interface TenderDetailViewProps {
   data: TenderDetail;
   filingWorkspace?: FilingWorkspaceDocIntelProps;
   defaultTab?: TabId;
+  onTabChange?: (tab: TabId) => void;
 }
 
-export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview" }: TenderDetailViewProps) {
+export function TenderDetailView({
+  data,
+  filingWorkspace,
+  defaultTab = "overview",
+  onTabChange,
+}: TenderDetailViewProps) {
   const [activeTab, setActiveTab] = useState<TabId>(isTabId(defaultTab) ? defaultTab : "overview");
 
   const b = data.basic_details;
@@ -449,7 +457,10 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
             type="button"
             role="tab"
             aria-selected={activeTab === tab.id}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => {
+              setActiveTab(tab.id);
+              onTabChange?.(tab.id);
+            }}
             className={cn(
               "flex-1 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy-500 dark:focus-visible:ring-navy-400",
               activeTab === tab.id
@@ -694,6 +705,8 @@ export function TenderDetailView({ data, filingWorkspace, defaultTab = "overview
           </Panel>
         </div>
       )}
+
+      {activeTab === "insights" ? <RelatedTendersInsights tenderId={b.tender_id} /> : null}
     </div>
   );
 }
