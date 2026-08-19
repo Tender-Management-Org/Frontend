@@ -18,7 +18,7 @@ export const TENDER_LIST: TenderListItem[] = [
     id: SAMPLE_ID,
     title: SAMPLE_TENDER_DETAIL.work_items.title,
     organization: SAMPLE_TENDER_DETAIL.basic_details.organisation_chain,
-    location: SAMPLE_TENDER_DETAIL.work_items.location,
+    location: SAMPLE_TENDER_DETAIL.work_items.location ?? "—",
     value: formatInrFromNumber(SAMPLE_TENDER_DETAIL.work_items.tender_value),
     deadline: "2026-04-07",
     description: SAMPLE_TENDER_DETAIL.work_items.work_description

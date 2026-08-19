@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 import { TenderMatchActionButton } from "@/components/tenders/TenderMatchActionButton";
 import { interestedWorkspaceHref } from "@/lib/tenders/path";
 
-function formatInr(value: string) {
+function formatInr(value: string | null | undefined) {
+  if (value == null || value === "") return "—";
   const num = Number(value);
-  if (!Number.isFinite(num)) return value;
+  if (!Number.isFinite(num)) return "—";
   if (num >= 10_000_000) return `₹${(num / 10_000_000).toFixed(2)} Cr`;
   if (num >= 100_000) return `₹${(num / 100_000).toFixed(2)} L`;
   return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(num);
